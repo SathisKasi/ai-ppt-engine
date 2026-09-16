@@ -1,0 +1,30 @@
+# AI-Powered Document/Prompt to Editable PowerPoint Generator
+# Core dependencies
+
+# Streamlit UI
+streamlit>=1.35.0
+
+# Groq Cloud API
+groq>=0.9.0
+
+# PowerPoint generation
+python-pptx>=1.0.0
+
+# Data validation
+pydantic>=2.7.0
+
+# Environment configuration
+python-dotenv>=1.0.0
+
+# Document parsing
+python-docx>=1.1.0          # .docx support
+PyMuPDF>=1.24.0              # .pdf support (fitz)
+pdfplumber>=0.11.0           # .pdf fallback
+
+# Utilities
+Pillow>=10.3.0               # Image handling (used by python-pptx)
+lxml>=5.2.0                  # XML processing (used by python-pptx)
+chardet>=5.2.0               # Character encoding detection for .txt files
+
+# Type hints / extras
+typing-extensions>=4.12.0

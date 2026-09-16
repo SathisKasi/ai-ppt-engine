@@ -1,0 +1,158 @@
+{
+  "version": "1.0",
+  "description": "Layout metadata for the AI PowerPoint Generator presentation template",
+  "layouts": [
+    {
+      "layout_id": "TITLE",
+      "layout_name": "title",
+      "slide_layout_index": 0,
+      "description": "Opening title slide with subtitle. Use for the first slide only.",
+      "best_for": ["presentation opening", "title slide", "cover slide"],
+      "supported_content": ["subtitle", "presenter", "date"],
+      "placeholders": {
+        "title": "title",
+        "subtitle": "subtitle",
+        "presenter": "body",
+        "date": "date"
+      },
+      "required_fields": ["title"]
+    },
+    {
+      "layout_id": "TITLE_AND_CONTENT",
+      "layout_name": "title_content",
+      "slide_layout_index": 1,
+      "description": "Title with bullet point content. The most versatile layout for general information.",
+      "best_for": ["general information", "key points", "overview", "summary list"],
+      "supported_content": ["bullets", "body_text"],
+      "placeholders": {
+        "title": "title",
+        "content": "body"
+      },
+      "required_fields": ["title", "bullets"]
+    },
+    {
+      "layout_id": "TWO_COLUMN",
+      "layout_name": "two_column",
+      "slide_layout_index": 2,
+      "description": "Two-column layout for side-by-side content.",
+      "best_for": ["side-by-side content", "before and after", "two topics"],
+      "supported_content": ["left_heading", "left_bullets", "right_heading", "right_bullets"],
+      "placeholders": {
+        "title": "title",
+        "left_heading": "left_heading",
+        "left_content": "left_content",
+        "right_heading": "right_heading",
+        "right_content": "right_content"
+      },
+      "required_fields": ["title"]
+    },
+    {
+      "layout_id": "SECTION_HEADER",
+      "layout_name": "section_header",
+      "slide_layout_index": 3,
+      "description": "Section divider slide for major topic transitions.",
+      "best_for": ["chapter divider", "section break", "topic transition"],
+      "supported_content": ["section_title", "description"],
+      "placeholders": {
+        "title": "title",
+        "description": "body"
+      },
+      "required_fields": ["title"]
+    },
+    {
+      "layout_id": "IMAGE_TEXT",
+      "layout_name": "image_text",
+      "slide_layout_index": 4,
+      "description": "Layout with an image placeholder on one side and text on the other.",
+      "best_for": ["visual content with explanation", "product showcase", "illustration"],
+      "supported_content": ["description", "bullets", "image_caption"],
+      "placeholders": {
+        "title": "title",
+        "text": "body",
+        "image": "picture"
+      },
+      "required_fields": ["title", "description"]
+    },
+    {
+      "layout_id": "COMPARISON",
+      "layout_name": "comparison",
+      "slide_layout_index": 5,
+      "description": "Structured comparison between two approaches, products, or options.",
+      "best_for": ["comparison", "advantages vs disadvantages", "before vs after", "option A vs B"],
+      "supported_content": ["left_heading", "left_points", "right_heading", "right_points"],
+      "placeholders": {
+        "title": "title",
+        "left_heading": "left_heading",
+        "left_content": "left_content",
+        "right_heading": "right_heading",
+        "right_content": "right_content"
+      },
+      "required_fields": ["title", "left_heading", "right_heading"]
+    },
+    {
+      "layout_id": "TIMELINE",
+      "layout_name": "timeline",
+      "slide_layout_index": 6,
+      "description": "Chronological timeline for dates, milestones, or roadmaps.",
+      "best_for": ["timeline", "roadmap", "milestones", "history", "dates"],
+      "supported_content": ["items"],
+      "placeholders": {
+        "title": "title",
+        "content": "body"
+      },
+      "required_fields": ["title", "items"]
+    },
+    {
+      "layout_id": "PROCESS",
+      "layout_name": "process",
+      "slide_layout_index": 7,
+      "description": "Step-by-step process or workflow visualization.",
+      "best_for": ["process", "workflow", "steps", "procedure", "how-to"],
+      "supported_content": ["steps"],
+      "placeholders": {
+        "title": "title",
+        "content": "body"
+      },
+      "required_fields": ["title", "steps"]
+    },
+    {
+      "layout_id": "ARCHITECTURE",
+      "layout_name": "architecture",
+      "slide_layout_index": 8,
+      "description": "System or software architecture with layered components.",
+      "best_for": ["system architecture", "technology stack", "infrastructure", "platform layers"],
+      "supported_content": ["layers", "description"],
+      "placeholders": {
+        "title": "title",
+        "content": "body"
+      },
+      "required_fields": ["title", "layers"]
+    },
+    {
+      "layout_id": "STATISTICS",
+      "layout_name": "statistics",
+      "slide_layout_index": 9,
+      "description": "Highlights key metrics, KPIs, percentages, and numerical data.",
+      "best_for": ["statistics", "metrics", "KPIs", "numbers", "performance data"],
+      "supported_content": ["statistics", "context_paragraph"],
+      "placeholders": {
+        "title": "title",
+        "content": "body"
+      },
+      "required_fields": ["title", "statistics"]
+    },
+    {
+      "layout_id": "CONCLUSION",
+      "layout_name": "conclusion",
+      "slide_layout_index": 10,
+      "description": "Summary slide with key takeaways and call to action.",
+      "best_for": ["conclusion", "summary", "takeaways", "next steps", "call to action"],
+      "supported_content": ["summary_points", "call_to_action", "next_steps"],
+      "placeholders": {
+        "title": "title",
+        "content": "body"
+      },
+      "required_fields": ["title"]
+    }
+  ]
+}
