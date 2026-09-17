@@ -41,6 +41,11 @@ OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 LOGS_DIR.mkdir(parents=True, exist_ok=True)
 
 # ---------------------------------------------------------------------------
+# LLM provider selection
+# ---------------------------------------------------------------------------
+LLM_PROVIDER: str = os.getenv("LLM_PROVIDER", "groq").strip().lower()  # "groq" | "watsonx"
+
+# ---------------------------------------------------------------------------
 # Groq / LLM settings
 # ---------------------------------------------------------------------------
 GROQ_API_KEY: str = os.getenv("GROQ_API_KEY", "")
@@ -55,6 +60,23 @@ _raw_keys = os.getenv("GROQ_API_KEYS", "")
 GROQ_API_KEYS: list[str] = [
     k.strip() for k in _raw_keys.split(",") if k.strip()
 ] if _raw_keys else ([GROQ_API_KEY] if GROQ_API_KEY else [])
+
+# ---------------------------------------------------------------------------
+# IBM watsonx.ai settings
+# ---------------------------------------------------------------------------
+WATSONX_API_KEY: str = os.getenv("WATSONX_API_KEY", "")
+WATSONX_PROJECT_ID: str = os.getenv("WATSONX_PROJECT_ID", "")
+WATSONX_URL: str = os.getenv("WATSONX_URL", "https://us-south.ml.cloud.ibm.com")
+WATSONX_MODEL_ID: str = os.getenv("WATSONX_MODEL_ID", "openai/gpt-oss-120b")
+WATSONX_MAX_TOKENS_PLAN: int = int(os.getenv("WATSONX_MAX_TOKENS_PLAN", "4096"))
+WATSONX_MAX_TOKENS_SLIDE: int = int(os.getenv("WATSONX_MAX_TOKENS_SLIDE", "2048"))
+WATSONX_TEMPERATURE: float = float(os.getenv("WATSONX_TEMPERATURE", "0.3"))
+
+# Multiple API keys (comma-separated). Falls back to WATSONX_API_KEY if only one.
+_raw_watsonx_keys = os.getenv("WATSONX_API_KEYS", "")
+WATSONX_API_KEYS: list[str] = [
+    k.strip() for k in _raw_watsonx_keys.split(",") if k.strip()
+] if _raw_watsonx_keys else ([WATSONX_API_KEY] if WATSONX_API_KEY else [])
 
 # ---------------------------------------------------------------------------
 # Semantic chunking settings

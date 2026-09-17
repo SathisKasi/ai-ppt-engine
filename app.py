@@ -50,6 +50,7 @@ from core.presentation_planner import plan_presentation, PresentationPlanningErr
 from core.pptx_builder import build_presentation, PptxBuilderError
 from core.validator import validate_plan, validate_pptx_bytes
 from llm.groq_client import GroqClient, GroqAuthError, GroqRateLimitError, GroqAPIError
+from llm.watsonx_client import WatsonxAuthError, WatsonxRateLimitError, WatsonxAPIError
 from llm.key_manager import KeyManager, KeyManagerError
 from utils.file_utils import validate_upload, get_output_path, cleanup_old_outputs
 from utils.text_utils import sanitize_filename, truncate_text
@@ -546,17 +547,22 @@ def render_sidebar() -> dict:
         <div style="text-align:center; padding: 1rem 0 0.75rem;">
             <span style="font-size:2.2rem;">📊</span>
             <h2 style="color:#0B2545; margin:0.4rem 0 0; font-size:1.25rem; font-weight:800; letter-spacing:-0.01em;">AI PPT Studio</h2>
-            <p style="color:#64748B; font-size:0.82rem; margin:0.25rem 0 0; font-weight:500;">Powered by Groq Cloud</p>
+            <p style="color:#64748B; font-size:0.82rem; margin:0.25rem 0 0; font-weight:500;">Powered by IBM watsonx.ai</p>
         </div>
         """, unsafe_allow_html=True)
 
         st.divider()
 
+        is_watsonx = config.LLM_PROVIDER == "watsonx"
+        provider_label = "watsonx.ai" if is_watsonx else "Groq"
+        provider_keys = config.WATSONX_API_KEYS if is_watsonx else config.GROQ_API_KEYS
+        provider_env_var = "WATSONX_API_KEY" if is_watsonx else "GROQ_API_KEYS"
+
         # ── API Keys — multi-key, never displayed back ───────────────────
-        st.markdown("**🔑 Groq API Keys**")
+        st.markdown(f"**🔑 {provider_label} API Keys**")
 
         # Show keys from .env as pre-loaded (count only, no display)
-        env_key_count = len(config.GROQ_API_KEYS)
+        env_key_count = len(provider_keys)
         if env_key_count > 0:
             st.success(f"✅ {env_key_count} key(s) loaded from configuration")
 
@@ -564,33 +570,43 @@ def render_sidebar() -> dict:
         extra_keys_raw = st.text_area(
             "Additional API Keys",
             height=80,
-            placeholder="Paste extra gsk_... keys here (one per line)",
-            help="Optional. Add more Groq API keys to distribute load across sections. Keys entered here are never shown.",
+            placeholder="Paste extra API keys here (one per line)",
+            help=f"Optional. Add more {provider_label} API keys to distribute load across sections. Keys entered here are never shown.",
             label_visibility="visible",
         )
 
         # Combine env keys + UI keys
         ui_keys = [k.strip() for k in (extra_keys_raw or "").splitlines() if k.strip()]
-        all_keys = list(dict.fromkeys(config.GROQ_API_KEYS + ui_keys))  # deduplicate
+        all_keys = list(dict.fromkeys(provider_keys + ui_keys))  # deduplicate
 
         if all_keys:
             st.caption(f"🔀 {len(all_keys)} key(s) active — round-robin across sections")
         else:
-            st.warning("⚠️ No API keys configured. Add keys above or set GROQ_API_KEYS in .env")
+            st.warning(f"⚠️ No API keys configured. Add keys above or set {provider_env_var} in .env")
 
         st.divider()
 
         # Model selection
         st.markdown("**🤖 Model**")
-        model_options = [
-            "openai/gpt-oss-120b",
-            "openai/gpt-oss-20b",
-            "qwen/qwen3.6-27b",
-            "qwen/qwen3.8-27b",
-            "groq/compound",
-            "groq/compound-mini",
-        ]
-        default_model = config.GROQ_MODEL
+        if is_watsonx:
+            model_options = [
+                "openai/gpt-oss-120b",
+                "meta-llama/llama-3-3-70b-instruct",
+                "meta-llama/llama-3-1-8b",
+                "mistralai/mistral-small-3-1-24b-instruct-2503",
+                "mistralai/mistral-medium-2505",
+            ]
+            default_model = config.WATSONX_MODEL_ID
+        else:
+            model_options = [
+                "openai/gpt-oss-120b",
+                "openai/gpt-oss-20b",
+                "qwen/qwen3.6-27b",
+                "qwen/qwen3.8-27b",
+                "groq/compound",
+                "groq/compound-mini",
+            ]
+            default_model = config.GROQ_MODEL
         default_idx = model_options.index(default_model) if default_model in model_options else 0
         model = st.selectbox(
             "Model",
@@ -617,7 +633,7 @@ def render_header() -> None:
     #         <span class="nav-brand-text">AI POC SOLUTION</span>
     #     </div>
     #     <div class="nav-items">
-    #         <span class="nav-badge"><span class="status-dot"></span> Groq Active</span>
+    #         <span class="nav-badge"><span class="status-dot"></span> watsonx.ai Active</span>
     #         <span class="nav-item">Corporate Templates</span>
     #         <span class="nav-item">Smart Semantic Chunker</span>
     #     </div>
@@ -1081,13 +1097,26 @@ def run_generation_pipeline(
         # ─ Step 1: Key Manager ────────────────────────────────────────
         st.write("🔑 Initializing API keys...")
         try:
-            key_manager = KeyManager(
-                keys=api_config["api_keys"],
-                model=api_config["model"],
-                temperature=config.GROQ_TEMPERATURE,
-                max_tokens=config.GROQ_MAX_TOKENS_PLAN,
-                max_retries=config.LLM_MAX_RETRIES,
-            )
+            if config.LLM_PROVIDER == "watsonx":
+                key_manager = KeyManager(
+                    keys=api_config["api_keys"],
+                    model=api_config["model"],
+                    temperature=config.WATSONX_TEMPERATURE,
+                    max_tokens=config.WATSONX_MAX_TOKENS_PLAN,
+                    max_retries=config.LLM_MAX_RETRIES,
+                    provider="watsonx",
+                    project_id=config.WATSONX_PROJECT_ID,
+                    url=config.WATSONX_URL,
+                )
+            else:
+                key_manager = KeyManager(
+                    keys=api_config["api_keys"],
+                    model=api_config["model"],
+                    temperature=config.GROQ_TEMPERATURE,
+                    max_tokens=config.GROQ_MAX_TOKENS_PLAN,
+                    max_retries=config.LLM_MAX_RETRIES,
+                    provider="groq",
+                )
             st.caption(f"✅ {key_manager.key_count} API key(s) active — round-robin per section")
         except KeyManagerError as e:
             status.update(label="❌ No API keys", state="error")
@@ -1179,9 +1208,9 @@ def run_generation_pipeline(
                 status.update(label="❌ Content analysis failed", state="error")
                 st.error(f"❌ {e}")
                 return
-            except (GroqRateLimitError, GroqAPIError) as e:
+            except (GroqRateLimitError, GroqAPIError, WatsonxRateLimitError, WatsonxAPIError) as e:
                 status.update(label="❌ API error", state="error")
-                st.error(f"❌ Groq API error: {e}")
+                st.error(f"❌ LLM API error: {e}")
                 return
 
         if requested_slides is None:
@@ -1351,14 +1380,30 @@ def render_semantic_debug(cache, chunks) -> None:
 def main() -> None:
     # Sidebar (temporarily commented out)
     # api_config = render_sidebar()
-    api_config = {
-        "api_keys": getattr(config, "get_groq_api_keys", lambda: config.GROQ_API_KEYS)(),
-        "model": config.GROQ_MODEL,
-    }
+    if config.LLM_PROVIDER == "watsonx":
+        api_config = {
+            "api_keys": config.WATSONX_API_KEYS,
+            "model": config.WATSONX_MODEL_ID,
+        }
+    else:
+        api_config = {
+            "api_keys": getattr(config, "get_groq_api_keys", lambda: config.GROQ_API_KEYS)(),
+            "model": config.GROQ_MODEL,
+        }
 
     # Hero header
     render_header()
 
+    tab_generate, tab_qa = st.tabs(["🎨 Generate Presentation", "💬 Ask watsonx.ai"])
+
+    with tab_generate:
+        render_generator_tab(api_config)
+
+    with tab_qa:
+        render_qa_tab(api_config)
+
+
+def render_generator_tab(api_config: dict) -> None:
     # Input section — returns extended tuple now
     source_text, input_mode, file_bytes, filename, doc_root, detection_method = render_input_section()
 
@@ -1383,7 +1428,8 @@ def main() -> None:
 
     with col_info:
         if not has_keys:
-            st.info("👈 No API keys configured. Add keys in the sidebar or set GROQ_API_KEYS in .env")
+            env_var = "WATSONX_API_KEY" if config.LLM_PROVIDER == "watsonx" else "GROQ_API_KEYS"
+            st.info(f"👈 No API keys configured. Add keys in the sidebar or set {env_var} in .env")
         elif not source_text:
             st.info("📄 Upload a document or enter a prompt above to get started.")
         else:
@@ -1432,6 +1478,85 @@ def main() -> None:
     #         cache=st.session_state.analysis_cache,
     #         chunks=st.session_state.semantic_chunks,
     #     )
+
+
+# ---------------------------------------------------------------------------
+# Simple Q&A tab — direct chat against the configured LLM provider
+# ---------------------------------------------------------------------------
+
+def _build_qa_client(api_config: dict):
+    """Build a single LLM client (Groq or watsonx, per config.LLM_PROVIDER) for Q&A."""
+    if config.LLM_PROVIDER == "watsonx":
+        key_manager = KeyManager(
+            keys=api_config["api_keys"],
+            model=api_config["model"],
+            temperature=config.WATSONX_TEMPERATURE,
+            max_tokens=config.WATSONX_MAX_TOKENS_SLIDE,
+            max_retries=config.LLM_MAX_RETRIES,
+            provider="watsonx",
+            project_id=config.WATSONX_PROJECT_ID,
+            url=config.WATSONX_URL,
+        )
+    else:
+        key_manager = KeyManager(
+            keys=api_config["api_keys"],
+            model=api_config["model"],
+            temperature=config.GROQ_TEMPERATURE,
+            max_tokens=config.GROQ_MAX_TOKENS_SLIDE,
+            max_retries=config.LLM_MAX_RETRIES,
+            provider="groq",
+        )
+    return key_manager.get_client()
+
+
+def render_qa_tab(api_config: dict) -> None:
+    """Simple chat-style Q&A that sends questions directly to the configured LLM provider."""
+    st.markdown("### 💬 Ask watsonx.ai")
+    st.caption("Ask a general question and get a direct answer — no document upload required.")
+
+    if "qa_history" not in st.session_state:
+        st.session_state.qa_history = []  # list of (question, answer) tuples
+
+    for question, answer in st.session_state.qa_history:
+        with st.chat_message("user"):
+            st.markdown(question)
+        with st.chat_message("assistant"):
+            st.markdown(answer)
+
+    question = st.chat_input("Type your question...")
+    if not question:
+        return
+
+    if not api_config.get("api_keys"):
+        st.error("❌ No API keys configured. Set the appropriate keys in .env.")
+        return
+
+    with st.chat_message("user"):
+        st.markdown(question)
+
+    with st.chat_message("assistant"):
+        with st.spinner("Thinking..."):
+            try:
+                client = _build_qa_client(api_config)
+                answer = client.chat_complete(
+                    messages=[
+                        {"role": "system", "content": "You are a helpful, concise assistant."},
+                        {"role": "user", "content": question},
+                    ],
+                )
+                if not answer:
+                    answer = "⚠️ The model returned an empty response. Please try rephrasing your question."
+            except (GroqAuthError, WatsonxAuthError) as e:
+                answer = f"❌ Authentication error: {e}"
+            except (GroqRateLimitError, WatsonxRateLimitError) as e:
+                answer = f"⏳ Rate limit/quota exceeded: {e}"
+            except (GroqAPIError, WatsonxAPIError, KeyManagerError) as e:
+                answer = f"❌ API error: {e}"
+            except Exception as e:
+                answer = f"❌ Unexpected error: {e}"
+            st.markdown(answer)
+
+    st.session_state.qa_history.append((question, answer))
 
 
 # ---------------------------------------------------------------------------

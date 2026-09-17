@@ -7,6 +7,9 @@ streamlit>=1.35.0
 # Groq Cloud API
 groq>=0.9.0
 
+# IBM watsonx.ai
+ibm-watsonx-ai>=1.1.0
+
 # PowerPoint generation
 python-pptx>=1.0.0
 
