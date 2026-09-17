@@ -35,7 +35,8 @@ class KeyManager:
     """
 
     def __init__(self, keys: List[str], model: str, temperature: float = 0.3,
-                 max_tokens: int = 2048, max_retries: int = 3) -> None:
+                 max_tokens: int = 2048, max_retries: int = 3,
+                 provider: str = "groq", client_options: Optional[dict] = None) -> None:
         valid = [k.strip() for k in keys if k and k.strip()]
         if not valid:
             raise KeyManagerError("No valid API keys provided.")
@@ -44,6 +45,8 @@ class KeyManager:
         self._temperature = temperature
         self._max_tokens = max_tokens
         self._max_retries = max_retries
+        self._provider = provider.lower()
+        self._client_options = client_options or {}
         self._index = 0
         self._lock = threading.Lock()
         logger.info("KeyManager initialized with %d key(s)", len(self._keys))
@@ -76,8 +79,6 @@ class KeyManager:
                          If None, uses the stateful round-robin counter.
             max_tokens:  Override max_tokens for this client instance.
         """
-        from llm.groq_client import GroqClient  # local import to avoid circular
-
         if chunk_index is not None:
             key = self.key_for_index(chunk_index)
             key_num = chunk_index % len(self._keys) + 1
@@ -87,22 +88,30 @@ class KeyManager:
 
         logger.debug("Chunk %s → key #%d", chunk_index, key_num)
 
-        return GroqClient(
-            api_key=key,
-            model=self._model,
-            temperature=self._temperature,
-            max_tokens=max_tokens or self._max_tokens,
-            max_retries=self._max_retries,
-        )
+        client_args = {
+            "api_key": key,
+            "model": self._model,
+            "temperature": self._temperature,
+            "max_tokens": max_tokens or self._max_tokens,
+            "max_retries": self._max_retries,
+            **self._client_options,
+        }
+        if self._provider == "watsonx":
+            from llm.watsonx_client import WatsonxClient
+            return WatsonxClient(**client_args)
+        from llm.groq_client import GroqClient
+        return GroqClient(**client_args)
 
     @classmethod
     def from_config(cls) -> "KeyManager":
         """Convenience factory that reads from the app config."""
         import config
         return cls(
-            keys=config.GROQ_API_KEYS,
-            model=config.GROQ_MODEL,
+            keys=config.LLM_API_KEYS,
+            model=config.LLM_MODEL,
             temperature=config.GROQ_TEMPERATURE,
             max_tokens=config.GROQ_MAX_TOKENS_PLAN,
             max_retries=config.LLM_MAX_RETRIES,
+            provider=config.LLM_PROVIDER,
+            client_options=config.LLM_CLIENT_OPTIONS,
         )

@@ -56,6 +56,22 @@ GROQ_API_KEYS: list[str] = [
     k.strip() for k in _raw_keys.split(",") if k.strip()
 ] if _raw_keys else ([GROQ_API_KEY] if GROQ_API_KEY else [])
 
+# Provider-neutral settings. Set LLM_PROVIDER=watsonx for IBM watsonx.ai.
+LLM_PROVIDER: str = os.getenv("LLM_PROVIDER", "groq").lower()
+if LLM_PROVIDER not in {"groq", "watsonx"}:
+    raise ValueError("LLM_PROVIDER must be 'groq' or 'watsonx'.")
+WATSONX_API_KEY: str = os.getenv("WATSONX_API_KEY", "")
+WATSONX_PROJECT_ID: str = os.getenv("WATSONX_PROJECT_ID", "")
+WATSONX_URL: str = os.getenv("WATSONX_URL", "https://us-south.ml.cloud.ibm.com")
+WATSONX_MODEL: str = os.getenv("WATSONX_MODEL", "ibm/granite-3-8b-instruct")
+LLM_API_KEYS: list[str] = GROQ_API_KEYS if LLM_PROVIDER == "groq" else ([WATSONX_API_KEY] if WATSONX_API_KEY else [])
+LLM_MODEL: str = GROQ_MODEL if LLM_PROVIDER == "groq" else WATSONX_MODEL
+LLM_CLIENT_OPTIONS: dict[str, str] = (
+    {}
+    if LLM_PROVIDER == "groq"
+    else {"project_id": WATSONX_PROJECT_ID, "url": WATSONX_URL}
+)
+
 # ---------------------------------------------------------------------------
 # Semantic chunking settings
 # ---------------------------------------------------------------------------

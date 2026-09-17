@@ -56,7 +56,7 @@ pip install -r requirements.txt
 cp .env.example .env
 ```
 
-Edit `.env` and add your Groq API key:
+For Groq, edit `.env` and add your Groq API key:
 
 ```env
 GROQ_API_KEY=gsk_your_api_key_here
@@ -64,6 +64,18 @@ GROQ_MODEL=openai/gpt-oss-120b
 ```
 
 Get your free API key at: [https://console.groq.com/keys](https://console.groq.com/keys)
+
+To use IBM watsonx.ai instead, set these values in `.env`:
+
+```env
+LLM_PROVIDER=watsonx
+WATSONX_API_KEY=your_ibm_cloud_api_key
+WATSONX_PROJECT_ID=your_watsonx_project_id
+WATSONX_URL=https://us-south.ml.cloud.ibm.com
+WATSONX_MODEL=ibm/granite-3-8b-instruct
+```
+
+The application obtains a short-lived IAM access token from the IBM Cloud API key and uses it to call watsonx.ai. Credentials are read only from environment variables.
 
 ### 5. Generate the Presentation Template
 
@@ -80,6 +92,81 @@ streamlit run app.py
 ```
 
 The app will open at [http://localhost:8501](http://localhost:8501)
+
+## IBM watsonx.ai Deployment
+
+The application can run in IBM Cloud Code Engine as a container and call watsonx.ai for model inference. The repository includes a `Dockerfile` configured for Code Engine's port `8080`.
+
+### 1. Create IBM Cloud resources
+
+1. Create an IBM Cloud account and create or open a watsonx.ai project.
+2. From **Manage > Access (IAM) > API keys**, create an IBM Cloud API key.
+3. Copy the watsonx project ID from the project details page.
+4. Confirm the selected watsonx model is available in your chosen region. Set `WATSONX_URL` to that region's watsonx URL.
+
+### 2. Push the image to IBM Container Registry
+
+Install the IBM Cloud CLI and the Code Engine plugin, then sign in:
+
+```bash
+ibmcloud login
+ibmcloud plugin install container-registry
+ibmcloud plugin install code-engine
+ibmcloud cr login
+```
+
+Build and push the image from the project root. Replace the placeholders with your IBM Cloud values:
+
+```bash
+ibmcloud cr namespace-add YOUR_NAMESPACE
+docker build -t us.icr.io/YOUR_NAMESPACE/ai-presentation-engine:1.0 .
+docker push us.icr.io/YOUR_NAMESPACE/ai-presentation-engine:1.0
+```
+
+### 3. Deploy to Code Engine
+
+```bash
+ibmcloud ce project create --name ai-presentation-project
+ibmcloud ce project select --name ai-presentation-project
+
+ibmcloud ce secret create --name watsonx-secrets \
+  --from-literal WATSONX_API_KEY=YOUR_IBM_CLOUD_API_KEY \
+  --from-literal WATSONX_PROJECT_ID=YOUR_WATSONX_PROJECT_ID
+
+ibmcloud ce app create --name ai-presentation-engine \
+  --image us.icr.io/YOUR_NAMESPACE/ai-presentation-engine:1.0 \
+  --port 8080 \
+  --min-scale 1 \
+  --max-scale 2 \
+  --env LLM_PROVIDER=watsonx \
+  --env WATSONX_URL=https://us-south.ml.cloud.ibm.com \
+  --env WATSONX_MODEL=ibm/granite-3-8b-instruct \
+  --env-from-secret watsonx-secrets
+```
+
+Get the public application URL:
+
+```bash
+ibmcloud ce app get --name ai-presentation-engine
+```
+
+Open the displayed URL in a browser. Code Engine keeps the API credentials in a secret; do not commit `.env` or place keys in the Dockerfile.
+
+### Groq and watsonx switching
+
+The provider is selected without code changes:
+
+```env
+LLM_PROVIDER=groq
+```
+
+or:
+
+```env
+LLM_PROVIDER=watsonx
+```
+
+The presentation analysis, JSON retry logic, document parsing, and PowerPoint generation are shared by both providers.
 
 ---
 
@@ -164,8 +251,13 @@ All settings can be controlled via environment variables in `.env`:
 
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `GROQ_API_KEY` | — | **Required.** Your Groq API key |
+| `LLM_PROVIDER` | `groq` | LLM provider: `groq` or `watsonx` |
+| `GROQ_API_KEY` | — | Required when using Groq |
 | `GROQ_MODEL` | `openai/gpt-oss-120b` | LLM model to use |
+| `WATSONX_API_KEY` | — | Required when using watsonx.ai |
+| `WATSONX_PROJECT_ID` | — | watsonx.ai project ID |
+| `WATSONX_URL` | `https://us-south.ml.cloud.ibm.com` | watsonx.ai regional URL |
+| `WATSONX_MODEL` | `ibm/granite-3-8b-instruct` | watsonx.ai model ID |
 | `GROQ_MAX_TOKENS_PLAN` | `4096` | Max tokens for planning stage |
 | `GROQ_TEMPERATURE` | `0.3` | LLM temperature (0=deterministic) |
 | `LLM_MAX_RETRIES` | `3` | JSON parse retry attempts |

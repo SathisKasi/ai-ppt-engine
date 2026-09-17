@@ -1,0 +1,11 @@
+.git
+.gitignore
+.env
+.venv
+venv
+__pycache__
+*.pyc
+logs
+output
+*.pptx.bak
+*.pptx.original_clean

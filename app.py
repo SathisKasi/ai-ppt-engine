@@ -50,6 +50,7 @@ from core.presentation_planner import plan_presentation, PresentationPlanningErr
 from core.pptx_builder import build_presentation, PptxBuilderError
 from core.validator import validate_plan, validate_pptx_bytes
 from llm.groq_client import GroqClient, GroqAuthError, GroqRateLimitError, GroqAPIError
+from llm.watsonx_client import WatsonxAuthError, WatsonxRateLimitError, WatsonxAPIError
 from llm.key_manager import KeyManager, KeyManagerError
 from utils.file_utils import validate_upload, get_output_path, cleanup_old_outputs
 from utils.text_utils import sanitize_filename, truncate_text
@@ -1087,6 +1088,8 @@ def run_generation_pipeline(
                 temperature=config.GROQ_TEMPERATURE,
                 max_tokens=config.GROQ_MAX_TOKENS_PLAN,
                 max_retries=config.LLM_MAX_RETRIES,
+                provider=api_config.get("provider", config.LLM_PROVIDER),
+                client_options=api_config.get("client_options", config.LLM_CLIENT_OPTIONS),
             )
             st.caption(f"✅ {key_manager.key_count} API key(s) active — round-robin per section")
         except KeyManagerError as e:
@@ -1179,7 +1182,7 @@ def run_generation_pipeline(
                 status.update(label="❌ Content analysis failed", state="error")
                 st.error(f"❌ {e}")
                 return
-            except (GroqRateLimitError, GroqAPIError) as e:
+            except (GroqRateLimitError, GroqAPIError, WatsonxRateLimitError, WatsonxAPIError) as e:
                 status.update(label="❌ API error", state="error")
                 st.error(f"❌ Groq API error: {e}")
                 return
@@ -1352,8 +1355,10 @@ def main() -> None:
     # Sidebar (temporarily commented out)
     # api_config = render_sidebar()
     api_config = {
-        "api_keys": getattr(config, "get_groq_api_keys", lambda: config.GROQ_API_KEYS)(),
-        "model": config.GROQ_MODEL,
+        "api_keys": config.LLM_API_KEYS,
+        "model": config.LLM_MODEL,
+        "provider": config.LLM_PROVIDER,
+        "client_options": config.LLM_CLIENT_OPTIONS,
     }
 
     # Hero header
@@ -1383,7 +1388,7 @@ def main() -> None:
 
     with col_info:
         if not has_keys:
-            st.info("👈 No API keys configured. Add keys in the sidebar or set GROQ_API_KEYS in .env")
+            st.info("👈 No LLM credentials configured. Set the provider credentials in .env")
         elif not source_text:
             st.info("📄 Upload a document or enter a prompt above to get started.")
         else:
