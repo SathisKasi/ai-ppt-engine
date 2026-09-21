@@ -31,6 +31,7 @@ TECHM_TEMPLATE_FILE = TEMPLATES_DIR / "techm_template.pptx"
 WHITE_BLUE_TEMPLATE_FILE = TEMPLATES_DIR / "white_blue_template.pptx"
 TECHM_V3_TEMPLATE_FILE = PROJECT_ROOT / "TechM_RefPPT-V3.pptx"
 TEMPLATE1_FILE = PROJECT_ROOT / "AITransformationWeeklyUpdate4SEP2026.pptx"
+HLD_QBR_TEMPLATE_FILE = TEMPLATES_DIR / "hld_qbr_template.pptx"
 
 
 # LLM analysis logs directory
@@ -93,7 +94,7 @@ LLM_MIN_SECTION_CHARS: int = int(os.getenv("LLM_MIN_SECTION_CHARS", "300"))
 MAX_UPLOAD_SIZE_MB: int = int(os.getenv("MAX_UPLOAD_SIZE_MB", "20"))
 MAX_UPLOAD_SIZE_BYTES: int = MAX_UPLOAD_SIZE_MB * 1024 * 1024
 MAX_SOURCE_TEXT_CHARS: int = int(os.getenv("MAX_SOURCE_TEXT_CHARS", "12000"))
-SUPPORTED_FILE_TYPES: list[str] = ["txt", "pdf", "docx"]
+SUPPORTED_FILE_TYPES: list[str] = ["txt", "pdf", "docx", "pptx", "xlsx"]
 
 # ---------------------------------------------------------------------------
 # Layout identifiers — single source of truth

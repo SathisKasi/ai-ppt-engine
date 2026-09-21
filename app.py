@@ -49,6 +49,12 @@ from core.layout_manager import LayoutManager, LayoutManagerError
 from core.presentation_planner import plan_presentation, PresentationPlanningError
 from core.pptx_builder import build_presentation, PptxBuilderError
 from core.validator import validate_plan, validate_pptx_bytes
+from core.presentation_intelligence import ContentSource, classify_presentation
+from core.governance import (
+    validate_plan_governance,
+    validate_pptx_governance,
+    write_audit_record,
+)
 from llm.groq_client import GroqClient, GroqAuthError, GroqRateLimitError, GroqAPIError
 from llm.watsonx_client import WatsonxAuthError, WatsonxRateLimitError, WatsonxAPIError
 from llm.key_manager import KeyManager, KeyManagerError
@@ -1087,6 +1093,7 @@ def run_generation_pipeline(
     st.session_state.chunk_analyses = None
     st.session_state.semantic_chunks = None
     st.session_state.analysis_cache = None
+    st.session_state.governance_report = None
 
     run_id = datetime.now().strftime("%Y%m%d_%H%M%S") + "_" + uuid.uuid4().hex[:6]
     requested_slides = pres_config.get("slide_count")  # None = auto
@@ -1217,6 +1224,34 @@ def run_generation_pipeline(
             requested_slides = analysis.suggested_slide_count
             st.caption(f"🤖 AI suggests {requested_slides} slides")
 
+        # Create a normalized source record before planning so every downstream
+        # decision can be tied back to the originating upload or prompt.
+        source = ContentSource(
+            source_id=run_id,
+            source_type="document" if use_semantic else "prompt",
+            filename=filename or "prompt",
+            title=getattr(analysis, "main_topic", ""),
+            text=source_text,
+            provenance=[{"source_id": run_id, "filename": filename or "prompt"}],
+            extraction_warnings=([] if source_text.strip() else ["Source text is empty"]),
+        )
+        brief = classify_presentation(
+            content_analysis=analysis,
+            audience=pres_config.get("audience", "General"),
+            template_id=template_id,
+        )
+        st.caption(
+            f"🧭 Classified as **{brief.presentation_type}** for **{brief.audience}** audience"
+        )
+        intelligence_instructions = (
+            f"Presentation intelligence classification: {brief.presentation_type}. "
+            f"Recommended storyline: {'; '.join(brief.storyline[:8])}. "
+            f"Executive message: {brief.executive_message or 'Derive from source content'}."
+        )
+        planner_instructions = " ".join(
+            filter(None, [pres_config.get("additional_instructions", ""), intelligence_instructions])
+        )
+
         # ─ Step 4: Presentation Planning ────────────────────────────────
         st.write(f"🗂️ Planning {requested_slides}-slide presentation...")
         plan_client = key_manager.get_client()  # next key in rotation
@@ -1232,7 +1267,7 @@ def run_generation_pipeline(
                     style=pres_config.get("style", "Corporate Strategic"),
                     slide_count=requested_slides,
                     language=pres_config.get("language", "English"),
-                    additional_instructions=pres_config.get("additional_instructions", ""),
+                    additional_instructions=planner_instructions,
                     max_source_chars=8000,
                 )
             elif template_id == "template1":
@@ -1246,7 +1281,29 @@ def run_generation_pipeline(
                     style=pres_config.get("style", "Corporate Strategic"),
                     slide_count=requested_slides,
                     language=pres_config.get("language", "English"),
-                    additional_instructions=pres_config.get("additional_instructions", ""),
+                    additional_instructions=planner_instructions,
+                    max_source_chars=12000,
+                )
+            elif template_id == "hld_qbr":
+                from core.content_model_extractor import extract_content_model
+                from core.presentation_planner_hld_qbr import plan_hld_qbr_presentation
+                st.write("🧩 Extracting content model from source...")
+                hld_content_model = extract_content_model(plan_client, truncate_text(source_text, 12000))
+                st.session_state.hld_content_model = hld_content_model
+                if hld_content_model.content_items:
+                    st.caption(f"📚 Extracted {len(hld_content_model.content_items)} traceable content item(s) from source")
+                plan = plan_hld_qbr_presentation(
+                    client=plan_client,
+                    content_analysis=analysis,
+                    source_text=truncate_text(source_text, 12000),
+                    presentation_title=pres_config.get("presentation_title", ""),
+                    facility_name=pres_config.get("facility_name", ""),
+                    audience=pres_config.get("audience", "Executive Leadership"),
+                    style=pres_config.get("style", "Corporate Strategic"),
+                    language=pres_config.get("language", "English"),
+                    additional_instructions=planner_instructions,
+                    slide_count=requested_slides,
+                    content_model=hld_content_model,
                     max_source_chars=12000,
                 )
             else:
@@ -1259,7 +1316,7 @@ def run_generation_pipeline(
                     style=pres_config.get("style", "Professional"),
                     slide_count=requested_slides,
                     language=pres_config.get("language", "English"),
-                    additional_instructions=pres_config.get("additional_instructions", ""),
+                    additional_instructions=planner_instructions,
                     max_source_chars=8000,
                 )
         except Exception as e:
@@ -1279,12 +1336,26 @@ def run_generation_pipeline(
 
         # ─ Step 5: Validate Plan ─────────────────────────────────────────
         st.write("✅ Validating presentation structure...")
-        if template_id not in ("techm_v3", "template1"):
+        plan_governance = validate_plan_governance(
+            plan, template_id, source.source_id and [source.source_id],
+            content_model=st.session_state.get("hld_content_model") if template_id == "hld_qbr" else None,
+        )
+        st.session_state.governance_report = plan_governance
+        if plan_governance.errors:
+            for error in plan_governance.errors:
+                st.error(f"❌ Governance: {error}")
+        if plan_governance.warnings:
+            with st.expander(f"🛡️ {len(plan_governance.warnings)} governance notice(s)"):
+                for warning in plan_governance.warnings:
+                    st.caption(f"• {warning}")
+        if template_id not in ("techm_v3", "template1", "hld_qbr"):
             validation = validate_plan(plan, layout_manager, requested_slides)
             if validation.warnings:
                 with st.expander(f"ℹ️ {len(validation.warnings)} validation notice(s)"):
                     for warn in validation.warnings:
                         st.caption(f"• {warn}")
+        elif template_id == "hld_qbr":
+            st.caption("✨ HLD QBR archetype-based layout active (sections included only where source content supports them)")
         else:
             tmpl_name = "TechM V3" if template_id == "techm_v3" else "Template-1 (Weekly Update)"
             st.caption(f"✨ {tmpl_name} Dynamic Layout Active ({len(plan.slides)} content slides composed)")
@@ -1310,7 +1381,43 @@ def run_generation_pipeline(
                 st.error(f"❌ {err}")
             return
 
-        pptx_filename = sanitize_filename(plan.title)
+        output_governance = validate_pptx_governance(pptx_bytes, template_id)
+        if output_governance.warnings:
+            with st.expander(f"🔎 {len(output_governance.warnings)} output governance notice(s)"):
+                for warning in output_governance.warnings:
+                    st.caption(f"• {warning}")
+        if output_governance.errors:
+            status.update(label="❌ Governance validation failed", state="error")
+            for error in output_governance.errors:
+                st.error(f"❌ Governance: {error}")
+            return
+        st.session_state.governance_report = output_governance
+        st.caption(
+            f"🛡️ Governance score: **{output_governance.quality_score}/100** | "
+            f"Brand: {'pass' if output_governance.brand_compliance else 'review required'} | "
+            f"Accessibility: {'pass' if output_governance.accessibility else 'review required'}"
+        )
+
+        try:
+            write_audit_record(
+                config.LOGS_DIR / run_id / "governance_audit.json",
+                source=source,
+                brief=brief,
+                plan=plan,
+                plan_report=plan_governance,
+                output_report=output_governance,
+            )
+        except Exception as audit_error:
+            logger.warning("Could not write governance audit record: %s", audit_error)
+
+        # HLDQBRPresentationPlan uses `presentation_title` and has no `slides` list
+        plan_title = getattr(plan, "title", None) or getattr(plan, "presentation_title", "presentation")
+        pptx_filename = sanitize_filename(plan_title)
+        if hasattr(plan, "slides"):
+            slide_count = len(plan.slides)
+        else:
+            from pptx import Presentation
+            slide_count = len(Presentation(io.BytesIO(pptx_bytes)).slides)
 
         # --- Persist to disk (backup copy) so file is available even after Streamlit re-run ---
         try:
@@ -1325,7 +1432,7 @@ def run_generation_pipeline(
         st.session_state.pptx_filename = pptx_filename
         st.session_state.presentation_plan = plan
         st.session_state.generation_complete = True
-        status.update(label=f"✅ Done: {len(plan.slides)} slides", state="complete")
+        status.update(label=f"✅ Done: {slide_count} slides", state="complete")
         cleanup_old_outputs(config.OUTPUT_DIR)
 
 

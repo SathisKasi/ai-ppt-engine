@@ -11,13 +11,15 @@ Transform documents and ideas into professional, fully editable `.pptx` presenta
 
 ## ✨ Features
 
-- **Dual Input Modes** — Upload `.txt`, `.docx`, or `.pdf` documents OR enter a free-form prompt
+- **Multi-Format Input** — Upload `.txt`, `.docx`, `.pdf`, `.pptx`, or `.xlsx` documents OR enter a free-form prompt
 - **Two-Stage LLM Pipeline** — Content analysis → Presentation planning → Slide generation
 - **11 Professional Layouts** — TITLE, TITLE_AND_CONTENT, TWO_COLUMN, SECTION_HEADER, IMAGE_TEXT, COMPARISON, TIMELINE, PROCESS, ARCHITECTURE, STATISTICS, CONCLUSION
 - **Semantic Layout Selection** — LLM automatically picks the best layout for each slide's content type
 - **Fully Editable Output** — All text, shapes, and tables remain editable in Microsoft PowerPoint
 - **Pydantic Validation** — Structured JSON validation with retry logic
 - **Anti-Hallucination** — Source-grounded content generation
+- **Presentation Intelligence** — Audience/type classification, storyline signals, layout recommendations, and executive-message guidance
+- **Governance and Audit** — UPS Healthcare template checks, source traceability, placeholder/legal guardrails, accessibility signals, quality scoring, and redacted run audit records
 - **Premium Dark UI** — Professional Streamlit interface with glassmorphism design
 - **One-Click Download** — Download the `.pptx` directly from the browser
 
@@ -190,6 +192,8 @@ All settings can be controlled via environment variables in `.env`:
 | `.txt` | Built-in + chardet | Auto-detects encoding |
 | `.docx` | python-docx | Includes tables |
 | `.pdf` | PyMuPDF (primary) | Falls back to pdfplumber |
+| `.pptx` | python-pptx | Extracts slide text with slide provenance markers |
+| `.xlsx` | openpyxl | Extracts worksheet rows with sheet provenance markers |
 
 ---
 

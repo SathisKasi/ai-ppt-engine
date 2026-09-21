@@ -50,7 +50,8 @@ def plan_template1_presentation(
         presentation_title:      Desired title.
         audience:                Target audience.
         style:                   Presentation style.
-        slide_count:             Number of content slides (Cover + Agenda + N content + Closing).
+        slide_count:             Total slides requested by the user, INCLUDING the mandatory
+            Cover, Agenda, and Closing slides cloned intact by the builder.
         language:                Output language.
         additional_instructions: Custom instructions.
         max_source_chars:        Character limit for source excerpt.
@@ -61,6 +62,10 @@ def plan_template1_presentation(
     if not presentation_title or not presentation_title.strip():
         presentation_title = content_analysis.main_topic
 
+    # Cover + Agenda + Closing are always cloned intact by the builder — subtract
+    # them so the final deck totals exactly `slide_count`, not `slide_count + 3`.
+    content_slide_count = max(1, slide_count - 3)
+
     truncated_source = truncate_text(source_text, max_source_chars)
     analysis_json    = content_analysis.model_dump_json(indent=2)
 
@@ -70,7 +75,7 @@ def plan_template1_presentation(
         presentation_title=presentation_title,
         audience=audience or "Executive Leadership",
         style=style or "Executive Corporate",
-        slide_count=slide_count,
+        slide_count=content_slide_count,
         language=language or "English",
         additional_instructions=additional_instructions or "None",
     )
@@ -81,8 +86,8 @@ def plan_template1_presentation(
     ]
 
     logger.info(
-        "Running Template-1 Dynamic Planning: %d content slides for '%s'",
-        slide_count, presentation_title,
+        "Running Template-1 Dynamic Planning: %d total requested (%d content slides) for '%s'",
+        slide_count, content_slide_count, presentation_title,
     )
 
     try:

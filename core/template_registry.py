@@ -49,6 +49,12 @@ _REGISTRY: Dict[str, Dict[str, Any]] = {
         "description": "Warm earth-tone palette (espresso/amber/sand) — 5-slide master with ACTION_TABLE & dynamic LLM layouts",
         "icon":        "🟤",
     },
+    "hld_qbr": {
+        "id":          "hld_qbr",
+        "name":        "HLD QBR (UPS Healthcare)",
+        "description": "UPS Healthcare Quarterly Business Review template — archetype-based (org structure, KPI dashboard, non-conformance, gemba walk...) with brand guardrails enforced",
+        "icon":        "🏥",
+    },
 }
 
 
@@ -62,7 +68,7 @@ def get_builder(template_id: str, layout_manager=None):
     Instantiate and return the appropriate builder for the given template_id.
 
     Args:
-        template_id:    One of 'dark_navy', 'techm', 'white_blue', 'techm_v3'
+        template_id:    One of 'dark_navy', 'techm', 'white_blue', 'techm_v3', 'template1', 'hld_qbr'
         layout_manager: Required only for dark_navy (existing LayoutManager instance)
 
     Returns:
@@ -73,6 +79,10 @@ def get_builder(template_id: str, layout_manager=None):
     if tid == "template1":
         from core.builders.template1_builder import Template1Builder
         return Template1Builder(template_path=config.TEMPLATE1_FILE)
+
+    if tid == "hld_qbr":
+        from core.builders.hld_qbr_builder import HLDQBRBuilder
+        return HLDQBRBuilder(template_path=config.HLD_QBR_TEMPLATE_FILE)
 
     if tid == "techm_v3":
         from core.builders.techm_v3_builder import TechMV3Builder
