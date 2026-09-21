@@ -171,6 +171,29 @@ All settings can be controlled via environment variables in `.env`:
 | `LLM_MAX_RETRIES` | `3` | JSON parse retry attempts |
 | `MAX_UPLOAD_SIZE_MB` | `20` | Upload file size limit |
 | `MAX_SOURCE_TEXT_CHARS` | `12000` | Source text truncation limit |
+| `SEMANTIC_CACHE_ENABLED` | `true` | Reuse successful responses for identical LLM requests |
+| `SEMANTIC_CACHE_PATH` | `logs/semantic_cache.sqlite3` | SQLite file used by the semantic cache |
+| `OUTPUT_DIR` | `output` | Directory where generated `.pptx` files are stored |
+| `OUTPUT_RETENTION_COUNT` | `50` | Newest generated files to retain; `0` keeps all files |
+
+### Managing Multiple Generated Presentations
+
+Every generated presentation is saved in the configured output directory with a sanitized title and a unique suffix, for example:
+
+```text
+Quarterly_Business_Review_a1b2c3.pptx
+Quarterly_Business_Review_d4e5f6.pptx
+```
+
+This means repeated generations with the same title do not overwrite earlier files. The latest presentation is also available immediately through the Streamlit download button.
+
+By default, the application keeps the newest 50 presentations. To keep every generated file, set this in `.env`:
+
+```env
+OUTPUT_RETENTION_COUNT=0
+```
+
+For production deployments, use persistent storage for `OUTPUT_DIR` if files must survive container replacement. Code Engine's local container filesystem should be treated as temporary; download important presentations or connect the application to IBM Cloud Object Storage for durable archival.
 
 ---
 

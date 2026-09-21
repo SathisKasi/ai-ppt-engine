@@ -23,6 +23,7 @@ load_dotenv()
 PROJECT_ROOT = Path(__file__).parent
 TEMPLATES_DIR = PROJECT_ROOT / "templates"
 OUTPUT_DIR = PROJECT_ROOT / os.getenv("OUTPUT_DIR", "output")
+OUTPUT_RETENTION_COUNT: int = int(os.getenv("OUTPUT_RETENTION_COUNT", "50"))
 TEMPLATE_FILE = TEMPLATES_DIR / "presentation_template.pptx"
 LAYOUT_METADATA_FILE = TEMPLATES_DIR / "layout_metadata.json"
 
@@ -35,10 +36,17 @@ TEMPLATE1_FILE = PROJECT_ROOT / "AITransformationWeeklyUpdate4SEP2026.pptx"
 
 # LLM analysis logs directory
 LOGS_DIR: Path = PROJECT_ROOT / "logs" / "llm"
+SEMANTIC_CACHE_PATH: Path = PROJECT_ROOT / os.getenv(
+    "SEMANTIC_CACHE_PATH", "logs/semantic_cache.sqlite3"
+)
+SEMANTIC_CACHE_ENABLED: bool = os.getenv(
+    "SEMANTIC_CACHE_ENABLED", "true"
+).lower() in {"1", "true", "yes", "on"}
 
 # Ensure directories exist
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 LOGS_DIR.mkdir(parents=True, exist_ok=True)
+SEMANTIC_CACHE_PATH.parent.mkdir(parents=True, exist_ok=True)
 
 # ---------------------------------------------------------------------------
 # Groq / LLM settings

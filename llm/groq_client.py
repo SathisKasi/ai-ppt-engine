@@ -16,6 +16,7 @@ import time
 from typing import Any, Dict, List, Optional
 
 from utils.logging_utils import get_logger
+from llm.semantic_cache import SemanticCache
 
 logger = get_logger(__name__)
 
@@ -107,6 +108,7 @@ class GroqClient:
         temperature: float = 0.3,
         max_tokens: int = 4096,
         max_retries: int = 3,
+        semantic_cache: Optional[SemanticCache] = None,
     ) -> None:
         if not api_key or api_key.strip() == "":
             raise GroqAuthError(
@@ -130,6 +132,7 @@ class GroqClient:
         self.temperature = temperature
         self.max_tokens = max_tokens
         self.max_retries = max_retries
+        self.semantic_cache = semantic_cache
 
     def chat_complete(
         self,
@@ -201,12 +204,28 @@ class GroqClient:
 
         for attempt in range(1, self.max_retries + 1):
             try:
+                cache_key = None
+                if self.semantic_cache:
+                    cache_key = self.semantic_cache.make_key(
+                        "groq",
+                        self.model,
+                        current_messages,
+                        temperature if temperature is not None else self.temperature,
+                        max_tokens if max_tokens is not None else self.max_tokens,
+                    )
+                    cached_response = self.semantic_cache.get(cache_key)
+                    if cached_response is not None:
+                        logger.info("Semantic cache hit: model=%s", self.model)
+                        return parse_json_response(cached_response)
+
                 raw_response = self.chat_complete(
                     current_messages,
                     temperature=temperature,
                     max_tokens=max_tokens,
                 )
                 data = parse_json_response(raw_response)
+                if self.semantic_cache and cache_key:
+                    self.semantic_cache.put(cache_key, raw_response)
                 if attempt > 1:
                     logger.info("JSON parsed successfully on attempt %d", attempt)
                 return data

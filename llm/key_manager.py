@@ -18,6 +18,7 @@ import threading
 from typing import List, Optional
 
 from utils.logging_utils import get_logger
+from llm.semantic_cache import SemanticCache
 
 logger = get_logger(__name__)
 
@@ -35,7 +36,8 @@ class KeyManager:
     """
 
     def __init__(self, keys: List[str], model: str, temperature: float = 0.3,
-                 max_tokens: int = 2048, max_retries: int = 3) -> None:
+                 max_tokens: int = 2048, max_retries: int = 3,
+                 semantic_cache: Optional[SemanticCache] = None) -> None:
         valid = [k.strip() for k in keys if k and k.strip()]
         if not valid:
             raise KeyManagerError("No valid API keys provided.")
@@ -44,6 +46,7 @@ class KeyManager:
         self._temperature = temperature
         self._max_tokens = max_tokens
         self._max_retries = max_retries
+        self._semantic_cache = semantic_cache
         self._index = 0
         self._lock = threading.Lock()
         logger.info("KeyManager initialized with %d key(s)", len(self._keys))
@@ -93,6 +96,7 @@ class KeyManager:
             temperature=self._temperature,
             max_tokens=max_tokens or self._max_tokens,
             max_retries=self._max_retries,
+            semantic_cache=self._semantic_cache,
         )
 
     @classmethod
@@ -105,4 +109,8 @@ class KeyManager:
             temperature=config.GROQ_TEMPERATURE,
             max_tokens=config.GROQ_MAX_TOKENS_PLAN,
             max_retries=config.LLM_MAX_RETRIES,
+            semantic_cache=SemanticCache(
+                config.SEMANTIC_CACHE_PATH,
+                config.SEMANTIC_CACHE_ENABLED,
+            ),
         )

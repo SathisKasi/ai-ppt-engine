@@ -51,6 +51,7 @@ from core.pptx_builder import build_presentation, PptxBuilderError
 from core.validator import validate_plan, validate_pptx_bytes
 from llm.groq_client import GroqClient, GroqAuthError, GroqRateLimitError, GroqAPIError
 from llm.key_manager import KeyManager, KeyManagerError
+from llm.semantic_cache import SemanticCache
 from utils.file_utils import validate_upload, get_output_path, cleanup_old_outputs
 from utils.text_utils import sanitize_filename, truncate_text
 
@@ -1087,6 +1088,10 @@ def run_generation_pipeline(
                 temperature=config.GROQ_TEMPERATURE,
                 max_tokens=config.GROQ_MAX_TOKENS_PLAN,
                 max_retries=config.LLM_MAX_RETRIES,
+                semantic_cache=SemanticCache(
+                    config.SEMANTIC_CACHE_PATH,
+                    config.SEMANTIC_CACHE_ENABLED,
+                ),
             )
             st.caption(f"✅ {key_manager.key_count} API key(s) active — round-robin per section")
         except KeyManagerError as e:
@@ -1281,7 +1286,8 @@ def run_generation_pipeline(
                 st.error(f"❌ {err}")
             return
 
-        pptx_filename = sanitize_filename(plan.title)
+        # Keep repeated generations distinct, including runs with the same title.
+        pptx_filename = get_output_path(config.OUTPUT_DIR, plan.title).name
 
         # --- Persist to disk (backup copy) so file is available even after Streamlit re-run ---
         try:
@@ -1297,7 +1303,8 @@ def run_generation_pipeline(
         st.session_state.presentation_plan = plan
         st.session_state.generation_complete = True
         status.update(label=f"✅ Done: {len(plan.slides)} slides", state="complete")
-        cleanup_old_outputs(config.OUTPUT_DIR)
+        if config.OUTPUT_RETENTION_COUNT > 0:
+            cleanup_old_outputs(config.OUTPUT_DIR, keep_last=config.OUTPUT_RETENTION_COUNT)
 
 
 
