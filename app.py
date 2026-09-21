@@ -53,6 +53,7 @@ from llm.groq_client import GroqClient, GroqAuthError, GroqRateLimitError, GroqA
 from llm.key_manager import KeyManager, KeyManagerError
 from llm.semantic_cache import SemanticCache
 from utils.file_utils import validate_upload, get_output_path, cleanup_old_outputs
+from utils.guardrails import GuardrailViolation, validate_input
 from utils.text_utils import sanitize_filename, truncate_text
 
 
@@ -704,10 +705,16 @@ def render_input_section() -> tuple:
                             plain_text, doc_root, detection_method = parse_document_with_structure(
                                 file_bytes, uploaded_file.name
                             )
+                            if config.GUARDRAILS_ENABLED:
+                                plain_text = validate_input(
+                                    plain_text, mode="document"
+                                ).text
                             st.session_state.extracted_text = plain_text
                             st.session_state.doc_root = doc_root
                             st.session_state.doc_detection_method = detection_method
                             st.session_state.uploaded_filename = uploaded_file.name
+                        except GuardrailViolation as e:
+                            st.error(f"❌ Input blocked: {e}")
                         except DocumentParseError as e:
                             st.error(f"❌ Document parsing failed: {e}")
                         except Exception as e:
@@ -769,9 +776,16 @@ def render_input_section() -> tuple:
         )
 
         if prompt_text and prompt_text.strip():
-            source_text = prompt_text.strip()
-            input_mode = "prompt"
-            st.caption(f"✅ {len(source_text):,} characters entered")
+            try:
+                source_text = (
+                    validate_input(prompt_text, mode="prompt").text
+                    if config.GUARDRAILS_ENABLED
+                    else prompt_text.strip()
+                )
+                input_mode = "prompt"
+                st.caption(f"✅ {len(source_text):,} characters entered")
+            except GuardrailViolation as error:
+                st.error(f"❌ Input blocked: {error}")
 
     return source_text, input_mode, file_bytes_out, filename_out, doc_root_out, detection_method_out
 

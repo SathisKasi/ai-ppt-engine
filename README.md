@@ -173,6 +173,19 @@ All settings can be controlled via environment variables in `.env`:
 | `MAX_SOURCE_TEXT_CHARS` | `12000` | Source text truncation limit |
 | `SEMANTIC_CACHE_ENABLED` | `true` | Reuse successful responses for identical LLM requests |
 | `SEMANTIC_CACHE_PATH` | `logs/semantic_cache.sqlite3` | SQLite file used by the semantic cache |
+| `GUARDRAILS_ENABLED` | `true` | Validate input, detect prompt injection, mask sensitive data, and block unsafe/out-of-scope requests |
+
+### Input Guardrails
+
+Guardrails run at two boundaries without changing valid presentation content:
+
+- Uploaded documents are checked after extraction and before semantic analysis.
+- Prompt text is checked before entering the generation pipeline.
+- Every non-system message is checked again immediately before the LLM provider call.
+- API keys, bearer tokens, private keys, email addresses, phone numbers, card-like numbers, and IP addresses are replaced with markers such as `[MASKED_API_KEY]` before model calls.
+- Prompt-injection patterns, requests to reveal system instructions or secrets, unsafe harmful-content requests, and operational commands outside presentation generation are blocked.
+
+The application-level checks can be disabled temporarily for a trusted offline test with `GUARDRAILS_ENABLED=false`; the final provider boundary still masks sensitive values and validates model-bound user content. Keep the setting enabled for shared or production deployments.
 | `OUTPUT_DIR` | `output` | Directory where generated `.pptx` files are stored |
 | `OUTPUT_RETENTION_COUNT` | `50` | Newest generated files to retain; `0` keeps all files |
 

@@ -79,6 +79,9 @@ LLM_MIN_SECTION_CHARS: int = int(os.getenv("LLM_MIN_SECTION_CHARS", "300"))
 MAX_UPLOAD_SIZE_MB: int = int(os.getenv("MAX_UPLOAD_SIZE_MB", "20"))
 MAX_UPLOAD_SIZE_BYTES: int = MAX_UPLOAD_SIZE_MB * 1024 * 1024
 MAX_SOURCE_TEXT_CHARS: int = int(os.getenv("MAX_SOURCE_TEXT_CHARS", "12000"))
+GUARDRAILS_ENABLED: bool = os.getenv("GUARDRAILS_ENABLED", "true").lower() in {
+    "1", "true", "yes", "on"
+}
 SUPPORTED_FILE_TYPES: list[str] = ["txt", "pdf", "docx"]
 
 # ---------------------------------------------------------------------------

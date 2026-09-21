@@ -17,6 +17,7 @@ from typing import Any, Dict, List, Optional
 
 from utils.logging_utils import get_logger
 from llm.semantic_cache import SemanticCache
+from utils.guardrails import sanitize_messages
 
 logger = get_logger(__name__)
 
@@ -146,6 +147,7 @@ class GroqClient:
         """
         _temp = temperature if temperature is not None else self.temperature
         _max_tok = max_tokens if max_tokens is not None else self.max_tokens
+        messages = sanitize_messages(messages)
 
         logger.debug(
             "Groq request — model=%s temp=%.2f max_tokens=%d messages=%d",
