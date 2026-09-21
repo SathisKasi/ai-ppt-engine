@@ -36,6 +36,47 @@ from utils.logging_utils import get_logger
 logger = get_logger(__name__)
 
 
+def compact_context_lines(
+    lines: List[str],
+    max_chars: int,
+    recent_lines: int,
+) -> str:
+    """Fit rolling section context to a bounded prompt budget.
+
+    The first section remains as a document anchor, while the newest sections
+    retain local continuity. Entries are never partially truncated.
+    """
+    if not lines:
+        return "No sections analyzed yet."
+    if max_chars <= 0:
+        return "No prior section context available."
+
+    full_text = "\n".join(lines)
+    if len(full_text) <= max_chars:
+        return full_text
+
+    recent_count = max(1, recent_lines)
+    selected = lines[-recent_count:]
+    if lines[0] not in selected:
+        selected.insert(0, lines[0])
+
+    omitted = max(0, len(lines) - len(selected))
+    marker = f"[... {omitted} earlier section(s) compacted ...]"
+    while len("\n".join([marker] + selected)) > max_chars and len(selected) > 1:
+        # Keep the first anchor and remove the oldest recent entry next.
+        selected.pop(1)
+
+    compacted_lines = [marker]
+    for line in selected:
+        candidate = "\n".join(compacted_lines + [line])
+        if len(candidate) > max_chars:
+            break
+        compacted_lines.append(line)
+
+    # Preserve a useful marker even when the configured budget is extremely small.
+    return "\n".join(compacted_lines)[:max_chars]
+
+
 # ---------------------------------------------------------------------------
 # In-memory analysis cache
 # ---------------------------------------------------------------------------
@@ -78,9 +119,12 @@ class AnalysisCache:
     def get_context_summary(self) -> str:
         """Return accumulated context to pass to next LLM call."""
         with self._lock:
-            if not self._context_lines:
-                return "No sections analyzed yet."
-            return "\n".join(self._context_lines)
+            import config
+            return compact_context_lines(
+                self._context_lines,
+                max_chars=config.CONTEXT_COMPACTION_MAX_CHARS,
+                recent_lines=config.CONTEXT_COMPACTION_RECENT_LINES,
+            )
 
     @property
     def count(self) -> int:
@@ -171,7 +215,7 @@ def _build_chunk_prompt(
         heading=chunk.heading,
         level=chunk.level,
         parent_info=parent_info,
-        accumulated_context=accumulated_context[:2000] if accumulated_context else "None",
+        accumulated_context=accumulated_context if accumulated_context else "None",
         content=content,
         chunk_id=chunk.chunk_id,
         parent_heading_json=parent_heading_json,

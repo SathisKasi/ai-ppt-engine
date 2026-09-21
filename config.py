@@ -72,6 +72,12 @@ GROQ_API_KEYS: list[str] = [
 LLM_MAX_CHUNK_CHARS: int = int(os.getenv("LLM_MAX_CHUNK_CHARS", "8000"))
 # Sections smaller than this are merged with siblings before chunking.
 LLM_MIN_SECTION_CHARS: int = int(os.getenv("LLM_MIN_SECTION_CHARS", "300"))
+CONTEXT_COMPACTION_MAX_CHARS: int = int(
+    os.getenv("CONTEXT_COMPACTION_MAX_CHARS", "2000")
+)
+CONTEXT_COMPACTION_RECENT_LINES: int = int(
+    os.getenv("CONTEXT_COMPACTION_RECENT_LINES", "6")
+)
 
 # ---------------------------------------------------------------------------
 # Upload / processing limits

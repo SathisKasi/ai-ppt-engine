@@ -35,6 +35,7 @@ Throughout the project lifecycle, the application has evolved through major arch
 | **Pydantic Schema Validation & Resilience** | All LLM outputs are validated against strict Pydantic schemas with automatic exponential backoff, retry loops, and JSON repair fallback. |
 | **Persistent JSON Audit Logging** | Every intermediate step (structure inference, chunk analyses, consolidation, presentation plan) is serialized to disk under `logs/llm/<run_id>/` for transparency and debugging. |
 | **Input Guardrails** | Validates document and prompt input, masks sensitive identifiers before LLM calls, detects prompt injection, blocks unsafe requests, and rejects operational requests outside presentation generation. |
+| **Compaction Context** | Bounds rolling semantic context while preserving the first document anchor and recent section summaries, preventing context growth without changing pipeline contracts. |
 | **Executive Corporate White & Navy Blue UI** | Modern enterprise interface with top brand navbar, executive deep navy hero banner (`#081E39` to `#0B2545`), gold accent divider (`#FFB800`), crisp white card containers (`#FFFFFF`), bold golden amber action buttons, and in-memory download banner. |
 
 ---

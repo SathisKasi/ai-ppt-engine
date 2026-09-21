@@ -174,6 +174,8 @@ All settings can be controlled via environment variables in `.env`:
 | `SEMANTIC_CACHE_ENABLED` | `true` | Reuse successful responses for identical LLM requests |
 | `SEMANTIC_CACHE_PATH` | `logs/semantic_cache.sqlite3` | SQLite file used by the semantic cache |
 | `GUARDRAILS_ENABLED` | `true` | Validate input, detect prompt injection, mask sensitive data, and block unsafe/out-of-scope requests |
+| `CONTEXT_COMPACTION_MAX_CHARS` | `2000` | Maximum rolling semantic context sent to each chunk analysis prompt |
+| `CONTEXT_COMPACTION_RECENT_LINES` | `6` | Recent section summaries retained during compaction |
 
 ### Input Guardrails
 
