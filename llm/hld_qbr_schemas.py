@@ -92,6 +92,64 @@ class VoiceOfCustomer(BaseModel):
     attribution: str = ""
 
 
+class ChartSeries(BaseModel):
+    """One data series in a chart (e.g. 'Previous Month' or 'Current Month')."""
+    name: str = ""
+    values: List[float] = Field(default_factory=list)
+
+    @model_validator(mode="before")
+    @classmethod
+    def _clean_values(cls, data):
+        if isinstance(data, dict):
+            import re
+            name = data.get("name") or data.get("series_name") or data.get("label") or ""
+            raw_vals = data.get("values") or []
+            cleaned = []
+            for v in raw_vals:
+                if isinstance(v, (int, float)):
+                    cleaned.append(float(v))
+                elif isinstance(v, str):
+                    m = re.search(r"[-+]?\d*\.?\d+", v.replace(",", ""))
+                    if m:
+                        try:
+                            cleaned.append(float(m.group(0)))
+                        except ValueError:
+                            cleaned.append(0.0)
+                    else:
+                        cleaned.append(0.0)
+                else:
+                    cleaned.append(0.0)
+            return {"name": str(name).strip(), "values": cleaned}
+        return data
+
+
+class OperationalChart(BaseModel):
+    """Clustered column chart slide with side observation bullets (template Slide 13 archetype)."""
+    chart_title: str = Field(default="Operational Performance Snapshot", description="Slide and chart title")
+    categories: List[str] = Field(default_factory=list, description="Up to 7 metric or category names")
+    series: List[ChartSeries] = Field(default_factory=list, description="Up to 3 series, e.g. Previous Month, Current Month")
+    insights_title: str = Field(default="KEY OBSERVATIONS", description="Title for the side observation card, e.g. 'KEY OBSERVATIONS' or 'OPERATIONAL INSIGHTS'")
+    insights: List[str] = Field(default_factory=list, description="Up to 7 key bullet observations for the side panel")
+
+    @model_validator(mode="before")
+    @classmethod
+    def _normalize(cls, data):
+        if isinstance(data, dict):
+            chart_title = data.get("chart_title") or data.get("title") or "Operational Performance Snapshot"
+            categories = data.get("categories") or data.get("metrics") or data.get("labels") or []
+            series = data.get("series") or []
+            insights_title = data.get("insights_title") or data.get("insights_heading") or "KEY OBSERVATIONS"
+            insights = data.get("insights") or data.get("observations") or data.get("takeaways") or []
+            return {
+                "chart_title": str(chart_title).strip(),
+                "categories": [str(c).strip() for c in categories if str(c).strip()],
+                "series": series,
+                "insights_title": str(insights_title).strip(),
+                "insights": [str(ins).strip() for ins in insights if str(ins).strip()],
+            }
+        return data
+
+
 class HLDQBRPresentationPlan(BaseModel):
     """Top-level plan consumed by core.builders.hld_qbr_builder.HLDQBRBuilder."""
 
@@ -109,6 +167,7 @@ class HLDQBRPresentationPlan(BaseModel):
 
     kpi_safety_quality: List[KPIRow] = Field(default_factory=list, description="Up to 4 rows")
     kpi_operational: List[KPIRow] = Field(default_factory=list, description="Up to 7 rows")
+    operational_chart: Optional[OperationalChart] = Field(default=None, description="Comparative monthly/quarterly chart with side observations")
 
     voice_of_customer: Optional[VoiceOfCustomer] = None
 

@@ -26,7 +26,7 @@ logger = get_logger(__name__)
 MANDATORY_SLIDE_COUNT = 4
 # Number of distinct optional content archetypes the schema supports (see
 # llm/prompts_hld_qbr.py AVAILABLE CONTENT ARCHETYPES).
-MAX_CONTENT_SLIDES = 11
+MAX_CONTENT_SLIDES = 12
 
 
 class HLDQBRPlanningError(Exception):

@@ -32,6 +32,7 @@ AVAILABLE CONTENT ARCHETYPES:
 - agenda_topics: 3-5 concise topic headings for the agenda slide.
 - priorities: up to 3 pillars {{heading, body}} (heading MUST be concise: 2-3 words, max 20 chars; body is 1-2 sentences).
 - achievements: up to 5 milestone strings (prior-quarter wins, launches, operational progress).
+- operational_chart: clustered column chart comparing metrics across time periods or series: {{"chart_title": "Short title", "categories": ["Metric 1", ... up to 7], "series": [{{"name": "Previous Month", "values": [...]}}, {{"name": "Current Month", "values": [...]}}], "insights": ["Up to 5 bullet observations for the side panel"]}}. Use this when source contains monthly/quarterly comparative tables with observations.
 - kpi_operational: up to 6 rows {{label, actual, target}} (quantifiable metrics; leave target \"\" if not stated).
 - action_tracker: up to 5 rows {{project, owner, next_step, comment, status}}.
 - next_steps: up to 4 rows {{step, date}} (action items, upcoming milestones; leave date \"\" if none).
@@ -80,7 +81,7 @@ def _build_slide_count_guidance(requested_content_slide_count: Optional[int]) ->
         return "SLIDE TARGET: Populate content archetypes that have strong evidence in the source; leave unsupported fields empty."
     return (
         f"SLIDE TARGET: Populate approximately {requested_content_slide_count} content archetype(s) with the strongest source evidence "
-        "(e.g., priorities, achievements, kpi_operational, action_tracker, next_steps). Leave unsupported archetype fields empty. "
+        "(e.g., priorities, achievements, operational_chart, kpi_operational, action_tracker, next_steps). Leave unsupported archetype fields empty. "
         "(Mandatory structural slides: Cover, Agenda, Executive Summary, and Closing are added automatically by the builder)."
     )
 
