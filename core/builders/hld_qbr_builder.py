@@ -32,6 +32,7 @@ logger = get_logger(__name__)
 
 IDX_COVER = 0
 IDX_AGENDA = 1
+IDX_EXECUTIVE_SUMMARY = 3
 IDX_ORG_STRUCTURE = 2
 IDX_ACHIEVEMENTS = 4
 IDX_PRIORITIES = 5
@@ -225,15 +226,109 @@ def _set_org_box(shape: Any, name: str, role: str) -> None:
                 r.text = ""
 
 
-def _fill_priority_group(group_shape: Any, heading: str, body: str) -> None:
-    for sub in group_shape.shapes:
-        if not getattr(sub, "has_text_frame", False):
-            continue
-        current = sub.text_frame.text.strip()
-        if current.upper().startswith("PRIORITY"):
-            _set_first_run_text(sub, heading)
-        elif current == "Supporting text here":
-            _set_first_run_text(sub, body)
+def _set_or_remove_facility_placeholder(slide: Any, facility_name: str) -> None:
+    """Fills Text Placeholder 3 with the facility name if provided; otherwise
+    removes the placeholder element entirely so PowerPoint doesn't show ghost
+    prompts like 'Sub-header' or 'Facility name or location'."""
+    ph = _shape_by_name(slide, "Text Placeholder 3")
+    if ph is not None:
+        if facility_name and facility_name.strip():
+            _set_first_run_text(ph, facility_name.strip())
+        else:
+            slide.shapes._spTree.remove(ph._element)
+
+
+def _fill_priority_group(
+    group_shape: Any,
+    heading: str,
+    body: str,
+    center_x: Optional[int] = None,
+    card_width: Optional[int] = None,
+    target_body_top: int = 4220000,
+) -> None:
+    # 1. Update group bounds if center_x and card_width are provided
+    if center_x is not None and card_width is not None:
+        new_left = center_x - (card_width // 2)
+        grp_xfrm = group_shape._element.find(qn("p:grpSpPr")).find(qn("a:xfrm"))
+        if grp_xfrm is not None:
+            off = grp_xfrm.find(qn("a:off"))
+            ext = grp_xfrm.find(qn("a:ext"))
+            chOff = grp_xfrm.find(qn("a:chOff"))
+            chExt = grp_xfrm.find(qn("a:chExt"))
+            if off is not None:
+                off.set("x", str(new_left))
+            if ext is not None:
+                ext.set("cx", str(card_width))
+            if chOff is not None:
+                chOff.set("x", str(new_left))
+            if chExt is not None:
+                chExt.set("cx", str(card_width))
+
+    # 2. Identify heading & body text boxes
+    text_boxes = [
+        s for s in group_shape.shapes
+        if getattr(s, "has_text_frame", False) and (s.shape_type == 17 or "Shape;" in s.name)
+    ]
+    text_boxes.sort(key=lambda s: s.top)
+    if len(text_boxes) >= 2:
+        heading_sub = text_boxes[0]
+        body_sub = text_boxes[1]
+    else:
+        heading_sub = None
+        body_sub = None
+        for sub in group_shape.shapes:
+            if not getattr(sub, "has_text_frame", False):
+                continue
+            current = sub.text_frame.text.strip().upper()
+            if current.startswith("PRIORITY"):
+                heading_sub = sub
+            elif "SUPPORTING" in current:
+                body_sub = sub
+
+    if heading_sub and body_sub:
+        # Widen heading & body boxes to card_width if provided, or match body width
+        if center_x is not None and card_width is not None:
+            new_left = center_x - (card_width // 2)
+            heading_sub.left = new_left
+            heading_sub.width = card_width
+            body_sub.left = new_left
+            body_sub.width = card_width
+        else:
+            heading_sub.left = body_sub.left
+            heading_sub.width = body_sub.width
+
+        # Heading formatting: STRICT 14PT BOLD across ALL cards (per template guideline)
+        heading_sub.text_frame.word_wrap = True
+        p_head = heading_sub.text_frame.paragraphs[0]
+        p_head.text = heading
+
+        # Strip 150% line spacing from the template paragraph so it renders single-spaced
+        pPr = p_head._p.find(qn("a:pPr"))
+        if pPr is not None:
+            lnSpc = pPr.find(qn("a:lnSpc"))
+            if lnSpc is not None:
+                pPr.remove(lnSpc)
+
+        if p_head.runs:
+            run_h = p_head.runs[0]
+            run_h.font.bold = True
+            run_h.font.size = Pt(14)  # STRICT 14PT BOLD FOR ALL CARDS PER TEMPLATE GUIDELINE
+
+        # Body formatting: STRICT 12PT REGULAR across ALL cards (per template guideline)
+        body_sub.text_frame.word_wrap = True
+        p_body = body_sub.text_frame.paragraphs[0]
+        p_body.text = body
+        if p_body.runs:
+            run_b = p_body.runs[0]
+            run_b.font.size = Pt(12)  # STRICT 12PT REGULAR FOR ALL CARDS PER TEMPLATE GUIDELINE
+
+        # Set body baseline top coordinate to ensure clean spacing and alignment
+        body_sub.top = target_body_top
+    elif heading_sub:
+        _set_first_run_text(heading_sub, heading)
+    elif body_sub:
+        _set_first_run_text(body_sub, body)
+
 
 
 def _fill_table_rows(tbl: Any, rows: List[List[str]], start_row: int = 1) -> None:
@@ -278,7 +373,11 @@ class HLDQBRBuilder:
                     if para.runs:
                         para.runs[0].text = plan.agenda_topics[i] if i < len(plan.agenda_topics) else ""
 
-        # 3. Organizational Structure (optional)
+        # 3. Executive Summary (always mandatory)
+        exec_summary = _clone_slide(prs, IDX_EXECUTIVE_SUMMARY)
+        _strip_guidance_shapes(exec_summary)
+
+        # 4. Organizational Structure (optional)
         if plan.org_structure:
             org_slide = _clone_slide(prs, IDX_ORG_STRUCTURE)
             org_boxes = sorted(
@@ -300,25 +399,73 @@ class HLDQBRBuilder:
                 (s for s in achievements_slide.shapes if s.name == "Content Placeholder 42"),
                 key=lambda s: s.top,
             )
+            connectors = sorted(
+                (s for s in achievements_slide.shapes if s.name.startswith("Flowchart: Connector")),
+                key=lambda s: s.top,
+            )
             for box, text in zip(milestone_boxes, plan.achievements):
                 _set_first_run_text(box, text)
-            # Blank leftover template sample milestones beyond the supplied achievements
-            for box in milestone_boxes[len(plan.achievements):]:
-                _set_first_run_text(box, "")
+            # Remove leftover template sample milestones beyond the supplied achievements
+            for i in range(len(plan.achievements), len(milestone_boxes)):
+                _set_first_run_text(milestone_boxes[i], "")
+                achievements_slide.shapes._spTree.remove(milestone_boxes[i]._element)
+            # Remove leftover numbered badge connectors beyond the supplied achievements
+            for i in range(len(plan.achievements), len(connectors)):
+                achievements_slide.shapes._spTree.remove(connectors[i]._element)
 
         # 5. Customer Priorities (optional)
         if plan.priorities:
             priorities_slide = _clone_slide(prs, IDX_PRIORITIES)
             _strip_guidance_shapes(priorities_slide)
+            _set_or_remove_facility_placeholder(priorities_slide, plan.facility_name)
+
             priority_title = _shape_by_name(priorities_slide, "Title 2")
-            if priority_title is not None and priority_title.text_frame.paragraphs[0].runs:
-                priority_title.text_frame.paragraphs[0].runs[0].text = plan.presentation_title
+            if priority_title is not None and priority_title.text_frame.paragraphs:
+                p0 = priority_title.text_frame.paragraphs[0]
+                clean_title = (
+                    f"{plan.facility_name.upper()} PRIORITIES"
+                    if plan.facility_name
+                    else "CUSTOMER PRIORITIES"
+                )
+                p0.text = clean_title
+                if p0.runs:
+                    p0.runs[0].font.size = Pt(22)
+                    p0.runs[0].font.bold = True
+
+            # Determine if any card has a multi-word or long heading
+            any_multi_line = any(
+                len(p.heading.strip()) > {0: 20, 1: 18, 2: 14}.get(i, 16)
+                or (len(p.heading.strip().split()) > 1 and len(p.heading.strip()) > 12)
+                for i, p in enumerate(plan.priorities)
+            )
+            target_body_top = 4220000 if any_multi_line else 3939696
+
+            # Widen all 3 cards to 3.25 inches centered under their circle icons
+            CARD_WIDTH_EMU = int(3.25 * 914400)  # 3.25 in = 2,971,800 EMU
+            CIRCLE_CENTERS = [2031252, 5987374, 10056673]
+
             priority_groups = sorted(
                 (s for s in priorities_slide.shapes if s.shape_type == 6),
                 key=lambda s: s.left,
             )
-            for group, item in zip(priority_groups, plan.priorities):
-                _fill_priority_group(group, item.heading, item.body)
+            for col_idx, (group, item) in enumerate(zip(priority_groups, plan.priorities)):
+                center_x = (
+                    CIRCLE_CENTERS[col_idx]
+                    if col_idx < len(CIRCLE_CENTERS)
+                    else group.left + (group.width // 2)
+                )
+                _fill_priority_group(
+                    group,
+                    item.heading,
+                    item.body,
+                    center_x=center_x,
+                    card_width=CARD_WIDTH_EMU,
+                    target_body_top=target_body_top,
+                )
+            for group in priority_groups[len(plan.priorities):]:
+                for sub in group.shapes:
+                    if getattr(sub, "has_text_frame", False):
+                        sub.text_frame.text = ""
 
         # 6. Section divider: Performance Management (only if any perf content exists)
         has_perf_section = bool(plan.action_tracker or plan.kpi_safety_quality or plan.kpi_operational)
@@ -333,9 +480,7 @@ class HLDQBRBuilder:
             tracker = _clone_slide(prs, IDX_TRACKER)
             _strip_guidance_shapes(tracker)
             _strip_decorative_connectors(tracker)
-            facility_ph = _shape_by_name(tracker, "Text Placeholder 3")
-            if facility_ph is not None and plan.facility_name:
-                _set_first_run_text(facility_ph, plan.facility_name)
+            _set_or_remove_facility_placeholder(tracker, plan.facility_name)
             table_shape = _shape_by_name(tracker, "Table 4")
             if table_shape is not None and table_shape.has_table:
                 rows = [[r.project, r.owner, r.next_step, r.comment, r.status] for r in plan.action_tracker]
@@ -344,9 +489,7 @@ class HLDQBRBuilder:
         # 8. KPI Dashboard (optional, 2 tables)
         if plan.kpi_safety_quality or plan.kpi_operational:
             kpi_slide = _clone_slide(prs, IDX_KPI_DASHBOARD)
-            kpi_facility_ph = _shape_by_name(kpi_slide, "Text Placeholder 3")
-            if kpi_facility_ph is not None and plan.facility_name:
-                _set_first_run_text(kpi_facility_ph, plan.facility_name)
+            _set_or_remove_facility_placeholder(kpi_slide, plan.facility_name)
             kpi_tables = [s for s in kpi_slide.shapes if s.has_table]
             table_by_cols: Dict[int, Any] = {len(s.table.columns): s.table for s in kpi_tables}
             if 7 in table_by_cols:
@@ -448,9 +591,7 @@ class HLDQBRBuilder:
         if plan.nc_review_narrative or plan.nc_review_summary:
             nc_review_slide = _clone_slide(prs, IDX_NC_REVIEW)
             _strip_guidance_shapes(nc_review_slide)
-            nc_facility_ph = _shape_by_name(nc_review_slide, "Text Placeholder 3")
-            if nc_facility_ph is not None and plan.facility_name:
-                _set_first_run_text(nc_facility_ph, plan.facility_name)
+            _set_or_remove_facility_placeholder(nc_review_slide, plan.facility_name)
             nc_narrative = _shape_by_name(nc_review_slide, "TextBox 7")
             if nc_narrative is not None and plan.nc_review_narrative:
                 nc_narrative.text_frame.text = plan.nc_review_narrative

@@ -62,9 +62,10 @@ def plan_dynamic_presentation(
     if not presentation_title or not presentation_title.strip():
         presentation_title = content_analysis.main_topic
 
-    # Cover + Thank You are always added by the builder — subtract them so the
-    # final deck totals exactly `slide_count`, not `slide_count + 2`.
-    content_slide_count = max(1, slide_count - 2)
+    # slide_count represents the requested number of CONTENT slides.
+    # Mandatory structural slides (Cover, Agenda, Executive Summary, Closing)
+    # are added in addition and must not be subtracted from the user's requested count.
+    content_slide_count = max(1, slide_count)
 
     truncated_source = truncate_text(source_text, max_source_chars)
     analysis_json = content_analysis.model_dump_json(indent=2)

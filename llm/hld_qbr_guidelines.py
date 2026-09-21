@@ -68,43 +68,12 @@ DATA_VIZ_GUIDANCE = [
 
 
 def build_llm_guidelines_prompt() -> str:
-    """Assembles all mined template knowledge into a system-prompt-ready text block."""
-    lines = [
-        "TEMPLATE BRAND & CONTENT GUIDELINES (HLD QBR Template) — MUST BE FOLLOWED:",
-        "",
-        "Approved brand colors (hex, from the template theme):",
-    ]
-    for name, hexval in BRAND_COLORS.items():
-        lines.append(f"  - {name}: #{hexval}")
-
-    lines.append("")
-    lines.append("Typography rules:")
-    for key, val in TYPOGRAPHY.items():
-        if key == "theme_fonts":
-            continue
-        lines.append(f"  - {key.replace('_', ' ')}: {val}")
-    lines.append(f"  - Approved fonts only: {', '.join(TYPOGRAPHY['theme_fonts'])}")
-
-    lines.append("")
-    lines.append("Content guardrails (legal/brand/process — non-negotiable):")
-    for rule in CONTENT_GUARDRAILS:
-        lines.append(f"  - {rule}")
-
-    lines.append("")
-    lines.append("Color usage rules:")
-    for rule in COLOR_USAGE_RULES:
-        lines.append(f"  - {rule}")
-
-    lines.append("")
-    lines.append("Data visualization guidance:")
-    for rule in DATA_VIZ_GUIDANCE:
-        lines.append(f"  - {rule}")
-
-    lines.append("")
-    lines.append(
-        "These rules come from the template's own internal 'Formatting Help' reference "
-        "slides (guardrails, brand colors, typography, sample tables/charts, icon library). "
-        "Those reference slides are for authoring guidance only and must NEVER be copied "
-        "or reproduced in the generated output deck."
+    """Assembles mined template content rules into a concise, token-efficient text block."""
+    return (
+        "TEMPLATE CONTENT GUARDRAILS:\n"
+        "- Grounding: All claims, names, and metrics must be strictly grounded in the source text.\n"
+        "- Tone: Executive boardroom tone; concise, high-impact phrasing.\n"
+        "- Metrics: Preserve numbers and units exactly as stated; leave target empty (\"\") if none is stated.\n"
+        "- Scope: Populate only archetypes with real source evidence; leave others empty."
     )
-    return "\n".join(lines)
+

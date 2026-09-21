@@ -843,7 +843,7 @@ def render_configuration() -> dict:
                     step=1,
                     label_visibility="collapsed",
                 )
-                st.caption(f"📊 {slide_count} slides")
+                st.caption(f"📊 {slide_count} content slides (+ 4 mandatory: Title, Agenda, Executive Summary, Conclusion)")
 
             st.markdown("**Presentation Title**")
             pres_title = st.text_input(
@@ -1222,7 +1222,7 @@ def run_generation_pipeline(
 
         if requested_slides is None:
             requested_slides = analysis.suggested_slide_count
-            st.caption(f"🤖 AI suggests {requested_slides} slides")
+            st.caption(f"🤖 AI suggests {requested_slides} content slides (+ 4 mandatory structural slides)")
 
         # Create a normalized source record before planning so every downstream
         # decision can be tied back to the originating upload or prompt.
@@ -1253,7 +1253,7 @@ def run_generation_pipeline(
         )
 
         # ─ Step 4: Presentation Planning ────────────────────────────────
-        st.write(f"🗂️ Planning {requested_slides}-slide presentation...")
+        st.write(f"🗂️ Planning presentation ({requested_slides} content slides + 4 mandatory structural slides)...")
         plan_client = key_manager.get_client()  # next key in rotation
         try:
             if template_id == "techm_v3":
@@ -1287,15 +1287,20 @@ def run_generation_pipeline(
             elif template_id == "hld_qbr":
                 from core.content_model_extractor import extract_content_model
                 from core.presentation_planner_hld_qbr import plan_hld_qbr_presentation
-                st.write("🧩 Extracting content model from source...")
-                hld_content_model = extract_content_model(plan_client, truncate_text(source_text, 12000))
-                st.session_state.hld_content_model = hld_content_model
-                if hld_content_model.content_items:
-                    st.caption(f"📚 Extracted {len(hld_content_model.content_items)} traceable content item(s) from source")
+                hld_content_model = None
+                # For small decks (e.g. <=5 slides), bypass extra content extraction call to conserve token rate limit
+                if requested_slides and requested_slides > 5:
+                    st.write("🧩 Extracting content model from source...")
+                    hld_content_model = extract_content_model(plan_client, truncate_text(source_text, 4500))
+                    st.session_state.hld_content_model = hld_content_model
+                    if hld_content_model.content_items:
+                        st.caption(f"📚 Extracted {len(hld_content_model.content_items)} traceable content item(s) from source")
+
+                source_char_limit = 4500 if (requested_slides and requested_slides <= 5) else 6000
                 plan = plan_hld_qbr_presentation(
                     client=plan_client,
                     content_analysis=analysis,
-                    source_text=truncate_text(source_text, 12000),
+                    source_text=truncate_text(source_text, source_char_limit),
                     presentation_title=pres_config.get("presentation_title", ""),
                     facility_name=pres_config.get("facility_name", ""),
                     audience=pres_config.get("audience", "Executive Leadership"),
@@ -1304,7 +1309,7 @@ def run_generation_pipeline(
                     additional_instructions=planner_instructions,
                     slide_count=requested_slides,
                     content_model=hld_content_model,
-                    max_source_chars=12000,
+                    max_source_chars=source_char_limit,
                 )
             else:
                 plan = plan_presentation(
@@ -1363,6 +1368,11 @@ def run_generation_pipeline(
         # ─ Step 6: Build PowerPoint ───────────────────────────────────────
         st.write("🎨 Building PowerPoint presentation...")
         try:
+            import importlib
+            import core.builders.hld_qbr_builder
+            importlib.reload(core.builders.hld_qbr_builder)
+            import core.template_registry
+            importlib.reload(core.template_registry)
             from core.template_registry import get_builder
             engine = get_builder(template_id, layout_manager)
             pptx_bytes = engine.build(plan)

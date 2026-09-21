@@ -125,16 +125,15 @@ PRESENTATION REQUIREMENTS:
 - Language: {language}
 - Additional Instructions: {additional_instructions}
 
-SLIDE COUNT RULES (adapt structure to the requested number of slides):
-  If slide_count <= 5:
-    - SKIP EXECUTIVE_SUMMARY and AGENDA to leave room for real content
-    - Structure: TITLE → SECTION_HEADER (optional) → 2-3 CONTENT slides → CONCLUSION
-  If slide_count 6-8:
-    - Include EXECUTIVE_SUMMARY (slide 2) but make AGENDA optional
-    - Structure: TITLE → EXEC_SUMMARY → CONTENT slides → CONCLUSION
-  If slide_count >= 9 (standard):
-    - Full structure is MANDATORY: TITLE → EXECUTIVE_SUMMARY → AGENDA → SECTION_HEADERs + CONTENT → CONCLUSION
-    - SECTION_HEADER MUST precede each major topic block
+SLIDE COUNT & STRUCTURE RULES:
+- The user requested {slide_count} BODY/CONTENT slides.
+- The 4 structural slides are ALWAYS MANDATORY and added in addition to the content slides:
+    Slide 1: TITLE (Cover)
+    Slide 2: EXECUTIVE_SUMMARY (High-level highlights & purpose)
+    Slide 3: AGENDA (Roadmap matching body sections)
+    Slides 4 to {content_end}: {slide_count} BODY/CONTENT slides (choose visual archetypes below)
+    Final Slide ({total_slides}): CONCLUSION (Summary, recommendations, next steps)
+- The final plan must contain exactly {slide_count} content slides + 4 mandatory slides = total {total_slides} slides.
 
 VISUAL ARCHETYPES — Choose the one that BEST MATCHES what the content looks like visually:
 

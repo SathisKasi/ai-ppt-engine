@@ -21,7 +21,7 @@ logger = get_logger(__name__)
 def extract_content_model(
     client: GroqClient,
     source_text: str,
-    max_source_chars: int = 12000,
+    max_source_chars: int = 4500,
 ) -> ContentModel:
     """Best-effort extraction: on any LLM/parse failure, returns an empty ContentModel
     rather than raising, so the presentation planner can always fall back to reading
@@ -35,7 +35,7 @@ def extract_content_model(
     ]
 
     try:
-        raw_data = client.chat_complete_json(messages=messages, temperature=0.2, max_tokens=4096)
+        raw_data = client.chat_complete_json(messages=messages, temperature=0.2, max_tokens=1536)
         model = ContentModel.model_validate(raw_data)
     except (JSONParseError, ValidationError) as e:
         logger.warning("Content model extraction failed, continuing without it: %s", e)

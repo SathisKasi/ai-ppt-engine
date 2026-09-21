@@ -20,18 +20,36 @@ from utils.text_utils import truncate_text
 
 logger = get_logger(__name__)
 
-# Cover, Agenda, and Closing are always rendered by the builder regardless of
-# content — they must never be counted against (or subtracted from) the
-# requested content-slide target, so the planner is never pushed to invent
-# data just to "fill" a mandatory slot.
-MANDATORY_SLIDE_COUNT = 3
+# Cover, Agenda, Executive Summary, and Closing are always rendered by the builder
+# regardless of content — they are mandatory structural slides and must never be
+# subtracted from the user's requested content-slide target.
+MANDATORY_SLIDE_COUNT = 4
 # Number of distinct optional content archetypes the schema supports (see
-# llm/prompts_hld_qbr.py AVAILABLE SLIDE ARCHETYPES).
+# llm/prompts_hld_qbr.py AVAILABLE CONTENT ARCHETYPES).
 MAX_CONTENT_SLIDES = 11
 
 
 class HLDQBRPlanningError(Exception):
     """Raised when HLD QBR presentation planning fails."""
+
+
+def _format_compact_analysis(ca: ContentAnalysis) -> str:
+    """Produces a concise, token-efficient text summary of content analysis."""
+    parts = [f"Topic: {ca.main_topic}"]
+    if ca.key_concepts:
+        parts.append(f"Key Concepts: {'; '.join(ca.key_concepts[:6])}")
+    if ca.statistics:
+        parts.append(f"Statistics & Metrics: {'; '.join(ca.statistics[:6])}")
+    if ca.sections:
+        parts.append(f"Key Sections: {'; '.join(ca.sections[:8])}")
+    if ca.processes:
+        parts.append(f"Processes: {'; '.join(ca.processes[:3])}")
+    highlights = getattr(ca, "executive_highlights", None)
+    if highlights:
+        parts.append(f"Highlights: {'; '.join(highlights[:4])}")
+    if ca.summary:
+        parts.append(f"Summary: {ca.summary[:300]}")
+    return "\n".join(parts)
 
 
 def plan_hld_qbr_presentation(
@@ -46,35 +64,34 @@ def plan_hld_qbr_presentation(
     additional_instructions: Optional[str] = None,
     slide_count: Optional[int] = None,
     content_model: Optional[ContentModel] = None,
-    max_source_chars: int = 12000,
+    max_source_chars: int = 6000,
 ) -> HLDQBRPresentationPlan:
     """Executes the HLD QBR Architect LLM call and returns a validated plan.
 
-    ``slide_count`` is the UI-facing TOTAL (matching the other templates'
-    convention), which includes the 3 always-rendered mandatory slides
-    (Cover/Agenda/Closing). It is converted here into a content-only target
-    (mandatory subtracted out, capped at the schema's 11 optional archetypes)
-    before being passed to the LLM, so the requested count never causes the
-    planner to fetch/invent data for template sections not present in the
-    source.
-
-    ``content_model`` is the optional Stage-1 output (see
-    core/content_model_extractor.py) — typed, id-tagged facts used here only
-    for traceability (content_traceability). The raw source_text remains the
-    authoritative grounding text regardless of whether this is supplied.
+    ``slide_count`` is the user's requested number of CONTENT slides.
+    Mandatory structural slides (Cover, Agenda, Executive Summary, Closing)
+    are always included by the builder and are not subtracted from this count.
     """
     if not presentation_title or not presentation_title.strip():
         presentation_title = content_analysis.main_topic
 
-    truncated_source = truncate_text(source_text, max_source_chars)
-    analysis_json = content_analysis.model_dump_json(indent=2)
-
     content_slide_target: Optional[int] = None
     if slide_count is not None:
-        content_slide_target = max(0, min(MAX_CONTENT_SLIDES, slide_count - MANDATORY_SLIDE_COUNT))
+        # slide_count is the target number of CONTENT slides
+        content_slide_target = max(1, min(MAX_CONTENT_SLIDES, slide_count))
+
+    # Adaptive source truncation to guarantee total requested tokens stay well under 8000
+    effective_max_chars = max_source_chars
+    if slide_count is not None and slide_count <= 5:
+        effective_max_chars = min(max_source_chars, 4500)
+    elif max_source_chars > 7000:
+        effective_max_chars = 6000
+
+    truncated_source = truncate_text(source_text, effective_max_chars)
+    analysis_digest = _format_compact_analysis(content_analysis)
 
     prompt = build_hld_qbr_planning_prompt(
-        content_analysis=analysis_json,
+        content_analysis=analysis_digest,
         source_content=truncated_source,
         presentation_title=presentation_title,
         facility_name=facility_name or "",
@@ -93,8 +110,14 @@ def plan_hld_qbr_presentation(
 
     logger.info("Running HLD QBR Planning for '%s'", presentation_title)
 
+    # Calculate adaptive max_tokens (e.g. 5-slide deck needs only ~400 tokens; 1536 is plenty)
+    if content_slide_target is not None:
+        calc_max_tokens = min(2048, max(1200, 800 + content_slide_target * 150))
+    else:
+        calc_max_tokens = 1536
+
     try:
-        raw_data = client.chat_complete_json(messages=messages, temperature=0.3, max_tokens=4096)
+        raw_data = client.chat_complete_json(messages=messages, temperature=0.3, max_tokens=calc_max_tokens)
     except JSONParseError as e:
         raise HLDQBRPlanningError(f"LLM returned invalid JSON during HLD QBR planning: {e}") from e
     except Exception as e:
