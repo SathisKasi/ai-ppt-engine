@@ -107,12 +107,17 @@ class GroqClient:
             len(messages),
         )
 
+        extra_kwargs = {}
+        if "gpt-oss" in self.model:
+            extra_kwargs["extra_body"] = {"reasoning_effort": "low"}
+
         try:
             response = self._client.chat.completions.create(
                 model=self.model,
                 messages=messages,  # type: ignore[arg-type]
                 temperature=_temp,
                 max_tokens=_max_tok,
+                **extra_kwargs,
             )
             content = response.choices[0].message.content or ""
             logger.debug("Groq response length: %d chars", len(content))

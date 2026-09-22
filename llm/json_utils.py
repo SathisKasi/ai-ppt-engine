@@ -99,12 +99,13 @@ def retry_json_completion(
             )
 
             if attempt < max_retries:
+                raw_snippet = raw_response[-1000:] if len(raw_response) > 1000 else raw_response
                 correction_prompt = JSON_CORRECTION_PROMPT.format(
-                    error_message=str(e)[:500],
-                    invalid_json=raw_response[:2000],
+                    error_message=str(e)[:400],
+                    invalid_json=raw_snippet,
                 )
                 current_messages = list(messages) + [
-                    {"role": "assistant", "content": raw_response},
+                    {"role": "assistant", "content": raw_snippet},
                     {"role": "user", "content": correction_prompt},
                 ]
                 time.sleep(1.0 * attempt)

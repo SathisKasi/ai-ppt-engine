@@ -6,6 +6,7 @@ returns a validated HLDQBRPresentationPlan for core.builders.hld_qbr_builder.
 """
 from __future__ import annotations
 
+import re
 from typing import Optional
 
 from pydantic import ValidationError
@@ -26,7 +27,7 @@ logger = get_logger(__name__)
 MANDATORY_SLIDE_COUNT = 4
 # Number of distinct optional content archetypes the schema supports (see
 # llm/prompts_hld_qbr.py AVAILABLE CONTENT ARCHETYPES).
-MAX_CONTENT_SLIDES = 12
+MAX_CONTENT_SLIDES = 16
 
 
 class HLDQBRPlanningError(Exception):
@@ -37,18 +38,18 @@ def _format_compact_analysis(ca: ContentAnalysis) -> str:
     """Produces a concise, token-efficient text summary of content analysis."""
     parts = [f"Topic: {ca.main_topic}"]
     if ca.key_concepts:
-        parts.append(f"Key Concepts: {'; '.join(ca.key_concepts[:6])}")
+        parts.append(f"Key Concepts: {'; '.join(ca.key_concepts[:10])}")
     if ca.statistics:
-        parts.append(f"Statistics & Metrics: {'; '.join(ca.statistics[:6])}")
+        parts.append(f"Statistics & Metrics: {'; '.join(ca.statistics[:16])}")
     if ca.sections:
-        parts.append(f"Key Sections: {'; '.join(ca.sections[:8])}")
+        parts.append(f"Key Sections: {'; '.join(ca.sections[:10])}")
     if ca.processes:
-        parts.append(f"Processes: {'; '.join(ca.processes[:3])}")
+        parts.append(f"Processes: {'; '.join(ca.processes[:5])}")
     highlights = getattr(ca, "executive_highlights", None)
     if highlights:
-        parts.append(f"Highlights: {'; '.join(highlights[:4])}")
+        parts.append(f"Highlights: {'; '.join(highlights[:6])}")
     if ca.summary:
-        parts.append(f"Summary: {ca.summary[:300]}")
+        parts.append(f"Summary: {ca.summary[:600]}")
     return "\n".join(parts)
 
 
@@ -64,7 +65,7 @@ def plan_hld_qbr_presentation(
     additional_instructions: Optional[str] = None,
     slide_count: Optional[int] = None,
     content_model: Optional[ContentModel] = None,
-    max_source_chars: int = 6000,
+    max_source_chars: int = 14000,
 ) -> HLDQBRPresentationPlan:
     """Executes the HLD QBR Architect LLM call and returns a validated plan.
 
@@ -80,14 +81,16 @@ def plan_hld_qbr_presentation(
         # slide_count is the target number of CONTENT slides
         content_slide_target = max(1, min(MAX_CONTENT_SLIDES, slide_count))
 
-    # Adaptive source truncation to guarantee total requested tokens stay well under 8000
-    effective_max_chars = max_source_chars
-    if slide_count is not None and slide_count <= 5:
-        effective_max_chars = min(max_source_chars, 4500)
-    elif max_source_chars > 7000:
-        effective_max_chars = 6000
+    # Sanitize citation markers and duplicate blank lines from PDF extract
+    cleaned_source = re.sub(r"[\u25a0I]cite[\u25a0I][^\u25a0I\n]+[\u25a0I]", "", source_text)
+    cleaned_source = re.sub(r"\n{3,}", "\n\n", cleaned_source).strip()
 
-    truncated_source = truncate_text(source_text, effective_max_chars)
+    # Cap context so input tokens (~4,000) + max_tokens (~2,600) stay safely within Groq's 8,000 TPM limit
+    effective_max_chars = min(max_source_chars, 8800)
+    if slide_count is not None and slide_count <= 4:
+        effective_max_chars = min(max_source_chars, 5500)
+
+    truncated_source = truncate_text(cleaned_source, effective_max_chars)
     analysis_digest = _format_compact_analysis(content_analysis)
 
     prompt = build_hld_qbr_planning_prompt(
@@ -110,11 +113,11 @@ def plan_hld_qbr_presentation(
 
     logger.info("Running HLD QBR Planning for '%s'", presentation_title)
 
-    # Calculate adaptive max_tokens (e.g. 5-slide deck needs only ~400 tokens; 1536 is plenty)
+    # Adaptive max_tokens safely within Groq's 8000 TPM ceiling (input ~4000 + max_tokens <= 6600)
     if content_slide_target is not None:
-        calc_max_tokens = min(2048, max(1200, 800 + content_slide_target * 150))
+        calc_max_tokens = min(2600, max(1500, 1000 + content_slide_target * 160))
     else:
-        calc_max_tokens = 1536
+        calc_max_tokens = 2500
 
     try:
         raw_data = client.chat_complete_json(messages=messages, temperature=0.3, max_tokens=calc_max_tokens)
@@ -122,6 +125,17 @@ def plan_hld_qbr_presentation(
         raise HLDQBRPlanningError(f"LLM returned invalid JSON during HLD QBR planning: {e}") from e
     except Exception as e:
         raise HLDQBRPlanningError(f"HLD QBR planning LLM call failed: {e}") from e
+
+    if not isinstance(raw_data, dict):
+        logger.warning("LLM returned non-dict at root (%s) — requesting correction turn", type(raw_data).__name__)
+        correction_messages = list(messages) + [
+            {"role": "assistant", "content": str(raw_data)[:800]},
+            {"role": "user", "content": "Error: You returned a JSON list at the root. You MUST return a single JSON OBJECT enclosed in { ... } with keys matching HLDQBRPresentationPlan (e.g. presentation_title, agenda_topics, executive_summary, priorities, achievements, action_tracker, charts, kpi_tables, next_steps). Return only the JSON object."}
+        ]
+        try:
+            raw_data = client.chat_complete_json(messages=correction_messages, temperature=0.2, max_tokens=calc_max_tokens)
+        except Exception as e:
+            logger.warning("Correction turn failed: %s", e)
 
     plan_dict = raw_data.get("plan", raw_data) if isinstance(raw_data, dict) else raw_data
 
@@ -158,9 +172,9 @@ def plan_hld_qbr_presentation(
 
     populated_content_slides = _count_populated_content_slides(plan)
     logger.info(
-        "HLD QBR Plan validated: %d agenda topics, %d org rows, %d action rows. "
+        "HLD QBR Plan validated: %d agenda topics, %d charts, %d tables, %d action rows. "
         "Content slides populated: %d/%s (requested total incl. mandatory: %s).",
-        len(plan.agenda_topics), len(plan.org_structure), len(plan.action_tracker),
+        len(plan.agenda_topics), len(plan.charts), len(plan.kpi_tables), len(plan.action_tracker),
         populated_content_slides,
         content_slide_target if content_slide_target is not None else "auto",
         slide_count if slide_count is not None else "auto",
@@ -171,20 +185,25 @@ def plan_hld_qbr_presentation(
 def _count_populated_content_slides(plan: HLDQBRPresentationPlan) -> int:
     """Mirrors core.builders.hld_qbr_builder's per-section inclusion checks —
     used only for logging/telemetry, never to gate or trigger replanning."""
-    return sum(
-        bool(populated)
-        for populated in (
-            plan.org_structure,
-            plan.achievements,
-            plan.priorities,
-            plan.action_tracker,
-            plan.kpi_safety_quality or plan.kpi_operational,
-            plan.voice_of_customer and plan.voice_of_customer.quote,
-            plan.gemba_walk,
-            plan.ci_tracker,
-            plan.quality_org_structure,
-            plan.nc_review_narrative or plan.nc_review_summary,
-            plan.nc_tracker,
-            plan.next_steps,
+    charts_count = len(plan.charts) if plan.charts else (1 if plan.operational_chart else 0)
+    tables_count = len(plan.kpi_tables) if plan.kpi_tables else (1 if (plan.kpi_safety_quality or plan.kpi_operational) else 0)
+    return (
+        charts_count
+        + tables_count
+        + sum(
+            bool(populated)
+            for populated in (
+                plan.org_structure,
+                plan.achievements,
+                plan.priorities,
+                plan.action_tracker,
+                plan.voice_of_customer and plan.voice_of_customer.quote,
+                plan.gemba_walk,
+                plan.ci_tracker,
+                plan.quality_org_structure,
+                plan.nc_review_narrative or plan.nc_review_summary,
+                plan.nc_tracker,
+                plan.next_steps,
+            )
         )
     )

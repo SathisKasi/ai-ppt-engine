@@ -1288,15 +1288,15 @@ def run_generation_pipeline(
                 from core.content_model_extractor import extract_content_model
                 from core.presentation_planner_hld_qbr import plan_hld_qbr_presentation
                 hld_content_model = None
-                # For small decks (e.g. <=5 slides), bypass extra content extraction call to conserve token rate limit
-                if requested_slides and requested_slides > 5:
+                # For small decks (e.g. <=4 slides), bypass extra content extraction call to conserve token rate limit
+                if requested_slides and requested_slides > 4:
                     st.write("🧩 Extracting content model from source...")
-                    hld_content_model = extract_content_model(plan_client, truncate_text(source_text, 4500))
+                    hld_content_model = extract_content_model(plan_client, truncate_text(source_text, 8000))
                     st.session_state.hld_content_model = hld_content_model
                     if hld_content_model.content_items:
                         st.caption(f"📚 Extracted {len(hld_content_model.content_items)} traceable content item(s) from source")
 
-                source_char_limit = 4500 if (requested_slides and requested_slides <= 5) else 6000
+                source_char_limit = 6000 if (requested_slides and requested_slides <= 4) else 14000
                 plan = plan_hld_qbr_presentation(
                     client=plan_client,
                     content_analysis=analysis,

@@ -10,9 +10,51 @@ optional except cover/agenda/closing (always included).
 """
 from __future__ import annotations
 
-from typing import Dict, List, Optional
+from typing import Any, Dict, List, Optional
 
 from pydantic import BaseModel, Field, model_validator
+
+
+# ---------------------------------------------------------------------------
+# Unicode Sanitizer — replaces LLM-generated special characters that cause
+# CP1252 encoding failures or visual glitches in PowerPoint/python-pptx.
+# Applied recursively to all string fields in the final presentation plan.
+# ---------------------------------------------------------------------------
+_UNICODE_REPLACEMENTS = [
+    ("\u2011", "-"),   # non-breaking hyphen → regular hyphen
+    ("\u2012", "-"),   # figure dash → hyphen
+    ("\u2013", "-"),   # en dash → hyphen
+    ("\u2014", " - "), # em dash → spaced hyphen
+    ("\u2015", "-"),   # horizontal bar → hyphen
+    ("\u00a0", " "),   # non-breaking space → regular space
+    ("\u2018", "'"),   # left single quote → apostrophe
+    ("\u2019", "'"),   # right single quote → apostrophe
+    ("\u201c", '"'),   # left double quote → straight quote
+    ("\u201d", '"'),   # right double quote → straight quote
+    ("\u2026", "..."), # ellipsis → three dots
+    ("\u2022", "*"),   # bullet → asterisk (pptx handles its own bullets)
+    ("\u25cf", "*"),   # filled circle → asterisk
+    ("\u202f", " "),   # narrow no-break space → regular space
+    ("\ufeff", ""),    # byte order mark → empty
+]
+
+
+def _sanitize_str(text: str) -> str:
+    """Replace known problematic Unicode characters with safe ASCII equivalents."""
+    for char, replacement in _UNICODE_REPLACEMENTS:
+        text = text.replace(char, replacement)
+    return text
+
+
+def _sanitize_value(obj: Any) -> Any:
+    """Recursively sanitize all string values in dicts, lists, and strings."""
+    if isinstance(obj, str):
+        return _sanitize_str(obj)
+    if isinstance(obj, dict):
+        return {k: _sanitize_value(v) for k, v in obj.items()}
+    if isinstance(obj, list):
+        return [_sanitize_value(item) for item in obj]
+    return obj
 
 
 class OrgPersonItem(BaseModel):
@@ -150,21 +192,68 @@ class OperationalChart(BaseModel):
         return data
 
 
+class KPITableSlide(BaseModel):
+    """A structured data or KPI table slide (template Slide 12 archetype)."""
+    table_title: str = Field(default="Key Performance Indicator Dashboard", description="Slide title")
+    headers: List[str] = Field(default_factory=lambda: ["Metric", "Actual", "Target"], description="Column headers (2 to 5 columns)")
+    rows: List[List[str]] = Field(default_factory=list, description="Table data rows (up to 7 rows)")
+
+    @model_validator(mode="before")
+    @classmethod
+    def _normalize_table(cls, data):
+        if isinstance(data, dict):
+            title = data.get("table_title") or data.get("title") or "Key Performance Indicator Dashboard"
+            headers_raw = data.get("headers") or data.get("columns") or ["Metric", "Actual", "Target"]
+            rows_raw = data.get("rows") or data.get("data") or []
+            headers = [str(h).strip() for h in headers_raw if str(h).strip()]
+            rows = []
+            for r in rows_raw:
+                if isinstance(r, list):
+                    rows.append([str(c).strip() for c in r])
+                elif isinstance(r, dict):
+                    rows.append([str(r.get(h, "")).strip() for h in headers])
+                else:
+                    rows.append([str(r).strip()])
+            return {
+                "table_title": str(title).strip(),
+                "headers": headers or ["Metric", "Actual", "Target"],
+                "rows": rows,
+            }
+        return data
+
+
 class HLDQBRPresentationPlan(BaseModel):
     """Top-level plan consumed by core.builders.hld_qbr_builder.HLDQBRBuilder."""
 
     presentation_title: str = Field(..., description="Main report title, shown in the right-corner cover box")
     facility_name: str = Field(default="", description="Facility/program label shown on content slides")
-    date: str = Field(default="", description="Cover date string, e.g. 'September 20th 2026'")
+    date: Optional[str] = Field(default="", description="Cover date string, e.g. 'September 20th 2026'")
+
+    # Dynamic slide headings — LLM-generated per content (must NOT be template names)
+    section_heading: str = Field(default="", description="Custom heading for the Performance section divider slide, e.g. 'SUPPLY CHAIN PERFORMANCE REVIEW'")
+    agenda_title: str = Field(default="", description="Custom heading for the Agenda slide, e.g. 'TODAY\'S AGENDA' or 'MEETING OVERVIEW'")
+    executive_summary_title: str = Field(default="", description="Custom heading for the Executive Summary slide, e.g. 'EXECUTIVE SUMMARY: STRATEGIC & OPERATIONAL HIGHLIGHTS'")
+    achievements_title: str = Field(default="", description="Custom heading for the Achievements slide, e.g. 'Q3 2026 OPERATIONAL MILESTONES'")
+    priorities_title: str = Field(default="", description="Custom heading for the Priorities slide, e.g. 'STRATEGIC PRIORITIES & INITIATIVES'")
+    action_tracker_title: str = Field(default="", description="Custom heading for the Action Item Tracker slide, e.g. 'OPEN ACTION ITEMS & ACCOUNTABILITY'")
+    ci_section_title: str = Field(default="", description="Custom heading for the Continuous Improvement section divider, e.g. 'CONTINUOUS IMPROVEMENT INITIATIVES & VALUE CREATION'")
+    quality_section_title: str = Field(default="", description="Custom heading for the Quality Management section divider, e.g. 'QUALITY MANAGEMENT & REGULATORY ASSURANCE'")
+    next_steps_title: str = Field(default="", description="Custom heading for the Next Steps slide, e.g. 'IMMEDIATE NEXT STEPS & TIMELINE'")
 
     agenda_topics: List[str] = Field(default_factory=list)
+    executive_summary: List[str] = Field(default_factory=list, description="3 to 5 key takeaways for Executive Summary slide")
 
     org_structure: List[OrgPersonItem] = Field(default_factory=list, description="Up to 10 people")
     achievements: List[str] = Field(default_factory=list, description="Up to 6 prior-quarter milestones")
     priorities: List[PriorityItem] = Field(default_factory=list, description="Up to 3 pillars")
 
+    # Multi-chart and multi-table support for data-heavy presentations
+    charts: List[OperationalChart] = Field(default_factory=list, description="List of column charts with side observations")
+    kpi_tables: List[KPITableSlide] = Field(default_factory=list, description="List of structured data or KPI table slides")
+
     action_tracker: List[ActionTrackerRow] = Field(default_factory=list, description="Up to 7 rows")
 
+    # Legacy single-instance fields maintained for complete backwards-compatibility
     kpi_safety_quality: List[KPIRow] = Field(default_factory=list, description="Up to 4 rows")
     kpi_operational: List[KPIRow] = Field(default_factory=list, description="Up to 7 rows")
     operational_chart: Optional[OperationalChart] = Field(default=None, description="Comparative monthly/quarterly chart with side observations")
@@ -199,7 +288,39 @@ class HLDQBRPresentationPlan(BaseModel):
 
     @model_validator(mode="before")
     @classmethod
-    def _coerce_wrapped(cls, data):
+    def _coerce_and_sanitize(cls, data):
+        """1) Unwrap {{plan: ...}} wrapper if LLM used it.  2) Harmonize charts/tables. 3) Sanitize all Unicode."""
         if isinstance(data, dict) and "plan" in data and "presentation_title" not in data:
-            return data["plan"]
-        return data
+            data = data["plan"]
+
+        if isinstance(data, dict):
+            # Bidirectional harmonization between operational_chart and charts
+            charts_val = data.get("charts")
+            op_chart = data.get("operational_chart")
+            if isinstance(charts_val, list) and charts_val:
+                if not op_chart:
+                    data["operational_chart"] = charts_val[0]
+            elif op_chart and isinstance(op_chart, dict):
+                data["charts"] = [op_chart]
+
+            # Harmonize kpi_operational into kpi_tables if kpi_tables is not provided
+            kpi_tables_val = data.get("kpi_tables")
+            kpi_op = data.get("kpi_operational")
+            if (not kpi_tables_val) and isinstance(kpi_op, list) and kpi_op:
+                rows = []
+                for row in kpi_op:
+                    if isinstance(row, dict):
+                        rows.append([
+                            str(row.get("label", "")),
+                            str(row.get("actual", "")),
+                            str(row.get("target", "") or "-"),
+                        ])
+                if rows:
+                    data["kpi_tables"] = [{
+                        "table_title": "Key Performance Indicator Dashboard",
+                        "headers": ["Metric", "Actual", "Target"],
+                        "rows": rows,
+                    }]
+
+        # Recursively sanitize every string value to avoid CP1252/encoding issues in pptx
+        return _sanitize_value(data)

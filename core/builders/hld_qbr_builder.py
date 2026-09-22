@@ -16,6 +16,7 @@ Architecture (see HLD_QBR_TEMPLATE_PLAN.md for the full analysis):
 from __future__ import annotations
 
 import copy
+from datetime import datetime
 import io
 import math
 import re
@@ -25,6 +26,8 @@ from pptx import Presentation
 from pptx.chart.data import CategoryChartData
 from pptx.dml.color import RGBColor
 from pptx.enum.chart import XL_LEGEND_POSITION
+from pptx.enum.shapes import MSO_SHAPE
+from pptx.enum.text import PP_ALIGN
 from pptx.opc.constants import RELATIONSHIP_TYPE as RT
 from pptx.oxml.ns import qn
 from pptx.parts.chart import ChartPart
@@ -35,6 +38,17 @@ from llm.hld_qbr_schemas import HLDQBRPresentationPlan
 from utils.logging_utils import get_logger
 
 logger = get_logger(__name__)
+
+def _get_ordinal_date(dt: Optional[datetime] = None) -> str:
+    """Returns today's date formatted with ordinal suffix matching template style, e.g. 'September 21st 2026'."""
+    if dt is None:
+        dt = datetime.now()
+    day = dt.day
+    if 11 <= (day % 100) <= 13:
+        suffix = "th"
+    else:
+        suffix = {1: "st", 2: "nd", 3: "rd"}.get(day % 10, "th")
+    return f"{dt.strftime('%B')} {day}{suffix} {dt.year}"
 
 IDX_COVER = 0
 IDX_AGENDA = 1
@@ -47,7 +61,8 @@ IDX_TRACKER = 9
 IDX_OPERATIONAL_CHART = 13
 IDX_KPI_DASHBOARD = 12
 IDX_VOICE_OF_CUSTOMER = 10
-IDX_SECTION_CIP = 21
+IDX_BLANK_CANVAS = 20  # Template slide 21: 'MASTER DATA MANAGEMENT KPI\'S AND UPDATES' (Title Only layout, white background)
+IDX_SECTION_CIP = 21   # Template slide 22: 'CONTINUOUS IMPROVEMENT PROGRAM UPDATES' (1_Section Header_No Image)
 IDX_GEMBA_WALK = 22
 IDX_CI_TRACKER = 23
 IDX_SECTION_QUALITY = 24
@@ -62,6 +77,16 @@ GUIDANCE_REGEX = re.compile(
     r"additional slides available|must be updated|formulas in notes",
     re.IGNORECASE,
 )
+
+# Official UPS Healthcare Template Theme Palette (accent1, accent2, accent4, accent5, accent6)
+TEMPLATE_SERIES_COLORS = [
+    RGBColor(14, 37, 84),    # accent1: Deep Navy (#0E2554)
+    RGBColor(66, 109, 169),  # accent2: Slate Blue (#426DA9)
+    RGBColor(255, 190, 0),   # accent4: UPS Gold (#FFBE00)
+    RGBColor(0, 133, 125),   # accent5: UPS Teal (#00857D)
+    RGBColor(136, 167, 209), # accent6: Light Blue (#88A7D1)
+]
+
 
 
 def _clone_slide(prs: Presentation, source_idx: int) -> Any:
@@ -203,6 +228,74 @@ def _set_first_run_text(shape: Any, text: str) -> None:
             r.text = ""
     else:
         p0.text = text
+
+
+def _set_slide_header_and_sub(
+    slide: Any,
+    title_text: str,
+    subtitle_text: Optional[str] = None,
+) -> None:
+    """Sets the slide title and subtitle using the template's standard placeholders
+    (Title 2 and Text Placeholder 3) or creates them if missing.
+    Ensures empty placeholders are removed so PowerPoint does not show prompt text like 'Sub-header'.
+    """
+    title_shape = None
+    sub_shape = None
+
+    for sh in list(slide.shapes):
+        if sh.name == "Title 2" or (sh.is_placeholder and sh.placeholder_format.type == 1):
+            title_shape = sh
+        elif sh.name == "Text Placeholder 3" or (sh.is_placeholder and sh.placeholder_format.idx in (3, 13)):
+            sub_shape = sh
+        elif sh.has_text_frame and "MASTER DATA" in sh.text_frame.text:
+            title_shape = sh
+
+    # 1. Title formatting (matches template slide 14, 15, 21: left=0.40", top=0.40", width=12.53", height=0.42")
+    if title_shape is None:
+        title_shape = slide.shapes.add_textbox(
+            Inches(0.40), Inches(0.40), Inches(12.53), Inches(0.42)
+        )
+
+    tf_t = title_shape.text_frame
+    tf_t.word_wrap = False
+    p_t = tf_t.paragraphs[0]
+    p_t.text = (title_text or "").upper()
+    runs_t = p_t.runs if p_t.runs else [p_t.add_run()]
+    for r in runs_t:
+        r.font.name = "Verdana"
+        r.font.size = Pt(20)
+        r.font.bold = True
+        r.font.color.rgb = RGBColor(0, 112, 192)  # UPS brand blue (#0070C0)
+    while len(tf_t.paragraphs) > 1:
+        p_extra = tf_t.paragraphs[-1]
+        p_extra._p.getparent().remove(p_extra._p)
+
+    # 2. Subtitle formatting (matches template slide 14, 15, 21: left=0.40", top=0.83", width=12.53", height=0.24")
+    if subtitle_text and subtitle_text.strip():
+        if sub_shape is None:
+            sub_shape = slide.shapes.add_textbox(
+                Inches(0.40), Inches(0.83), Inches(12.53), Inches(0.24)
+            )
+        tf_s = sub_shape.text_frame
+        tf_s.word_wrap = False
+        p_s = tf_s.paragraphs[0]
+        p_s.text = subtitle_text.strip()
+        runs_s = p_s.runs if p_s.runs else [p_s.add_run()]
+        for r in runs_s:
+            r.font.name = "Verdana"
+            r.font.size = Pt(11)
+            r.font.bold = False
+            r.font.color.rgb = RGBColor(88, 107, 123)  # Template Slate/Dark Gray (#586B7B)
+        while len(tf_s.paragraphs) > 1:
+            p_extra = tf_s.paragraphs[-1]
+            p_extra._p.getparent().remove(p_extra._p)
+    else:
+        # Crucial: if subtitle is empty, remove the placeholder so PowerPoint does NOT show "Sub-header"
+        if sub_shape is not None:
+            try:
+                slide.shapes._spTree.remove(sub_shape._element)
+            except Exception:
+                pass
 
 
 def _set_cover_breadcrumb_blank(cover_slide: Any) -> None:
@@ -366,13 +459,67 @@ def _fill_priority_group(
 
 
 
+def _apply_table_status_dots(
+    slide: Any,
+    table_shape: Any,
+    status_column_idx: int,
+    action_items: List[Any],
+) -> None:
+    """Renders corporate status indicator dots in the table's status column,
+    preserving the template's header legend dots (Green, Amber, Red) and
+    dynamically placing centered colored circle dots for each populated row."""
+    tbl = table_shape.table
+    header_bottom = table_shape.top + tbl.rows[0].height
+
+    # 1. Strip leftover dummy template row connectors (below the header row)
+    for s in list(slide.shapes):
+        if s.name.startswith("Flowchart: Connector") and s.top >= (header_bottom - Inches(0.04)):
+            try:
+                slide.shapes._spTree.remove(s._element)
+            except Exception:
+                pass
+
+    # 2. Horizontal centering in the status column
+    col_left = table_shape.left + sum(tbl.columns[c].width for c in range(status_column_idx))
+    col_width = tbl.columns[status_column_idx].width
+    dot_size = Inches(0.20)  # Standard 182,880 EMU matching template
+    dot_left = int(col_left + (col_width - dot_size) // 2)
+
+    # 3. Add dynamic colored status dots for each populated item
+    for r_idx, item in enumerate(action_items, start=1):
+        if r_idx >= len(tbl.rows):
+            break
+
+        # Blank cell text so dot sits clean
+        cell = tbl.cell(r_idx, status_column_idx)
+        cell.text = ""
+
+        raw_status = (getattr(item, "status", None) or "").strip().lower()
+        if any(w in raw_status for w in ("complete", "done", "closed", "on track", "green")):
+            color = RGBColor(0, 168, 89)   # Emerald Green
+        elif any(w in raw_status for w in ("delay", "block", "overdue", "escalat", "critical", "red", "missed")):
+            color = RGBColor(220, 20, 60)   # Crimson Red
+        else:
+            color = RGBColor(255, 192, 0)   # Amber / Yellow (In Progress, At Risk, Pending)
+
+        row_top = table_shape.top + sum(tbl.rows[k].height for k in range(r_idx))
+        dot_top = int(row_top + (tbl.rows[r_idx].height - dot_size) // 2)
+
+        dot = slide.shapes.add_shape(MSO_SHAPE.OVAL, dot_left, dot_top, dot_size, dot_size)
+        dot.fill.solid()
+        dot.fill.fore_color.rgb = color
+        dot.line.color.rgb = RGBColor(255, 255, 255)
+        dot.line.width = Pt(1.2)
+
+
 def _fill_table_rows(
     tbl: Any,
     rows: List[List[str]],
     start_row: int = 1,
     prune_unused_rows: bool = True,
+    text_color: RGBColor = RGBColor(0, 43, 73),
 ) -> None:
-    """Fills table rows with dynamic typography, cell margins, and row pruning."""
+    """Fills table rows with dynamic typography, cell margins, font color, and row pruning."""
     if not rows:
         return
     max_cell_len = max(len(str(val)) for row in rows for val in row) if rows else 0
@@ -395,12 +542,13 @@ def _fill_table_rows(
                 cell.text = str(val)
                 cell.margin_top = Inches(0.04)
                 cell.margin_bottom = Inches(0.04)
-                cell.margin_left = Inches(0.06)
-                cell.margin_right = Inches(0.06)
+                cell.margin_left = Inches(0.08)
+                cell.margin_right = Inches(0.08)
                 for para in cell.text_frame.paragraphs:
                     for run in para.runs:
                         run.font.name = "Verdana"
                         run.font.size = font_sz
+                        run.font.color.rgb = text_color
 
     used_through = start_row + len(rows)
     if prune_unused_rows:
@@ -427,16 +575,37 @@ class HLDQBRBuilder:
         cover = _clone_slide(prs, IDX_COVER)
         _set_cover_breadcrumb_blank(cover)
         date_ph = _shape_by_name(cover, "Date Placeholder 1")
-        if date_ph is not None and plan.date:
-            _set_first_run_text(date_ph, plan.date)
+        # Always stamp today's date when generating the PPTX (matching template ordinal style)
+        today_str = _get_ordinal_date(datetime.now())
+        if date_ph is not None:
+            _set_first_run_text(date_ph, today_str)
         _set_cover_title(cover, plan.presentation_title)
 
         # 2. Agenda (always; falls back to template's default topics if none given)
         agenda = _clone_slide(prs, IDX_AGENDA)
+
+        # Dynamic agenda slide heading
+        agenda_title_shape = _shape_by_name(agenda, "Title 1")
+        if agenda_title_shape is not None and agenda_title_shape.text_frame.paragraphs:
+            heading_text = (
+                plan.agenda_title.strip().upper()
+                if getattr(plan, "agenda_title", "") and plan.agenda_title.strip()
+                else "TODAY'S AGENDA"
+            )
+            p0 = agenda_title_shape.text_frame.paragraphs[0]
+            p0.text = heading_text
+            if p0.runs:
+                p0.runs[0].font.name = "Verdana"
+                p0.runs[0].font.bold = True
+
         if plan.agenda_topics:
             agenda_box = _shape_by_name(agenda, "TextBox 7")
             if agenda_box is not None:
                 tf = agenda_box.text_frame
+                # Extract template's bullet paragraph properties to replicate across all topics
+                sample_pPr = None
+                if tf.paragraphs and tf.paragraphs[0]._p.find(qn("a:pPr")) is not None:
+                    sample_pPr = copy.deepcopy(tf.paragraphs[0]._p.find(qn("a:pPr")))
                 tf.clear()
                 n_topics = len(plan.agenda_topics)
                 if n_topics <= 3:
@@ -452,15 +621,150 @@ class HLDQBRBuilder:
                 for i, topic in enumerate(plan.agenda_topics):
                     p = tf.paragraphs[0] if i == 0 else tf.add_paragraph()
                     p.text = topic
+                    if sample_pPr is not None:
+                        pPr = p._p.find(qn("a:pPr"))
+                        if pPr is not None:
+                            p._p.remove(pPr)
+                        p._p.insert(0, copy.deepcopy(sample_pPr))
                     p.space_after = spc_after
                     for r in p.runs:
                         r.font.name = "Verdana"
                         r.font.size = ag_sz
                         r.font.color.rgb = RGBColor(0, 43, 73)
 
-        # 3. Executive Summary (always mandatory)
-        exec_summary = _clone_slide(prs, IDX_EXECUTIVE_SUMMARY)
-        _strip_guidance_shapes(exec_summary)
+        # 3. Executive Summary
+        # A. Section Header slide (template slide 4 / index 3) — clean photo background with centered title
+        exec_header = _clone_slide(prs, IDX_EXECUTIVE_SUMMARY)
+        _strip_guidance_shapes(exec_header)
+        t6 = _shape_by_name(exec_header, "Title 6")
+        if t6 is not None:
+            _set_first_run_text(t6, plan.executive_summary_title or "EXECUTIVE SUMMARY")
+
+        # B. Content slide (template slide 21 / index 20) — clean white canvas with refined horizontal cards
+        exec_content = _clone_slide(prs, IDX_BLANK_CANVAS)
+        _strip_guidance_shapes(exec_content)
+
+        es_title = plan.executive_summary_title or "EXECUTIVE SUMMARY: STRATEGIC & OPERATIONAL HIGHLIGHTS"
+        subtitle = plan.facility_name or "Comprehensive Performance Summary & Strategic Milestones | UPS Healthcare"
+        _set_slide_header_and_sub(exec_content, es_title, subtitle)
+
+        summary_bullets = plan.executive_summary or []
+        if not summary_bullets and plan.priorities:
+            summary_bullets = [f"{p.heading}: {p.body}" for p in plan.priorities[:5]]
+
+        def _parse_bullet_item(item_text: str, index: int) -> tuple[str, str]:
+            """Extracts (category_tag, body_text) from a summary bullet."""
+            if ":" in item_text:
+                parts = item_text.split(":", 1)
+                tag_candidate = parts[0].strip().upper()
+                body_candidate = parts[1].strip()
+                if 2 <= len(tag_candidate) <= 32:
+                    return tag_candidate, body_candidate
+
+            lower = item_text.lower()
+            if any(k in lower for k in ["otif", "on-time", "delivery", "sla", "delay"]):
+                tag = "ON-TIME SERVICE EXCELLENCE"
+            elif any(k in lower for k in ["cold-chain", "temperature", "temp", "pharma", "compliance", "excursion"]):
+                tag = "COLD-CHAIN INTEGRITY"
+            elif any(k in lower for k in ["emission", "carbon", "empty mile", "green", "fleet", "transport"]):
+                tag = "FLEET & CARBON EFFICIENCY"
+            elif any(k in lower for k in ["cost", "saving", "spend", "usd", "dollar", "$", "revenue"]):
+                tag = "FINANCIAL & VALUE CREATION"
+            elif any(k in lower for k in ["global", "countr", "who", "supply", "volume", "order", "reach"]):
+                tag = "GLOBAL SCALE & IMPACT"
+            elif any(k in lower for k in ["digital", "rfid", "barcode", "scan", "system", "track"]):
+                tag = "DIGITAL INTELLIGENCE"
+            else:
+                default_tags = [
+                    "GLOBAL SCALE & IMPACT",
+                    "SERVICE LEVEL EXCELLENCE",
+                    "OPERATIONAL EFFICIENCY",
+                    "QUALITY & COMPLIANCE",
+                    "STRATEGIC VALUE CREATION",
+                ]
+                tag = default_tags[index % len(default_tags)]
+            return tag, item_text.strip()
+
+        if summary_bullets:
+            n_b = len(summary_bullets[:5])
+            TOP_START = Inches(1.30)
+            TOTAL_H = Inches(5.35)
+            GAP = Inches(0.12)
+            CARD_H = min(Inches(1.10), (TOTAL_H - GAP * (n_b - 1)) / max(n_b, 1))
+            LEFT = Inches(0.40)
+            WIDTH = Inches(12.53)
+
+            ACCENT_COLORS = [
+                RGBColor(255, 190, 0),  # UPS Gold for first card
+                RGBColor(0, 43, 73),    # UPS Navy
+                RGBColor(0, 112, 192),  # Brand Blue
+                RGBColor(0, 43, 73),
+                RGBColor(0, 112, 192),
+            ]
+
+            for i, raw_b in enumerate(summary_bullets[:5]):
+                tag, body = _parse_bullet_item(raw_b, i)
+                card_top = TOP_START + i * (CARD_H + GAP)
+
+                # 1. Main Card Container (Rounded Rectangle)
+                card = exec_content.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, LEFT, card_top, WIDTH, CARD_H)
+                card.fill.solid()
+                card.fill.fore_color.rgb = RGBColor(248, 250, 253)
+                card.line.color.rgb = RGBColor(218, 228, 238)
+                card.line.width = Pt(0.75)
+
+                # 2. Left Accent Bar
+                BAR_W = Inches(0.10)
+                bar = exec_content.shapes.add_shape(MSO_SHAPE.RECTANGLE, LEFT, card_top, BAR_W, CARD_H)
+                bar.fill.solid()
+                bar.fill.fore_color.rgb = ACCENT_COLORS[i % len(ACCENT_COLORS)]
+                bar.line.fill.background()
+
+                # 3. Number Badge (Circle)
+                BADGE_SZ = Inches(0.46)
+                badge_top = card_top + (CARD_H - BADGE_SZ) / 2
+                badge = exec_content.shapes.add_shape(MSO_SHAPE.OVAL, LEFT + Inches(0.25), badge_top, BADGE_SZ, BADGE_SZ)
+                badge.fill.solid()
+                badge.fill.fore_color.rgb = RGBColor(0, 43, 73)
+                badge.line.fill.background()
+                tf_b = badge.text_frame
+                tf_b.margin_left = tf_b.margin_right = tf_b.margin_top = tf_b.margin_bottom = Inches(0.01)
+                p_b = tf_b.paragraphs[0]
+                p_b.text = f"{i+1}"
+                p_b.alignment = PP_ALIGN.CENTER
+                for r in p_b.runs:
+                    r.font.name = "Verdana"
+                    r.font.size = Pt(11.5)
+                    r.font.bold = True
+                    r.font.color.rgb = RGBColor(255, 255, 255)
+
+                # 4. Category Tag Pill
+                pill = exec_content.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, LEFT + Inches(0.85), card_top + Inches(0.12), Inches(2.35), Inches(0.32))
+                pill.fill.solid()
+                pill.fill.fore_color.rgb = RGBColor(234, 243, 252)
+                pill.line.color.rgb = RGBColor(190, 215, 240)
+                pill.line.width = Pt(0.5)
+                tf_p = pill.text_frame
+                tf_p.margin_left = tf_p.margin_right = tf_p.margin_top = tf_p.margin_bottom = Inches(0.02)
+                p_p = tf_p.paragraphs[0]
+                p_p.text = tag
+                p_p.alignment = PP_ALIGN.CENTER
+                for r in p_p.runs:
+                    r.font.name = "Verdana"
+                    r.font.size = Pt(8.5)
+                    r.font.bold = True
+                    r.font.color.rgb = RGBColor(0, 43, 73)
+
+                # 5. Narrative Text
+                tb = exec_content.shapes.add_textbox(LEFT + Inches(3.35), card_top + Inches(0.08), WIDTH - Inches(3.50), CARD_H - Inches(0.16))
+                tf = tb.text_frame
+                tf.word_wrap = True
+                p = tf.paragraphs[0]
+                r = p.add_run()
+                r.text = body
+                r.font.name = "Verdana"
+                r.font.size = Pt(11.5 if len(body) < 130 else 10.5)
+                r.font.color.rgb = RGBColor(30, 41, 59)
 
         # 4. Organizational Structure (optional)
         if plan.org_structure:
@@ -481,6 +785,23 @@ class HLDQBRBuilder:
             achievements_slide = _clone_slide(prs, IDX_ACHIEVEMENTS)
             _strip_guidance_shapes(achievements_slide)
             _set_or_remove_facility_placeholder(achievements_slide, plan.facility_name)
+
+            # Dynamic heading: use plan.achievements_title or fall back to a generic label
+            ach_title = _shape_by_name(achievements_slide, "Title 2")
+            if ach_title is None:
+                ach_title = _shape_by_name(achievements_slide, "Title 6")
+            if ach_title is not None and ach_title.text_frame.paragraphs:
+                heading_text = (
+                    plan.achievements_title.strip().upper()
+                    if plan.achievements_title
+                    else "PRIOR QUARTER MILESTONES & WINS"
+                )
+                p0 = ach_title.text_frame.paragraphs[0]
+                p0.text = heading_text
+                if p0.runs:
+                    p0.runs[0].font.size = Pt(22)
+                    p0.runs[0].font.bold = True
+
             milestone_boxes = sorted(
                 (s for s in achievements_slide.shapes if s.name == "Content Placeholder 42"),
                 key=lambda s: s.top,
@@ -543,15 +864,20 @@ class HLDQBRBuilder:
             _strip_guidance_shapes(priorities_slide)
             _set_or_remove_facility_placeholder(priorities_slide, plan.facility_name)
 
+            # Dynamic heading: use plan.priorities_title or compose from facility name
             priority_title = _shape_by_name(priorities_slide, "Title 2")
             if priority_title is not None and priority_title.text_frame.paragraphs:
                 p0 = priority_title.text_frame.paragraphs[0]
-                clean_title = (
-                    f"{plan.facility_name.upper()} PRIORITIES"
-                    if plan.facility_name
-                    else "CUSTOMER PRIORITIES"
+                heading_text = (
+                    plan.priorities_title.strip().upper()
+                    if plan.priorities_title
+                    else (
+                        f"{plan.facility_name.upper()} STRATEGIC PRIORITIES"
+                        if plan.facility_name
+                        else "STRATEGIC PRIORITIES & FOCUS AREAS"
+                    )
                 )
-                p0.text = clean_title
+                p0.text = heading_text
                 if p0.runs:
                     p0.runs[0].font.size = Pt(22)
                     p0.runs[0].font.bold = True
@@ -607,54 +933,224 @@ class HLDQBRBuilder:
                 priorities_slide.shapes._spTree.remove(group._element)
 
         # 6. Section divider: Performance Management (only if any perf content exists)
+        chart_list = list(plan.charts) if plan.charts else ([plan.operational_chart] if plan.operational_chart else [])
+        table_list = list(plan.kpi_tables) if plan.kpi_tables else []
         has_perf_section = bool(
             plan.action_tracker
+            or table_list
             or plan.kpi_safety_quality
             or plan.kpi_operational
-            or (plan.operational_chart and plan.operational_chart.categories and plan.operational_chart.series)
+            or any(c and c.categories and c.series for c in chart_list)
         )
         if has_perf_section:
             perf_divider = _clone_slide(prs, IDX_SECTION_PERF_MGMT)
             t = _shape_by_name(perf_divider, "Title 6")
             if t is not None:
-                _set_first_run_text(t, "PERFORMANCE MANAGEMENT UPDATES")
+                # Use LLM-generated section_heading; fall back to generic operational heading
+                heading = (
+                    plan.section_heading.strip().upper()
+                    if plan.section_heading
+                    else "OPERATIONAL PERFORMANCE & DATA REVIEW"
+                )
+                _set_first_run_text(t, heading)
 
         # 7. Action Item Tracker (optional)
         if plan.action_tracker:
             tracker = _clone_slide(prs, IDX_TRACKER)
             _strip_guidance_shapes(tracker)
-            _strip_decorative_connectors(tracker)
             _set_or_remove_facility_placeholder(tracker, plan.facility_name)
+
+            # Dynamic tracker slide title
+            tracker_title = _shape_by_name(tracker, "Title 2")
+            if tracker_title is None:
+                tracker_title = _shape_by_name(tracker, "Title 6")
+            if tracker_title is None:
+                tracker_title = _shape_by_name(tracker, "Title 1")
+            if tracker_title is not None and tracker_title.text_frame.paragraphs:
+                heading_text = (
+                    plan.action_tracker_title.strip().upper()
+                    if plan.action_tracker_title
+                    else "OPEN ACTION ITEMS & ACCOUNTABILITY"
+                )
+                p0 = tracker_title.text_frame.paragraphs[0]
+                p0.text = heading_text
+                if p0.runs:
+                    p0.runs[0].font.size = Pt(22)
+                    p0.runs[0].font.bold = True
+
             table_shape = _shape_by_name(tracker, "Table 4")
             if table_shape is not None and table_shape.has_table:
-                rows = [[r.project, r.owner, r.next_step, r.comment, r.status] for r in plan.action_tracker]
-                _fill_table_rows(table_shape.table, rows, start_row=1)
+                # Leave status cell text empty so dynamic status dot sits unobstructed
+                rows = [[r.project, r.owner, r.next_step, r.comment, ""] for r in plan.action_tracker]
+                _fill_table_rows(table_shape.table, rows, start_row=1, prune_unused_rows=False)
+                _apply_table_status_dots(tracker, table_shape, status_column_idx=4, action_items=plan.action_tracker)
 
-        # 8. Operational Chart (optional native clustered column chart + observations side panel)
-        if plan.operational_chart and plan.operational_chart.categories and plan.operational_chart.series:
-            chart_slide = _clone_slide(prs, IDX_OPERATIONAL_CHART)
+        # 8. Operational Charts (dynamic multi-chart support)
+        # Clone from slide 21 (blank branded canvas, index 20) for a clean chart layout,
+        # then build title, chart, and observation card from scratch.
+        TEMPLATE_CHART_INDICES = [IDX_BLANK_CANVAS]  # Blank branded canvas
+        for chart_idx, chart_model in enumerate(chart_list):
+            if not (chart_model and chart_model.categories and chart_model.series):
+                continue
+            template_s_idx = TEMPLATE_CHART_INDICES[0]  # Always use blank slide 21
+            chart_slide = _clone_slide(prs, template_s_idx)
             _strip_guidance_shapes(chart_slide)
             _strip_decorative_connectors(chart_slide)
-            _set_or_remove_facility_placeholder(chart_slide, plan.facility_name)
 
-            t = _shape_by_name(chart_slide, "Title 2")
-            if t is not None:
-                title_text = plan.operational_chart.chart_title or "OPERATIONAL PERFORMANCE SNAPSHOT"
-                _set_first_run_text(t, title_text.upper())
+            chart_title = (chart_model.chart_title or "OPERATIONAL PERFORMANCE SNAPSHOT").upper()
+            _set_slide_header_and_sub(chart_slide, chart_title, plan.facility_name)
 
             chart_shape = next((s for s in chart_slide.shapes if s.has_chart), None)
+
+            # For blank canvas (slide 21), add a chart programmatically
+            if chart_shape is None:
+                from pptx.enum.chart import XL_CHART_TYPE
+                chart_data_new = CategoryChartData()
+                chart_data_new.categories = chart_model.categories
+                for ser in chart_model.series:
+                    chart_data_new.add_series(ser.name, ser.values)
+
+                # Insights card dimensions (will be resized later)
+                has_insights = bool(chart_model.insights)
+                if has_insights:
+                    chart_left = Inches(0.40)
+                    chart_top = Inches(1.30)
+                    chart_width = Inches(8.50)
+                    chart_height = Inches(5.45)
+                else:
+                    chart_left = Inches(0.40)
+                    chart_top = Inches(1.30)
+                    chart_width = Inches(12.50)
+                    chart_height = Inches(5.45)
+
+                chart_shape = chart_slide.shapes.add_chart(
+                    XL_CHART_TYPE.COLUMN_CLUSTERED,
+                    chart_left, chart_top, chart_width, chart_height,
+                    chart_data_new,
+                )
+                c = chart_shape.chart
+                c.has_title = False
+                c.has_legend = len(chart_model.series) > 1
+                if c.has_legend:
+                    c.legend.position = XL_LEGEND_POSITION.TOP
+                    c.legend.include_in_layout = False
+                    try:
+                        c.legend.font.name = "Verdana"
+                        c.legend.font.size = Pt(10)
+                    except Exception:
+                        pass
+                try:
+                    c.category_axis.tick_labels.font.name = "Verdana"
+                    c.category_axis.tick_labels.font.size = Pt(9)
+                    c.value_axis.tick_labels.font.name = "Verdana"
+                    c.value_axis.tick_labels.font.size = Pt(9)
+                except Exception:
+                    pass
+                try:
+                    if c.plots:
+                        plot = c.plots[0]
+                        plot.vary_by_categories = False
+                        plot.has_data_labels = True
+                        plot.data_labels.font.name = "Verdana"
+                        plot.data_labels.font.size = Pt(8)
+                        for s_idx, ser in enumerate(plot.series):
+                            color = TEMPLATE_SERIES_COLORS[s_idx % len(TEMPLATE_SERIES_COLORS)]
+                            try:
+                                fill = ser.format.fill
+                                fill.solid()
+                                fill.fore_color.rgb = color
+                            except Exception:
+                                pass
+                except Exception:
+                    pass
+
+                # Build the insights card if provided
+                if has_insights:
+                    insights = chart_model.insights
+                    n_items = len(insights)
+                    total_chars = sum(len(it) for it in insights)
+                    max_chars = max(len(it) for it in insights) if insights else 0
+
+                    CARD_LEFT = Inches(9.10)
+                    CARD_TOP = Inches(1.30)
+                    CARD_WIDTH = Inches(3.80)
+                    CARD_HEIGHT = Inches(5.45)
+
+                    insights_title_text = (getattr(chart_model, "insights_title", None) or "KEY OBSERVATIONS").strip().upper()
+
+                    # 1. Main Insight Card Container (Rounded Rectangle, Deep Navy)
+                    blue_card = chart_slide.shapes.add_shape(
+                        MSO_SHAPE.ROUNDED_RECTANGLE,
+                        CARD_LEFT, CARD_TOP, CARD_WIDTH, CARD_HEIGHT
+                    )
+                    blue_card.fill.solid()
+                    blue_card.fill.fore_color.rgb = RGBColor(0, 43, 73)
+                    blue_card.line.fill.background()
+
+                    # 2. Header Box inside card (Gold Text)
+                    header_shape = chart_slide.shapes.add_textbox(
+                        CARD_LEFT + Inches(0.20), CARD_TOP + Inches(0.20),
+                        CARD_WIDTH - Inches(0.40), Inches(0.40)
+                    )
+                    tf_h = header_shape.text_frame
+                    tf_h.margin_left = tf_h.margin_right = tf_h.margin_top = tf_h.margin_bottom = 0
+                    p_h = tf_h.paragraphs[0]
+                    p_h.text = insights_title_text
+                    for r in p_h.runs:
+                        r.font.name = "Verdana"
+                        r.font.size = Pt(11.5)
+                        r.font.bold = True
+                        r.font.color.rgb = RGBColor(255, 190, 0)  # UPS Gold
+
+                    # 3. Gold Accent Line below header
+                    accent_line = chart_slide.shapes.add_shape(
+                        MSO_SHAPE.RECTANGLE,
+                        CARD_LEFT + Inches(0.20), CARD_TOP + Inches(0.58),
+                        CARD_WIDTH - Inches(0.40), Inches(0.03)
+                    )
+                    accent_line.fill.solid()
+                    accent_line.fill.fore_color.rgb = RGBColor(255, 190, 0)
+                    accent_line.line.fill.background()
+
+                    # 4. Text Frame for Bullet Items
+                    text_box = chart_slide.shapes.add_textbox(
+                        CARD_LEFT + Inches(0.20), CARD_TOP + Inches(0.72),
+                        CARD_WIDTH - Inches(0.40), CARD_HEIGHT - Inches(0.85)
+                    )
+                    tf = text_box.text_frame
+                    tf.word_wrap = True
+                    tf.margin_left = tf.margin_right = tf.margin_top = tf.margin_bottom = 0
+
+                    estimated_lines = sum(max(1, math.ceil(len(item) / 45)) for item in insights)
+                    font_sz = (
+                        Pt(11.0) if estimated_lines <= 6 and n_items <= 3
+                        else Pt(10.0) if estimated_lines <= 9 and n_items <= 5
+                        else Pt(9.0) if estimated_lines <= 13
+                        else Pt(8.5)
+                    )
+                    for i, item in enumerate(insights):
+                        p = tf.paragraphs[0] if i == 0 else tf.add_paragraph()
+                        p.space_after = Pt(8)
+                        p.text = f"• {item}"
+                        for r in p.runs:
+                            r.font.name = "Verdana"
+                            r.font.size = font_sz
+                            r.font.color.rgb = RGBColor(255, 255, 255)
+
+                continue  # Skip old code path for blank canvas
+
             if chart_shape is not None:
                 c = chart_shape.chart
                 cd = CategoryChartData()
-                cd.categories = plan.operational_chart.categories
-                for ser in plan.operational_chart.series:
+                cd.categories = chart_model.categories
+                for ser in chart_model.series:
                     cd.add_series(ser.name, ser.values)
                 c.replace_data(cd)
 
                 # Remove template's stale floating chart title ("Receipts")
                 c.has_title = False
 
-                if len(plan.operational_chart.series) > 1:
+                if len(chart_model.series) > 1:
                     c.has_legend = True
                     c.legend.position = XL_LEGEND_POSITION.TOP
                     c.legend.include_in_layout = False
@@ -674,27 +1170,46 @@ class HLDQBRBuilder:
 
                 try:
                     if c.plots:
-                        c.plots[0].has_data_labels = True
-                        c.plots[0].data_labels.font.name = "Verdana"
-                        c.plots[0].data_labels.font.size = Pt(8)
+                        plot = c.plots[0]
+                        plot.vary_by_categories = False
+                        plot.has_data_labels = True
+                        plot.data_labels.font.name = "Verdana"
+                        plot.data_labels.font.size = Pt(8)
+                        for s_idx, ser in enumerate(plot.series):
+                            color = TEMPLATE_SERIES_COLORS[s_idx % len(TEMPLATE_SERIES_COLORS)]
+                            try:
+                                fill = ser.format.fill
+                                fill.solid()
+                                fill.fore_color.rgb = color
+                            except Exception:
+                                pass
                 except Exception:
                     pass
 
-            group11 = _shape_by_name(chart_slide, "Group 11")
-            if group11 is not None:
-                if plan.operational_chart.insights:
-                    # Dynamic Content-Driven Layout Partitioning
-                    insights = plan.operational_chart.insights
+            side_group = None
+            for cand_name in ["Group 11", "Group 7"]:
+                g = _shape_by_name(chart_slide, cand_name)
+                if g is not None:
+                    side_group = g
+                    break
+            if side_group is None:
+                for sh in chart_slide.shapes:
+                    if sh.shape_type == 6 and any("Rectangle" in sub.name for sub in getattr(sh, "shapes", [])):
+                        side_group = sh
+                        break
+
+            if side_group is not None:
+                if chart_model.insights:
+                    insights = chart_model.insights
                     n_items = len(insights)
-                    total_chars = sum(len(t) for t in insights)
+                    total_chars = sum(len(it) for it in insights)
                     avg_chars = total_chars / max(1, n_items)
-                    max_chars = max(len(t) for t in insights) if insights else 0
+                    max_chars = max(len(it) for it in insights) if insights else 0
 
                     TOTAL_CONTENT_WIDTH = Inches(12.533)
                     CONTENT_LEFT = Inches(0.40)
                     GAP = Inches(0.25)
 
-                    # 1. Dynamic Card Width Allocation based on content volume
                     if max_chars > 85 or total_chars > 380 or (n_items >= 6 and avg_chars > 55):
                         CARD_WIDTH = int(Inches(3.85))
                     elif max_chars > 50 or total_chars > 200 or n_items >= 4:
@@ -709,24 +1224,41 @@ class HLDQBRBuilder:
                     CARD_TOP = int(Inches(1.45))
                     CARD_HEIGHT = int(Inches(5.25))
 
-                    # 2. Dynamically reposition chart based on allocated width
                     if chart_shape is not None:
                         chart_shape.left = CHART_LEFT
                         chart_shape.top = int(Inches(1.40))
                         chart_shape.width = CHART_WIDTH
                         chart_shape.height = int(Inches(5.30))
 
-                    # 3. Extract shapes from Group 11 to slide tree so they can be resized without group distortion
+                    rect_names = {s.name for s in side_group.shapes if "Rectangle" in s.name or s.shape_type == 1}
+
                     spTree = chart_slide.shapes._spTree
-                    for sp in list(group11._element.xpath("p:sp")):
+                    for sp in list(side_group._element.xpath("p:sp")):
                         spTree.append(sp)
-                    group11.element.getparent().remove(group11.element)
+                    side_group.element.getparent().remove(side_group.element)
 
-                    blue_card = next((sh for sh in chart_slide.shapes if "7" in sh.name and sh.shape_type == 1), None)
-                    badge = next((sh for sh in chart_slide.shapes if "10" in sh.name and sh.shape_type == 1), None)
+                    unpacked_rects = [sh for sh in chart_slide.shapes if sh.name in rect_names]
+                    if len(unpacked_rects) >= 2:
+                        blue_card = max(unpacked_rects, key=lambda r: r.height)
+                        badge = min(unpacked_rects, key=lambda r: r.height)
+                    elif len(unpacked_rects) == 1:
+                        blue_card = unpacked_rects[0]
+                        badge = None
+                    else:
+                        blue_card = None
+                        badge = None
 
-                    # 4. Dynamic Header Badge Sizing based on header text
-                    insights_title = (getattr(plan.operational_chart, "insights_title", None) or "KEY OBSERVATIONS").strip().upper()
+                    # Strip any leftover standalone template badges (e.g. 'Q1 INSIGHTS') outside the group
+                    for s in list(chart_slide.shapes):
+                        if s not in (blue_card, badge) and s.has_text_frame and s.text_frame.text:
+                            txt = s.text_frame.text.strip().upper()
+                            if "INSIGHT" in txt or "OBSERVATION" in txt or "KPI SUMMARY REQUIRED" in txt:
+                                try:
+                                    chart_slide.shapes._spTree.remove(s._element)
+                                except Exception:
+                                    pass
+
+                    insights_title = (getattr(chart_model, "insights_title", None) or "KEY OBSERVATIONS").strip().upper()
                     raw_badge_width = int(Inches(len(insights_title) * 0.125 + 0.40))
                     BADGE_WIDTH = int(min(max(raw_badge_width, Inches(2.20)), CARD_WIDTH - Inches(0.35)))
                     BADGE_HEIGHT = int(Inches(0.48))
@@ -745,6 +1277,7 @@ class HLDQBRBuilder:
                         tf_b.margin_bottom = Inches(0.05)
                         tf_b.word_wrap = False
                         p_b = tf_b.paragraphs[0]
+                        p_b.text = insights_title
                         if len(insights_title) > 28:
                             badge_font_sz = Pt(9.5)
                         elif len(insights_title) > 20:
@@ -757,7 +1290,6 @@ class HLDQBRBuilder:
                             r.font.bold = True
                             r.font.color.rgb = RGBColor(255, 190, 0)
 
-                    # 5. Dynamic Typography & Spacing for Observations Card
                     if blue_card is not None:
                         blue_card.left = CARD_LEFT
                         blue_card.top = CARD_TOP
@@ -766,7 +1298,7 @@ class HLDQBRBuilder:
                         tf = blue_card.text_frame
                         tf.margin_left = Inches(0.18)
                         tf.margin_right = Inches(0.18)
-                        tf.margin_top = Inches(0.45) # Clearance below badge
+                        tf.margin_top = Inches(0.45)
                         tf.word_wrap = True
 
                         sample_pPr = None
@@ -774,7 +1306,6 @@ class HLDQBRBuilder:
                             sample_pPr = copy.deepcopy(tf.paragraphs[1]._p.pPr)
                         tf.clear()
 
-                        # Dynamic font sizing based on estimated lines
                         printable_width_in = (CARD_WIDTH - Inches(0.36)) / Inches(1)
                         chars_per_line = int(printable_width_in * 14.5)
                         estimated_lines = sum(max(1, math.ceil(len(item) / chars_per_line)) for item in insights)
@@ -802,19 +1333,84 @@ class HLDQBRBuilder:
                                     p._p.remove(p._p.pPr)
                                 p._p.insert(0, copy.deepcopy(sample_pPr))
                 else:
-                    group11.element.getparent().remove(group11.element)
+                    side_group.element.getparent().remove(side_group.element)
                     if chart_shape is not None:
                         chart_shape.left = Inches(0.40)
                         chart_shape.width = Inches(12.50)
 
-        # 9. KPI Dashboard (optional, 2 tables)
-        if plan.kpi_safety_quality or plan.kpi_operational:
+        # 9. KPI / Structured Data Tables (dynamic multi-table support)
+        # Clone from slide 21 (blank branded canvas) and build table layout from scratch
+        if table_list:
+            for tbl_model in table_list:
+                if not (tbl_model and tbl_model.rows):
+                    continue
+                kpi_slide = _clone_slide(prs, IDX_BLANK_CANVAS)  # Blank branded canvas
+                _strip_guidance_shapes(kpi_slide)
+
+                table_title = (tbl_model.table_title or "KEY PERFORMANCE INDICATOR DASHBOARD").upper()
+                _set_slide_header_and_sub(kpi_slide, table_title, plan.facility_name)
+
+                headers = tbl_model.headers or ["Metric", "Actual", "Target"]
+                rows = tbl_model.rows
+                n_cols = len(headers)
+                n_rows = len(rows)
+
+                table_shape = kpi_slide.shapes.add_table(
+                    n_rows + 1, n_cols,
+                    Inches(0.40), Inches(1.45), Inches(12.53),
+                    min(Inches(5.20), int(Inches(0.48 * (n_rows + 1))))
+                )
+                tbl = table_shape.table
+
+                for c_idx, h in enumerate(headers):
+                    cell = tbl.cell(0, c_idx)
+                    cell.fill.solid()
+                    cell.fill.fore_color.rgb = RGBColor(0, 43, 73)
+                    cell.text = str(h)
+                    cell.margin_left = Inches(0.08)
+                    cell.margin_right = Inches(0.08)
+                    for p in cell.text_frame.paragraphs:
+                        for r in p.runs:
+                            r.font.name = "Verdana"
+                            r.font.size = Pt(11)
+                            r.font.bold = True
+                            r.font.color.rgb = RGBColor(255, 255, 255)
+
+                max_c_len = max((len(str(val)) for row in rows for val in row), default=0)
+                if max_c_len > 70 or n_rows >= 8:
+                    row_font_sz = Pt(9.0)
+                elif max_c_len > 40:
+                    row_font_sz = Pt(10.0)
+                else:
+                    row_font_sz = Pt(10.5)
+
+                for r_idx, row in enumerate(rows):
+                    for c_idx in range(n_cols):
+                        val = str(row[c_idx]) if c_idx < len(row) else ""
+                        cell = tbl.cell(r_idx + 1, c_idx)
+                        cell.text = val
+                        cell.fill.solid()
+                        if r_idx % 2 == 0:
+                            cell.fill.fore_color.rgb = RGBColor(245, 248, 252)
+                        else:
+                            cell.fill.fore_color.rgb = RGBColor(255, 255, 255)
+                        cell.margin_left = Inches(0.08)
+                        cell.margin_right = Inches(0.08)
+                        for p in cell.text_frame.paragraphs:
+                            for r in p.runs:
+                                r.font.name = "Verdana"
+                                r.font.size = row_font_sz
+                                r.font.color.rgb = RGBColor(0, 43, 73)
+
+        elif plan.kpi_safety_quality or plan.kpi_operational:
             kpi_slide = _clone_slide(prs, IDX_KPI_DASHBOARD)
             _set_or_remove_facility_placeholder(kpi_slide, plan.facility_name)
             kpi_tables = [s for s in kpi_slide.shapes if s.has_table]
-            table_by_cols: Dict[int, Any] = {len(s.table.columns): s.table for s in kpi_tables}
-            if 7 in table_by_cols:
-                sq_tbl = table_by_cols[7]
+            sq_shape = next((s for s in kpi_tables if len(s.table.columns) == 7), None)
+            op_shape = next((s for s in kpi_tables if len(s.table.columns) == 3), None)
+
+            if plan.kpi_safety_quality and sq_shape is not None:
+                sq_tbl = sq_shape.table
                 for i, row in enumerate(plan.kpi_safety_quality):
                     r = 2 + i
                     if r < len(sq_tbl.rows):
@@ -822,20 +1418,32 @@ class HLDQBRBuilder:
                         for c in (1, 4):
                             sq_tbl.cell(r, c).text = row.actual
                         for c in (2, 5):
-                            sq_tbl.cell(r, c).text = row.target
+                            sq_tbl.cell(r, c).text = row.target or "-"
                         for c in (3, 6):
                             sq_tbl.cell(r, c).text = row.actual
-                # Blank leftover template sample rows beyond the supplied data
+                        for c_idx in range(len(sq_tbl.columns)):
+                            for para in sq_tbl.cell(r, c_idx).text_frame.paragraphs:
+                                for run in para.runs:
+                                    run.font.name = "Verdana"
+                                    run.font.size = Pt(9.5)
+                                    run.font.color.rgb = RGBColor(0, 43, 73)
                 for r in range(2 + len(plan.kpi_safety_quality), len(sq_tbl.rows)):
                     for c in range(len(sq_tbl.columns)):
                         sq_tbl.cell(r, c).text = ""
-            if 3 in table_by_cols and plan.kpi_operational:
-                op_tbl = table_by_cols[3]
+            elif sq_shape is not None:
+                kpi_slide.shapes._spTree.remove(sq_shape._element)
+                if op_shape is not None:
+                    op_shape.top = Inches(1.40)
+
+            if plan.kpi_operational and op_shape is not None:
+                op_tbl = op_shape.table
                 op_tbl.cell(0, 0).text = "Operational Metric"
                 op_tbl.cell(0, 1).text = "Actual"
                 op_tbl.cell(0, 2).text = "Target"
-                rows = [[r.label, r.actual, r.target] for r in plan.kpi_operational]
+                rows = [[r.label, r.actual, (r.target or "").strip() or "-"] for r in plan.kpi_operational]
                 _fill_table_rows(op_tbl, rows, start_row=1)
+            elif op_shape is not None and not plan.kpi_operational:
+                kpi_slide.shapes._spTree.remove(op_shape._element)
 
         # 9. Voice of the Customer (optional)
         if plan.voice_of_customer and plan.voice_of_customer.quote:
@@ -855,7 +1463,7 @@ class HLDQBRBuilder:
             ci_divider = _clone_slide(prs, IDX_SECTION_CIP)
             t2 = _shape_by_name(ci_divider, "Title 6")
             if t2 is not None:
-                _set_first_run_text(t2, "CONTINUOUS IMPROVEMENT PROGRAM UPDATES")
+                _set_first_run_text(t2, plan.ci_section_title or "CONTINUOUS IMPROVEMENT PROGRAM UPDATES")
 
         # 11. Gemba Walk Summary (optional)
         if plan.gemba_walk:
@@ -887,7 +1495,7 @@ class HLDQBRBuilder:
             quality_divider = _clone_slide(prs, IDX_SECTION_QUALITY)
             t3 = _shape_by_name(quality_divider, "Title 6")
             if t3 is not None:
-                _set_first_run_text(t3, "QUALITY MANAGEMENT SYSTEM UPDATES")
+                _set_first_run_text(t3, plan.quality_section_title or "QUALITY MANAGEMENT SYSTEM UPDATES")
 
         # 14. Quality Organizational Structure (optional)
         if plan.quality_org_structure:
@@ -935,10 +1543,31 @@ class HLDQBRBuilder:
         # 17. Next Steps (optional)
         if plan.next_steps:
             next_steps_slide = _clone_slide(prs, IDX_NEXT_STEPS)
+            _set_or_remove_facility_placeholder(next_steps_slide, plan.facility_name)
+
+            # Dynamic heading: use plan.next_steps_title
+            ns_title = _shape_by_name(next_steps_slide, "Title 1")
+            if ns_title is not None and ns_title.text_frame.paragraphs:
+                heading_text = (
+                    plan.next_steps_title.strip().upper()
+                    if plan.next_steps_title
+                    else "NEXT STEPS & TARGET TIMELINES"
+                )
+                p0 = ns_title.text_frame.paragraphs[0]
+                p0.text = heading_text
+                if p0.runs:
+                    p0.runs[0].font.size = Pt(22)
+                    p0.runs[0].font.bold = True
+
             ns_table_shape = _shape_by_name(next_steps_slide, "Table 8")
             if ns_table_shape is not None and ns_table_shape.has_table:
-                rows = [[s.step, s.date] for s in plan.next_steps]
-                _fill_table_rows(ns_table_shape.table, rows, start_row=0)
+                tbl = ns_table_shape.table
+                tbl._tbl.tblPr.set("firstRow", "0")
+                rows = [
+                    [s.step, (s.date or "").strip() or "Target Q4 2026"]
+                    for s in plan.next_steps
+                ]
+                _fill_table_rows(tbl, rows, start_row=0, text_color=RGBColor(0, 43, 73))
 
         # 18. Mandatory Closing (always, intact)
         _clone_slide(prs, IDX_CLOSING)
