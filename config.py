@@ -31,6 +31,7 @@ TECHM_TEMPLATE_FILE = TEMPLATES_DIR / "techm_template.pptx"
 WHITE_BLUE_TEMPLATE_FILE = TEMPLATES_DIR / "white_blue_template.pptx"
 TECHM_V3_TEMPLATE_FILE = PROJECT_ROOT / "TechM_RefPPT-V3.pptx"
 TEMPLATE1_FILE = PROJECT_ROOT / "AITransformationWeeklyUpdate4SEP2026.pptx"
+HLD_QBR_TEMPLATE_FILE = TEMPLATES_DIR / "hld_qbr_template.pptx"
 
 
 # LLM analysis logs directory
@@ -39,6 +40,11 @@ LOGS_DIR: Path = PROJECT_ROOT / "logs" / "llm"
 # Ensure directories exist
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 LOGS_DIR.mkdir(parents=True, exist_ok=True)
+
+# ---------------------------------------------------------------------------
+# LLM provider selection
+# ---------------------------------------------------------------------------
+LLM_PROVIDER: str = os.getenv("LLM_PROVIDER", "groq").strip().lower()  # "groq" | "watsonx"
 
 # ---------------------------------------------------------------------------
 # Groq / LLM settings
@@ -57,6 +63,23 @@ GROQ_API_KEYS: list[str] = [
 ] if _raw_keys else ([GROQ_API_KEY] if GROQ_API_KEY else [])
 
 # ---------------------------------------------------------------------------
+# IBM watsonx.ai settings
+# ---------------------------------------------------------------------------
+WATSONX_API_KEY: str = os.getenv("WATSONX_API_KEY", "")
+WATSONX_PROJECT_ID: str = os.getenv("WATSONX_PROJECT_ID", "")
+WATSONX_URL: str = os.getenv("WATSONX_URL", "https://us-south.ml.cloud.ibm.com")
+WATSONX_MODEL_ID: str = os.getenv("WATSONX_MODEL_ID", "openai/gpt-oss-120b")
+WATSONX_MAX_TOKENS_PLAN: int = int(os.getenv("WATSONX_MAX_TOKENS_PLAN", "4096"))
+WATSONX_MAX_TOKENS_SLIDE: int = int(os.getenv("WATSONX_MAX_TOKENS_SLIDE", "2048"))
+WATSONX_TEMPERATURE: float = float(os.getenv("WATSONX_TEMPERATURE", "0.3"))
+
+# Multiple API keys (comma-separated). Falls back to WATSONX_API_KEY if only one.
+_raw_watsonx_keys = os.getenv("WATSONX_API_KEYS", "")
+WATSONX_API_KEYS: list[str] = [
+    k.strip() for k in _raw_watsonx_keys.split(",") if k.strip()
+] if _raw_watsonx_keys else ([WATSONX_API_KEY] if WATSONX_API_KEY else [])
+
+# ---------------------------------------------------------------------------
 # Semantic chunking settings
 # ---------------------------------------------------------------------------
 # Safety cap: only used when a semantic section is too large.
@@ -71,7 +94,7 @@ LLM_MIN_SECTION_CHARS: int = int(os.getenv("LLM_MIN_SECTION_CHARS", "300"))
 MAX_UPLOAD_SIZE_MB: int = int(os.getenv("MAX_UPLOAD_SIZE_MB", "20"))
 MAX_UPLOAD_SIZE_BYTES: int = MAX_UPLOAD_SIZE_MB * 1024 * 1024
 MAX_SOURCE_TEXT_CHARS: int = int(os.getenv("MAX_SOURCE_TEXT_CHARS", "12000"))
-SUPPORTED_FILE_TYPES: list[str] = ["txt", "pdf", "docx"]
+SUPPORTED_FILE_TYPES: list[str] = ["txt", "pdf", "docx", "pptx", "xlsx"]
 
 # ---------------------------------------------------------------------------
 # Layout identifiers — single source of truth

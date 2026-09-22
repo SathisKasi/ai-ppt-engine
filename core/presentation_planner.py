@@ -250,6 +250,8 @@ def plan_presentation(
         audience=audience or "General",
         style=style or "Professional",
         slide_count=slide_count,
+        content_end=slide_count + 3,
+        total_slides=slide_count + 4,
         language=language or "English",
         additional_instructions=additional_instructions or "None",
     )

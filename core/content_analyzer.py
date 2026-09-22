@@ -43,7 +43,7 @@ def analyze_content(
     slide_count: Optional[int] = None,
     language: str = "English",
     additional_instructions: str = "",
-    max_source_chars: int = 12000,
+    max_source_chars: int = 14000,
 ) -> ContentAnalysis:
     """
     Stage 1: Analyze source content using LLM.

@@ -35,7 +35,8 @@ class KeyManager:
     """
 
     def __init__(self, keys: List[str], model: str, temperature: float = 0.3,
-                 max_tokens: int = 2048, max_retries: int = 3) -> None:
+                 max_tokens: int = 2048, max_retries: int = 3, provider: str = "groq",
+                 project_id: Optional[str] = None, url: Optional[str] = None) -> None:
         valid = [k.strip() for k in keys if k and k.strip()]
         if not valid:
             raise KeyManagerError("No valid API keys provided.")
@@ -44,9 +45,15 @@ class KeyManager:
         self._temperature = temperature
         self._max_tokens = max_tokens
         self._max_retries = max_retries
+        self._provider = (provider or "groq").strip().lower()
+        self._project_id = project_id
+        self._url = url
         self._index = 0
         self._lock = threading.Lock()
-        logger.info("KeyManager initialized with %d key(s)", len(self._keys))
+        logger.info(
+            "KeyManager initialized with %d key(s) [provider=%s]",
+            len(self._keys), self._provider,
+        )
 
     # ------------------------------------------------------------------
     # Public interface
@@ -69,15 +76,14 @@ class KeyManager:
 
     def get_client(self, chunk_index: Optional[int] = None, max_tokens: Optional[int] = None):
         """
-        Return a GroqClient bound to the key for this chunk.
+        Return an LLM client (GroqClient or WatsonxClient, per configured provider)
+        bound to the key for this chunk.
 
         Args:
             chunk_index: Zero-based index of the chunk (determines key).
                          If None, uses the stateful round-robin counter.
             max_tokens:  Override max_tokens for this client instance.
         """
-        from llm.groq_client import GroqClient  # local import to avoid circular
-
         if chunk_index is not None:
             key = self.key_for_index(chunk_index)
             key_num = chunk_index % len(self._keys) + 1
@@ -86,6 +92,21 @@ class KeyManager:
             key_num = self._index  # already incremented
 
         logger.debug("Chunk %s → key #%d", chunk_index, key_num)
+
+        if self._provider == "watsonx":
+            from llm.watsonx_client import WatsonxClient  # local import to avoid circular
+
+            return WatsonxClient(
+                api_key=key,
+                project_id=self._project_id,
+                url=self._url,
+                model=self._model,
+                temperature=self._temperature,
+                max_tokens=max_tokens or self._max_tokens,
+                max_retries=self._max_retries,
+            )
+
+        from llm.groq_client import GroqClient  # local import to avoid circular
 
         return GroqClient(
             api_key=key,
@@ -97,12 +118,26 @@ class KeyManager:
 
     @classmethod
     def from_config(cls) -> "KeyManager":
-        """Convenience factory that reads from the app config."""
+        """Convenience factory that reads from the app config (provider-aware)."""
         import config
+
+        if config.LLM_PROVIDER == "watsonx":
+            return cls(
+                keys=config.WATSONX_API_KEYS,
+                model=config.WATSONX_MODEL_ID,
+                temperature=config.WATSONX_TEMPERATURE,
+                max_tokens=config.WATSONX_MAX_TOKENS_PLAN,
+                max_retries=config.LLM_MAX_RETRIES,
+                provider="watsonx",
+                project_id=config.WATSONX_PROJECT_ID,
+                url=config.WATSONX_URL,
+            )
+
         return cls(
             keys=config.GROQ_API_KEYS,
             model=config.GROQ_MODEL,
             temperature=config.GROQ_TEMPERATURE,
             max_tokens=config.GROQ_MAX_TOKENS_PLAN,
             max_retries=config.LLM_MAX_RETRIES,
+            provider="groq",
         )

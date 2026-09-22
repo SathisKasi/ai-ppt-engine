@@ -10,11 +10,9 @@ Responsibilities:
 
 from __future__ import annotations
 
-import json
-import re
-import time
 from typing import Any, Dict, List, Optional
 
+from llm.json_utils import JSONParseError, parse_json_response, retry_json_completion
 from utils.logging_utils import get_logger
 
 logger = get_logger(__name__)
@@ -39,51 +37,8 @@ class GroqAPIError(GroqClientError):
     """Generic API error (network, server, etc.)."""
 
 
-class JSONParseError(GroqClientError):
-    """LLM returned invalid JSON after all retries."""
-
-
-# ---------------------------------------------------------------------------
-# JSON extraction helpers
-# ---------------------------------------------------------------------------
-
-def _extract_json_from_text(text: str) -> str:
-    """
-    Try to extract a JSON object or array from raw LLM text.
-
-    Strategies (in order):
-    1. Strip markdown code fences (```json ... ```)
-    2. Find the first { ... } or [ ... ] block
-    3. Return the text as-is and let json.loads raise
-    """
-    # Strip markdown fences
-    fence_pattern = re.compile(r"```(?:json)?\s*([\s\S]+?)\s*```", re.IGNORECASE)
-    match = fence_pattern.search(text)
-    if match:
-        return match.group(1).strip()
-
-    # Find first JSON object
-    obj_match = re.search(r"\{[\s\S]*\}", text)
-    if obj_match:
-        return obj_match.group(0)
-
-    # Find first JSON array
-    arr_match = re.search(r"\[[\s\S]*\]", text)
-    if arr_match:
-        return arr_match.group(0)
-
-    return text.strip()
-
-
-def parse_json_response(raw: str) -> Dict[str, Any]:
-    """Parse JSON from a raw LLM response, raising JSONParseError on failure."""
-    extracted = _extract_json_from_text(raw)
-    try:
-        return json.loads(extracted)
-    except json.JSONDecodeError as e:
-        raise JSONParseError(
-            f"JSON decode failed: {e}\nExtracted text (first 500 chars): {extracted[:500]}"
-        ) from e
+# JSONParseError, parse_json_response re-exported from llm.json_utils for
+# backward compatibility with existing `from llm.groq_client import JSONParseError` call sites.
 
 
 # ---------------------------------------------------------------------------
@@ -152,12 +107,17 @@ class GroqClient:
             len(messages),
         )
 
+        extra_kwargs = {}
+        if "gpt-oss" in self.model:
+            extra_kwargs["extra_body"] = {"reasoning_effort": "low"}
+
         try:
             response = self._client.chat.completions.create(
                 model=self.model,
                 messages=messages,  # type: ignore[arg-type]
                 temperature=_temp,
                 max_tokens=_max_tok,
+                **extra_kwargs,
             )
             content = response.choices[0].message.content or ""
             logger.debug("Groq response length: %d chars", len(content))
@@ -193,47 +153,10 @@ class GroqClient:
         On JSON parse failure, sends a correction prompt and retries
         up to self.max_retries times.
         """
-        from llm.prompts import JSON_CORRECTION_PROMPT
-
-        last_error: Optional[Exception] = None
-        current_messages = list(messages)
-        raw_response = ""
-
-        for attempt in range(1, self.max_retries + 1):
-            try:
-                raw_response = self.chat_complete(
-                    current_messages,
-                    temperature=temperature,
-                    max_tokens=max_tokens,
-                )
-                data = parse_json_response(raw_response)
-                if attempt > 1:
-                    logger.info("JSON parsed successfully on attempt %d", attempt)
-                return data
-
-            except JSONParseError as e:
-                last_error = e
-                logger.warning(
-                    "JSON parse failed on attempt %d/%d: %s",
-                    attempt,
-                    self.max_retries,
-                    str(e)[:200],
-                )
-
-                if attempt < self.max_retries:
-                    # Add correction turn to the conversation
-                    correction_prompt = JSON_CORRECTION_PROMPT.format(
-                        error_message=str(e)[:500],
-                        invalid_json=raw_response[:2000],
-                    )
-                    current_messages = list(messages) + [
-                        {"role": "assistant", "content": raw_response},
-                        {"role": "user", "content": correction_prompt},
-                    ]
-                    # Brief back-off between retries
-                    time.sleep(1.0 * attempt)
-
-        raise JSONParseError(
-            f"Failed to obtain valid JSON after {self.max_retries} attempts. "
-            f"Last error: {last_error}"
-        ) from last_error
+        return retry_json_completion(
+            self.chat_complete,
+            messages,
+            self.max_retries,
+            temperature=temperature,
+            max_tokens=max_tokens,
+        )

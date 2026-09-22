@@ -63,14 +63,15 @@ def validate_plan(
         return result  # No point continuing
 
     if requested_slides is not None:
+        expected_total = requested_slides + 4
         if actual_count < requested_slides:
             result.add_warning(
-                f"Requested {requested_slides} slides but plan contains only {actual_count}. "
+                f"Requested {requested_slides} content slides but plan contains only {actual_count} total slides. "
                 "The LLM may have consolidated content."
             )
-        elif actual_count > requested_slides + 2:
+        elif actual_count > expected_total + 3:
             result.add_warning(
-                f"Requested {requested_slides} slides but plan contains {actual_count}. "
+                f"Requested {requested_slides} content slides (+ 4 mandatory structural slides) but plan contains {actual_count} slides. "
                 "Extra slides will be included."
             )
 

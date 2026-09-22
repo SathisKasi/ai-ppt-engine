@@ -5,6 +5,8 @@ Supports:
 - .txt  (with encoding detection)
 - .docx (python-docx)
 - .pdf  (PyMuPDF primary, pdfplumber fallback)
+- .pptx (python-pptx text extraction)
+- .xlsx (openpyxl worksheet and cell extraction)
 
 All parsers return a clean, normalized plain-text string.
 Raises DocumentParseError on unrecoverable failures.
@@ -171,6 +173,73 @@ def _parse_pdf(file_path: Path) -> str:
 
 
 # ---------------------------------------------------------------------------
+# .pptx parser
+# ---------------------------------------------------------------------------
+
+def _parse_pptx(file_path: Path) -> str:
+    """Extract readable text from PowerPoint slides with slide provenance."""
+    try:
+        from pptx import Presentation
+    except ImportError as e:
+        raise DocumentParseError(
+            "python-pptx is not installed. Run: pip install python-pptx"
+        ) from e
+
+    try:
+        presentation = Presentation(str(file_path))
+        slides: list[str] = []
+        for slide_number, slide in enumerate(presentation.slides, start=1):
+            texts: list[str] = []
+            for shape in slide.shapes:
+                text = getattr(shape, "text", "")
+                if isinstance(text, str) and text.strip():
+                    texts.append(text.strip())
+            if texts:
+                slides.append(f"[Slide {slide_number}]\n" + "\n".join(texts))
+        if not slides:
+            raise DocumentParseError("The PowerPoint contains no extractable text.")
+        return "\n\n".join(slides)
+    except DocumentParseError:
+        raise
+    except Exception as e:
+        raise DocumentParseError(f"Failed to parse PowerPoint: {e}") from e
+
+
+# ---------------------------------------------------------------------------
+# .xlsx parser
+# ---------------------------------------------------------------------------
+
+def _parse_xlsx(file_path: Path) -> str:
+    """Extract non-empty spreadsheet rows with worksheet provenance."""
+    try:
+        from openpyxl import load_workbook
+    except ImportError as e:
+        raise DocumentParseError(
+            "openpyxl is not installed. Run: pip install openpyxl"
+        ) from e
+
+    try:
+        workbook = load_workbook(str(file_path), read_only=True, data_only=True)
+        sheets: list[str] = []
+        for worksheet in workbook.worksheets:
+            rows: list[str] = []
+            for row in worksheet.iter_rows(values_only=True):
+                values = [str(value).strip() for value in row if value is not None and str(value).strip()]
+                if values:
+                    rows.append(" | ".join(values))
+            if rows:
+                sheets.append(f"[Sheet: {worksheet.title}]\n" + "\n".join(rows))
+        workbook.close()
+        if not sheets:
+            raise DocumentParseError("The Excel workbook contains no non-empty cells.")
+        return "\n\n".join(sheets)
+    except DocumentParseError:
+        raise
+    except Exception as e:
+        raise DocumentParseError(f"Failed to parse Excel workbook: {e}") from e
+
+
+# ---------------------------------------------------------------------------
 # Main entry point
 # ---------------------------------------------------------------------------
 
@@ -203,20 +272,24 @@ def parse_document(file_bytes: bytes, filename: str) -> str:
         logger.info("Extracted %d chars from .txt file", len(clean))
         return clean
 
-    # .docx / .pdf — need a temp file
-    if ext in ("docx", "pdf"):
+    # Office documents — need a temp file
+    if ext in ("docx", "pdf", "pptx", "xlsx"):
         with TempFileManager(file_bytes, suffix=f".{ext}") as tmp_path:
             if ext == "docx":
                 raw_text = _parse_docx(tmp_path)
-            else:
+            elif ext == "pdf":
                 raw_text = _parse_pdf(tmp_path)
+            elif ext == "pptx":
+                raw_text = _parse_pptx(tmp_path)
+            else:
+                raw_text = _parse_xlsx(tmp_path)
 
         clean = clean_text(raw_text)
         logger.info("Extracted %d chars from .%s file", len(clean), ext)
         return clean
 
     raise DocumentParseError(
-        f"Unsupported file type '.{ext}'. Supported: txt, docx, pdf"
+        f"Unsupported file type '.{ext}'. Supported: txt, docx, pdf, pptx, xlsx"
     )
 
 
@@ -266,20 +339,24 @@ def parse_document_with_structure(
         logger.info("TXT: %d chars, detection=%s", len(plain_text), method)
         return plain_text, root, method
 
-    if ext in ("docx", "pdf"):
+    if ext in ("docx", "pdf", "pptx", "xlsx"):
         with TempFileManager(file_bytes, suffix=f".{ext}") as tmp_path:
             if ext == "docx":
                 raw_text = _parse_docx(tmp_path)
                 plain_text = clean_text(raw_text)
                 root, method = extract_structure_from_docx(tmp_path)
-            else:
+            elif ext == "pdf":
                 raw_text = _parse_pdf(tmp_path)
                 plain_text = clean_text(raw_text)
                 root, method = extract_structure_from_pdf(tmp_path)
+            else:
+                raw_text = _parse_pptx(tmp_path) if ext == "pptx" else _parse_xlsx(tmp_path)
+                plain_text = clean_text(raw_text)
+                root, method = extract_structure_from_txt(plain_text)
 
         logger.info("%s: %d chars, detection=%s", ext.upper(), len(plain_text), method)
         return plain_text, root, method
 
     raise DocumentParseError(
-        f"Unsupported file type '.{ext}'. Supported: txt, docx, pdf"
+        f"Unsupported file type '.{ext}'. Supported: txt, docx, pdf, pptx, xlsx"
     )
