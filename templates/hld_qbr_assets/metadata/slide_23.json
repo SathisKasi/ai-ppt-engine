@@ -1,0 +1,160 @@
+{
+  "index": 23,
+  "slide_name": "slide_23",
+  "title": "CI Activity Tracker",
+  "layout": "Title Only",
+  "category": "Core",
+  "slide_layout_name": "Title Only",
+  "shape_count": 8,
+  "shapes": [
+    {
+      "shape_id": 2,
+      "name": "Slide Number Placeholder 1",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 12.344,
+        "top": 7.099,
+        "width": 0.589,
+        "height": 0.303
+      },
+      "placeholder_type": "SLIDE_NUMBER (13)",
+      "placeholder_idx": 12,
+      "text": {
+        "full_text": "24",
+        "runs": [],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 3,
+      "name": "Title 2",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 0.398,
+        "top": 0.398,
+        "width": 12.533,
+        "height": 0.42
+      },
+      "placeholder_type": "TITLE (1)",
+      "placeholder_idx": 0,
+      "text": {
+        "full_text": "CONTINUOUS IMPROVEMENT ACTIVITY TRACKER",
+        "runs": [
+          {
+            "text": "CONTINUOUS IMPROVEMENT ACTIVITY TRACKER",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 5,
+      "name": "Table 4",
+      "shape_type": "TABLE (19)",
+      "position_in": {
+        "left": 0.433,
+        "top": 1.094,
+        "width": 12.348,
+        "height": 4.294
+      },
+      "table": {
+        "rows": 9,
+        "cols": 5,
+        "header_row": [
+          "CIP Activity",
+          "Category",
+          "Status\n",
+          "Annual Estimated Value",
+          "Comments"
+        ]
+      }
+    },
+    {
+      "shape_id": 6,
+      "name": "Flowchart: Connector 5",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 5.506,
+        "top": 1.406,
+        "width": 0.2,
+        "height": 0.2
+      },
+      "fill_color": null
+    },
+    {
+      "shape_id": 7,
+      "name": "Flowchart: Connector 6",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 5.838,
+        "top": 1.4,
+        "width": 0.2,
+        "height": 0.2
+      },
+      "fill_color": "FFC000"
+    },
+    {
+      "shape_id": 8,
+      "name": "Flowchart: Connector 7",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 6.144,
+        "top": 1.403,
+        "width": 0.2,
+        "height": 0.2
+      },
+      "fill_color": "FF0000"
+    },
+    {
+      "shape_id": 9,
+      "name": "Flowchart: Connector 8",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 5.826,
+        "top": 1.917,
+        "width": 0.2,
+        "height": 0.2
+      },
+      "fill_color": null
+    },
+    {
+      "shape_id": 10,
+      "name": "Rectangle 9",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 10.113,
+        "top": 0.094,
+        "width": 3.047,
+        "height": 1.0
+      },
+      "text": {
+        "full_text": "Required content\nEXAMPLE",
+        "runs": [
+          {
+            "text": "Required content",
+            "font": null,
+            "size_pt": 14.0,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "EXAMPLE",
+            "font": null,
+            "size_pt": 14.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": true
+      },
+      "fill_color": "FFFF00"
+    }
+  ]
+}

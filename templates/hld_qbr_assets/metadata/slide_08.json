@@ -1,0 +1,163 @@
+{
+  "index": 8,
+  "slide_name": "slide_08",
+  "title": "Supplemental Gallery Pointer",
+  "layout": "Title Only",
+  "category": "Guide-Only",
+  "slide_layout_name": "Title Only",
+  "shape_count": 10,
+  "shapes": [
+    {
+      "shape_id": 2,
+      "name": "Slide Number Placeholder 1",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 12.344,
+        "top": 7.099,
+        "width": 0.589,
+        "height": 0.303
+      },
+      "placeholder_type": "SLIDE_NUMBER (13)",
+      "placeholder_idx": 12,
+      "text": {
+        "full_text": "9",
+        "runs": [],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 3,
+      "name": "Title 2",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 0.398,
+        "top": 0.398,
+        "width": 12.533,
+        "height": 0.42
+      },
+      "placeholder_type": "TITLE (1)",
+      "placeholder_idx": 0
+    },
+    {
+      "shape_id": 7,
+      "name": "Text Placeholder 6",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 0.398,
+        "top": 0.835,
+        "width": 12.533,
+        "height": 0.245
+      },
+      "placeholder_type": "BODY (2)",
+      "placeholder_idx": 13
+    },
+    {
+      "shape_id": 5,
+      "name": "Picture 4",
+      "shape_type": "PICTURE (13)",
+      "position_in": {
+        "left": 0.373,
+        "top": 1.255,
+        "width": 4.267,
+        "height": 2.4
+      }
+    },
+    {
+      "shape_id": 6,
+      "name": "Picture 5",
+      "shape_type": "PICTURE (13)",
+      "position_in": {
+        "left": 4.776,
+        "top": 1.262,
+        "width": 4.267,
+        "height": 2.4
+      }
+    },
+    {
+      "shape_id": 10,
+      "name": "Picture 9",
+      "shape_type": "PICTURE (13)",
+      "position_in": {
+        "left": 4.702,
+        "top": 3.849,
+        "width": 4.409,
+        "height": 2.386
+      }
+    },
+    {
+      "shape_id": 12,
+      "name": "Picture 11",
+      "shape_type": "PICTURE (13)",
+      "position_in": {
+        "left": 9.161,
+        "top": 3.887,
+        "width": 3.946,
+        "height": 2.22
+      }
+    },
+    {
+      "shape_id": 13,
+      "name": "Rectangle 12",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 8.464,
+        "top": 0.0,
+        "width": 4.461,
+        "height": 1.334
+      },
+      "text": {
+        "full_text": "Additional slides available to use\nHyperlinks included\nShould be relevant to your customer",
+        "runs": [
+          {
+            "text": "Additional slides available to use",
+            "font": null,
+            "size_pt": 14.0,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "Hyperlinks included",
+            "font": null,
+            "size_pt": 14.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "Should be relevant to your customer",
+            "font": null,
+            "size_pt": 14.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": true
+      },
+      "fill_color": "FFFF00"
+    },
+    {
+      "shape_id": 4,
+      "name": "Picture 3",
+      "shape_type": "PICTURE (13)",
+      "position_in": {
+        "left": 9.114,
+        "top": 1.243,
+        "width": 4.097,
+        "height": 2.304
+      }
+    },
+    {
+      "shape_id": 9,
+      "name": "Picture 8",
+      "shape_type": "PICTURE (13)",
+      "position_in": {
+        "left": 0.39,
+        "top": 3.896,
+        "width": 4.195,
+        "height": 2.359
+      }
+    }
+  ]
+}

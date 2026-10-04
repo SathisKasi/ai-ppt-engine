@@ -1,0 +1,1784 @@
+{
+  "index": 55,
+  "slide_name": "slide_55",
+  "title": "Vector Icon Library 2 (61-120)",
+  "layout": "Title Only",
+  "category": "Guide-Only",
+  "slide_layout_name": "Title Only",
+  "shape_count": 62,
+  "shapes": [
+    {
+      "shape_id": 4,
+      "name": "Slide Number Placeholder 3",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 12.346,
+        "top": 7.098,
+        "width": 0.591,
+        "height": 0.303
+      },
+      "placeholder_type": "SLIDE_NUMBER (13)",
+      "placeholder_idx": 12,
+      "text": {
+        "full_text": "56",
+        "runs": [],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 6,
+      "name": "Freeform 841",
+      "shape_type": "FREEFORM (5)",
+      "position_in": {
+        "left": 7.036,
+        "top": 2.73,
+        "width": 0.135,
+        "height": 0.396
+      },
+      "fill_color": "595555"
+    },
+    {
+      "shape_id": 7,
+      "name": "Freeform 842",
+      "shape_type": "FREEFORM (5)",
+      "position_in": {
+        "left": 7.873,
+        "top": 2.73,
+        "width": 0.317,
+        "height": 0.396
+      },
+      "fill_color": "595555"
+    },
+    {
+      "shape_id": 8,
+      "name": "Freeform 843",
+      "shape_type": "FREEFORM (5)",
+      "position_in": {
+        "left": 8.925,
+        "top": 2.73,
+        "width": 0.271,
+        "height": 0.396
+      },
+      "fill_color": "595555"
+    },
+    {
+      "shape_id": 9,
+      "name": "Freeform 844",
+      "shape_type": "FREEFORM (5)",
+      "position_in": {
+        "left": 9.862,
+        "top": 2.73,
+        "width": 0.35,
+        "height": 0.396
+      },
+      "fill_color": "595555"
+    },
+    {
+      "shape_id": 10,
+      "name": "Freeform 845",
+      "shape_type": "FREEFORM (5)",
+      "position_in": {
+        "left": 10.88,
+        "top": 2.73,
+        "width": 0.258,
+        "height": 0.3
+      },
+      "fill_color": "595555"
+    },
+    {
+      "shape_id": 11,
+      "name": "Freeform 846",
+      "shape_type": "FREEFORM (5)",
+      "position_in": {
+        "left": 11.878,
+        "top": 2.712,
+        "width": 0.259,
+        "height": 0.3
+      },
+      "fill_color": "595555"
+    },
+    {
+      "shape_id": 12,
+      "name": "Group 11",
+      "shape_type": "GROUP (6)",
+      "position_in": {
+        "left": 5.866,
+        "top": 2.73,
+        "width": 0.308,
+        "height": 0.396
+      },
+      "children": [
+        {
+          "shape_id": 13,
+          "name": "Freeform 867",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 6.003,
+            "top": 5.523,
+            "width": 0.493,
+            "height": 0.425
+          }
+        },
+        {
+          "shape_id": 14,
+          "name": "Freeform 868",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 6.159,
+            "top": 5.314,
+            "width": 0.179,
+            "height": 0.194
+          }
+        }
+      ]
+    },
+    {
+      "shape_id": 15,
+      "name": "Group 14",
+      "shape_type": "GROUP (6)",
+      "position_in": {
+        "left": 0.734,
+        "top": 2.882,
+        "width": 0.495,
+        "height": 0.3
+      },
+      "children": [
+        {
+          "shape_id": 16,
+          "name": "Freeform 890",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 1.747,
+            "top": 5.441,
+            "width": 0.403,
+            "height": 0.299
+          }
+        },
+        {
+          "shape_id": 17,
+          "name": "Freeform 891",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 2.164,
+            "top": 5.441,
+            "width": 0.224,
+            "height": 0.299
+          }
+        },
+        {
+          "shape_id": 18,
+          "name": "Freeform 892",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 2.239,
+            "top": 5.732,
+            "width": 0.105,
+            "height": 0.098
+          }
+        },
+        {
+          "shape_id": 19,
+          "name": "Freeform 893",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 1.822,
+            "top": 5.732,
+            "width": 0.104,
+            "height": 0.098
+          }
+        }
+      ]
+    },
+    {
+      "shape_id": 20,
+      "name": "Group 19",
+      "shape_type": "GROUP (6)",
+      "position_in": {
+        "left": 1.743,
+        "top": 2.918,
+        "width": 0.559,
+        "height": 0.3
+      },
+      "children": [
+        {
+          "shape_id": 21,
+          "name": "Freeform 894",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 2.583,
+            "top": 5.471,
+            "width": 0.641,
+            "height": 0.284
+          }
+        },
+        {
+          "shape_id": 22,
+          "name": "Freeform 895",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 2.642,
+            "top": 5.71,
+            "width": 0.105,
+            "height": 0.105
+          }
+        },
+        {
+          "shape_id": 23,
+          "name": "Freeform 896",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 3.076,
+            "top": 5.71,
+            "width": 0.096,
+            "height": 0.105
+          }
+        }
+      ]
+    },
+    {
+      "shape_id": 24,
+      "name": "Group 23",
+      "shape_type": "GROUP (6)",
+      "position_in": {
+        "left": 2.751,
+        "top": 2.909,
+        "width": 0.573,
+        "height": 0.3
+      },
+      "children": [
+        {
+          "shape_id": 25,
+          "name": "Freeform 900",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 3.419,
+            "top": 5.463,
+            "width": 0.643,
+            "height": 0.291
+          }
+        },
+        {
+          "shape_id": 26,
+          "name": "Freeform 901",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 3.479,
+            "top": 5.725,
+            "width": 0.083,
+            "height": 0.075
+          }
+        },
+        {
+          "shape_id": 27,
+          "name": "Freeform 902",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 3.919,
+            "top": 5.725,
+            "width": 0.083,
+            "height": 0.075
+          }
+        }
+      ]
+    },
+    {
+      "shape_id": 28,
+      "name": "Group 27",
+      "shape_type": "GROUP (6)",
+      "position_in": {
+        "left": 3.759,
+        "top": 2.873,
+        "width": 0.485,
+        "height": 0.3
+      },
+      "children": [
+        {
+          "shape_id": 29,
+          "name": "Freeform 903",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 4.255,
+            "top": 5.501,
+            "width": 0.641,
+            "height": 0.269
+          }
+        },
+        {
+          "shape_id": 30,
+          "name": "Freeform 904",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 4.255,
+            "top": 5.433,
+            "width": 0.44,
+            "height": 0.239
+          }
+        },
+        {
+          "shape_id": 31,
+          "name": "Freeform 905",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 4.301,
+            "top": 5.732,
+            "width": 0.096,
+            "height": 0.098
+          }
+        },
+        {
+          "shape_id": 32,
+          "name": "Freeform 906",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 4.756,
+            "top": 5.732,
+            "width": 0.096,
+            "height": 0.098
+          }
+        }
+      ]
+    },
+    {
+      "shape_id": 33,
+      "name": "Group 32",
+      "shape_type": "GROUP (6)",
+      "position_in": {
+        "left": 4.767,
+        "top": 2.774,
+        "width": 0.349,
+        "height": 0.3
+      },
+      "children": [
+        {
+          "shape_id": 34,
+          "name": "Freeform 912",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 5.256,
+            "top": 5.351,
+            "width": 0.312,
+            "height": 0.173
+          }
+        },
+        {
+          "shape_id": 35,
+          "name": "Freeform 913",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 5.181,
+            "top": 5.501,
+            "width": 0.075,
+            "height": 0.164
+          }
+        },
+        {
+          "shape_id": 36,
+          "name": "Freeform 914",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 5.576,
+            "top": 5.501,
+            "width": 0.083,
+            "height": 0.149
+          }
+        },
+        {
+          "shape_id": 37,
+          "name": "Freeform 915",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 5.241,
+            "top": 5.8,
+            "width": 0.365,
+            "height": 0.104
+          }
+        },
+        {
+          "shape_id": 38,
+          "name": "Freeform 916",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 5.495,
+            "top": 5.672,
+            "width": 0.239,
+            "height": 0.128
+          }
+        },
+        {
+          "shape_id": 39,
+          "name": "Freeform 917",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 5.091,
+            "top": 5.68,
+            "width": 0.269,
+            "height": 0.143
+          }
+        }
+      ]
+    },
+    {
+      "shape_id": 40,
+      "name": "Freeform 806",
+      "shape_type": "FREEFORM (5)",
+      "position_in": {
+        "left": 11.941,
+        "top": 3.789,
+        "width": 0.209,
+        "height": 0.3
+      },
+      "fill_color": "595555"
+    },
+    {
+      "shape_id": 41,
+      "name": "Freeform 807",
+      "shape_type": "FREEFORM (5)",
+      "position_in": {
+        "left": 10.826,
+        "top": 3.825,
+        "width": 0.331,
+        "height": 0.3
+      },
+      "fill_color": "595555"
+    },
+    {
+      "shape_id": 42,
+      "name": "Freeform 840",
+      "shape_type": "FREEFORM (5)",
+      "position_in": {
+        "left": 3.768,
+        "top": 3.816,
+        "width": 0.327,
+        "height": 0.3
+      },
+      "fill_color": "595555"
+    },
+    {
+      "shape_id": 43,
+      "name": "Freeform 847",
+      "shape_type": "FREEFORM (5)",
+      "position_in": {
+        "left": 2.769,
+        "top": 3.798,
+        "width": 0.296,
+        "height": 0.3
+      },
+      "fill_color": "595555"
+    },
+    {
+      "shape_id": 44,
+      "name": "Group 43",
+      "shape_type": "GROUP (6)",
+      "position_in": {
+        "left": 1.76,
+        "top": 3.798,
+        "width": 0.308,
+        "height": 0.3
+      },
+      "children": [
+        {
+          "shape_id": 45,
+          "name": "Freeform 848",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 2.597,
+            "top": 6.217,
+            "width": 0.613,
+            "height": 0.538
+          }
+        },
+        {
+          "shape_id": 46,
+          "name": "Freeform 849",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 2.732,
+            "top": 6.157,
+            "width": 0.06,
+            "height": 0.113
+          }
+        },
+        {
+          "shape_id": 47,
+          "name": "Freeform 850",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 3.016,
+            "top": 6.157,
+            "width": 0.06,
+            "height": 0.113
+          }
+        }
+      ]
+    },
+    {
+      "shape_id": 48,
+      "name": "Freeform 851",
+      "shape_type": "FREEFORM (5)",
+      "position_in": {
+        "left": 0.762,
+        "top": 3.798,
+        "width": 0.296,
+        "height": 0.3
+      },
+      "fill_color": "595555"
+    },
+    {
+      "shape_id": 49,
+      "name": "Group 48",
+      "shape_type": "GROUP (6)",
+      "position_in": {
+        "left": 7.819,
+        "top": 3.789,
+        "width": 0.282,
+        "height": 0.3
+      },
+      "children": [
+        {
+          "shape_id": 50,
+          "name": "Freeform 859",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 7.622,
+            "top": 6.576,
+            "width": 0.598,
+            "height": 0.209
+          }
+        },
+        {
+          "shape_id": 51,
+          "name": "Freeform 860",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 7.778,
+            "top": 6.217,
+            "width": 0.284,
+            "height": 0.321
+          }
+        },
+        {
+          "shape_id": 52,
+          "name": "Freeform 861",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 7.69,
+            "top": 6.15,
+            "width": 0.463,
+            "height": 0.306
+          }
+        }
+      ]
+    },
+    {
+      "shape_id": 53,
+      "name": "Group 52",
+      "shape_type": "GROUP (6)",
+      "position_in": {
+        "left": 8.819,
+        "top": 3.889,
+        "width": 0.39,
+        "height": 0.3
+      },
+      "children": [
+        {
+          "shape_id": 54,
+          "name": "Freeform 862",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 8.451,
+            "top": 6.232,
+            "width": 0.611,
+            "height": 0.186
+          }
+        },
+        {
+          "shape_id": 55,
+          "name": "Freeform 863",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 8.525,
+            "top": 6.345,
+            "width": 0.464,
+            "height": 0.156
+          }
+        },
+        {
+          "shape_id": 56,
+          "name": "Freeform 864",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 8.608,
+            "top": 6.449,
+            "width": 0.299,
+            "height": 0.135
+          }
+        },
+        {
+          "shape_id": 57,
+          "name": "Freeform 865",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 8.69,
+            "top": 6.561,
+            "width": 0.134,
+            "height": 0.141
+          }
+        }
+      ]
+    },
+    {
+      "shape_id": 58,
+      "name": "Group 57",
+      "shape_type": "GROUP (6)",
+      "position_in": {
+        "left": 6.81,
+        "top": 3.798,
+        "width": 0.289,
+        "height": 0.3
+      },
+      "children": [
+        {
+          "shape_id": 59,
+          "name": "Freeform 879",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 6.785,
+            "top": 6.157,
+            "width": 0.598,
+            "height": 0.404
+          }
+        },
+        {
+          "shape_id": 60,
+          "name": "Freeform 880",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 6.996,
+            "top": 6.576,
+            "width": 0.179,
+            "height": 0.201
+          }
+        }
+      ]
+    },
+    {
+      "shape_id": 61,
+      "name": "Freeform 885",
+      "shape_type": "FREEFORM (5)",
+      "position_in": {
+        "left": 9.907,
+        "top": 3.789,
+        "width": 0.226,
+        "height": 0.3
+      },
+      "fill_color": "595555"
+    },
+    {
+      "shape_id": 62,
+      "name": "Group 61",
+      "shape_type": "GROUP (6)",
+      "position_in": {
+        "left": 4.794,
+        "top": 3.789,
+        "width": 0.282,
+        "height": 0.3
+      },
+      "children": [
+        {
+          "shape_id": 63,
+          "name": "Oval 909",
+          "shape_type": "AUTO_SHAPE (1)",
+          "position_in": {
+            "left": 5.271,
+            "top": 6.65,
+            "width": 0.141,
+            "height": 0.135
+          }
+        },
+        {
+          "shape_id": 64,
+          "name": "Oval 910",
+          "shape_type": "AUTO_SHAPE (1)",
+          "position_in": {
+            "left": 5.51,
+            "top": 6.65,
+            "width": 0.141,
+            "height": 0.135
+          }
+        },
+        {
+          "shape_id": 65,
+          "name": "Freeform 911",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 5.113,
+            "top": 6.15,
+            "width": 0.598,
+            "height": 0.479
+          }
+        }
+      ]
+    },
+    {
+      "shape_id": 66,
+      "name": "Group 65",
+      "shape_type": "GROUP (6)",
+      "position_in": {
+        "left": 5.775,
+        "top": 3.825,
+        "width": 0.334,
+        "height": 0.3
+      },
+      "children": [
+        {
+          "shape_id": 67,
+          "name": "Freeform 928",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 5.928,
+            "top": 6.479,
+            "width": 0.641,
+            "height": 0.276
+          }
+        },
+        {
+          "shape_id": 68,
+          "name": "Freeform 929",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 5.928,
+            "top": 6.292,
+            "width": 0.641,
+            "height": 0.201
+          }
+        },
+        {
+          "shape_id": 69,
+          "name": "Freeform 930",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 6.106,
+            "top": 6.18,
+            "width": 0.284,
+            "height": 0.068
+          }
+        }
+      ]
+    },
+    {
+      "shape_id": 70,
+      "name": "Group 69",
+      "shape_type": "GROUP (6)",
+      "position_in": {
+        "left": 4.839,
+        "top": 1.653,
+        "width": 0.247,
+        "height": 0.3
+      },
+      "children": [
+        {
+          "shape_id": 71,
+          "name": "Freeform 836",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 5.151,
+            "top": 4.478,
+            "width": 0.523,
+            "height": 0.634
+          }
+        },
+        {
+          "shape_id": 72,
+          "name": "Freeform 837",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 5.532,
+            "top": 4.478,
+            "width": 0.141,
+            "height": 0.179
+          }
+        }
+      ]
+    },
+    {
+      "shape_id": 73,
+      "name": "Group 72",
+      "shape_type": "GROUP (6)",
+      "position_in": {
+        "left": 3.832,
+        "top": 1.653,
+        "width": 0.247,
+        "height": 0.3
+      },
+      "children": [
+        {
+          "shape_id": 74,
+          "name": "Freeform 838",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 4.316,
+            "top": 4.478,
+            "width": 0.521,
+            "height": 0.634
+          }
+        },
+        {
+          "shape_id": 75,
+          "name": "Freeform 839",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 4.696,
+            "top": 4.478,
+            "width": 0.141,
+            "height": 0.179
+          }
+        }
+      ]
+    },
+    {
+      "shape_id": 76,
+      "name": "Freeform 857",
+      "shape_type": "FREEFORM (5)",
+      "position_in": {
+        "left": 0.734,
+        "top": 1.653,
+        "width": 0.304,
+        "height": 0.3
+      },
+      "fill_color": "595555"
+    },
+    {
+      "shape_id": 77,
+      "name": "Freeform 866",
+      "shape_type": "FREEFORM (5)",
+      "position_in": {
+        "left": 11.825,
+        "top": 1.68,
+        "width": 0.323,
+        "height": 0.3
+      },
+      "fill_color": "595555"
+    },
+    {
+      "shape_id": 78,
+      "name": "Freeform 878",
+      "shape_type": "FREEFORM (5)",
+      "position_in": {
+        "left": 7.819,
+        "top": 1.68,
+        "width": 0.301,
+        "height": 0.3
+      },
+      "fill_color": "595555"
+    },
+    {
+      "shape_id": 79,
+      "name": "Group 78",
+      "shape_type": "GROUP (6)",
+      "position_in": {
+        "left": 1.743,
+        "top": 1.787,
+        "width": 0.459,
+        "height": 0.3
+      },
+      "children": [
+        {
+          "shape_id": 80,
+          "name": "Freeform 886",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 2.627,
+            "top": 4.626,
+            "width": 0.598,
+            "height": 0.382
+          }
+        },
+        {
+          "shape_id": 81,
+          "name": "Oval 887",
+          "shape_type": "AUTO_SHAPE (1)",
+          "position_in": {
+            "left": 2.785,
+            "top": 4.679,
+            "width": 0.156,
+            "height": 0.156
+          }
+        },
+        {
+          "shape_id": 82,
+          "name": "Freeform 888",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 2.583,
+            "top": 4.589,
+            "width": 0.559,
+            "height": 0.337
+          }
+        }
+      ]
+    },
+    {
+      "shape_id": 83,
+      "name": "Freeform 889",
+      "shape_type": "FREEFORM (5)",
+      "position_in": {
+        "left": 10.88,
+        "top": 1.653,
+        "width": 0.255,
+        "height": 0.3
+      },
+      "fill_color": "595555"
+    },
+    {
+      "shape_id": 84,
+      "name": "Group 83",
+      "shape_type": "GROUP (6)",
+      "position_in": {
+        "left": 5.919,
+        "top": 1.653,
+        "width": 0.191,
+        "height": 0.3
+      },
+      "children": [
+        {
+          "shape_id": 85,
+          "name": "Freeform 897",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 6.151,
+            "top": 5.008,
+            "width": 0.194,
+            "height": 0.038
+          }
+        },
+        {
+          "shape_id": 86,
+          "name": "Freeform 898",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 6.046,
+            "top": 4.478,
+            "width": 0.404,
+            "height": 0.5
+          }
+        },
+        {
+          "shape_id": 87,
+          "name": "Freeform 899",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 6.174,
+            "top": 5.076,
+            "width": 0.149,
+            "height": 0.036
+          }
+        }
+      ]
+    },
+    {
+      "shape_id": 88,
+      "name": "Group 87",
+      "shape_type": "GROUP (6)",
+      "position_in": {
+        "left": 6.909,
+        "top": 1.653,
+        "width": 0.215,
+        "height": 0.3
+      },
+      "children": [
+        {
+          "shape_id": 89,
+          "name": "Freeform 922",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 6.868,
+            "top": 4.478,
+            "width": 0.455,
+            "height": 0.634
+          }
+        },
+        {
+          "shape_id": 90,
+          "name": "Freeform 923",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 6.936,
+            "top": 5.038,
+            "width": 0.388,
+            "height": 0.015
+          }
+        }
+      ]
+    },
+    {
+      "shape_id": 91,
+      "name": "Group 90",
+      "shape_type": "GROUP (6)",
+      "position_in": {
+        "left": 8.889,
+        "top": 1.653,
+        "width": 0.234,
+        "height": 0.3
+      },
+      "children": [
+        {
+          "shape_id": 92,
+          "name": "Freeform 924",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 8.51,
+            "top": 4.619,
+            "width": 0.494,
+            "height": 0.404
+          }
+        },
+        {
+          "shape_id": 93,
+          "name": "Freeform 925",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 8.51,
+            "top": 5.046,
+            "width": 0.494,
+            "height": 0.066
+          }
+        },
+        {
+          "shape_id": 94,
+          "name": "Freeform 926",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 8.69,
+            "top": 4.478,
+            "width": 0.134,
+            "height": 0.038
+          }
+        },
+        {
+          "shape_id": 95,
+          "name": "Freeform 927",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 8.608,
+            "top": 4.538,
+            "width": 0.299,
+            "height": 0.104
+          }
+        }
+      ]
+    },
+    {
+      "shape_id": 96,
+      "name": "Group 95",
+      "shape_type": "GROUP (6)",
+      "position_in": {
+        "left": 9.808,
+        "top": 1.717,
+        "width": 0.354,
+        "height": 0.3
+      },
+      "children": [
+        {
+          "shape_id": 97,
+          "name": "Freeform 931",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 9.272,
+            "top": 4.53,
+            "width": 0.635,
+            "height": 0.5
+          }
+        },
+        {
+          "shape_id": 98,
+          "name": "Freeform 932",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 9.272,
+            "top": 4.948,
+            "width": 0.12,
+            "height": 0.12
+          }
+        },
+        {
+          "shape_id": 99,
+          "name": "Freeform 933",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 9.533,
+            "top": 4.948,
+            "width": 0.12,
+            "height": 0.12
+          }
+        },
+        {
+          "shape_id": 100,
+          "name": "Freeform 934",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 9.646,
+            "top": 4.664,
+            "width": 0.216,
+            "height": 0.239
+          }
+        }
+      ]
+    },
+    {
+      "shape_id": 101,
+      "name": "Group 100",
+      "shape_type": "GROUP (6)",
+      "position_in": {
+        "left": 2.751,
+        "top": 1.653,
+        "width": 0.304,
+        "height": 0.3
+      },
+      "children": [
+        {
+          "shape_id": 102,
+          "name": "Freeform 957",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 3.419,
+            "top": 4.918,
+            "width": 0.224,
+            "height": 0.098
+          }
+        },
+        {
+          "shape_id": 103,
+          "name": "Freeform 958",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 3.419,
+            "top": 4.843,
+            "width": 0.224,
+            "height": 0.105
+          }
+        },
+        {
+          "shape_id": 104,
+          "name": "Freeform 959",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 3.419,
+            "top": 4.777,
+            "width": 0.224,
+            "height": 0.096
+          }
+        },
+        {
+          "shape_id": 105,
+          "name": "Freeform 960",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 3.419,
+            "top": 4.709,
+            "width": 0.404,
+            "height": 0.098
+          }
+        },
+        {
+          "shape_id": 106,
+          "name": "Freeform 961",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 3.419,
+            "top": 4.634,
+            "width": 0.404,
+            "height": 0.105
+          }
+        },
+        {
+          "shape_id": 107,
+          "name": "Freeform 962",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 3.419,
+            "top": 4.568,
+            "width": 0.404,
+            "height": 0.096
+          }
+        },
+        {
+          "shape_id": 108,
+          "name": "Freeform 963",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 3.419,
+            "top": 4.478,
+            "width": 0.404,
+            "height": 0.119
+          }
+        },
+        {
+          "shape_id": 109,
+          "name": "Freeform 964",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 3.658,
+            "top": 5.015,
+            "width": 0.404,
+            "height": 0.096
+          }
+        },
+        {
+          "shape_id": 110,
+          "name": "Freeform 966",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 3.658,
+            "top": 4.948,
+            "width": 0.404,
+            "height": 0.098
+          }
+        },
+        {
+          "shape_id": 111,
+          "name": "Freeform 967",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 3.658,
+            "top": 4.873,
+            "width": 0.404,
+            "height": 0.105
+          }
+        },
+        {
+          "shape_id": 112,
+          "name": "Freeform 968",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 3.658,
+            "top": 4.784,
+            "width": 0.404,
+            "height": 0.119
+          }
+        }
+      ]
+    },
+    {
+      "shape_id": 113,
+      "name": "Freeform 5",
+      "shape_type": "FREEFORM (5)",
+      "position_in": {
+        "left": 3.782,
+        "top": 4.859,
+        "width": 0.265,
+        "height": 0.3
+      },
+      "fill_color": "595555"
+    },
+    {
+      "shape_id": 114,
+      "name": "Group 113",
+      "shape_type": "GROUP (6)",
+      "position_in": {
+        "left": 0.797,
+        "top": 4.859,
+        "width": 0.236,
+        "height": 0.3
+      },
+      "children": [
+        {
+          "shape_id": 115,
+          "name": "Freeform 6",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 1.375,
+            "top": 0.865,
+            "width": 0.156,
+            "height": 0.075
+          }
+        },
+        {
+          "shape_id": 116,
+          "name": "Freeform 7",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 1.203,
+            "top": 0.306,
+            "width": 0.498,
+            "height": 0.514
+          }
+        }
+      ]
+    },
+    {
+      "shape_id": 117,
+      "name": "Freeform 8",
+      "shape_type": "FREEFORM (5)",
+      "position_in": {
+        "left": 2.729,
+        "top": 4.859,
+        "width": 0.3,
+        "height": 0.3
+      },
+      "fill_color": "595555"
+    },
+    {
+      "shape_id": 118,
+      "name": "Group 117",
+      "shape_type": "GROUP (6)",
+      "position_in": {
+        "left": 1.821,
+        "top": 4.859,
+        "width": 0.226,
+        "height": 0.3
+      },
+      "children": [
+        {
+          "shape_id": 119,
+          "name": "Freeform 9",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 2.052,
+            "top": 0.396,
+            "width": 0.477,
+            "height": 0.543
+          }
+        },
+        {
+          "shape_id": 120,
+          "name": "Freeform 10",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 2.149,
+            "top": 0.306,
+            "width": 0.276,
+            "height": 0.142
+          }
+        }
+      ]
+    },
+    {
+      "shape_id": 121,
+      "name": "Freeform 11",
+      "shape_type": "FREEFORM (5)",
+      "position_in": {
+        "left": 7.791,
+        "top": 4.886,
+        "width": 0.3,
+        "height": 0.3
+      },
+      "fill_color": "595555"
+    },
+    {
+      "shape_id": 122,
+      "name": "Freeform 12",
+      "shape_type": "FREEFORM (5)",
+      "position_in": {
+        "left": 5.867,
+        "top": 4.859,
+        "width": 0.207,
+        "height": 0.3
+      },
+      "fill_color": "595555"
+    },
+    {
+      "shape_id": 123,
+      "name": "Freeform 13",
+      "shape_type": "FREEFORM (5)",
+      "position_in": {
+        "left": 6.757,
+        "top": 4.976,
+        "width": 0.434,
+        "height": 0.3
+      },
+      "fill_color": "595555"
+    },
+    {
+      "shape_id": 124,
+      "name": "Freeform 14",
+      "shape_type": "FREEFORM (5)",
+      "position_in": {
+        "left": 4.86,
+        "top": 4.859,
+        "width": 0.209,
+        "height": 0.3
+      },
+      "fill_color": "595555"
+    },
+    {
+      "shape_id": 125,
+      "name": "Freeform 15",
+      "shape_type": "FREEFORM (5)",
+      "position_in": {
+        "left": 8.789,
+        "top": 4.886,
+        "width": 0.303,
+        "height": 0.3
+      },
+      "fill_color": "595555"
+    },
+    {
+      "shape_id": 126,
+      "name": "Freeform 16",
+      "shape_type": "FREEFORM (5)",
+      "position_in": {
+        "left": 9.807,
+        "top": 4.877,
+        "width": 0.296,
+        "height": 0.3
+      },
+      "fill_color": "595555"
+    },
+    {
+      "shape_id": 127,
+      "name": "Freeform 17",
+      "shape_type": "FREEFORM (5)",
+      "position_in": {
+        "left": 10.803,
+        "top": 4.877,
+        "width": 0.3,
+        "height": 0.3
+      },
+      "fill_color": "595555"
+    },
+    {
+      "shape_id": 128,
+      "name": "Group 127",
+      "shape_type": "GROUP (6)",
+      "position_in": {
+        "left": 11.793,
+        "top": 4.905,
+        "width": 0.34,
+        "height": 0.3
+      },
+      "children": [
+        {
+          "shape_id": 129,
+          "name": "Freeform 18",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 10.323,
+            "top": 0.344,
+            "width": 0.448,
+            "height": 0.312
+          }
+        },
+        {
+          "shape_id": 130,
+          "name": "Freeform 19",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 10.509,
+            "top": 0.597,
+            "width": 0.448,
+            "height": 0.306
+          }
+        }
+      ]
+    },
+    {
+      "shape_id": 131,
+      "name": "Group 130",
+      "shape_type": "GROUP (6)",
+      "position_in": {
+        "left": 0.762,
+        "top": 5.925,
+        "width": 0.265,
+        "height": 0.3
+      },
+      "children": [
+        {
+          "shape_id": 132,
+          "name": "Freeform 20",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 1.174,
+            "top": 1.328,
+            "width": 0.312,
+            "height": 0.446
+          }
+        },
+        {
+          "shape_id": 133,
+          "name": "Freeform 21",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 1.418,
+            "top": 1.141,
+            "width": 0.314,
+            "height": 0.448
+          }
+        }
+      ]
+    },
+    {
+      "shape_id": 134,
+      "name": "Group 133",
+      "shape_type": "GROUP (6)",
+      "position_in": {
+        "left": 4.762,
+        "top": 6.043,
+        "width": 0.411,
+        "height": 0.3
+      },
+      "children": [
+        {
+          "shape_id": 135,
+          "name": "Freeform 22",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 4.491,
+            "top": 1.238,
+            "width": 0.283,
+            "height": 0.441
+          }
+        },
+        {
+          "shape_id": 136,
+          "name": "Freeform 23",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 4.812,
+            "top": 1.238,
+            "width": 0.283,
+            "height": 0.441
+          }
+        }
+      ]
+    },
+    {
+      "shape_id": 137,
+      "name": "Group 136",
+      "shape_type": "GROUP (6)",
+      "position_in": {
+        "left": 6.874,
+        "top": 5.953,
+        "width": 0.222,
+        "height": 0.3
+      },
+      "children": [
+        {
+          "shape_id": 138,
+          "name": "Freeform 24",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 6.243,
+            "top": 1.477,
+            "width": 0.441,
+            "height": 0.283
+          }
+        },
+        {
+          "shape_id": 139,
+          "name": "Freeform 25",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 6.243,
+            "top": 1.163,
+            "width": 0.441,
+            "height": 0.283
+          }
+        }
+      ]
+    },
+    {
+      "shape_id": 140,
+      "name": "Group 139",
+      "shape_type": "GROUP (6)",
+      "position_in": {
+        "left": 7.881,
+        "top": 5.944,
+        "width": 0.219,
+        "height": 0.3
+      },
+      "children": [
+        {
+          "shape_id": 141,
+          "name": "Freeform 26",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 7.078,
+            "top": 1.156,
+            "width": 0.441,
+            "height": 0.283
+          }
+        },
+        {
+          "shape_id": 142,
+          "name": "Freeform 27",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 7.078,
+            "top": 1.477,
+            "width": 0.441,
+            "height": 0.283
+          }
+        }
+      ]
+    },
+    {
+      "shape_id": 143,
+      "name": "Group 142",
+      "shape_type": "GROUP (6)",
+      "position_in": {
+        "left": 5.769,
+        "top": 6.043,
+        "width": 0.411,
+        "height": 0.3
+      },
+      "children": [
+        {
+          "shape_id": 144,
+          "name": "Freeform 28",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 5.648,
+            "top": 1.238,
+            "width": 0.283,
+            "height": 0.441
+          }
+        },
+        {
+          "shape_id": 145,
+          "name": "Freeform 29",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 5.326,
+            "top": 1.238,
+            "width": 0.283,
+            "height": 0.441
+          }
+        }
+      ]
+    },
+    {
+      "shape_id": 146,
+      "name": "Freeform 30",
+      "shape_type": "FREEFORM (5)",
+      "position_in": {
+        "left": 1.769,
+        "top": 5.944,
+        "width": 0.281,
+        "height": 0.3
+      },
+      "fill_color": "595555"
+    },
+    {
+      "shape_id": 147,
+      "name": "Freeform 31",
+      "shape_type": "FREEFORM (5)",
+      "position_in": {
+        "left": 2.748,
+        "top": 5.961,
+        "width": 0.315,
+        "height": 0.3
+      },
+      "fill_color": "595555"
+    },
+    {
+      "shape_id": 148,
+      "name": "Freeform 32",
+      "shape_type": "FREEFORM (5)",
+      "position_in": {
+        "left": 3.755,
+        "top": 5.961,
+        "width": 0.315,
+        "height": 0.3
+      },
+      "fill_color": "595555"
+    },
+    {
+      "shape_id": 149,
+      "name": "Group 148",
+      "shape_type": "GROUP (6)",
+      "position_in": {
+        "left": 8.888,
+        "top": 5.925,
+        "width": 0.209,
+        "height": 0.3
+      },
+      "children": [
+        {
+          "shape_id": 150,
+          "name": "Freeform 33",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 7.913,
+            "top": 1.679,
+            "width": 0.441,
+            "height": 0.095
+          }
+        },
+        {
+          "shape_id": 151,
+          "name": "Freeform 34",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 7.913,
+            "top": 1.141,
+            "width": 0.441,
+            "height": 0.5
+          }
+        }
+      ]
+    },
+    {
+      "shape_id": 152,
+      "name": "Freeform 35",
+      "shape_type": "FREEFORM (5)",
+      "position_in": {
+        "left": 9.913,
+        "top": 5.925,
+        "width": 0.191,
+        "height": 0.3
+      },
+      "fill_color": "595555"
+    },
+    {
+      "shape_id": 153,
+      "name": "Freeform 36",
+      "shape_type": "FREEFORM (5)",
+      "position_in": {
+        "left": 10.92,
+        "top": 5.925,
+        "width": 0.191,
+        "height": 0.3
+      },
+      "fill_color": "595555"
+    },
+    {
+      "shape_id": 154,
+      "name": "Freeform 37",
+      "shape_type": "FREEFORM (5)",
+      "position_in": {
+        "left": 11.785,
+        "top": 6.061,
+        "width": 0.474,
+        "height": 0.3
+      },
+      "fill_color": "595555"
+    },
+    {
+      "shape_id": 155,
+      "name": "Title 157",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 0.398,
+        "top": 0.398,
+        "width": 12.535,
+        "height": 0.421
+      },
+      "placeholder_type": "TITLE (1)",
+      "placeholder_idx": 0,
+      "text": {
+        "full_text": "ICONS 61 – 120",
+        "runs": [
+          {
+            "text": "ICONS 61 – 120",
+            "font": "verdana",
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": "426DA9"
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    }
+  ]
+}

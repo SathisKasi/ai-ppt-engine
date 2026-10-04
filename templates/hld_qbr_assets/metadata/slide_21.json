@@ -1,0 +1,90 @@
+{
+  "index": 21,
+  "slide_name": "slide_21",
+  "title": "Section: Continuous Improvement",
+  "layout": "1_Section Header",
+  "category": "Divider",
+  "slide_layout_name": "1_Section Header_No Image",
+  "shape_count": 5,
+  "shapes": [
+    {
+      "shape_id": 11,
+      "name": "Picture 10",
+      "shape_type": "PICTURE (13)",
+      "position_in": {
+        "left": 0.0,
+        "top": 0.0,
+        "width": 13.333,
+        "height": 6.833
+      }
+    },
+    {
+      "shape_id": 8,
+      "name": "Rectangle 7",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 0.0,
+        "top": 0.0,
+        "width": 13.333,
+        "height": 6.833
+      },
+      "fill_color": null
+    },
+    {
+      "shape_id": 7,
+      "name": "Title 6",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 3.571,
+        "top": 3.651,
+        "width": 6.225,
+        "height": 1.653
+      },
+      "placeholder_type": "TITLE (1)",
+      "placeholder_idx": 0,
+      "text": {
+        "full_text": "CONTINUOUS IMPROVEMENT PROGRAM UPDATES\u000b",
+        "runs": [
+          {
+            "text": "CONTINUOUS IMPROVEMENT PROGRAM UPDATES",
+            "font": "+mn-lt",
+            "size_pt": 28.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 2,
+      "name": "Slide Number Placeholder 1",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 12.344,
+        "top": 7.099,
+        "width": 0.589,
+        "height": 0.303
+      },
+      "placeholder_type": "SLIDE_NUMBER (13)",
+      "placeholder_idx": 10,
+      "text": {
+        "full_text": "22",
+        "runs": [],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 9,
+      "name": "Picture 8",
+      "shape_type": "PICTURE (13)",
+      "position_in": {
+        "left": -0.154,
+        "top": 1.214,
+        "width": 3.266,
+        "height": 3.351
+      }
+    }
+  ]
+}

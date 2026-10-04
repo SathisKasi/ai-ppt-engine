@@ -1,0 +1,230 @@
+{
+  "index": 38,
+  "slide_name": "slide_38",
+  "title": "Cost / Data / Trend Analysis (Opt 2)",
+  "layout": "Title Only",
+  "category": "Optional",
+  "slide_layout_name": "Title Only",
+  "shape_count": 8,
+  "shapes": [
+    {
+      "shape_id": 2,
+      "name": "Slide Number Placeholder 1",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 12.344,
+        "top": 7.099,
+        "width": 0.589,
+        "height": 0.303
+      },
+      "placeholder_type": "SLIDE_NUMBER (13)",
+      "placeholder_idx": 12,
+      "text": {
+        "full_text": "39",
+        "runs": [],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 3,
+      "name": "Title 2",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 0.398,
+        "top": 0.398,
+        "width": 12.533,
+        "height": 0.42
+      },
+      "placeholder_type": "TITLE (1)",
+      "placeholder_idx": 0,
+      "text": {
+        "full_text": "COST / DATA / TREND ANALYSIS ",
+        "runs": [
+          {
+            "text": "COST / DATA / TREND ANALYSIS ",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 4,
+      "name": "Text Placeholder 3",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 0.398,
+        "top": 0.835,
+        "width": 12.533,
+        "height": 0.245
+      },
+      "placeholder_type": "BODY (2)",
+      "placeholder_idx": 13,
+      "text": {
+        "full_text": "Facility name or location",
+        "runs": [
+          {
+            "text": "Facility name or location",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 12,
+      "name": "Group 11",
+      "shape_type": "GROUP (6)",
+      "position_in": {
+        "left": 10.443,
+        "top": 1.189,
+        "width": 2.783,
+        "height": 5.353
+      },
+      "children": [
+        {
+          "shape_id": 13,
+          "name": "Rectangle: Rounded Corners 12",
+          "shape_type": "AUTO_SHAPE (1)",
+          "position_in": {
+            "left": 10.443,
+            "top": 1.528,
+            "width": 2.783,
+            "height": 4.623
+          },
+          "text": {
+            "full_text": "\nSome text\nSome text\n",
+            "runs": [
+              {
+                "text": "Some text",
+                "font": null,
+                "size_pt": 12.0,
+                "bold": null,
+                "italic": null,
+                "color": null
+              },
+              {
+                "text": "Some text",
+                "font": null,
+                "size_pt": 12.0,
+                "bold": null,
+                "italic": null,
+                "color": null
+              }
+            ],
+            "is_guidance_sticker": false
+          },
+          "fill_color": null
+        },
+        {
+          "shape_id": 14,
+          "name": "Rectangle: Rounded Corners 13",
+          "shape_type": "AUTO_SHAPE (1)",
+          "position_in": {
+            "left": 10.925,
+            "top": 1.189,
+            "width": 1.811,
+            "height": 0.566
+          },
+          "text": {
+            "full_text": "Q1 INSIGHTS",
+            "runs": [
+              {
+                "text": "Q1 INSIGHTS",
+                "font": "Verdana",
+                "size_pt": 14.0,
+                "bold": true,
+                "italic": false,
+                "color": "FFBE00"
+              }
+            ],
+            "is_guidance_sticker": false
+          },
+          "fill_color": null
+        }
+      ]
+    },
+    {
+      "shape_id": 18,
+      "name": "Picture 17",
+      "shape_type": "PICTURE (13)",
+      "position_in": {
+        "left": 0.673,
+        "top": 1.214,
+        "width": 4.818,
+        "height": 2.71
+      }
+    },
+    {
+      "shape_id": 19,
+      "name": "Picture 18",
+      "shape_type": "PICTURE (13)",
+      "position_in": {
+        "left": 0.635,
+        "top": 3.979,
+        "width": 4.868,
+        "height": 2.738
+      }
+    },
+    {
+      "shape_id": 20,
+      "name": "Rectangle 19",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 1.062,
+        "top": 3.765,
+        "width": 3.884,
+        "height": 0.336
+      },
+      "text": {
+        "full_text": "Examples",
+        "runs": [
+          {
+            "text": "Examples",
+            "font": null,
+            "size_pt": 14.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      },
+      "fill_color": "FFFF00"
+    },
+    {
+      "shape_id": 5,
+      "name": "Rectangle: Rounded Corners 4",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 10.925,
+        "top": 1.189,
+        "width": 1.811,
+        "height": 0.608
+      },
+      "text": {
+        "full_text": "Q1 INSIGHTS",
+        "runs": [
+          {
+            "text": "Q1 INSIGHTS",
+            "font": "Verdana",
+            "size_pt": 14.0,
+            "bold": true,
+            "italic": false,
+            "color": "FFBE00"
+          }
+        ],
+        "is_guidance_sticker": false
+      },
+      "fill_color": null
+    }
+  ]
+}

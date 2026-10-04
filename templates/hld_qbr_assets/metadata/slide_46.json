@@ -1,0 +1,388 @@
+{
+  "index": 46,
+  "slide_name": "slide_46",
+  "title": "Data Visualization Callout Badges",
+  "layout": "Title Only",
+  "category": "Guide-Only",
+  "slide_layout_name": "Title Only",
+  "shape_count": 10,
+  "shapes": [
+    {
+      "shape_id": 4,
+      "name": "Slide Number Placeholder 3",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 12.346,
+        "top": 7.098,
+        "width": 0.591,
+        "height": 0.303
+      },
+      "placeholder_type": "SLIDE_NUMBER (13)",
+      "placeholder_idx": 12,
+      "text": {
+        "full_text": "47",
+        "runs": [],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 24,
+      "name": "Title 1",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 0.398,
+        "top": 0.398,
+        "width": 5.752,
+        "height": 0.42
+      },
+      "placeholder_type": "TITLE (1)",
+      "placeholder_idx": 0,
+      "text": {
+        "full_text": "VISUALIZE YOUR DATA IN AN EASY TO READ MANNER",
+        "runs": [
+          {
+            "text": "VISUALIZE YOUR DATA IN AN EASY TO READ MANNER",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 25,
+      "name": "Text Placeholder 2",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 0.398,
+        "top": 1.283,
+        "width": 12.535,
+        "height": 0.244
+      },
+      "placeholder_type": "BODY (2)",
+      "placeholder_idx": 13,
+      "text": {
+        "full_text": "Sub-headline",
+        "runs": [
+          {
+            "text": "Sub-headline",
+            "font": "verdana",
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": "595555"
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 26,
+      "name": "Rectangle 25",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 6.759,
+        "top": 0.0,
+        "width": 6.574,
+        "height": 6.988
+      }
+    },
+    {
+      "shape_id": 27,
+      "name": "TextBox 26",
+      "shape_type": "TEXT_BOX (17)",
+      "position_in": {
+        "left": 7.588,
+        "top": 1.498,
+        "width": 1.989,
+        "height": 0.74
+      },
+      "text": {
+        "full_text": "44% \nsupporting copy",
+        "runs": [
+          {
+            "text": "44% ",
+            "font": null,
+            "size_pt": 24.0,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "supporting copy",
+            "font": null,
+            "size_pt": 14.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 28,
+      "name": "Group 27",
+      "shape_type": "GROUP (6)",
+      "position_in": {
+        "left": 10.039,
+        "top": 0.847,
+        "width": 2.342,
+        "height": 2.041
+      },
+      "children": [
+        {
+          "shape_id": 29,
+          "name": "Chart 28",
+          "shape_type": "CHART (3)",
+          "position_in": {
+            "left": 9.095,
+            "top": 1.756,
+            "width": 2.342,
+            "height": 2.041
+          },
+          "chart": {
+            "chart_type": "DOUGHNUT (-4120)",
+            "categories": [
+              "1st Qtr",
+              "2nd Qtr"
+            ],
+            "series_names": [
+              "Column1"
+            ]
+          }
+        },
+        {
+          "shape_id": 30,
+          "name": "Group 29",
+          "shape_type": "GROUP (6)",
+          "position_in": {
+            "left": 10.018,
+            "top": 2.581,
+            "width": 0.497,
+            "height": 0.492
+          },
+          "children": [
+            {
+              "shape_id": 31,
+              "name": "Rectangle 818",
+              "shape_type": "AUTO_SHAPE (1)",
+              "position_in": {
+                "left": 3.419,
+                "top": 3.014,
+                "width": 0.643,
+                "height": 0.425
+              },
+              "fill_color": null
+            },
+            {
+              "shape_id": 32,
+              "name": "Freeform 819",
+              "shape_type": "FREEFORM (5)",
+              "position_in": {
+                "left": 3.419,
+                "top": 2.804,
+                "width": 0.299,
+                "height": 0.173
+              },
+              "fill_color": null
+            },
+            {
+              "shape_id": 33,
+              "name": "Freeform 820",
+              "shape_type": "FREEFORM (5)",
+              "position_in": {
+                "left": 3.763,
+                "top": 2.804,
+                "width": 0.299,
+                "height": 0.173
+              },
+              "fill_color": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "shape_id": 34,
+      "name": "Group 33",
+      "shape_type": "GROUP (6)",
+      "position_in": {
+        "left": 10.046,
+        "top": 3.494,
+        "width": 2.342,
+        "height": 2.041
+      },
+      "children": [
+        {
+          "shape_id": 35,
+          "name": "Chart 34",
+          "shape_type": "CHART (3)",
+          "position_in": {
+            "left": 6.662,
+            "top": 1.756,
+            "width": 2.342,
+            "height": 2.041
+          },
+          "chart": {
+            "chart_type": "DOUGHNUT (-4120)",
+            "categories": [
+              "1st Qtr",
+              "2nd Qtr"
+            ],
+            "series_names": [
+              "Column1"
+            ]
+          }
+        },
+        {
+          "shape_id": 36,
+          "name": "Group 35",
+          "shape_type": "GROUP (6)",
+          "position_in": {
+            "left": 7.573,
+            "top": 2.541,
+            "width": 0.491,
+            "height": 0.492
+          },
+          "children": [
+            {
+              "shape_id": 37,
+              "name": "Freeform 154",
+              "shape_type": "FREEFORM (5)",
+              "position_in": {
+                "left": 8.653,
+                "top": 5.318,
+                "width": 0.634,
+                "height": 0.455
+              },
+              "fill_color": null
+            },
+            {
+              "shape_id": 38,
+              "name": "Freeform 155",
+              "shape_type": "FREEFORM (5)",
+              "position_in": {
+                "left": 8.771,
+                "top": 5.714,
+                "width": 0.396,
+                "height": 0.24
+              },
+              "fill_color": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "shape_id": 39,
+      "name": "TextBox 38",
+      "shape_type": "TEXT_BOX (17)",
+      "position_in": {
+        "left": 7.588,
+        "top": 4.144,
+        "width": 1.989,
+        "height": 0.74
+      },
+      "text": {
+        "full_text": "44% \nsupporting copy",
+        "runs": [
+          {
+            "text": "44% ",
+            "font": null,
+            "size_pt": 24.0,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "supporting copy",
+            "font": null,
+            "size_pt": 14.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 40,
+      "name": "Content Placeholder 14",
+      "shape_type": "TEXT_BOX (17)",
+      "position_in": {
+        "left": 0.33,
+        "top": 5.711,
+        "width": 5.887,
+        "height": 1.161
+      },
+      "text": {
+        "full_text": "Source: UPS Pulse of the Online Shopper™ 2016 survey.\nFor the fifth year, UPS developed this study with comScore, Inc. Input was collected from 5,330 qualified comScore panelists in January and February, 2016. Shoppers had to have made at least two online purchases in a typical three-month period. To get the full white paper, go to ups.com/insideretail.",
+        "runs": [
+          {
+            "text": "Source: UPS Pulse of the Online Shopper™ 2016 survey.",
+            "font": null,
+            "size_pt": 10.0,
+            "bold": null,
+            "italic": true,
+            "color": null
+          },
+          {
+            "text": "For the fifth year, UPS developed this study with comScore, Inc. Input was collected from 5,330 qualified comScore panelists in January and February, 2016. Shoppers had to have made at least two online purchases in a typical three-month period. To get the full white paper, go to ",
+            "font": null,
+            "size_pt": 10.0,
+            "bold": null,
+            "italic": true,
+            "color": null
+          },
+          {
+            "text": "ups.com/insideretail",
+            "font": null,
+            "size_pt": 10.0,
+            "bold": null,
+            "italic": true,
+            "color": null
+          },
+          {
+            "text": ".",
+            "font": null,
+            "size_pt": 10.0,
+            "bold": null,
+            "italic": true,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 41,
+      "name": "Text Placeholder 3",
+      "shape_type": "TEXT_BOX (17)",
+      "position_in": {
+        "left": 0.451,
+        "top": 3.234,
+        "width": 5.077,
+        "height": 1.589
+      },
+      "text": {
+        "full_text": "You can use monochromatic secondary colors for graphs, charts and tables for a more impactful look",
+        "runs": [
+          {
+            "text": "You can use monochromatic secondary colors for graphs, charts and tables for a more impactful look",
+            "font": null,
+            "size_pt": 14.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    }
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "index": 29,
+  "slide_name": "slide_29",
+  "title": "Next Steps",
+  "layout": "Title Only",
+  "category": "Core",
+  "slide_layout_name": "Title Only",
+  "shape_count": 4,
+  "shapes": [
+    {
+      "shape_id": 2,
+      "name": "Title 1",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 0.398,
+        "top": 0.398,
+        "width": 12.533,
+        "height": 0.42
+      },
+      "placeholder_type": "TITLE (1)",
+      "placeholder_idx": 0,
+      "text": {
+        "full_text": "NEXT STEPS",
+        "runs": [
+          {
+            "text": "NEXT STEPS",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 6,
+      "name": "Table 8",
+      "shape_type": "TABLE (19)",
+      "position_in": {
+        "left": 0.391,
+        "top": 1.929,
+        "width": 6.597,
+        "height": 3.827
+      },
+      "table": {
+        "rows": 4,
+        "cols": 2,
+        "header_row": [
+          "Step 1 description here",
+          "Date (Optional)"
+        ]
+      }
+    },
+    {
+      "shape_id": 10,
+      "name": "Slide Number Placeholder 9",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 12.346,
+        "top": 7.098,
+        "width": 0.591,
+        "height": 0.303
+      },
+      "placeholder_type": "SLIDE_NUMBER (13)",
+      "placeholder_idx": 12,
+      "text": {
+        "full_text": "30",
+        "runs": [],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 8,
+      "name": "Graphic 2",
+      "shape_type": "FREEFORM (5)",
+      "position_in": {
+        "left": 8.333,
+        "top": -0.031,
+        "width": 5.0,
+        "height": 6.864
+      }
+    }
+  ]
+}

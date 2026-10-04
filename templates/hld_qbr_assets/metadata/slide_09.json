@@ -1,0 +1,199 @@
+{
+  "index": 9,
+  "slide_name": "slide_09",
+  "title": "Action Item Tracker",
+  "layout": "Title Only",
+  "category": "Core",
+  "slide_layout_name": "Title Only",
+  "shape_count": 10,
+  "shapes": [
+    {
+      "shape_id": 2,
+      "name": "Slide Number Placeholder 1",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 12.344,
+        "top": 7.099,
+        "width": 0.589,
+        "height": 0.303
+      },
+      "placeholder_type": "SLIDE_NUMBER (13)",
+      "placeholder_idx": 12,
+      "text": {
+        "full_text": "10",
+        "runs": [],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 3,
+      "name": "Title 2",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 0.398,
+        "top": 0.398,
+        "width": 12.533,
+        "height": 0.42
+      },
+      "placeholder_type": "TITLE (1)",
+      "placeholder_idx": 0,
+      "text": {
+        "full_text": "ACTION ITEM TRACKER",
+        "runs": [
+          {
+            "text": "ACTION ITEM TRACKER",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 4,
+      "name": "Text Placeholder 3",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 0.398,
+        "top": 0.835,
+        "width": 12.533,
+        "height": 0.245
+      },
+      "placeholder_type": "BODY (2)",
+      "placeholder_idx": 13,
+      "text": {
+        "full_text": "Facility name or location",
+        "runs": [
+          {
+            "text": "Facility name or location",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 5,
+      "name": "Table 4",
+      "shape_type": "TABLE (19)",
+      "position_in": {
+        "left": 0.398,
+        "top": 1.406,
+        "width": 12.533,
+        "height": 4.101
+      },
+      "table": {
+        "rows": 8,
+        "cols": 5,
+        "header_row": [
+          "Project",
+          "Owner",
+          "Next Steps",
+          "Comment",
+          "Status"
+        ]
+      }
+    },
+    {
+      "shape_id": 6,
+      "name": "Rectangle 5",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 9.462,
+        "top": 0.255,
+        "width": 2.962,
+        "height": 1.0
+      },
+      "text": {
+        "full_text": "Required content\nEXAMPLE",
+        "runs": [
+          {
+            "text": "Required content",
+            "font": null,
+            "size_pt": 14.0,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "EXAMPLE",
+            "font": null,
+            "size_pt": 14.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": true
+      },
+      "fill_color": "FFFF00"
+    },
+    {
+      "shape_id": 7,
+      "name": "Flowchart: Connector 6",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 11.943,
+        "top": 1.698,
+        "width": 0.2,
+        "height": 0.2
+      },
+      "fill_color": null
+    },
+    {
+      "shape_id": 8,
+      "name": "Flowchart: Connector 7",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 12.275,
+        "top": 1.692,
+        "width": 0.2,
+        "height": 0.2
+      },
+      "fill_color": "FFC000"
+    },
+    {
+      "shape_id": 9,
+      "name": "Flowchart: Connector 8",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 12.582,
+        "top": 1.695,
+        "width": 0.2,
+        "height": 0.2
+      },
+      "fill_color": "FF0000"
+    },
+    {
+      "shape_id": 10,
+      "name": "Flowchart: Connector 9",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 12.281,
+        "top": 2.085,
+        "width": 0.2,
+        "height": 0.2
+      },
+      "fill_color": "FFC000"
+    },
+    {
+      "shape_id": 11,
+      "name": "Flowchart: Connector 10",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 12.288,
+        "top": 2.61,
+        "width": 0.2,
+        "height": 0.2
+      },
+      "fill_color": "FFC000"
+    }
+  ]
+}

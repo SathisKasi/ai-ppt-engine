@@ -1,0 +1,479 @@
+{
+  "index": 4,
+  "slide_name": "slide_04",
+  "title": "Previous Quarter Achievements",
+  "layout": "Title Only",
+  "category": "Core",
+  "slide_layout_name": "Title Only",
+  "shape_count": 16,
+  "shapes": [
+    {
+      "shape_id": 2,
+      "name": "Slide Number Placeholder 1",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 12.344,
+        "top": 7.099,
+        "width": 0.589,
+        "height": 0.303
+      },
+      "placeholder_type": "SLIDE_NUMBER (13)",
+      "placeholder_idx": 12,
+      "text": {
+        "full_text": "5",
+        "runs": [],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 3,
+      "name": "Title 2",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 0.398,
+        "top": 0.398,
+        "width": 12.533,
+        "height": 0.42
+      },
+      "placeholder_type": "TITLE (1)",
+      "placeholder_idx": 0,
+      "text": {
+        "full_text": "PREVIOUS QUARTER ACHIEVEMENTS",
+        "runs": [
+          {
+            "text": "PREVIOUS QUARTER ACHIEVEMENTS",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 5,
+      "name": "Group 4",
+      "shape_type": "GROUP (6)",
+      "position_in": {
+        "left": 0.415,
+        "top": 1.352,
+        "width": 2.089,
+        "height": 5.239
+      },
+      "children": [
+        {
+          "shape_id": 6,
+          "name": "Picture 5",
+          "shape_type": "PICTURE (13)",
+          "position_in": {
+            "left": 0.055,
+            "top": 4.821,
+            "width": 1.749,
+            "height": 2.016
+          }
+        },
+        {
+          "shape_id": 7,
+          "name": "Group 6",
+          "shape_type": "GROUP (6)",
+          "position_in": {
+            "left": 0.04,
+            "top": 1.597,
+            "width": 2.089,
+            "height": 4.002
+          },
+          "children": [
+            {
+              "shape_id": 8,
+              "name": "Picture 7",
+              "shape_type": "PICTURE (13)",
+              "position_in": {
+                "left": 0.37,
+                "top": 4.223,
+                "width": 1.76,
+                "height": 1.377
+              }
+            },
+            {
+              "shape_id": 9,
+              "name": "Group 8",
+              "shape_type": "GROUP (6)",
+              "position_in": {
+                "left": 0.04,
+                "top": 1.597,
+                "width": 2.087,
+                "height": 2.552
+              },
+              "children": [
+                {
+                  "shape_id": 10,
+                  "name": "Picture 9",
+                  "shape_type": "PICTURE (13)",
+                  "position_in": {
+                    "left": 0.349,
+                    "top": 2.784,
+                    "width": 1.778,
+                    "height": 1.366
+                  }
+                },
+                {
+                  "shape_id": 11,
+                  "name": "Picture 10",
+                  "shape_type": "PICTURE (13)",
+                  "position_in": {
+                    "left": 0.04,
+                    "top": 1.597,
+                    "width": 1.736,
+                    "height": 1.97
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "shape_id": 12,
+      "name": "Content Placeholder 42",
+      "shape_type": "TEXT_BOX (17)",
+      "position_in": {
+        "left": 3.926,
+        "top": 1.312,
+        "width": 8.565,
+        "height": 0.468
+      },
+      "text": {
+        "full_text": "Transportation Amendment Signed – Reduces transportation cost ",
+        "runs": [
+          {
+            "text": "Transportation Amendment Signed – Reduces transportation cost ",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 13,
+      "name": "Content Placeholder 42",
+      "shape_type": "TEXT_BOX (17)",
+      "position_in": {
+        "left": 3.929,
+        "top": 3.216,
+        "width": 8.543,
+        "height": 0.468
+      },
+      "text": {
+        "full_text": "Transportation Management services started 1/16",
+        "runs": [
+          {
+            "text": "Transportation Management services started 1/16",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 14,
+      "name": "Content Placeholder 42",
+      "shape_type": "TEXT_BOX (17)",
+      "position_in": {
+        "left": 3.926,
+        "top": 2.259,
+        "width": 8.526,
+        "height": 0.468
+      },
+      "text": {
+        "full_text": "Successful CVS Tour ",
+        "runs": [
+          {
+            "text": "Successful CVS Tour ",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 15,
+      "name": "Flowchart: Connector 14",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 3.05,
+        "top": 1.304,
+        "width": 0.5,
+        "height": 0.5
+      },
+      "text": {
+        "full_text": "1",
+        "runs": [
+          {
+            "text": "1",
+            "font": null,
+            "size_pt": 14.0,
+            "bold": true,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      },
+      "fill_color": null
+    },
+    {
+      "shape_id": 16,
+      "name": "Flowchart: Connector 15",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 3.05,
+        "top": 2.239,
+        "width": 0.5,
+        "height": 0.5
+      },
+      "text": {
+        "full_text": "2",
+        "runs": [
+          {
+            "text": "2",
+            "font": null,
+            "size_pt": 14.0,
+            "bold": true,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      },
+      "fill_color": null
+    },
+    {
+      "shape_id": 17,
+      "name": "Flowchart: Connector 16",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 3.05,
+        "top": 3.216,
+        "width": 0.5,
+        "height": 0.5
+      },
+      "text": {
+        "full_text": "3",
+        "runs": [
+          {
+            "text": "3",
+            "font": null,
+            "size_pt": 14.0,
+            "bold": true,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      },
+      "fill_color": null
+    },
+    {
+      "shape_id": 18,
+      "name": "Flowchart: Connector 17",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 3.05,
+        "top": 4.215,
+        "width": 0.5,
+        "height": 0.5
+      },
+      "text": {
+        "full_text": "4",
+        "runs": [
+          {
+            "text": "4",
+            "font": null,
+            "size_pt": 14.0,
+            "bold": true,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      },
+      "fill_color": null
+    },
+    {
+      "shape_id": 19,
+      "name": "Content Placeholder 42",
+      "shape_type": "TEXT_BOX (17)",
+      "position_in": {
+        "left": 3.928,
+        "top": 4.246,
+        "width": 8.383,
+        "height": 0.468
+      },
+      "text": {
+        "full_text": "Calgary UPS Healthcare Logistics and Distribution operations opened 1/25",
+        "runs": [
+          {
+            "text": "Calgary UPS Healthcare Logistics and Distribution operations opened 1/25",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 20,
+      "name": "Rectangle 19",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 9.981,
+        "top": 0.255,
+        "width": 2.443,
+        "height": 1.0
+      },
+      "text": {
+        "full_text": "Required slide\nExample text provided",
+        "runs": [
+          {
+            "text": "Required slide",
+            "font": null,
+            "size_pt": 14.0,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "Example text provided",
+            "font": null,
+            "size_pt": 14.0,
+            "bold": null,
+            "italic": null,
+            "color": "C00000"
+          }
+        ],
+        "is_guidance_sticker": true
+      },
+      "fill_color": "FFFF00"
+    },
+    {
+      "shape_id": 4,
+      "name": "Content Placeholder 42",
+      "shape_type": "TEXT_BOX (17)",
+      "position_in": {
+        "left": 3.935,
+        "top": 5.119,
+        "width": 8.543,
+        "height": 0.468
+      },
+      "text": {
+        "full_text": "Details",
+        "runs": [
+          {
+            "text": "Details",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 21,
+      "name": "Flowchart: Connector 20",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 3.057,
+        "top": 5.119,
+        "width": 0.5,
+        "height": 0.5
+      },
+      "text": {
+        "full_text": "5",
+        "runs": [
+          {
+            "text": "5",
+            "font": null,
+            "size_pt": 14.0,
+            "bold": true,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      },
+      "fill_color": null
+    },
+    {
+      "shape_id": 22,
+      "name": "Flowchart: Connector 21",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 3.057,
+        "top": 6.117,
+        "width": 0.5,
+        "height": 0.5
+      },
+      "text": {
+        "full_text": "6",
+        "runs": [
+          {
+            "text": "6",
+            "font": null,
+            "size_pt": 14.0,
+            "bold": true,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      },
+      "fill_color": null
+    },
+    {
+      "shape_id": 23,
+      "name": "Content Placeholder 42",
+      "shape_type": "TEXT_BOX (17)",
+      "position_in": {
+        "left": 3.935,
+        "top": 6.149,
+        "width": 8.383,
+        "height": 0.468
+      },
+      "text": {
+        "full_text": "Details",
+        "runs": [
+          {
+            "text": "Details",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    }
+  ]
+}

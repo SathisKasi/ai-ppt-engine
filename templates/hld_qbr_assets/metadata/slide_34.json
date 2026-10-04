@@ -1,0 +1,731 @@
+{
+  "index": 34,
+  "slide_name": "slide_34",
+  "title": "Performance Summary Callouts",
+  "layout": "Blank",
+  "category": "Optional",
+  "slide_layout_name": "Blank",
+  "shape_count": 25,
+  "shapes": [
+    {
+      "shape_id": 4,
+      "name": "Picture 3",
+      "shape_type": "PICTURE (13)",
+      "position_in": {
+        "left": 3.242,
+        "top": 1.26,
+        "width": 6.461,
+        "height": 5.583
+      }
+    },
+    {
+      "shape_id": 52,
+      "name": "Rectangle 51",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 0.0,
+        "top": 1.25,
+        "width": 6.367,
+        "height": 5.593
+      }
+    },
+    {
+      "shape_id": 24,
+      "name": "Slide Number Placeholder 26",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 12.344,
+        "top": 7.099,
+        "width": 0.589,
+        "height": 0.303
+      },
+      "placeholder_type": "SLIDE_NUMBER (13)",
+      "placeholder_idx": 12,
+      "text": {
+        "full_text": "35",
+        "runs": [],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 5,
+      "name": "Rectangle 4",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 6.198,
+        "top": 1.25,
+        "width": 4.564,
+        "height": 5.593
+      }
+    },
+    {
+      "shape_id": 6,
+      "name": "Title 2",
+      "shape_type": "TEXT_BOX (17)",
+      "position_in": {
+        "left": 0.398,
+        "top": 0.398,
+        "width": 12.533,
+        "height": 0.42
+      },
+      "text": {
+        "full_text": "PERFORMANCE SUMMARY",
+        "runs": [
+          {
+            "text": "PERFORMANCE SUMMARY",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 7,
+      "name": "Text Placeholder 3",
+      "shape_type": "TEXT_BOX (17)",
+      "position_in": {
+        "left": 0.398,
+        "top": 0.835,
+        "width": 12.533,
+        "height": 0.245
+      },
+      "text": {
+        "full_text": "Facility name or location",
+        "runs": [
+          {
+            "text": "Facility name or location",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 23,
+      "name": "MyUPSLogo",
+      "shape_type": "PICTURE (13)",
+      "position_in": {
+        "left": 0.276,
+        "top": 7.014,
+        "width": 2.302,
+        "height": 0.41
+      }
+    },
+    {
+      "shape_id": 55,
+      "name": "Group 54",
+      "shape_type": "GROUP (6)",
+      "position_in": {
+        "left": 0.354,
+        "top": 2.956,
+        "width": 4.427,
+        "height": 1.227
+      },
+      "children": [
+        {
+          "shape_id": 3,
+          "name": "Rectangle 2",
+          "shape_type": "AUTO_SHAPE (1)",
+          "position_in": {
+            "left": 0.354,
+            "top": 3.594,
+            "width": 4.427,
+            "height": 0.339
+          },
+          "text": {
+            "full_text": "Customer specific info",
+            "runs": [
+              {
+                "text": "Customer specific info",
+                "font": null,
+                "size_pt": 16.0,
+                "bold": false,
+                "italic": false,
+                "color": null
+              }
+            ],
+            "is_guidance_sticker": false
+          }
+        },
+        {
+          "shape_id": 26,
+          "name": "Rectangle 25",
+          "shape_type": "AUTO_SHAPE (1)",
+          "position_in": {
+            "left": 0.354,
+            "top": 2.707,
+            "width": 3.981,
+            "height": 0.404
+          },
+          "text": {
+            "full_text": "CUSTOMER NAME",
+            "runs": [
+              {
+                "text": "CUSTOMER NAME",
+                "font": "Verdana",
+                "size_pt": null,
+                "bold": true,
+                "italic": false,
+                "color": null
+              }
+            ],
+            "is_guidance_sticker": false
+          }
+        }
+      ]
+    },
+    {
+      "shape_id": 2,
+      "name": "Oval 1",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 7.595,
+        "top": 4.76,
+        "width": 0.918,
+        "height": 0.918
+      },
+      "fill_color": null
+    },
+    {
+      "shape_id": 30,
+      "name": "Content Placeholder 2",
+      "shape_type": "TEXT_BOX (17)",
+      "position_in": {
+        "left": 8.553,
+        "top": 4.925,
+        "width": 4.383,
+        "height": 0.683
+      },
+      "text": {
+        "full_text": "1K+ Regulatory Audits/Year\nZERO Critical Findings1",
+        "runs": [
+          {
+            "text": "1K+ Regulatory Audits",
+            "font": null,
+            "size_pt": 18.0,
+            "bold": true,
+            "italic": false,
+            "color": null
+          },
+          {
+            "text": "/Year",
+            "font": null,
+            "size_pt": 18.0,
+            "bold": true,
+            "italic": false,
+            "color": null
+          },
+          {
+            "text": "ZERO",
+            "font": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": true,
+            "color": null
+          },
+          {
+            "text": " Critical Findings",
+            "font": null,
+            "size_pt": null,
+            "bold": false,
+            "italic": false,
+            "color": null
+          },
+          {
+            "text": "1",
+            "font": null,
+            "size_pt": null,
+            "bold": false,
+            "italic": false,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 32,
+      "name": "Freeform 346",
+      "shape_type": "FREEFORM (5)",
+      "position_in": {
+        "left": 7.764,
+        "top": 4.929,
+        "width": 0.581,
+        "height": 0.581
+      },
+      "fill_color": null
+    },
+    {
+      "shape_id": 9,
+      "name": "Oval 8",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 7.595,
+        "top": 1.263,
+        "width": 0.918,
+        "height": 0.918
+      },
+      "fill_color": null
+    },
+    {
+      "shape_id": 27,
+      "name": "Content Placeholder 2",
+      "shape_type": "TEXT_BOX (17)",
+      "position_in": {
+        "left": 8.553,
+        "top": 1.487,
+        "width": 3.337,
+        "height": 0.464
+      },
+      "text": {
+        "full_text": "Ship to Delivery\u000b1.07 Avg Business Days1*",
+        "runs": [
+          {
+            "text": "Ship to Delivery",
+            "font": null,
+            "size_pt": 18.0,
+            "bold": true,
+            "italic": false,
+            "color": "FFBE00"
+          },
+          {
+            "text": "1.07 Avg Business Days",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "1",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "*",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 33,
+      "name": "Google Shape;736;p38",
+      "shape_type": "GROUP (6)",
+      "position_in": {
+        "left": 7.773,
+        "top": 1.542,
+        "width": 0.563,
+        "height": 0.36
+      },
+      "children": [
+        {
+          "shape_id": 34,
+          "name": "Google Shape;737;p38",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 4.255,
+            "top": 5.501,
+            "width": 0.641,
+            "height": 0.269
+          }
+        },
+        {
+          "shape_id": 35,
+          "name": "Google Shape;738;p38",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 4.255,
+            "top": 5.433,
+            "width": 0.44,
+            "height": 0.239
+          }
+        },
+        {
+          "shape_id": 36,
+          "name": "Google Shape;739;p38",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 4.301,
+            "top": 5.732,
+            "width": 0.096,
+            "height": 0.098
+          }
+        },
+        {
+          "shape_id": 37,
+          "name": "Google Shape;740;p38",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 4.756,
+            "top": 5.732,
+            "width": 0.096,
+            "height": 0.098
+          }
+        }
+      ]
+    },
+    {
+      "shape_id": 10,
+      "name": "Oval 9",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 7.595,
+        "top": 2.429,
+        "width": 0.918,
+        "height": 0.918
+      },
+      "fill_color": null
+    },
+    {
+      "shape_id": 28,
+      "name": "Content Placeholder 2",
+      "shape_type": "TEXT_BOX (17)",
+      "position_in": {
+        "left": 8.553,
+        "top": 2.588,
+        "width": 4.293,
+        "height": 0.595
+      },
+      "text": {
+        "full_text": "Annual On-Time Delivery\n98.7% Controllable1",
+        "runs": [
+          {
+            "text": "Annual On-Time Delivery",
+            "font": null,
+            "size_pt": 18.0,
+            "bold": true,
+            "italic": false,
+            "color": "00857D"
+          },
+          {
+            "text": "98.7% Controllable",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "1",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 38,
+      "name": "Google Shape;749;p38",
+      "shape_type": "FREEFORM (5)",
+      "position_in": {
+        "left": 7.773,
+        "top": 2.688,
+        "width": 0.563,
+        "height": 0.4
+      },
+      "fill_color": "00857D"
+    },
+    {
+      "shape_id": 11,
+      "name": "Oval 10",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 7.595,
+        "top": 3.594,
+        "width": 0.918,
+        "height": 0.918
+      },
+      "fill_color": null
+    },
+    {
+      "shape_id": 29,
+      "name": "Content Placeholder 2",
+      "shape_type": "TEXT_BOX (17)",
+      "position_in": {
+        "left": 8.553,
+        "top": 3.778,
+        "width": 3.775,
+        "height": 0.683
+      },
+      "text": {
+        "full_text": "# of Units Distributed\n3.8 Billion/Year1",
+        "runs": [
+          {
+            "text": "# of Units Distributed",
+            "font": null,
+            "size_pt": 18.0,
+            "bold": true,
+            "italic": false,
+            "color": null
+          },
+          {
+            "text": "3.8 Billion/Year",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "1",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 39,
+      "name": "Google Shape;804;p38",
+      "shape_type": "GROUP (6)",
+      "position_in": {
+        "left": 7.824,
+        "top": 3.788,
+        "width": 0.563,
+        "height": 0.449
+      },
+      "children": [
+        {
+          "shape_id": 40,
+          "name": "Google Shape;805;p38",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 9.272,
+            "top": 4.53,
+            "width": 0.635,
+            "height": 0.5
+          }
+        },
+        {
+          "shape_id": 41,
+          "name": "Google Shape;806;p38",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 9.272,
+            "top": 4.948,
+            "width": 0.12,
+            "height": 0.12
+          }
+        },
+        {
+          "shape_id": 42,
+          "name": "Google Shape;807;p38",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 9.533,
+            "top": 4.948,
+            "width": 0.12,
+            "height": 0.12
+          }
+        },
+        {
+          "shape_id": 43,
+          "name": "Google Shape;808;p38",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 9.646,
+            "top": 4.664,
+            "width": 0.216,
+            "height": 0.239
+          }
+        }
+      ]
+    },
+    {
+      "shape_id": 12,
+      "name": "Oval 11",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 7.595,
+        "top": 5.925,
+        "width": 0.918,
+        "height": 0.918
+      },
+      "fill_color": null
+    },
+    {
+      "shape_id": 31,
+      "name": "Content Placeholder 2",
+      "shape_type": "TEXT_BOX (17)",
+      "position_in": {
+        "left": 8.553,
+        "top": 6.043,
+        "width": 3.366,
+        "height": 0.683
+      },
+      "text": {
+        "full_text": "ISO Accredited\u000b100% of distribution facilities are ISO 9001 and 134851",
+        "runs": [
+          {
+            "text": "ISO Accredited",
+            "font": null,
+            "size_pt": 18.0,
+            "bold": true,
+            "italic": false,
+            "color": "0E2554"
+          },
+          {
+            "text": "100% of distribution facilities are ISO 9001 and 13485",
+            "font": null,
+            "size_pt": null,
+            "bold": false,
+            "italic": false,
+            "color": null
+          },
+          {
+            "text": "1",
+            "font": null,
+            "size_pt": null,
+            "bold": false,
+            "italic": false,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 44,
+      "name": "Google Shape;648;p38",
+      "shape_type": "GROUP (6)",
+      "position_in": {
+        "left": 7.773,
+        "top": 6.14,
+        "width": 0.563,
+        "height": 0.514
+      },
+      "children": [
+        {
+          "shape_id": 45,
+          "name": "Google Shape;649;p38",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 10.332,
+            "top": 2.035,
+            "width": 0.418,
+            "height": 0.5
+          }
+        },
+        {
+          "shape_id": 46,
+          "name": "Google Shape;650;p38",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 10.108,
+            "top": 2.178,
+            "width": 0.179,
+            "height": 0.365
+          }
+        }
+      ]
+    },
+    {
+      "shape_id": 56,
+      "name": "TextBox 55",
+      "shape_type": "TEXT_BOX (17)",
+      "position_in": {
+        "left": 0.368,
+        "top": 6.393,
+        "width": 1.578,
+        "height": 0.37
+      },
+      "text": {
+        "full_text": "1Internal KPIs\n*TL only, excludes LTL",
+        "runs": [
+          {
+            "text": "1",
+            "font": null,
+            "size_pt": 8.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "Internal KPIs",
+            "font": null,
+            "size_pt": 8.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "*TL only, excludes LTL",
+            "font": null,
+            "size_pt": 8.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 8,
+      "name": "Rectangle 7",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 7.723,
+        "top": 0.252,
+        "width": 4.245,
+        "height": 0.651
+      },
+      "text": {
+        "full_text": "Example only – \nHow to summarize performance\nMust be updated",
+        "runs": [
+          {
+            "text": "Example only – ",
+            "font": null,
+            "size_pt": 14.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "How to summarize performance",
+            "font": null,
+            "size_pt": 14.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "Must be updated",
+            "font": null,
+            "size_pt": 14.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": true
+      },
+      "fill_color": "FFFF00"
+    }
+  ]
+}

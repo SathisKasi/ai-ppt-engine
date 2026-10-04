@@ -1,0 +1,309 @@
+{
+  "index": 7,
+  "slide_name": "slide_07",
+  "title": "UPS Healthcare Priorities",
+  "layout": "Title Only",
+  "category": "Core",
+  "slide_layout_name": "Title Only",
+  "shape_count": 13,
+  "shapes": [
+    {
+      "shape_id": 5,
+      "name": "Rectangle 4",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 0.0,
+        "top": 3.01,
+        "width": 13.333,
+        "height": 3.606
+      },
+      "fill_color": null
+    },
+    {
+      "shape_id": 2,
+      "name": "Title 1",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 0.398,
+        "top": 0.398,
+        "width": 12.533,
+        "height": 0.42
+      },
+      "placeholder_type": "TITLE (1)",
+      "placeholder_idx": 0,
+      "text": {
+        "full_text": "UPS HEALTHCARE™ LOGISTICS AND DISTRIBUTION PRIORITIES",
+        "runs": [
+          {
+            "text": "UPS HEALTHCARE™ LOGISTICS AND DISTRIBUTION PRIORITIES",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 6,
+      "name": "Oval 5",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 0.833,
+        "top": 1.979,
+        "width": 2.41,
+        "height": 2.41
+      }
+    },
+    {
+      "shape_id": 22,
+      "name": "TextBox 21",
+      "shape_type": "TEXT_BOX (17)",
+      "position_in": {
+        "left": 9.244,
+        "top": 4.697,
+        "width": 3.461,
+        "height": 0.327
+      },
+      "text": {
+        "full_text": "Details",
+        "runs": [
+          {
+            "text": "Details",
+            "font": "Verdana",
+            "size_pt": 14.0,
+            "bold": null,
+            "italic": false,
+            "color": "0E2554"
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 9,
+      "name": "TextBox 8",
+      "shape_type": "TEXT_BOX (17)",
+      "position_in": {
+        "left": 9.959,
+        "top": 1.434,
+        "width": 2.037,
+        "height": 0.36
+      },
+      "text": {
+        "full_text": "Cost ",
+        "runs": [
+          {
+            "text": "Cost ",
+            "font": "Verdana",
+            "size_pt": 16.0,
+            "bold": true,
+            "italic": false,
+            "color": "0E2554"
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 8,
+      "name": "Oval 7",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 9.773,
+        "top": 1.979,
+        "width": 2.41,
+        "height": 2.41
+      }
+    },
+    {
+      "shape_id": 23,
+      "name": "TextBox 22",
+      "shape_type": "TEXT_BOX (17)",
+      "position_in": {
+        "left": 0.364,
+        "top": 4.697,
+        "width": 3.348,
+        "height": 0.337
+      },
+      "text": {
+        "full_text": "Details",
+        "runs": [
+          {
+            "text": "Details",
+            "font": "Verdana",
+            "size_pt": 14.0,
+            "bold": null,
+            "italic": false,
+            "color": "0E2554"
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 13,
+      "name": "TextBox 12",
+      "shape_type": "TEXT_BOX (17)",
+      "position_in": {
+        "left": 0.767,
+        "top": 1.429,
+        "width": 2.541,
+        "height": 0.37
+      },
+      "text": {
+        "full_text": "Performance",
+        "runs": [
+          {
+            "text": "Performance",
+            "font": "Verdana",
+            "size_pt": 16.0,
+            "bold": true,
+            "italic": false,
+            "color": "0E2554"
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 10,
+      "name": "Oval 9",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 5.31,
+        "top": 1.979,
+        "width": 2.41,
+        "height": 2.41
+      }
+    },
+    {
+      "shape_id": 24,
+      "name": "TextBox 23",
+      "shape_type": "TEXT_BOX (17)",
+      "position_in": {
+        "left": 4.982,
+        "top": 4.697,
+        "width": 3.067,
+        "height": 0.337
+      },
+      "text": {
+        "full_text": "Details",
+        "runs": [
+          {
+            "text": "Details",
+            "font": "Verdana",
+            "size_pt": 14.0,
+            "bold": null,
+            "italic": false,
+            "color": "0E2554"
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 16,
+      "name": "TextBox 15",
+      "shape_type": "TEXT_BOX (17)",
+      "position_in": {
+        "left": 5.309,
+        "top": 1.429,
+        "width": 2.413,
+        "height": 0.37
+      },
+      "text": {
+        "full_text": "Partnership ",
+        "runs": [
+          {
+            "text": "Partnership ",
+            "font": "Verdana",
+            "size_pt": 16.0,
+            "bold": true,
+            "italic": false,
+            "color": "0E2554"
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 20,
+      "name": "Slide Number Placeholder 19",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 12.346,
+        "top": 7.098,
+        "width": 0.591,
+        "height": 0.303
+      },
+      "placeholder_type": "SLIDE_NUMBER (13)",
+      "placeholder_idx": 12,
+      "text": {
+        "full_text": "8",
+        "runs": [],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 12,
+      "name": "Rectangle 11",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 3.794,
+        "top": 4.894,
+        "width": 9.386,
+        "height": 1.672
+      },
+      "text": {
+        "full_text": "Required content \nExample Text Only\nMay include What’s New, Investments, Organic Growth opportunities, facility or account level priorities, etc. Link to latest QBR supplemental deck in Seismic\nhttps://eng2e.seismic.com/i/9PrPLUSSIGNbpUo___Os1XvAIPLUSSIGN934GOLGgMC___awpoLgJoERlFGleiVJ18LmYFCV6voPLUSSIGNsJHoHXKxb1vlNTWbHHCPhrgvFb8BNMeDzqHUPuAu___2ZcgwQJMEQUALSIGN \n",
+        "runs": [
+          {
+            "text": "Required content ",
+            "font": null,
+            "size_pt": 14.0,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "Example Text Only",
+            "font": null,
+            "size_pt": 14.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "May include What’s New, Investments, Organic Growth opportunities, facility or account level priorities, etc. Link to latest QBR supplemental deck in Seismic",
+            "font": null,
+            "size_pt": 14.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "https://eng2e.seismic.com/i/9PrPLUSSIGNbpUo___Os1XvAIPLUSSIGN934GOLGgMC___awpoLgJoERlFGleiVJ18LmYFCV6voPLUSSIGNsJHoHXKxb1vlNTWbHHCPhrgvFb8BNMeDzqHUPuAu___2ZcgwQJMEQUALSIGN",
+            "font": null,
+            "size_pt": 12.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": " ",
+            "font": null,
+            "size_pt": 12.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": true
+      },
+      "fill_color": "FFFF00"
+    }
+  ]
+}

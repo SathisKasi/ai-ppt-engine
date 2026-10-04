@@ -11,6 +11,7 @@ from pydantic import BaseModel, Field
 
 from llm.hld_qbr_guidelines import BRAND_COLORS, TYPOGRAPHY
 from llm.hld_qbr_layout_registry import get_archetype_max_items
+from llm.hld_qbr_generic_schemas import GenericHLDQBRPlan
 
 
 class GovernanceReport(BaseModel):
@@ -113,6 +114,45 @@ def _check_hld_qbr_archetype_coverage(plan: Any, content_model: Any, report: Gov
             )
 
 
+def _check_hld_qbr_generic_governance(plan: GenericHLDQBRPlan, content_model: Any, report: GovernanceReport) -> None:
+    """Generic-plan equivalent of the three archetype-based checks above:
+    enforces each repeat-group's max item count, flags content_item_ids that
+    don't exist in the Content Model, and flags distinctive source content
+    (quote/risk/person) that no planned slide ever cited."""
+    from core.hld_qbr_catalog import get_entry
+
+    valid_ids = content_model.ids() if content_model is not None else None
+    used_ids: set = set()
+    for slide in plan.slides:
+        entry = get_entry(slide.slide_id)
+        if entry is not None:
+            for rg in entry.get("repeat_groups", []):
+                if len(slide.repeat_items) > rg["item_count"]:
+                    report.warning(
+                        f"{slide.slide_id}: {len(slide.repeat_items)} items exceeds "
+                        f"template max of {rg['item_count']} -- trimmed."
+                    )
+                    del slide.repeat_items[rg["item_count"]:]
+        if valid_ids is not None:
+            unknown = [cid for cid in slide.content_item_ids if cid not in valid_ids]
+            if unknown:
+                report.warning(f"{slide.slide_id}: cites unknown content ids {unknown}.")
+                report.source_traceability = False
+            used_ids.update(slide.content_item_ids)
+
+    if valid_ids is not None:
+        for content_type, _fields, label in _COVERAGE_CHECKS:
+            unused = [
+                item.id for item in content_model.content_items
+                if item.type == content_type and item.id not in used_ids
+            ]
+            if unused:
+                report.warning(
+                    f"Source document contains {label} (content ids {unused}) but no "
+                    "planned slide cited it -- verify this wasn't dropped in planning."
+                )
+
+
 def validate_plan_governance(
     plan: Any,
     template_id: str,
@@ -127,9 +167,12 @@ def validate_plan_governance(
         report.quality_score -= 20
     else:
         report.checks["template"] = "UPS Healthcare HLD QBR template selected"
-        _enforce_hld_qbr_archetype_limits(plan, report)
-        _check_hld_qbr_traceability(plan, content_model, report)
-        _check_hld_qbr_archetype_coverage(plan, content_model, report)
+        if isinstance(plan, GenericHLDQBRPlan):
+            _check_hld_qbr_generic_governance(plan, content_model, report)
+        else:
+            _enforce_hld_qbr_archetype_limits(plan, report)
+            _check_hld_qbr_traceability(plan, content_model, report)
+            _check_hld_qbr_archetype_coverage(plan, content_model, report)
 
     all_text = "\n".join(_walk_text(plan.model_dump()))
     if re.search(r"\b(?:TBD|TODO|lorem ipsum|click to add|sample text)\b", all_text, re.I):

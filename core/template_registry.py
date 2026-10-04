@@ -21,8 +21,8 @@ logger = get_logger(__name__)
 _REGISTRY: Dict[str, Dict[str, Any]] = {
     "dark_navy": {
         "id":          "dark_navy",
-        "name":        "Template 1",
-        "description": "Dark Navy",
+        "name":        "RFP",
+        "description": "PROPOSAL",
         "icon":        "🌑",
     },
     # "techm": {
@@ -33,20 +33,20 @@ _REGISTRY: Dict[str, Dict[str, Any]] = {
     # },
     "white_blue": {
         "id":          "white_blue",
-        "name":        "Template 2",
-        "description": "White & Blue",
+        "name":        "DEPARTMENT",
+        "description": "MEETING",
         "icon":        "☁️",
     },
     "techm_v3": {
         "id":          "techm_v3",
-        "name":        "Template 3",
-        "description": "TechM",
+        "name":        "TOWN HALL",
+        "description": "PRESENTATION",
         "icon":        "✨",
     },
     "template1": {
         "id":          "template1",
-        "name":        "Template 4",
-        "description": "Professional",
+        "name":        "CUSTOMER",
+        "description": "FACING",
         "icon":        "🟤",
     },
     "hld_qbr": {
@@ -81,8 +81,8 @@ def get_builder(template_id: str, layout_manager=None):
         return Template1Builder(template_path=config.TEMPLATE1_FILE)
 
     if tid == "hld_qbr":
-        from core.builders.hld_qbr_builder import HLDQBRBuilder
-        return HLDQBRBuilder(template_path=config.HLD_QBR_TEMPLATE_FILE)
+        from core.builders.hld_qbr_generic_builder import HLDQBRGenericBuilder
+        return HLDQBRGenericBuilder()
 
     if tid == "techm_v3":
         from core.builders.techm_v3_builder import TechMV3Builder

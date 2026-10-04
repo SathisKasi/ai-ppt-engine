@@ -1,0 +1,140 @@
+{
+  "index": 1,
+  "slide_name": "slide_01",
+  "title": "Today's Discussion (Agenda)",
+  "layout": "9_Section Header",
+  "category": "Mandatory",
+  "slide_layout_name": "9_Section Header",
+  "shape_count": 4,
+  "shapes": [
+    {
+      "shape_id": 5,
+      "name": "Title 1",
+      "shape_type": "TEXT_BOX (17)",
+      "position_in": {
+        "left": 0.398,
+        "top": 0.398,
+        "width": 12.533,
+        "height": 0.42
+      },
+      "text": {
+        "full_text": "TODAY’S DISCUSSION",
+        "runs": [
+          {
+            "text": "TODAY’S DISCUSSION",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 12,
+      "name": "Picture Placeholder 11",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 8.343,
+        "top": 0.0,
+        "width": 4.99,
+        "height": 6.833
+      },
+      "placeholder_type": "PICTURE (18)",
+      "placeholder_idx": 1
+    },
+    {
+      "shape_id": 8,
+      "name": "TextBox 7",
+      "shape_type": "TEXT_BOX (17)",
+      "position_in": {
+        "left": 0.546,
+        "top": 1.391,
+        "width": 7.416,
+        "height": 4.243
+      },
+      "text": {
+        "full_text": "Welcome and Organization Structure \nExecutive Summary\nPerformance Management Updates\nContinuous Improvement Program Updates\nTransportation Updates \nQuality System Management Updates\nNext Steps",
+        "runs": [
+          {
+            "text": "Welcome and Organization Structure ",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "Executive Summary",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "Performance Management Updates",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "Continuous Improvement Program Updates",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "Transportation Updates ",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "Quality System Management Updates",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "Next Steps",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 3,
+      "name": "Slide Number Placeholder 2",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 12.346,
+        "top": 7.098,
+        "width": 0.591,
+        "height": 0.303
+      },
+      "placeholder_type": "SLIDE_NUMBER (13)",
+      "placeholder_idx": 12,
+      "text": {
+        "full_text": "2",
+        "runs": [],
+        "is_guidance_sticker": false
+      }
+    }
+  ]
+}

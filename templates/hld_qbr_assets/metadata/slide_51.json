@@ -1,0 +1,94 @@
+{
+  "index": 51,
+  "slide_name": "slide_51",
+  "title": "Chart Samples (Full Width)",
+  "layout": "Title Only",
+  "category": "Guide-Only",
+  "slide_layout_name": "Title Only",
+  "shape_count": 4,
+  "shapes": [
+    {
+      "shape_id": 4,
+      "name": "Slide Number Placeholder 3",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 12.344,
+        "top": 7.099,
+        "width": 0.589,
+        "height": 0.303
+      },
+      "placeholder_type": "SLIDE_NUMBER (13)",
+      "placeholder_idx": 12,
+      "text": {
+        "full_text": "52",
+        "runs": [],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 2,
+      "name": "Title 1",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 0.398,
+        "top": 0.398,
+        "width": 12.533,
+        "height": 0.42
+      },
+      "placeholder_type": "TITLE (1)",
+      "placeholder_idx": 0,
+      "text": {
+        "full_text": "CHART SAMPLES",
+        "runs": [
+          {
+            "text": "CHART SAMPLES",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 3,
+      "name": "Text Placeholder 2",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 0.398,
+        "top": 0.835,
+        "width": 12.533,
+        "height": 0.245
+      },
+      "placeholder_type": "BODY (2)",
+      "placeholder_idx": 13
+    },
+    {
+      "shape_id": 6,
+      "name": "Content Placeholder 7",
+      "shape_type": "CHART (3)",
+      "position_in": {
+        "left": 0.399,
+        "top": 1.592,
+        "width": 12.535,
+        "height": 4.908
+      },
+      "chart": {
+        "chart_type": "COLUMN_CLUSTERED (51)",
+        "categories": [
+          "Category 1",
+          "Category 2",
+          "Category 3",
+          "Category 4"
+        ],
+        "series_names": [
+          "Series 1",
+          "Series 2",
+          "Series 3"
+        ]
+      }
+    }
+  ]
+}

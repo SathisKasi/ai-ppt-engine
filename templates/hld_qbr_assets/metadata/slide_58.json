@@ -1,0 +1,252 @@
+{
+  "index": 58,
+  "slide_name": "slide_58",
+  "title": "New Icons (Logistics & Tech)",
+  "layout": "Title Only",
+  "category": "Guide-Only",
+  "slide_layout_name": "Title Only",
+  "shape_count": 16,
+  "shapes": [
+    {
+      "shape_id": 2,
+      "name": "Slide Number Placeholder 1",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 12.344,
+        "top": 7.099,
+        "width": 0.589,
+        "height": 0.303
+      },
+      "placeholder_type": "SLIDE_NUMBER (13)",
+      "placeholder_idx": 12,
+      "text": {
+        "full_text": "59",
+        "runs": [],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 3,
+      "name": "Title 2",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 0.398,
+        "top": 0.398,
+        "width": 12.533,
+        "height": 0.42
+      },
+      "placeholder_type": "TITLE (1)",
+      "placeholder_idx": 0,
+      "text": {
+        "full_text": "NEW ICONS",
+        "runs": [
+          {
+            "text": "NEW ICONS",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 19,
+      "name": "Picture 18",
+      "shape_type": "PICTURE (13)",
+      "position_in": {
+        "left": 10.57,
+        "top": 4.603,
+        "width": 2.222,
+        "height": 0.968
+      }
+    },
+    {
+      "shape_id": 20,
+      "name": "TextBox 12",
+      "shape_type": "TEXT_BOX (17)",
+      "position_in": {
+        "left": 0.265,
+        "top": 1.153,
+        "width": 2.222,
+        "height": 0.244
+      },
+      "text": {
+        "full_text": "OUTCOMES",
+        "runs": [
+          {
+            "text": "OUTCOMES",
+            "font": null,
+            "size_pt": 8.49,
+            "bold": true,
+            "italic": null,
+            "color": "FFBE00"
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 21,
+      "name": "TextBox 17",
+      "shape_type": "TEXT_BOX (17)",
+      "position_in": {
+        "left": 0.265,
+        "top": 3.86,
+        "width": 2.222,
+        "height": 0.244
+      },
+      "text": {
+        "full_text": "HOW WE WORK",
+        "runs": [
+          {
+            "text": "HOW WE WORK",
+            "font": null,
+            "size_pt": 8.49,
+            "bold": true,
+            "italic": null,
+            "color": "FFBE00"
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 22,
+      "name": "Rectangle 21",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 10.223,
+        "top": 3.679,
+        "width": 2.928,
+        "height": 2.497
+      }
+    },
+    {
+      "shape_id": 23,
+      "name": "TextBox 4",
+      "shape_type": "TEXT_BOX (17)",
+      "position_in": {
+        "left": 10.507,
+        "top": 3.86,
+        "width": 2.222,
+        "height": 0.244
+      },
+      "text": {
+        "full_text": "EFFICIENCY",
+        "runs": [
+          {
+            "text": "EFFICIENCY",
+            "font": null,
+            "size_pt": 8.49,
+            "bold": true,
+            "italic": null,
+            "color": "FFBE00"
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 24,
+      "name": "Picture 23",
+      "shape_type": "PICTURE (13)",
+      "position_in": {
+        "left": 5.244,
+        "top": 3.849,
+        "width": 2.497,
+        "height": 2.497
+      }
+    },
+    {
+      "shape_id": 25,
+      "name": "Picture 24",
+      "shape_type": "PICTURE (13)",
+      "position_in": {
+        "left": 0.198,
+        "top": 3.849,
+        "width": 2.497,
+        "height": 2.497
+      }
+    },
+    {
+      "shape_id": 26,
+      "name": "Picture 25",
+      "shape_type": "PICTURE (13)",
+      "position_in": {
+        "left": 7.767,
+        "top": 3.849,
+        "width": 2.497,
+        "height": 2.497
+      }
+    },
+    {
+      "shape_id": 27,
+      "name": "Picture 26",
+      "shape_type": "PICTURE (13)",
+      "position_in": {
+        "left": 2.721,
+        "top": 3.849,
+        "width": 2.497,
+        "height": 2.497
+      }
+    },
+    {
+      "shape_id": 28,
+      "name": "Picture 27",
+      "shape_type": "PICTURE (13)",
+      "position_in": {
+        "left": 0.182,
+        "top": 1.316,
+        "width": 2.497,
+        "height": 2.497
+      }
+    },
+    {
+      "shape_id": 29,
+      "name": "Picture 28",
+      "shape_type": "PICTURE (13)",
+      "position_in": {
+        "left": 2.708,
+        "top": 1.316,
+        "width": 2.497,
+        "height": 2.497
+      }
+    },
+    {
+      "shape_id": 30,
+      "name": "Picture 29",
+      "shape_type": "PICTURE (13)",
+      "position_in": {
+        "left": 10.286,
+        "top": 1.316,
+        "width": 2.497,
+        "height": 2.497
+      }
+    },
+    {
+      "shape_id": 31,
+      "name": "Picture 30",
+      "shape_type": "PICTURE (13)",
+      "position_in": {
+        "left": 7.76,
+        "top": 1.316,
+        "width": 2.497,
+        "height": 2.497
+      }
+    },
+    {
+      "shape_id": 32,
+      "name": "Picture 31",
+      "shape_type": "PICTURE (13)",
+      "position_in": {
+        "left": 5.234,
+        "top": 1.316,
+        "width": 2.497,
+        "height": 2.497
+      }
+    }
+  ]
+}

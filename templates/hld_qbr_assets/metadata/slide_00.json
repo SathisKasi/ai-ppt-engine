@@ -1,0 +1,138 @@
+{
+  "index": 0,
+  "slide_name": "slide_00",
+  "title": "Presentation Cover",
+  "layout": "Blank",
+  "category": "Mandatory",
+  "slide_layout_name": "Blank",
+  "shape_count": 6,
+  "shapes": [
+    {
+      "shape_id": 10,
+      "name": "Object 9",
+      "shape_type": "EMBEDDED_OLE_OBJECT (7)",
+      "position_in": {
+        "left": 0.002,
+        "top": 0.002,
+        "width": 0.002,
+        "height": 0.002
+      }
+    },
+    {
+      "shape_id": 5,
+      "name": "Picture 4",
+      "shape_type": "PICTURE (13)",
+      "position_in": {
+        "left": 0.0,
+        "top": 0.0,
+        "width": 13.333,
+        "height": 7.5
+      }
+    },
+    {
+      "shape_id": 7,
+      "name": "Rectangle 6",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 0.0,
+        "top": 5.147,
+        "width": 13.333,
+        "height": 2.353
+      },
+      "text": {
+        "full_text": "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tBIORIDGE PHARMA \n\t\t\t\t\t\t\t\t\t\tMonthly Business \n\t\t\t\t\t\t\t\t\t\tReview",
+        "runs": [
+          {
+            "text": "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tBIORIDGE PHARMA ",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "\t\t\t\t\t\t\t\t\t\tMonthly Business ",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "\t\t\t\t\t\t\t\t\t\tReview",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      },
+      "fill_color": null
+    },
+    {
+      "shape_id": 8,
+      "name": "Date Placeholder 1",
+      "shape_type": "TEXT_BOX (17)",
+      "position_in": {
+        "left": 0.771,
+        "top": 6.814,
+        "width": 2.239,
+        "height": 0.271
+      },
+      "text": {
+        "full_text": "August 6th 2026",
+        "runs": [
+          {
+            "text": "August 6",
+            "font": null,
+            "size_pt": 14.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "th",
+            "font": null,
+            "size_pt": 14.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": " 2026",
+            "font": null,
+            "size_pt": 14.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 9,
+      "name": "Title 5",
+      "shape_type": "TEXT_BOX (17)",
+      "position_in": {
+        "left": 8.156,
+        "top": 5.688,
+        "width": 4.742,
+        "height": 0.949
+      }
+    },
+    {
+      "shape_id": 11,
+      "name": "Picture 10",
+      "shape_type": "PICTURE (13)",
+      "position_in": {
+        "left": 0.765,
+        "top": 5.79,
+        "width": 3.314,
+        "height": 0.746
+      }
+    }
+  ]
+}

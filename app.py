@@ -1287,31 +1287,25 @@ def run_generation_pipeline(
                     max_source_chars=12000,
                 )
             elif template_id == "hld_qbr":
-                from core.content_model_extractor import extract_content_model
-                from core.presentation_planner_hld_qbr import plan_hld_qbr_presentation
-                hld_content_model = None
-                # For small decks (e.g. <=4 slides), bypass extra content extraction call to conserve token rate limit
-                if requested_slides and requested_slides > 4:
-                    st.write("🧩 Extracting content model from source...")
-                    hld_content_model = extract_content_model(plan_client, truncate_text(source_text, 8000))
-                    st.session_state.hld_content_model = hld_content_model
-                    if hld_content_model.content_items:
-                        st.caption(f"📚 Extracted {len(hld_content_model.content_items)} traceable content item(s) from source")
+                from core.content_model_extractor import extract_content_model_full
+                from core.presentation_planner_hld_qbr_generic import plan_hld_qbr_presentation_generic
+                # Always extract the FULL document (chunked map-reduce, no slide-count
+                # gate, no truncation) — the whole point is nothing in the source gets
+                # silently dropped before the LLM ever sees it.
+                st.write("🧩 Extracting content model from source (full document)...")
+                hld_content_model = extract_content_model_full(key_manager, source_text)
+                st.session_state.hld_content_model = hld_content_model
+                if hld_content_model.content_items:
+                    st.caption(f"📚 Extracted {len(hld_content_model.content_items)} traceable content item(s) from source")
 
-                source_char_limit = 6000 if (requested_slides and requested_slides <= 4) else 14000
-                plan = plan_hld_qbr_presentation(
+                st.write("🗺️ Matching content to template slides by structure...")
+                plan = plan_hld_qbr_presentation_generic(
                     client=plan_client,
-                    content_analysis=analysis,
-                    source_text=truncate_text(source_text, source_char_limit),
-                    presentation_title=pres_config.get("presentation_title", ""),
-                    facility_name=pres_config.get("facility_name", ""),
-                    audience=pres_config.get("audience", "Executive Leadership"),
-                    style=pres_config.get("style", "Corporate Strategic"),
-                    language=pres_config.get("language", "English"),
-                    additional_instructions=planner_instructions,
-                    slide_count=requested_slides,
+                    key_manager=key_manager,
                     content_model=hld_content_model,
-                    max_source_chars=source_char_limit,
+                    requested_slide_count=requested_slides,
+                    presentation_title_hint=pres_config.get("presentation_title", ""),
+                    facility_name_hint=pres_config.get("facility_name", ""),
                 )
             else:
                 plan = plan_presentation(
@@ -1371,8 +1365,8 @@ def run_generation_pipeline(
         st.write("🎨 Building PowerPoint presentation...")
         try:
             import importlib
-            import core.builders.hld_qbr_builder
-            importlib.reload(core.builders.hld_qbr_builder)
+            import core.builders.hld_qbr_generic_builder
+            importlib.reload(core.builders.hld_qbr_generic_builder)
             import core.template_registry
             importlib.reload(core.template_registry)
             from core.template_registry import get_builder

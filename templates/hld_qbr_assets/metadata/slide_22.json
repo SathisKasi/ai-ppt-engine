@@ -1,0 +1,134 @@
+{
+  "index": 22,
+  "slide_name": "slide_22",
+  "title": "Gemba Walk Summary",
+  "layout": "Title Only",
+  "category": "Core",
+  "slide_layout_name": "Title Only",
+  "shape_count": 5,
+  "shapes": [
+    {
+      "shape_id": 2,
+      "name": "Slide Number Placeholder 1",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 12.344,
+        "top": 7.099,
+        "width": 0.589,
+        "height": 0.303
+      },
+      "placeholder_type": "SLIDE_NUMBER (13)",
+      "placeholder_idx": 12,
+      "text": {
+        "full_text": "23",
+        "runs": [],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 3,
+      "name": "Title 2",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 0.398,
+        "top": 0.398,
+        "width": 12.533,
+        "height": 0.42
+      },
+      "placeholder_type": "TITLE (1)",
+      "placeholder_idx": 0,
+      "text": {
+        "full_text": "GEMBA WALK SUMMARY",
+        "runs": [
+          {
+            "text": "GEMBA WALK SUMMARY",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 5,
+      "name": "Rectangle 4",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 10.113,
+        "top": 0.094,
+        "width": 3.047,
+        "height": 0.783
+      },
+      "text": {
+        "full_text": "Required content\nEXAMPLE",
+        "runs": [
+          {
+            "text": "Required content",
+            "font": null,
+            "size_pt": 14.0,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "EXAMPLE",
+            "font": null,
+            "size_pt": 14.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": true
+      },
+      "fill_color": "FFFF00"
+    },
+    {
+      "shape_id": 6,
+      "name": "Table 5",
+      "shape_type": "TABLE (19)",
+      "position_in": {
+        "left": 0.462,
+        "top": 1.63,
+        "width": 12.454,
+        "height": 4.839
+      },
+      "table": {
+        "rows": 5,
+        "cols": 2,
+        "header_row": [
+          "Area",
+          "Observation"
+        ]
+      }
+    },
+    {
+      "shape_id": 7,
+      "name": "TextBox 6",
+      "shape_type": "TEXT_BOX (17)",
+      "position_in": {
+        "left": 0.372,
+        "top": 0.936,
+        "width": 11.617,
+        "height": 0.572
+      },
+      "text": {
+        "full_text": "UPS Healthcare™ Logistics and Distribution conducts Gemba Walks to identify areas of improvement in efficiency, quality, and safety. Below is an example of items identified during Gemba Walks.",
+        "runs": [
+          {
+            "text": "UPS Healthcare™ Logistics and Distribution conducts Gemba Walks to identify areas of improvement in efficiency, quality, and safety. Below is an example of items identified during Gemba Walks.",
+            "font": null,
+            "size_pt": 14.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": true
+      }
+    }
+  ]
+}

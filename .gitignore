@@ -25,6 +25,7 @@ ENV/
 # IDEs
 .vscode/
 .idea/
+.playwright-mcp/
 *.swp
 *.swo
 .DS_Store
@@ -40,6 +41,7 @@ output/*.ppt
 # Temporary files
 tmp/
 temp/
+scratch/
 *.tmp
 
 # Logs

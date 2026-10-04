@@ -1,0 +1,342 @@
+{
+  "index": 50,
+  "slide_name": "slide_50",
+  "title": "Process Flow Comparison",
+  "layout": "Title Only",
+  "category": "Guide-Only",
+  "slide_layout_name": "Title Only",
+  "shape_count": 12,
+  "shapes": [
+    {
+      "shape_id": 4,
+      "name": "Slide Number Placeholder 3",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 12.344,
+        "top": 7.099,
+        "width": 0.589,
+        "height": 0.303
+      },
+      "placeholder_type": "SLIDE_NUMBER (13)",
+      "placeholder_idx": 12,
+      "text": {
+        "full_text": "51",
+        "runs": [],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 2,
+      "name": "Title 1",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 0.398,
+        "top": 0.398,
+        "width": 12.533,
+        "height": 0.42
+      },
+      "placeholder_type": "TITLE (1)",
+      "placeholder_idx": 0,
+      "text": {
+        "full_text": "PROCESS FLOW COMPARISON WITH COLOR SCHEMES",
+        "runs": [
+          {
+            "text": "PROCESS FLOW COMPARISON WITH COLOR SCHEMES",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 3,
+      "name": "Text Placeholder 2",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 0.398,
+        "top": 0.835,
+        "width": 12.533,
+        "height": 0.245
+      },
+      "placeholder_type": "BODY (2)",
+      "placeholder_idx": 13
+    },
+    {
+      "shape_id": 6,
+      "name": "Content Placeholder 23",
+      "shape_type": "TEXT_BOX (17)",
+      "position_in": {
+        "left": 0.4,
+        "top": 1.592,
+        "width": 12.533,
+        "height": 4.908
+      },
+      "text": {
+        "full_text": "The preferred color for a process flow is UPS Gray 4, which allows you to highlight a segment with a secondary color.\n\n\n\nIf it is necessary to use more color in the flow, follow this particular segment  \n\n",
+        "runs": [
+          {
+            "text": "The preferred color for a process flow is UPS Gray 4, which allows you to highlight a segment with a secondary color.",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "If it is necessary to use more color in the flow, follow this particular segment  ",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 7,
+      "name": "AutoShape 2",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 8.297,
+        "top": 2.191,
+        "width": 2.347,
+        "height": 0.778
+      },
+      "text": {
+        "full_text": "Header",
+        "runs": [
+          {
+            "text": "Header",
+            "font": "+mn-lt",
+            "size_pt": 12.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      },
+      "fill_color": null
+    },
+    {
+      "shape_id": 8,
+      "name": "AutoShape 3",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 6.275,
+        "top": 2.191,
+        "width": 2.347,
+        "height": 0.778
+      },
+      "text": {
+        "full_text": "Header",
+        "runs": [
+          {
+            "text": "Header",
+            "font": "+mn-lt",
+            "size_pt": 12.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      },
+      "fill_color": "D8D4D7"
+    },
+    {
+      "shape_id": 9,
+      "name": "AutoShape 4",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 4.321,
+        "top": 2.191,
+        "width": 2.347,
+        "height": 0.778
+      },
+      "text": {
+        "full_text": "Header",
+        "runs": [
+          {
+            "text": "Header",
+            "font": "+mn-lt",
+            "size_pt": 12.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      },
+      "fill_color": "D8D4D7"
+    },
+    {
+      "shape_id": 10,
+      "name": "AutoShape 7",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 2.435,
+        "top": 2.191,
+        "width": 2.266,
+        "height": 0.778
+      },
+      "text": {
+        "full_text": "Titles in segments \u000bare initial cap\u000band left aligned",
+        "runs": [
+          {
+            "text": "Titles in segments ",
+            "font": "+mn-lt",
+            "size_pt": 12.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "are initial cap",
+            "font": "+mn-lt",
+            "size_pt": 12.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "and left aligned",
+            "font": "+mn-lt",
+            "size_pt": 12.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      },
+      "fill_color": "D8D4D7"
+    },
+    {
+      "shape_id": 11,
+      "name": "AutoShape 2",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 8.297,
+        "top": 3.708,
+        "width": 2.347,
+        "height": 0.778
+      },
+      "text": {
+        "full_text": "Header",
+        "runs": [
+          {
+            "text": "Header",
+            "font": "+mn-lt",
+            "size_pt": 12.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      },
+      "fill_color": "58595B"
+    },
+    {
+      "shape_id": 12,
+      "name": "AutoShape 3",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 6.275,
+        "top": 3.708,
+        "width": 2.347,
+        "height": 0.778
+      },
+      "text": {
+        "full_text": "Header",
+        "runs": [
+          {
+            "text": "Header",
+            "font": null,
+            "size_pt": 12.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      },
+      "fill_color": "8C8585"
+    },
+    {
+      "shape_id": 13,
+      "name": "AutoShape 4",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 4.321,
+        "top": 3.708,
+        "width": 2.347,
+        "height": 0.778
+      },
+      "text": {
+        "full_text": "Header",
+        "runs": [
+          {
+            "text": "Header",
+            "font": "+mn-lt",
+            "size_pt": 12.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      },
+      "fill_color": "D8D4D7"
+    },
+    {
+      "shape_id": 14,
+      "name": "AutoShape 7",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 2.435,
+        "top": 3.708,
+        "width": 2.266,
+        "height": 0.778
+      },
+      "text": {
+        "full_text": "Titles in segments \u000bare initial cap\u000band left aligned",
+        "runs": [
+          {
+            "text": "Titles in segments ",
+            "font": "+mn-lt",
+            "size_pt": 12.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "are initial cap",
+            "font": "+mn-lt",
+            "size_pt": 12.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "and left aligned",
+            "font": "+mn-lt",
+            "size_pt": 12.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      },
+      "fill_color": null
+    }
+  ]
+}

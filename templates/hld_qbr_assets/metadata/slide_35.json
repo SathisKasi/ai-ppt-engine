@@ -1,0 +1,345 @@
+{
+  "index": 35,
+  "slide_name": "slide_35",
+  "title": "Value-Centric Approach",
+  "layout": "Title Only",
+  "category": "Optional",
+  "slide_layout_name": "Title Only",
+  "shape_count": 13,
+  "shapes": [
+    {
+      "shape_id": 2,
+      "name": "Title 1",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 0.398,
+        "top": 0.398,
+        "width": 12.533,
+        "height": 0.42
+      },
+      "placeholder_type": "TITLE (1)",
+      "placeholder_idx": 0,
+      "text": {
+        "full_text": "VALUE-CENTRIC APPROACH FOR [CUSTOMER NAME]",
+        "runs": [
+          {
+            "text": "VALUE-CENTRIC APPROACH FOR ",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "[CUSTOMER NAME]",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 3,
+      "name": "Text Placeholder 2",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 0.398,
+        "top": 0.835,
+        "width": 12.533,
+        "height": 0.245
+      },
+      "placeholder_type": "BODY (2)",
+      "placeholder_idx": 13,
+      "text": {
+        "full_text": "KPI compliance delivers cost avoidance for [Customer Name] ",
+        "runs": [
+          {
+            "text": "KPI compliance delivers cost avoidance for ",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "[Customer Name] ",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 4,
+      "name": "Table 3",
+      "shape_type": "TABLE (19)",
+      "position_in": {
+        "left": 0.44,
+        "top": 1.31,
+        "width": 12.49,
+        "height": 5.282
+      },
+      "table": {
+        "rows": 8,
+        "cols": 3,
+        "header_row": [
+          "Operational KPI Targets",
+          "Industry Average*",
+          "2025 UPS Healthcare Results & Impact\n(based on actual [Customer Name] 2025 volumes)"
+        ]
+      }
+    },
+    {
+      "shape_id": 5,
+      "name": "Flowchart: Connector 4",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 0.541,
+        "top": 1.97,
+        "width": 0.5,
+        "height": 0.5
+      },
+      "text": {
+        "full_text": "1",
+        "runs": [
+          {
+            "text": "1",
+            "font": null,
+            "size_pt": 14.0,
+            "bold": true,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      },
+      "fill_color": null
+    },
+    {
+      "shape_id": 6,
+      "name": "Flowchart: Connector 5",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 0.541,
+        "top": 2.643,
+        "width": 0.5,
+        "height": 0.5
+      },
+      "text": {
+        "full_text": "2",
+        "runs": [
+          {
+            "text": "2",
+            "font": null,
+            "size_pt": 14.0,
+            "bold": true,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      },
+      "fill_color": null
+    },
+    {
+      "shape_id": 7,
+      "name": "Flowchart: Connector 6",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 0.541,
+        "top": 3.315,
+        "width": 0.5,
+        "height": 0.5
+      },
+      "text": {
+        "full_text": "3",
+        "runs": [
+          {
+            "text": "3",
+            "font": null,
+            "size_pt": 14.0,
+            "bold": true,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      },
+      "fill_color": null
+    },
+    {
+      "shape_id": 8,
+      "name": "Flowchart: Connector 7",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 0.541,
+        "top": 3.988,
+        "width": 0.5,
+        "height": 0.5
+      },
+      "text": {
+        "full_text": "4",
+        "runs": [
+          {
+            "text": "4",
+            "font": null,
+            "size_pt": 14.0,
+            "bold": true,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      },
+      "fill_color": null
+    },
+    {
+      "shape_id": 9,
+      "name": "Flowchart: Connector 8",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 0.541,
+        "top": 4.661,
+        "width": 0.5,
+        "height": 0.5
+      },
+      "text": {
+        "full_text": "5",
+        "runs": [
+          {
+            "text": "5",
+            "font": null,
+            "size_pt": 14.0,
+            "bold": true,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      },
+      "fill_color": null
+    },
+    {
+      "shape_id": 10,
+      "name": "Flowchart: Connector 9",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 0.541,
+        "top": 5.333,
+        "width": 0.5,
+        "height": 0.5
+      },
+      "text": {
+        "full_text": "6",
+        "runs": [
+          {
+            "text": "6",
+            "font": null,
+            "size_pt": 14.0,
+            "bold": true,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      },
+      "fill_color": null
+    },
+    {
+      "shape_id": 13,
+      "name": "Slide Number Placeholder 12",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 12.346,
+        "top": 7.098,
+        "width": 0.591,
+        "height": 0.303
+      },
+      "placeholder_type": "SLIDE_NUMBER (13)",
+      "placeholder_idx": 12,
+      "text": {
+        "full_text": "36",
+        "runs": [],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 14,
+      "name": "MyUPSLogo",
+      "shape_type": "PICTURE (13)",
+      "position_in": {
+        "left": 0.276,
+        "top": 7.014,
+        "width": 2.302,
+        "height": 0.41
+      }
+    },
+    {
+      "shape_id": 15,
+      "name": "Rectangle 14",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 9.745,
+        "top": 6.57,
+        "width": 3.4,
+        "height": 0.25
+      },
+      "text": {
+        "full_text": "*Source: Warehousing Education and Research Center",
+        "runs": [
+          {
+            "text": "*Source: Warehousing Education and Research Center",
+            "font": null,
+            "size_pt": 8.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 11,
+      "name": "Rectangle 10",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 10.188,
+        "top": 0.198,
+        "width": 2.74,
+        "height": 1.0
+      },
+      "text": {
+        "full_text": "EXAMPLE –\nFormulas in Notes",
+        "runs": [
+          {
+            "text": "EXAMPLE –",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "Formulas in Notes",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": true
+      },
+      "fill_color": "FFFF00"
+    }
+  ]
+}

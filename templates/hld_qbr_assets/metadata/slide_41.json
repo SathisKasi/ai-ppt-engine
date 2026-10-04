@@ -1,0 +1,56 @@
+{
+  "index": 41,
+  "slide_name": "slide_41",
+  "title": "Section: Formatting Help",
+  "layout": "2_Section Header",
+  "category": "Guide-Only",
+  "slide_layout_name": "2_Section Header_No Image_Blue BG",
+  "shape_count": 2,
+  "shapes": [
+    {
+      "shape_id": 2,
+      "name": "Title 1",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 3.571,
+        "top": 3.651,
+        "width": 6.225,
+        "height": 1.653
+      },
+      "placeholder_type": "TITLE (1)",
+      "placeholder_idx": 0,
+      "text": {
+        "full_text": "FORMATTING HELP",
+        "runs": [
+          {
+            "text": "FORMATTING HELP",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 3,
+      "name": "Slide Number Placeholder 2",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 12.344,
+        "top": 7.099,
+        "width": 0.589,
+        "height": 0.303
+      },
+      "placeholder_type": "SLIDE_NUMBER (13)",
+      "placeholder_idx": 12,
+      "text": {
+        "full_text": "42",
+        "runs": [],
+        "is_guidance_sticker": false
+      }
+    }
+  ]
+}

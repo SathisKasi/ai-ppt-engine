@@ -1,0 +1,351 @@
+{
+  "index": 30,
+  "slide_name": "slide_30",
+  "title": "Brand Closing Slide",
+  "layout": "Blank",
+  "category": "Mandatory",
+  "slide_layout_name": "Blank",
+  "shape_count": 13,
+  "shapes": [
+    {
+      "shape_id": 2,
+      "name": "Picture 1",
+      "shape_type": "PICTURE (13)",
+      "position_in": {
+        "left": 0.0,
+        "top": 0.0,
+        "width": 13.333,
+        "height": 7.5
+      }
+    },
+    {
+      "shape_id": 3,
+      "name": "Rectangle 2",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 0.0,
+        "top": 0.0,
+        "width": 13.333,
+        "height": 7.5
+      },
+      "fill_color": "0E2554"
+    },
+    {
+      "shape_id": 5,
+      "name": "Group 4",
+      "shape_type": "GROUP (6)",
+      "position_in": {
+        "left": -0.091,
+        "top": -0.455,
+        "width": 4.262,
+        "height": 2.935
+      },
+      "children": [
+        {
+          "shape_id": 6,
+          "name": "Hexagon 5",
+          "shape_type": "AUTO_SHAPE (1)",
+          "position_in": {
+            "left": -0.14,
+            "top": 1.812,
+            "width": 0.718,
+            "height": 0.619
+          },
+          "fill_color": "0E2554"
+        },
+        {
+          "shape_id": 7,
+          "name": "Hexagon 6",
+          "shape_type": "AUTO_SHAPE (1)",
+          "position_in": {
+            "left": 0.66,
+            "top": 1.812,
+            "width": 0.718,
+            "height": 0.619
+          },
+          "fill_color": "0E2554"
+        },
+        {
+          "shape_id": 8,
+          "name": "Hexagon 7",
+          "shape_type": "AUTO_SHAPE (1)",
+          "position_in": {
+            "left": 0.241,
+            "top": 1.121,
+            "width": 0.718,
+            "height": 0.619
+          },
+          "fill_color": "FFFFFF"
+        },
+        {
+          "shape_id": 9,
+          "name": "Hexagon 8",
+          "shape_type": "AUTO_SHAPE (1)",
+          "position_in": {
+            "left": 1.067,
+            "top": 1.121,
+            "width": 0.718,
+            "height": 0.619
+          },
+          "fill_color": "0E2554"
+        },
+        {
+          "shape_id": 10,
+          "name": "Hexagon 9",
+          "shape_type": "AUTO_SHAPE (1)",
+          "position_in": {
+            "left": 1.867,
+            "top": 1.121,
+            "width": 0.718,
+            "height": 0.619
+          },
+          "fill_color": "0E2554"
+        },
+        {
+          "shape_id": 11,
+          "name": "Hexagon 10",
+          "shape_type": "AUTO_SHAPE (1)",
+          "position_in": {
+            "left": 1.449,
+            "top": 0.43,
+            "width": 0.718,
+            "height": 0.619
+          },
+          "fill_color": "0E2554"
+        },
+        {
+          "shape_id": 12,
+          "name": "Hexagon 11",
+          "shape_type": "AUTO_SHAPE (1)",
+          "position_in": {
+            "left": 2.296,
+            "top": 1.812,
+            "width": 0.718,
+            "height": 0.619
+          },
+          "fill_color": "FFFFFF"
+        },
+        {
+          "shape_id": 13,
+          "name": "Hexagon 12",
+          "shape_type": "AUTO_SHAPE (1)",
+          "position_in": {
+            "left": 2.703,
+            "top": 1.121,
+            "width": 0.718,
+            "height": 0.619
+          },
+          "fill_color": "0E2554"
+        },
+        {
+          "shape_id": 14,
+          "name": "Hexagon 13",
+          "shape_type": "AUTO_SHAPE (1)",
+          "position_in": {
+            "left": 3.503,
+            "top": 1.121,
+            "width": 0.718,
+            "height": 0.619
+          },
+          "fill_color": "0E2554"
+        },
+        {
+          "shape_id": 15,
+          "name": "Hexagon 14",
+          "shape_type": "AUTO_SHAPE (1)",
+          "position_in": {
+            "left": 3.085,
+            "top": 0.43,
+            "width": 0.718,
+            "height": 0.619
+          },
+          "fill_color": "0E2554"
+        },
+        {
+          "shape_id": 16,
+          "name": "Hexagon 15",
+          "shape_type": "AUTO_SHAPE (1)",
+          "position_in": {
+            "left": 2.176,
+            "top": -0.405,
+            "width": 0.718,
+            "height": 0.619
+          },
+          "fill_color": "0E2554"
+        },
+        {
+          "shape_id": 17,
+          "name": "Hexagon 16",
+          "shape_type": "AUTO_SHAPE (1)",
+          "position_in": {
+            "left": -0.14,
+            "top": 0.445,
+            "width": 0.718,
+            "height": 0.619
+          },
+          "fill_color": "0E2554"
+        }
+      ]
+    },
+    {
+      "shape_id": 18,
+      "name": "Hexagon 17",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 0.66,
+        "top": 6.783,
+        "width": 0.718,
+        "height": 0.619
+      },
+      "fill_color": "0E2554"
+    },
+    {
+      "shape_id": 19,
+      "name": "Hexagon 18",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 1.067,
+        "top": 6.092,
+        "width": 0.718,
+        "height": 0.619
+      },
+      "fill_color": "0E2554"
+    },
+    {
+      "shape_id": 20,
+      "name": "Hexagon 19",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 1.867,
+        "top": 6.092,
+        "width": 0.718,
+        "height": 0.619
+      },
+      "fill_color": "0E2554"
+    },
+    {
+      "shape_id": 21,
+      "name": "Hexagon 20",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 1.449,
+        "top": 5.401,
+        "width": 0.718,
+        "height": 0.619
+      },
+      "fill_color": "FFFFFF"
+    },
+    {
+      "shape_id": 22,
+      "name": "Hexagon 21",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 2.296,
+        "top": 6.783,
+        "width": 0.718,
+        "height": 0.619
+      },
+      "fill_color": "0E2554"
+    },
+    {
+      "shape_id": 23,
+      "name": "Hexagon 22",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 2.703,
+        "top": 6.092,
+        "width": 0.718,
+        "height": 0.619
+      },
+      "fill_color": "0E2554"
+    },
+    {
+      "shape_id": 4,
+      "name": "Rectangle 3",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 2.093,
+        "top": 2.4,
+        "width": 9.148,
+        "height": 1.178
+      },
+      "text": {
+        "full_text": "MOVING OUR WORLD FORWARD BY DELIVERING WHAT MATTERS™",
+        "runs": [
+          {
+            "text": "MOVING OUR WORLD FORWARD BY DELIVERING WHAT MATTERS",
+            "font": "Verdana",
+            "size_pt": 32.0,
+            "bold": true,
+            "italic": null,
+            "color": "FFFFFF"
+          },
+          {
+            "text": "™",
+            "font": "Verdana",
+            "size_pt": 32.0,
+            "bold": true,
+            "italic": null,
+            "color": "FFFFFF"
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 24,
+      "name": "Picture 23",
+      "shape_type": "PICTURE (13)",
+      "position_in": {
+        "left": 4.8,
+        "top": 4.058,
+        "width": 3.734,
+        "height": 1.042
+      }
+    },
+    {
+      "shape_id": 25,
+      "name": "Straight Connector 24",
+      "shape_type": "LINE (9)",
+      "position_in": {
+        "left": 2.067,
+        "top": 3.791,
+        "width": 9.2,
+        "height": 0.026
+      }
+    },
+    {
+      "shape_id": 27,
+      "name": "TextBox 26",
+      "shape_type": "TEXT_BOX (17)",
+      "position_in": {
+        "left": 3.817,
+        "top": 7.149,
+        "width": 5.7,
+        "height": 0.252
+      },
+      "text": {
+        "full_text": "Proprietary and Confidential: This presentation may not be used or disclosed to other than employees or customers, unless expressly authorized by UPS.\u000b© 2026 United Parcel Service of America, Inc. UPS, the UPS brandmark and the color brown are trademarks of United Parcel Service of America, Inc. All rights reserved.",
+        "runs": [
+          {
+            "text": "Proprietary and Confidential: This presentation may not be used or disclosed to other than employees or customers, unless expressly authorized by UPS.",
+            "font": null,
+            "size_pt": 4.5,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "© 2026 United Parcel Service of America, Inc. UPS, the UPS brandmark and the color brown are trademarks of United Parcel Service of America, Inc. All rights reserved.",
+            "font": null,
+            "size_pt": 4.5,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    }
+  ]
+}

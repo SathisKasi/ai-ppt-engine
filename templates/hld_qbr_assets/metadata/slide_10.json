@@ -1,0 +1,128 @@
+{
+  "index": 10,
+  "slide_name": "slide_10",
+  "title": "Voice of the Customer",
+  "layout": "Title Only",
+  "category": "Optional",
+  "slide_layout_name": "Title Only",
+  "shape_count": 5,
+  "shapes": [
+    {
+      "shape_id": 2,
+      "name": "Slide Number Placeholder 1",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 12.344,
+        "top": 7.099,
+        "width": 0.589,
+        "height": 0.303
+      },
+      "placeholder_type": "SLIDE_NUMBER (13)",
+      "placeholder_idx": 12,
+      "text": {
+        "full_text": "11",
+        "runs": [],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 3,
+      "name": "Title 2",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 0.398,
+        "top": 0.398,
+        "width": 12.533,
+        "height": 0.42
+      },
+      "placeholder_type": "TITLE (1)",
+      "placeholder_idx": 0,
+      "text": {
+        "full_text": "VOICE OF THE CUSTOMER ",
+        "runs": [
+          {
+            "text": "VOICE OF THE CUSTOMER ",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 4,
+      "name": "Text Placeholder 3",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 0.398,
+        "top": 0.835,
+        "width": 12.533,
+        "height": 0.245
+      },
+      "placeholder_type": "BODY (2)",
+      "placeholder_idx": 13
+    },
+    {
+      "shape_id": 5,
+      "name": "Speech Bubble: Rectangle with Corners Rounded 4",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 0.638,
+        "top": 2.106,
+        "width": 5.117,
+        "height": 2.606
+      },
+      "text": {
+        "full_text": "Are there any specific quotes or callouts from the customer that we can use here? \n\n~Customer Name, Title",
+        "runs": [
+          {
+            "text": "Are there any specific quotes or callouts from the customer that we can use here? ",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "~Customer Name, Title",
+            "font": null,
+            "size_pt": 14.0,
+            "bold": null,
+            "italic": true,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 6,
+      "name": "TextBox 5",
+      "shape_type": "TEXT_BOX (17)",
+      "position_in": {
+        "left": 6.667,
+        "top": 1.234,
+        "width": 6.514,
+        "height": 5.599
+      },
+      "text": {
+        "full_text": "Supporting information, charts, or graphs can go on this side. ",
+        "runs": [
+          {
+            "text": "Supporting information, charts, or graphs can go on this side. ",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      },
+      "fill_color": null
+    }
+  ]
+}

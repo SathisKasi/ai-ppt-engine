@@ -1,0 +1,91 @@
+{
+  "index": 49,
+  "slide_name": "slide_49",
+  "title": "Sample Table (Data Matrix)",
+  "layout": "Title Only",
+  "category": "Guide-Only",
+  "slide_layout_name": "Title Only",
+  "shape_count": 4,
+  "shapes": [
+    {
+      "shape_id": 4,
+      "name": "Slide Number Placeholder 3",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 12.344,
+        "top": 7.099,
+        "width": 0.589,
+        "height": 0.303
+      },
+      "placeholder_type": "SLIDE_NUMBER (13)",
+      "placeholder_idx": 12,
+      "text": {
+        "full_text": "50",
+        "runs": [],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 3,
+      "name": "Title 2",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 0.398,
+        "top": 0.398,
+        "width": 12.533,
+        "height": 0.42
+      },
+      "placeholder_type": "TITLE (1)",
+      "placeholder_idx": 0,
+      "text": {
+        "full_text": "SAMPLE TABLES CREATED USING THE TABLE FUNCTION",
+        "runs": [
+          {
+            "text": "SAMPLE TABLES CREATED USING THE TABLE FUNCTION",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 7,
+      "name": "Text Placeholder 6",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 0.398,
+        "top": 0.835,
+        "width": 12.533,
+        "height": 0.245
+      },
+      "placeholder_type": "BODY (2)",
+      "placeholder_idx": 13
+    },
+    {
+      "shape_id": 6,
+      "name": "Group 3",
+      "shape_type": "TABLE (19)",
+      "position_in": {
+        "left": 1.967,
+        "top": 1.583,
+        "width": 9.399,
+        "height": 3.361
+      },
+      "table": {
+        "rows": 4,
+        "cols": 5,
+        "header_row": [
+          "",
+          "Headers are\u000bbottom aligned",
+          "Header 2",
+          "Header 3",
+          "Header 4"
+        ]
+      }
+    }
+  ]
+}

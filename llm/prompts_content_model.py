@@ -54,3 +54,44 @@ Return ONLY valid JSON of the form:
 
 def build_content_model_extraction_prompt(*, source_content: str) -> str:
     return CONTENT_MODEL_EXTRACTION_PROMPT.format(source_content=source_content)
+
+
+# ---------------------------------------------------------------------------
+# Reduce stage: merge/dedupe content items extracted independently from
+# overlapping chunks of the same document (map-reduce extraction). Never
+# invents new items — only merges near-duplicates the map stage produced
+# because of chunk overlap, and may lightly reword for conciseness.
+# ---------------------------------------------------------------------------
+
+SYSTEM_ROLE_CONTENT_REDUCER = """\
+You are a meticulous editor merging content items extracted independently from
+overlapping chunks of the same source document. Your only job is deduplication —
+you never invent new facts, metrics, people, or claims not already present in the
+input list.
+"""
+
+CONTENT_MODEL_REDUCE_PROMPT = """\
+The content items below were extracted independently from overlapping chunks of one
+document, so the same fact may appear multiple times (reworded or verbatim) under
+different ids. Merge duplicates/near-duplicates into a single item (keep the clearest
+wording, keep the most specific source_reference and attributes), drop the redundant
+copies, and keep every genuinely distinct item. Preserve each relationship, remapping
+from_id/to_id to whichever surviving id now represents that item; drop a relationship
+only if both its endpoints were duplicates of the same surviving item.
+
+Do NOT add, infer, or invent any item not already present below. Do NOT drop a
+genuinely distinct item merely to shorten the list.
+
+MERGED CONTENT ITEMS (pre-dedupe):
+{merged_content_model_json}
+
+Return ONLY valid JSON of the same form:
+{{
+  "content_items": [ {{"id": "...", "type": "...", "text": "...", "attributes": {{}}, "source_reference": "..."}} ],
+  "relationships": [ {{"from_id": "...", "to_id": "...", "type": "..."}} ]
+}}
+"""
+
+
+def build_content_model_reduce_prompt(*, merged_content_model_json: str) -> str:
+    return CONTENT_MODEL_REDUCE_PROMPT.format(merged_content_model_json=merged_content_model_json)

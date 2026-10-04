@@ -1,0 +1,333 @@
+{
+  "index": 25,
+  "slide_name": "slide_25",
+  "title": "Quality Organizational Structure",
+  "layout": "Title Only",
+  "category": "Core",
+  "slide_layout_name": "Title Only",
+  "shape_count": 11,
+  "shapes": [
+    {
+      "shape_id": 91,
+      "name": "Picture 90",
+      "shape_type": "PICTURE (13)",
+      "position_in": {
+        "left": 0.0,
+        "top": 0.0,
+        "width": 13.333,
+        "height": 6.833
+      }
+    },
+    {
+      "shape_id": 2,
+      "name": "Title 1",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 0.398,
+        "top": 0.398,
+        "width": 12.533,
+        "height": 0.42
+      },
+      "placeholder_type": "TITLE (1)",
+      "placeholder_idx": 0,
+      "text": {
+        "full_text": "QUALITY ORGANIZATIONAL STRUCTURE FOR [CLIENT NAME]",
+        "runs": [
+          {
+            "text": "QUALITY ORGANIZATIONAL STRUCTURE FOR ",
+            "font": "verdana",
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": "426DA9"
+          },
+          {
+            "text": "[CLIENT NAME]",
+            "font": "verdana",
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": "426DA9"
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 15,
+      "name": "Slide Number Placeholder 14",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 12.346,
+        "top": 7.098,
+        "width": 0.591,
+        "height": 0.303
+      },
+      "placeholder_type": "SLIDE_NUMBER (13)",
+      "placeholder_idx": 12,
+      "text": {
+        "full_text": "26",
+        "runs": [],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 4,
+      "name": "Rectangle 3",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 11.33,
+        "top": 0.274,
+        "width": 1.538,
+        "height": 1.0
+      },
+      "text": {
+        "full_text": "Example ",
+        "runs": [
+          {
+            "text": "Example ",
+            "font": null,
+            "size_pt": 14.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": true
+      },
+      "fill_color": "FFFF00"
+    },
+    {
+      "shape_id": 3,
+      "name": "Straight Connector 2",
+      "shape_type": "LINE (9)",
+      "position_in": {
+        "left": 5.583,
+        "top": 5.304,
+        "width": 1.957,
+        "height": 0.0
+      }
+    },
+    {
+      "shape_id": 7,
+      "name": "Straight Connector 6",
+      "shape_type": "LINE (9)",
+      "position_in": {
+        "left": 6.667,
+        "top": 2.656,
+        "width": 0.0,
+        "height": 2.648
+      }
+    },
+    {
+      "shape_id": 18,
+      "name": "Rectangle: Rounded Corners 17",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 4.922,
+        "top": 1.906,
+        "width": 3.614,
+        "height": 0.75
+      },
+      "text": {
+        "full_text": "Timothy Bishop \nDirector\nUPS Healthcare - Louisville, KY",
+        "runs": [
+          {
+            "text": "Timothy Bishop ",
+            "font": "Verdana",
+            "size_pt": 12.0,
+            "bold": true,
+            "italic": false,
+            "color": "FFFFFF"
+          },
+          {
+            "text": "Director",
+            "font": "Verdana",
+            "size_pt": 12.0,
+            "bold": null,
+            "italic": false,
+            "color": "FFFFFF"
+          },
+          {
+            "text": "UPS Healthcare - Louisville, KY",
+            "font": "Verdana",
+            "size_pt": 12.0,
+            "bold": null,
+            "italic": false,
+            "color": "FFFFFF"
+          }
+        ],
+        "is_guidance_sticker": false
+      },
+      "fill_color": "002060"
+    },
+    {
+      "shape_id": 19,
+      "name": "Rectangle: Rounded Corners 18",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 4.922,
+        "top": 2.892,
+        "width": 3.617,
+        "height": 0.75
+      },
+      "text": {
+        "full_text": "Karen York\nSenior Manager\nUPS Healthcare - Louisville, KY",
+        "runs": [
+          {
+            "text": "Karen York",
+            "font": null,
+            "size_pt": 12.0,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "Senior Manager",
+            "font": "Verdana",
+            "size_pt": 12.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "UPS Healthcare - Louisville, KY",
+            "font": "Verdana",
+            "size_pt": 12.0,
+            "bold": null,
+            "italic": false,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      },
+      "fill_color": null
+    },
+    {
+      "shape_id": 20,
+      "name": "Rectangle: Rounded Corners 19",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 4.922,
+        "top": 3.887,
+        "width": 3.617,
+        "height": 0.75
+      },
+      "text": {
+        "full_text": "Mary Barnett\nSupervisor\nUPS Healthcare",
+        "runs": [
+          {
+            "text": "Mary Barnett",
+            "font": "Verdana",
+            "size_pt": 12.0,
+            "bold": true,
+            "italic": false,
+            "color": "FFFFFF"
+          },
+          {
+            "text": "Supervisor",
+            "font": "Verdana",
+            "size_pt": 12.0,
+            "bold": null,
+            "italic": false,
+            "color": "FFFFFF"
+          },
+          {
+            "text": "UPS Healthcare",
+            "font": "Verdana",
+            "size_pt": 12.0,
+            "bold": null,
+            "italic": false,
+            "color": "FFFFFF"
+          }
+        ],
+        "is_guidance_sticker": false
+      },
+      "fill_color": null
+    },
+    {
+      "shape_id": 21,
+      "name": "Rectangle: Rounded Corners 20",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 7.094,
+        "top": 4.939,
+        "width": 3.343,
+        "height": 0.75
+      },
+      "text": {
+        "full_text": "Tamara Plaisance\nSpecialist\nUPS Healthcare",
+        "runs": [
+          {
+            "text": "Tamara Plaisance",
+            "font": "Verdana",
+            "size_pt": 12.0,
+            "bold": true,
+            "italic": false,
+            "color": null
+          },
+          {
+            "text": "Specialist",
+            "font": "Verdana",
+            "size_pt": 12.0,
+            "bold": null,
+            "italic": false,
+            "color": null
+          },
+          {
+            "text": "UPS Healthcare",
+            "font": "Verdana",
+            "size_pt": 12.0,
+            "bold": null,
+            "italic": false,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      },
+      "fill_color": null
+    },
+    {
+      "shape_id": 23,
+      "name": "Rectangle: Rounded Corners 22",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 2.871,
+        "top": 4.95,
+        "width": 3.343,
+        "height": 0.75
+      },
+      "text": {
+        "full_text": "Chelsie Draughon\nSpecialist\nUPS Healthcare",
+        "runs": [
+          {
+            "text": "Chelsie Draughon",
+            "font": "Verdana",
+            "size_pt": 12.0,
+            "bold": true,
+            "italic": false,
+            "color": null
+          },
+          {
+            "text": "Specialist",
+            "font": "Verdana",
+            "size_pt": 12.0,
+            "bold": null,
+            "italic": false,
+            "color": null
+          },
+          {
+            "text": "UPS Healthcare",
+            "font": "Verdana",
+            "size_pt": 12.0,
+            "bold": null,
+            "italic": false,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      },
+      "fill_color": null
+    }
+  ]
+}

@@ -1,0 +1,365 @@
+{
+  "version": "1.0",
+  "slides": [
+    {
+      "index": 0,
+      "title": "Presentation Cover",
+      "layout": "Blank",
+      "category": "Mandatory"
+    },
+    {
+      "index": 1,
+      "title": "Today's Discussion (Agenda)",
+      "layout": "9_Section Header",
+      "category": "Mandatory"
+    },
+    {
+      "index": 2,
+      "title": "Organizational Structure",
+      "layout": "Title Only",
+      "category": "Core"
+    },
+    {
+      "index": 3,
+      "title": "Executive Summary",
+      "layout": "Title Only",
+      "category": "Mandatory"
+    },
+    {
+      "index": 4,
+      "title": "Previous Quarter Achievements",
+      "layout": "Title Only",
+      "category": "Core"
+    },
+    {
+      "index": 5,
+      "title": "Customer Priorities (Format 1)",
+      "layout": "Title Only",
+      "category": "Core"
+    },
+    {
+      "index": 6,
+      "title": "Customer Priorities (Format 2)",
+      "layout": "Title Only",
+      "category": "Alternate"
+    },
+    {
+      "index": 7,
+      "title": "UPS Healthcare Priorities",
+      "layout": "Title Only",
+      "category": "Core"
+    },
+    {
+      "index": 8,
+      "title": "Supplemental Gallery Pointer",
+      "layout": "Title Only",
+      "category": "Guide-Only"
+    },
+    {
+      "index": 9,
+      "title": "Action Item Tracker",
+      "layout": "Title Only",
+      "category": "Core"
+    },
+    {
+      "index": 10,
+      "title": "Voice of the Customer",
+      "layout": "Title Only",
+      "category": "Optional"
+    },
+    {
+      "index": 11,
+      "title": "Section: Performance Management",
+      "layout": "1_Section Header",
+      "category": "Divider"
+    },
+    {
+      "index": 12,
+      "title": "Key Performance Indicator Dashboard",
+      "layout": "Title Only",
+      "category": "Core"
+    },
+    {
+      "index": 13,
+      "title": "Inbound Summary / Operational Chart",
+      "layout": "Title Only",
+      "category": "Core"
+    },
+    {
+      "index": 14,
+      "title": "Outbound Summary",
+      "layout": "Title Only",
+      "category": "Core"
+    },
+    {
+      "index": 15,
+      "title": "Inventory Accuracy",
+      "layout": "Title Only",
+      "category": "Core"
+    },
+    {
+      "index": 16,
+      "title": "Customer Forecast Accuracy",
+      "layout": "Title Only",
+      "category": "Core"
+    },
+    {
+      "index": 17,
+      "title": "Space Utilization",
+      "layout": "Title Only",
+      "category": "Core"
+    },
+    {
+      "index": 18,
+      "title": "Spend Summary",
+      "layout": "Title Only",
+      "category": "Core"
+    },
+    {
+      "index": 19,
+      "title": "Accounts Receivable Updates",
+      "layout": "Title Only",
+      "category": "Optional"
+    },
+    {
+      "index": 20,
+      "title": "Master Data Management KPIs",
+      "layout": "Title Only",
+      "category": "Core"
+    },
+    {
+      "index": 21,
+      "title": "Section: Continuous Improvement",
+      "layout": "1_Section Header",
+      "category": "Divider"
+    },
+    {
+      "index": 22,
+      "title": "Gemba Walk Summary",
+      "layout": "Title Only",
+      "category": "Core"
+    },
+    {
+      "index": 23,
+      "title": "CI Activity Tracker",
+      "layout": "Title Only",
+      "category": "Core"
+    },
+    {
+      "index": 24,
+      "title": "Section: Quality Management System",
+      "layout": "1_Section Header",
+      "category": "Divider"
+    },
+    {
+      "index": 25,
+      "title": "Quality Organizational Structure",
+      "layout": "Title Only",
+      "category": "Core"
+    },
+    {
+      "index": 26,
+      "title": "Non-Conformance Review",
+      "layout": "Title Only",
+      "category": "Core"
+    },
+    {
+      "index": 27,
+      "title": "Non-Conformance Tracker",
+      "layout": "Title Only",
+      "category": "Core"
+    },
+    {
+      "index": 28,
+      "title": "Section: Next Steps",
+      "layout": "1_Section Header",
+      "category": "Divider"
+    },
+    {
+      "index": 29,
+      "title": "Next Steps",
+      "layout": "Title Only",
+      "category": "Core"
+    },
+    {
+      "index": 30,
+      "title": "Brand Closing Slide",
+      "layout": "Blank",
+      "category": "Mandatory"
+    },
+    {
+      "index": 31,
+      "title": "Section: Optional Slides",
+      "layout": "2_Section Header",
+      "category": "Divider"
+    },
+    {
+      "index": 32,
+      "title": "KPI Scorecard Quarterly Summary (Opt 1)",
+      "layout": "Title Only",
+      "category": "Optional"
+    },
+    {
+      "index": 33,
+      "title": "KPI Scorecard Quarterly Summary (Opt 2)",
+      "layout": "Title Only",
+      "category": "Optional"
+    },
+    {
+      "index": 34,
+      "title": "Performance Summary Callouts",
+      "layout": "Blank",
+      "category": "Optional"
+    },
+    {
+      "index": 35,
+      "title": "Value-Centric Approach",
+      "layout": "Title Only",
+      "category": "Optional"
+    },
+    {
+      "index": 36,
+      "title": "Financial Value (3-Up Charts)",
+      "layout": "Title Only",
+      "category": "Optional"
+    },
+    {
+      "index": 37,
+      "title": "Cost / Data / Trend Analysis (Opt 1)",
+      "layout": "Title Only",
+      "category": "Optional"
+    },
+    {
+      "index": 38,
+      "title": "Cost / Data / Trend Analysis (Opt 2)",
+      "layout": "Title Only",
+      "category": "Optional"
+    },
+    {
+      "index": 39,
+      "title": "Forward Looking Roadmap",
+      "layout": "Title Only",
+      "category": "Optional"
+    },
+    {
+      "index": 40,
+      "title": "Technology & Digital Enablement",
+      "layout": "Title Only",
+      "category": "Optional"
+    },
+    {
+      "index": 41,
+      "title": "Section: Formatting Help",
+      "layout": "2_Section Header",
+      "category": "Guide-Only"
+    },
+    {
+      "index": 42,
+      "title": "Guardrails",
+      "layout": "Title Only",
+      "category": "Guide-Only"
+    },
+    {
+      "index": 43,
+      "title": "Brand Approved Colors",
+      "layout": "Title Only",
+      "category": "Guide-Only"
+    },
+    {
+      "index": 44,
+      "title": "Typography Hierarchy",
+      "layout": "Title Only",
+      "category": "Guide-Only"
+    },
+    {
+      "index": 45,
+      "title": "4-Up Mini Data Visualizations",
+      "layout": "Title Only",
+      "category": "Guide-Only"
+    },
+    {
+      "index": 46,
+      "title": "Data Visualization Callout Badges",
+      "layout": "Title Only",
+      "category": "Guide-Only"
+    },
+    {
+      "index": 47,
+      "title": "Sample Tables (Multi-Column)",
+      "layout": "Title Only",
+      "category": "Guide-Only"
+    },
+    {
+      "index": 48,
+      "title": "Sample Table (Condensed)",
+      "layout": "Title Only",
+      "category": "Guide-Only"
+    },
+    {
+      "index": 49,
+      "title": "Sample Table (Data Matrix)",
+      "layout": "Title Only",
+      "category": "Guide-Only"
+    },
+    {
+      "index": 50,
+      "title": "Process Flow Comparison",
+      "layout": "Title Only",
+      "category": "Guide-Only"
+    },
+    {
+      "index": 51,
+      "title": "Chart Samples (Full Width)",
+      "layout": "Title Only",
+      "category": "Guide-Only"
+    },
+    {
+      "index": 52,
+      "title": "Sample Graphs (Line Charts)",
+      "layout": "Title Only",
+      "category": "Guide-Only"
+    },
+    {
+      "index": 53,
+      "title": "Harvey Ball Icon Palette",
+      "layout": "Title Only",
+      "category": "Guide-Only"
+    },
+    {
+      "index": 54,
+      "title": "Vector Icon Library 1 (1-60)",
+      "layout": "Title Only",
+      "category": "Guide-Only"
+    },
+    {
+      "index": 55,
+      "title": "Vector Icon Library 2 (61-120)",
+      "layout": "Title Only",
+      "category": "Guide-Only"
+    },
+    {
+      "index": 56,
+      "title": "Vector Icon Library 3 (121-183)",
+      "layout": "Title Only",
+      "category": "Guide-Only"
+    },
+    {
+      "index": 57,
+      "title": "Harvey Balls (Extended)",
+      "layout": "Title and Content",
+      "category": "Guide-Only"
+    },
+    {
+      "index": 58,
+      "title": "New Icons (Logistics & Tech)",
+      "layout": "Title Only",
+      "category": "Guide-Only"
+    },
+    {
+      "index": 59,
+      "title": "New Icons (Customer Care)",
+      "layout": "Title Only",
+      "category": "Guide-Only"
+    }
+  ]
+}

@@ -1,0 +1,714 @@
+{
+  "index": 6,
+  "slide_name": "slide_06",
+  "title": "Customer Priorities (Format 2)",
+  "layout": "Title Only",
+  "category": "Alternate",
+  "slide_layout_name": "Title Only",
+  "shape_count": 24,
+  "shapes": [
+    {
+      "shape_id": 6,
+      "name": "Rectangle 5",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 0.0,
+        "top": 0.0,
+        "width": 13.333,
+        "height": 6.75
+      }
+    },
+    {
+      "shape_id": 7,
+      "name": "Rectangle 6",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 0.0,
+        "top": 0.0,
+        "width": 13.333,
+        "height": 6.75
+      }
+    },
+    {
+      "shape_id": 2,
+      "name": "Slide Number Placeholder 1",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 12.344,
+        "top": 7.099,
+        "width": 0.589,
+        "height": 0.303
+      },
+      "placeholder_type": "SLIDE_NUMBER (13)",
+      "placeholder_idx": 12,
+      "text": {
+        "full_text": "7",
+        "runs": [],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 3,
+      "name": "Title 2",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 0.398,
+        "top": 0.398,
+        "width": 12.533,
+        "height": 0.42
+      },
+      "placeholder_type": "TITLE (1)",
+      "placeholder_idx": 0,
+      "text": {
+        "full_text": "[CUSTOMER NAME] PRIORITIES",
+        "runs": [
+          {
+            "text": "[CUSTOMER NAME]",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": " PRIORITIES",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 4,
+      "name": "Text Placeholder 3",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 0.398,
+        "top": 0.835,
+        "width": 12.533,
+        "height": 0.245
+      },
+      "placeholder_type": "BODY (2)",
+      "placeholder_idx": 13
+    },
+    {
+      "shape_id": 5,
+      "name": "Rectangle 4",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 8.181,
+        "top": 0.255,
+        "width": 4.244,
+        "height": 1.0
+      },
+      "text": {
+        "full_text": "Required content\nFormat Option 2 – example text only\nMay include customer slides or their specific goals/challenges",
+        "runs": [
+          {
+            "text": "Required content",
+            "font": null,
+            "size_pt": 14.0,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "Format Option 2 – ",
+            "font": null,
+            "size_pt": 14.0,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "example text only",
+            "font": null,
+            "size_pt": 14.0,
+            "bold": true,
+            "italic": null,
+            "color": "C00000"
+          },
+          {
+            "text": "May include customer slides or their specific goals/challenges",
+            "font": null,
+            "size_pt": 14.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": true
+      },
+      "fill_color": "FFFF00"
+    },
+    {
+      "shape_id": 8,
+      "name": "Rectangle: Rounded Corners 7",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 9.083,
+        "top": 2.531,
+        "width": 3.74,
+        "height": 2.396
+      },
+      "fill_color": null
+    },
+    {
+      "shape_id": 9,
+      "name": "Rectangle: Rounded Corners 8",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 4.875,
+        "top": 2.531,
+        "width": 3.74,
+        "height": 2.396
+      },
+      "fill_color": null
+    },
+    {
+      "shape_id": 10,
+      "name": "Rectangle: Rounded Corners 9",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 0.659,
+        "top": 2.531,
+        "width": 3.74,
+        "height": 2.396
+      },
+      "fill_color": null
+    },
+    {
+      "shape_id": 11,
+      "name": "Group 10",
+      "shape_type": "GROUP (6)",
+      "position_in": {
+        "left": 0.51,
+        "top": 2.51,
+        "width": 3.323,
+        "height": 2.406
+      },
+      "children": [
+        {
+          "shape_id": 12,
+          "name": "Rectangle: Rounded Corners 11",
+          "shape_type": "AUTO_SHAPE (1)",
+          "position_in": {
+            "left": 0.51,
+            "top": 2.51,
+            "width": 3.323,
+            "height": 0.552
+          },
+          "fill_color": null
+        },
+        {
+          "shape_id": 13,
+          "name": "Freeform: Shape 12",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 0.51,
+            "top": 2.521,
+            "width": 1.576,
+            "height": 2.396
+          },
+          "fill_color": null
+        }
+      ]
+    },
+    {
+      "shape_id": 14,
+      "name": "Group 13",
+      "shape_type": "GROUP (6)",
+      "position_in": {
+        "left": 4.729,
+        "top": 2.51,
+        "width": 3.323,
+        "height": 2.406
+      },
+      "children": [
+        {
+          "shape_id": 15,
+          "name": "Rectangle: Rounded Corners 14",
+          "shape_type": "AUTO_SHAPE (1)",
+          "position_in": {
+            "left": 0.51,
+            "top": 2.51,
+            "width": 3.323,
+            "height": 0.552
+          }
+        },
+        {
+          "shape_id": 16,
+          "name": "Freeform: Shape 15",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 0.51,
+            "top": 2.521,
+            "width": 1.576,
+            "height": 2.396
+          }
+        }
+      ]
+    },
+    {
+      "shape_id": 17,
+      "name": "Group 16",
+      "shape_type": "GROUP (6)",
+      "position_in": {
+        "left": 8.945,
+        "top": 2.51,
+        "width": 3.323,
+        "height": 2.406
+      },
+      "children": [
+        {
+          "shape_id": 18,
+          "name": "Rectangle: Rounded Corners 17",
+          "shape_type": "AUTO_SHAPE (1)",
+          "position_in": {
+            "left": 0.51,
+            "top": 2.51,
+            "width": 3.323,
+            "height": 0.552
+          }
+        },
+        {
+          "shape_id": 19,
+          "name": "Freeform: Shape 18",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 0.51,
+            "top": 2.521,
+            "width": 1.576,
+            "height": 2.396
+          }
+        }
+      ]
+    },
+    {
+      "shape_id": 20,
+      "name": "Oval 19",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 3.167,
+        "top": 2.281,
+        "width": 0.896,
+        "height": 0.896
+      },
+      "fill_color": null
+    },
+    {
+      "shape_id": 21,
+      "name": "Oval 20",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 7.473,
+        "top": 2.281,
+        "width": 0.896,
+        "height": 0.896
+      },
+      "fill_color": null
+    },
+    {
+      "shape_id": 22,
+      "name": "Oval 21",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 11.691,
+        "top": 2.281,
+        "width": 0.896,
+        "height": 0.896
+      },
+      "fill_color": null
+    },
+    {
+      "shape_id": 23,
+      "name": "TextBox 22",
+      "shape_type": "TEXT_BOX (17)",
+      "position_in": {
+        "left": 0.759,
+        "top": 2.479,
+        "width": 2.315,
+        "height": 0.64
+      },
+      "text": {
+        "full_text": "EXPAND TO                              NEW MARKETS ",
+        "runs": [
+          {
+            "text": "EXPAND TO                              NEW MARKETS ",
+            "font": null,
+            "size_pt": 16.0,
+            "bold": true,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 24,
+      "name": "TextBox 23",
+      "shape_type": "TEXT_BOX (17)",
+      "position_in": {
+        "left": 4.993,
+        "top": 2.479,
+        "width": 2.315,
+        "height": 0.64
+      },
+      "text": {
+        "full_text": "MITIGATE    RISK ",
+        "runs": [
+          {
+            "text": "MITIGATE    RISK ",
+            "font": null,
+            "size_pt": 16.0,
+            "bold": true,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 25,
+      "name": "TextBox 24",
+      "shape_type": "TEXT_BOX (17)",
+      "position_in": {
+        "left": 9.233,
+        "top": 2.479,
+        "width": 2.315,
+        "height": 0.64
+      },
+      "text": {
+        "full_text": "ENHANCE VISIBILITY ",
+        "runs": [
+          {
+            "text": "ENHANCE VISIBILITY ",
+            "font": null,
+            "size_pt": 16.0,
+            "bold": true,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 29,
+      "name": "TextBox 28",
+      "shape_type": "TEXT_BOX (17)",
+      "position_in": {
+        "left": 5.165,
+        "top": 3.301,
+        "width": 3.16,
+        "height": 1.18
+      },
+      "text": {
+        "full_text": "By partnering with time critical and cold chain logistics experts.",
+        "runs": [
+          {
+            "text": "By partnering with time critical and cold chain logistics experts.",
+            "font": null,
+            "size_pt": 16.0,
+            "bold": null,
+            "italic": null,
+            "color": "58595B"
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 40,
+      "name": "TextBox 39",
+      "shape_type": "TEXT_BOX (17)",
+      "position_in": {
+        "left": 0.949,
+        "top": 3.301,
+        "width": 3.16,
+        "height": 1.178
+      },
+      "text": {
+        "full_text": "By optimizing global supply chain to rapidly scale and adapt to increased demand ",
+        "runs": [
+          {
+            "text": "By optimizing global supply chain to rapidly scale and adapt to increased demand ",
+            "font": null,
+            "size_pt": 16.0,
+            "bold": null,
+            "italic": null,
+            "color": "58595B"
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 46,
+      "name": "TextBox 45",
+      "shape_type": "TEXT_BOX (17)",
+      "position_in": {
+        "left": 9.373,
+        "top": 3.301,
+        "width": 3.16,
+        "height": 1.178
+      },
+      "text": {
+        "full_text": "Using advanced technology platforms to provide insight across end-to-end service. ",
+        "runs": [
+          {
+            "text": "Using advanced technology platforms to provide insight across end-to-end service. ",
+            "font": null,
+            "size_pt": 16.0,
+            "bold": null,
+            "italic": null,
+            "color": "58595B"
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 47,
+      "name": "Group 46",
+      "shape_type": "GROUP (6)",
+      "position_in": {
+        "left": 3.374,
+        "top": 2.487,
+        "width": 0.482,
+        "height": 0.483
+      },
+      "children": [
+        {
+          "shape_id": 48,
+          "name": "Freeform 118",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 2.97,
+            "top": 5.49,
+            "width": 0.141,
+            "height": 0.134
+          }
+        },
+        {
+          "shape_id": 49,
+          "name": "Freeform 119",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 2.896,
+            "top": 5.318,
+            "width": 0.163,
+            "height": 0.135
+          }
+        },
+        {
+          "shape_id": 50,
+          "name": "Freeform 120",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 3.0,
+            "top": 5.326,
+            "width": 0.111,
+            "height": 0.149
+          }
+        },
+        {
+          "shape_id": 51,
+          "name": "Freeform 121",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 2.806,
+            "top": 5.438,
+            "width": 0.156,
+            "height": 0.186
+          }
+        },
+        {
+          "shape_id": 52,
+          "name": "Freeform 122",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 3.134,
+            "top": 5.49,
+            "width": 0.142,
+            "height": 0.134
+          }
+        },
+        {
+          "shape_id": 53,
+          "name": "Freeform 123",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 3.186,
+            "top": 5.318,
+            "width": 0.165,
+            "height": 0.135
+          }
+        },
+        {
+          "shape_id": 54,
+          "name": "Freeform 124",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 3.134,
+            "top": 5.326,
+            "width": 0.113,
+            "height": 0.149
+          }
+        },
+        {
+          "shape_id": 55,
+          "name": "Freeform 125",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 3.283,
+            "top": 5.438,
+            "width": 0.156,
+            "height": 0.186
+          }
+        },
+        {
+          "shape_id": 56,
+          "name": "Freeform 126",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 2.97,
+            "top": 5.646,
+            "width": 0.141,
+            "height": 0.142
+          }
+        },
+        {
+          "shape_id": 57,
+          "name": "Freeform 127",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 2.896,
+            "top": 5.825,
+            "width": 0.163,
+            "height": 0.128
+          }
+        },
+        {
+          "shape_id": 58,
+          "name": "Freeform 128",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 3.0,
+            "top": 5.804,
+            "width": 0.111,
+            "height": 0.141
+          }
+        },
+        {
+          "shape_id": 59,
+          "name": "Freeform 129",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 2.806,
+            "top": 5.646,
+            "width": 0.156,
+            "height": 0.194
+          }
+        },
+        {
+          "shape_id": 60,
+          "name": "Freeform 130",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 3.134,
+            "top": 5.646,
+            "width": 0.142,
+            "height": 0.142
+          }
+        },
+        {
+          "shape_id": 61,
+          "name": "Freeform 131",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 3.186,
+            "top": 5.825,
+            "width": 0.165,
+            "height": 0.128
+          }
+        },
+        {
+          "shape_id": 62,
+          "name": "Freeform 132",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 3.134,
+            "top": 5.804,
+            "width": 0.113,
+            "height": 0.141
+          }
+        },
+        {
+          "shape_id": 63,
+          "name": "Freeform 133",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 3.283,
+            "top": 5.646,
+            "width": 0.156,
+            "height": 0.194
+          }
+        }
+      ]
+    },
+    {
+      "shape_id": 64,
+      "name": "Freeform 785",
+      "shape_type": "FREEFORM (5)",
+      "position_in": {
+        "left": 7.689,
+        "top": 2.546,
+        "width": 0.464,
+        "height": 0.366
+      },
+      "fill_color": null
+    },
+    {
+      "shape_id": 65,
+      "name": "Group 64",
+      "shape_type": "GROUP (6)",
+      "position_in": {
+        "left": 11.923,
+        "top": 2.451,
+        "width": 0.432,
+        "height": 0.555
+      },
+      "children": [
+        {
+          "shape_id": 66,
+          "name": "Freeform 867",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 6.003,
+            "top": 5.523,
+            "width": 0.493,
+            "height": 0.425
+          }
+        },
+        {
+          "shape_id": 67,
+          "name": "Freeform 868",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 6.159,
+            "top": 5.314,
+            "width": 0.179,
+            "height": 0.194
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,140 @@
+{
+  "version": "1.0",
+  "archetypes": [
+    {
+      "layout_id": "ORG_STRUCTURE",
+      "plan_field": "org_structure",
+      "purpose": "Show key people/roles for the account team",
+      "constraints": {
+        "max_items": 10
+      },
+      "slide_index": 2
+    },
+    {
+      "layout_id": "ACHIEVEMENTS",
+      "plan_field": "achievements",
+      "purpose": "Prior-quarter milestones, in chronological order",
+      "constraints": {
+        "max_items": 6
+      },
+      "slide_index": 4
+    },
+    {
+      "layout_id": "PRIORITIES",
+      "plan_field": "priorities",
+      "purpose": "Customer/business priority pillars",
+      "constraints": {
+        "max_items": 3
+      },
+      "slide_index": 5
+    },
+    {
+      "layout_id": "ACTION_TRACKER",
+      "plan_field": "action_tracker",
+      "purpose": "Open action items with owner/status",
+      "constraints": {
+        "max_items": 7
+      },
+      "slide_index": 9
+    },
+    {
+      "layout_id": "KPI_DASHBOARD_SAFETY_QUALITY",
+      "plan_field": "kpi_safety_quality",
+      "purpose": "Safety/quality KPI table (actual vs target)",
+      "constraints": {
+        "max_items": 4
+      },
+      "slide_index": 12
+    },
+    {
+      "layout_id": "KPI_DASHBOARD_OPERATIONAL",
+      "plan_field": "kpi_operational",
+      "purpose": "Operational KPI table (actual vs target)",
+      "constraints": {
+        "max_items": 7
+      },
+      "slide_index": 12
+    },
+    {
+      "layout_id": "VOICE_OF_CUSTOMER",
+      "plan_field": "voice_of_customer",
+      "purpose": "A single direct quote from any customer, client, stakeholder, or survey respondent (not limited to a literal 'Voice of the Customer' section)",
+      "constraints": {
+        "max_items": 1
+      },
+      "slide_index": 10
+    },
+    {
+      "layout_id": "GEMBA_WALK",
+      "plan_field": "gemba_walk",
+      "purpose": "Any area/location + observation table \u2014 site walkthroughs, facility audits, store/branch visits, service reviews, or similar structured observations (regardless of whether the source uses the term 'Gemba')",
+      "constraints": {
+        "max_items": 4
+      },
+      "slide_index": 22
+    },
+    {
+      "layout_id": "CI_TRACKER",
+      "plan_field": "ci_tracker",
+      "purpose": "Any improvement-initiative/activity tracker with status and value \u2014 Lean, Kaizen, process improvement, optimization projects, or general initiative logs",
+      "constraints": {
+        "max_items": 7
+      },
+      "slide_index": 23
+    },
+    {
+      "layout_id": "QUALITY_ORG_STRUCTURE",
+      "plan_field": "quality_org_structure",
+      "purpose": "A second, smaller people/role list distinct from 'org_structure' \u2014 e.g. a specialized team (quality, compliance, technical, security, or any secondary team) if the source describes more than one team",
+      "constraints": {
+        "max_items": 5
+      },
+      "slide_index": 25
+    },
+    {
+      "layout_id": "NC_TRACKER",
+      "plan_field": "nc_tracker",
+      "purpose": "Any issue/incident/defect/deviation/complaint tracker table with dates and status \u2014 not limited to formal 'non-conformance' terminology",
+      "constraints": {
+        "max_items": 7
+      },
+      "slide_index": 27
+    },
+    {
+      "layout_id": "NC_REVIEW_SUMMARY",
+      "plan_field": "nc_review_summary",
+      "purpose": "A 4-number issue/incident review scorecard (total initiated, total assigned, total closed, percent complete) \u2014 a summary companion to nc_tracker's detailed row-by-row table",
+      "constraints": {
+        "max_items": 4
+      },
+      "slide_index": 26
+    },
+    {
+      "layout_id": "NEXT_STEPS",
+      "plan_field": "next_steps",
+      "purpose": "Calls to action / next steps",
+      "constraints": {
+        "max_items": 4
+      },
+      "slide_index": 29
+    },
+    {
+      "layout_id": "STAT_HIGHLIGHTS",
+      "plan_field": "stat_highlights",
+      "purpose": "3-6 hero-metric callout badges (big number + label) for headline stats worth calling out visually \u2014 any domain, not detailed data",
+      "constraints": {
+        "max_items": 6
+      },
+      "slide_index": 34
+    },
+    {
+      "layout_id": "PROCESS_FLOW",
+      "plan_field": "process_flow",
+      "purpose": "A left-to-right sequence of process/workflow/roadmap steps (chevron segments) \u2014 any multi-step process, not limited to a specific domain",
+      "constraints": {
+        "max_items": 6
+      },
+      "slide_index": 50
+    }
+  ]
+}

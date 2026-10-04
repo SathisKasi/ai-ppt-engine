@@ -1,0 +1,187 @@
+{
+  "index": 26,
+  "slide_name": "slide_26",
+  "title": "Non-Conformance Review",
+  "layout": "Title Only",
+  "category": "Core",
+  "slide_layout_name": "Title Only",
+  "shape_count": 6,
+  "shapes": [
+    {
+      "shape_id": 2,
+      "name": "Slide Number Placeholder 1",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 12.344,
+        "top": 7.099,
+        "width": 0.589,
+        "height": 0.303
+      },
+      "placeholder_type": "SLIDE_NUMBER (13)",
+      "placeholder_idx": 12,
+      "text": {
+        "full_text": "27",
+        "runs": [],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 3,
+      "name": "Title 2",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 0.398,
+        "top": 0.398,
+        "width": 12.533,
+        "height": 0.42
+      },
+      "placeholder_type": "TITLE (1)",
+      "placeholder_idx": 0,
+      "text": {
+        "full_text": "NON-CONFORMANCE REVIEW",
+        "runs": [
+          {
+            "text": "NON-CONFORMANCE REVIEW",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 4,
+      "name": "Text Placeholder 3",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 0.398,
+        "top": 0.835,
+        "width": 12.533,
+        "height": 0.245
+      },
+      "placeholder_type": "BODY (2)",
+      "placeholder_idx": 13,
+      "text": {
+        "full_text": "Facility name or location",
+        "runs": [
+          {
+            "text": "Facility name or location",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 6,
+      "name": "Table 5",
+      "shape_type": "TABLE (19)",
+      "position_in": {
+        "left": 0.371,
+        "top": 1.569,
+        "width": 12.355,
+        "height": 0.972
+      },
+      "table": {
+        "rows": 2,
+        "cols": 4,
+        "header_row": [
+          "Total NC Initiated 2025",
+          "Total CAPA’s Assigned ",
+          "Total CAPAS \nClosed to Date ",
+          "Percent Complete"
+        ]
+      }
+    },
+    {
+      "shape_id": 8,
+      "name": "TextBox 7",
+      "shape_type": "TEXT_BOX (17)",
+      "position_in": {
+        "left": 0.323,
+        "top": 2.669,
+        "width": 12.442,
+        "height": 1.75
+      },
+      "text": {
+        "full_text": "NC-111-00071 (Critical): Missing 6 Units of Nonsaleable Product\nInvestigation is still in progress \n\nNC-111-00070 (Major): Hold Order Physically Shipped, but not systematically processed\nInvestigation in still in Progress  \n\n",
+        "runs": [
+          {
+            "text": "NC-111-00071 (Critical): Missing 6 Units of Nonsaleable Product",
+            "font": null,
+            "size_pt": 14.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "Investigation is still in progress ",
+            "font": null,
+            "size_pt": 14.0,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "NC-111-00070 (Major): Hold Order Physically Shipped, but not systematically processed",
+            "font": null,
+            "size_pt": 14.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "Investigation in still in Progress  ",
+            "font": null,
+            "size_pt": 14.0,
+            "bold": true,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 9,
+      "name": "Rectangle 8",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 9.462,
+        "top": 0.255,
+        "width": 2.962,
+        "height": 1.0
+      },
+      "text": {
+        "full_text": "Required content\nEXAMPLE 1",
+        "runs": [
+          {
+            "text": "Required content",
+            "font": null,
+            "size_pt": 14.0,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "EXAMPLE 1",
+            "font": null,
+            "size_pt": 14.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": true
+      },
+      "fill_color": "FFFF00"
+    }
+  ]
+}
