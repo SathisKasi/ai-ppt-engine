@@ -3,361 +3,361 @@
   "slides": [
     {
       "index": 0,
-      "title": "Presentation Cover",
+      "title": "Blank \u2014 3 text slot(s)",
       "layout": "Blank",
       "category": "Mandatory"
     },
     {
       "index": 1,
-      "title": "Today's Discussion (Agenda)",
+      "title": "9_Section Header \u2014 2 text slot(s)",
       "layout": "9_Section Header",
       "category": "Mandatory"
     },
     {
       "index": 2,
-      "title": "Organizational Structure",
+      "title": "Title Only \u2014 11 text slot(s)",
       "layout": "Title Only",
       "category": "Core"
     },
     {
       "index": 3,
-      "title": "Executive Summary",
+      "title": "Title Only \u2014 1 text slot(s)",
       "layout": "Title Only",
       "category": "Mandatory"
     },
     {
       "index": 4,
-      "title": "Previous Quarter Achievements",
+      "title": "Title Only \u2014 7 text slot(s)",
       "layout": "Title Only",
       "category": "Core"
     },
     {
       "index": 5,
-      "title": "Customer Priorities (Format 1)",
+      "title": "Title Only \u2014 repeat-group of 3 (2 slot(s) each), 1 text slot(s)",
       "layout": "Title Only",
       "category": "Core"
     },
     {
       "index": 6,
-      "title": "Customer Priorities (Format 2)",
+      "title": "Title Only \u2014 7 text slot(s)",
       "layout": "Title Only",
       "category": "Alternate"
     },
     {
       "index": 7,
-      "title": "UPS Healthcare Priorities",
+      "title": "Title Only \u2014 7 text slot(s)",
       "layout": "Title Only",
       "category": "Core"
     },
     {
       "index": 8,
-      "title": "Supplemental Gallery Pointer",
+      "title": "Title Only \u2014 1 text slot(s)",
       "layout": "Title Only",
       "category": "Guide-Only"
     },
     {
       "index": 9,
-      "title": "Action Item Tracker",
+      "title": "Title Only \u2014 table (5x8), 2 text slot(s)",
       "layout": "Title Only",
       "category": "Core"
     },
     {
       "index": 10,
-      "title": "Voice of the Customer",
+      "title": "Title Only \u2014 3 text slot(s)",
       "layout": "Title Only",
       "category": "Optional"
     },
     {
       "index": 11,
-      "title": "Section: Performance Management",
-      "layout": "1_Section Header",
+      "title": "1_Section Header_No Image \u2014 1 text slot(s)",
+      "layout": "1_Section Header_No Image",
       "category": "Divider"
     },
     {
       "index": 12,
-      "title": "Key Performance Indicator Dashboard",
+      "title": "Title Only \u2014 table (3x13), 2 text slot(s)",
       "layout": "Title Only",
       "category": "Core"
     },
     {
       "index": 13,
-      "title": "Inbound Summary / Operational Chart",
+      "title": "Title Only \u2014 chart (COLUMN_CLUSTERED (51)), 2 text slot(s)",
       "layout": "Title Only",
       "category": "Core"
     },
     {
       "index": 14,
-      "title": "Outbound Summary",
+      "title": "Title Only \u2014 chart (COLUMN_CLUSTERED (51)), 3 text slot(s)",
       "layout": "Title Only",
       "category": "Core"
     },
     {
       "index": 15,
-      "title": "Inventory Accuracy",
+      "title": "Title Only \u2014 chart (COLUMN_CLUSTERED (51)), 3 text slot(s)",
       "layout": "Title Only",
       "category": "Core"
     },
     {
       "index": 16,
-      "title": "Customer Forecast Accuracy",
+      "title": "Title Only \u2014 chart (COLUMN_CLUSTERED (51)), 3 text slot(s)",
       "layout": "Title Only",
       "category": "Core"
     },
     {
       "index": 17,
-      "title": "Space Utilization",
+      "title": "Title Only \u2014 chart (COLUMN_CLUSTERED (51)), 3 text slot(s)",
       "layout": "Title Only",
       "category": "Core"
     },
     {
       "index": 18,
-      "title": "Spend Summary",
+      "title": "Title Only \u2014 chart (COLUMN_CLUSTERED (51)), 3 text slot(s)",
       "layout": "Title Only",
       "category": "Core"
     },
     {
       "index": 19,
-      "title": "Accounts Receivable Updates",
+      "title": "Title Only \u2014 chart (COLUMN_CLUSTERED (51)), 3 text slot(s)",
       "layout": "Title Only",
       "category": "Optional"
     },
     {
       "index": 20,
-      "title": "Master Data Management KPIs",
+      "title": "Title Only \u2014 1 text slot(s)",
       "layout": "Title Only",
       "category": "Core"
     },
     {
       "index": 21,
-      "title": "Section: Continuous Improvement",
-      "layout": "1_Section Header",
+      "title": "1_Section Header_No Image \u2014 1 text slot(s)",
+      "layout": "1_Section Header_No Image",
       "category": "Divider"
     },
     {
       "index": 22,
-      "title": "Gemba Walk Summary",
+      "title": "Title Only \u2014 table (2x5), 1 text slot(s)",
       "layout": "Title Only",
       "category": "Core"
     },
     {
       "index": 23,
-      "title": "CI Activity Tracker",
+      "title": "Title Only \u2014 table (5x9), 1 text slot(s)",
       "layout": "Title Only",
       "category": "Core"
     },
     {
       "index": 24,
-      "title": "Section: Quality Management System",
-      "layout": "1_Section Header",
+      "title": "1_Section Header_No Image \u2014 1 text slot(s)",
+      "layout": "1_Section Header_No Image",
       "category": "Divider"
     },
     {
       "index": 25,
-      "title": "Quality Organizational Structure",
+      "title": "Title Only \u2014 6 text slot(s)",
       "layout": "Title Only",
       "category": "Core"
     },
     {
       "index": 26,
-      "title": "Non-Conformance Review",
+      "title": "Title Only \u2014 table (4x2), 3 text slot(s)",
       "layout": "Title Only",
       "category": "Core"
     },
     {
       "index": 27,
-      "title": "Non-Conformance Tracker",
+      "title": "Title Only \u2014 table (5x8), 2 text slot(s)",
       "layout": "Title Only",
       "category": "Core"
     },
     {
       "index": 28,
-      "title": "Section: Next Steps",
-      "layout": "1_Section Header",
+      "title": "1_Section Header_No Image \u2014 1 text slot(s)",
+      "layout": "1_Section Header_No Image",
       "category": "Divider"
     },
     {
       "index": 29,
-      "title": "Next Steps",
+      "title": "Title Only \u2014 table (2x4), 1 text slot(s)",
       "layout": "Title Only",
       "category": "Core"
     },
     {
       "index": 30,
-      "title": "Brand Closing Slide",
+      "title": "Blank \u2014 2 text slot(s)",
       "layout": "Blank",
       "category": "Mandatory"
     },
     {
       "index": 31,
-      "title": "Section: Optional Slides",
-      "layout": "2_Section Header",
+      "title": "2_Section Header_No Image_Blue BG \u2014 1 text slot(s)",
+      "layout": "2_Section Header_No Image_Blue BG",
       "category": "Divider"
     },
     {
       "index": 32,
-      "title": "KPI Scorecard Quarterly Summary (Opt 1)",
+      "title": "Title Only \u2014 table (6x6), 2 text slot(s)",
       "layout": "Title Only",
       "category": "Optional"
     },
     {
       "index": 33,
-      "title": "KPI Scorecard Quarterly Summary (Opt 2)",
+      "title": "Title Only \u2014 table (7x6), 2 text slot(s)",
       "layout": "Title Only",
       "category": "Optional"
     },
     {
       "index": 34,
-      "title": "Performance Summary Callouts",
+      "title": "Blank \u2014 8 text slot(s)",
       "layout": "Blank",
       "category": "Optional"
     },
     {
       "index": 35,
-      "title": "Value-Centric Approach",
+      "title": "Title Only \u2014 table (3x8), 3 text slot(s)",
       "layout": "Title Only",
       "category": "Optional"
     },
     {
       "index": 36,
-      "title": "Financial Value (3-Up Charts)",
+      "title": "Title Only \u2014 chart (COLUMN_CLUSTERED (51)), repeat-group of 3 (2 slot(s) each), 2 text slot(s)",
       "layout": "Title Only",
       "category": "Optional"
     },
     {
       "index": 37,
-      "title": "Cost / Data / Trend Analysis (Opt 1)",
+      "title": "Title Only \u2014 4 text slot(s)",
       "layout": "Title Only",
       "category": "Optional"
     },
     {
       "index": 38,
-      "title": "Cost / Data / Trend Analysis (Opt 2)",
+      "title": "Title Only \u2014 4 text slot(s)",
       "layout": "Title Only",
       "category": "Optional"
     },
     {
       "index": 39,
-      "title": "Forward Looking Roadmap",
+      "title": "Title Only \u2014 7 text slot(s)",
       "layout": "Title Only",
       "category": "Optional"
     },
     {
       "index": 40,
-      "title": "Technology & Digital Enablement",
+      "title": "Title Only \u2014 3 text slot(s)",
       "layout": "Title Only",
       "category": "Optional"
     },
     {
       "index": 41,
-      "title": "Section: Formatting Help",
-      "layout": "2_Section Header",
+      "title": "2_Section Header_No Image_Blue BG \u2014 1 text slot(s)",
+      "layout": "2_Section Header_No Image_Blue BG",
       "category": "Guide-Only"
     },
     {
       "index": 42,
-      "title": "Guardrails",
+      "title": "Title Only \u2014 2 text slot(s)",
       "layout": "Title Only",
       "category": "Guide-Only"
     },
     {
       "index": 43,
-      "title": "Brand Approved Colors",
+      "title": "Title Only \u2014 5 text slot(s)",
       "layout": "Title Only",
       "category": "Guide-Only"
     },
     {
       "index": 44,
-      "title": "Typography Hierarchy",
+      "title": "Title Only \u2014 3 text slot(s)",
       "layout": "Title Only",
       "category": "Guide-Only"
     },
     {
       "index": 45,
-      "title": "4-Up Mini Data Visualizations",
+      "title": "Title Only \u2014 chart (DOUGHNUT (-4120)), 5 text slot(s)",
       "layout": "Title Only",
       "category": "Guide-Only"
     },
     {
       "index": 46,
-      "title": "Data Visualization Callout Badges",
+      "title": "Title Only \u2014 6 text slot(s)",
       "layout": "Title Only",
       "category": "Guide-Only"
     },
     {
       "index": 47,
-      "title": "Sample Tables (Multi-Column)",
+      "title": "Title Only \u2014 table (3x5), 1 text slot(s)",
       "layout": "Title Only",
       "category": "Guide-Only"
     },
     {
       "index": 48,
-      "title": "Sample Table (Condensed)",
+      "title": "Title Only \u2014 table (8x9), 1 text slot(s)",
       "layout": "Title Only",
       "category": "Guide-Only"
     },
     {
       "index": 49,
-      "title": "Sample Table (Data Matrix)",
+      "title": "Title Only \u2014 table (5x4), 1 text slot(s)",
       "layout": "Title Only",
       "category": "Guide-Only"
     },
     {
       "index": 50,
-      "title": "Process Flow Comparison",
+      "title": "Title Only \u2014 10 text slot(s)",
       "layout": "Title Only",
       "category": "Guide-Only"
     },
     {
       "index": 51,
-      "title": "Chart Samples (Full Width)",
+      "title": "Title Only \u2014 chart (COLUMN_CLUSTERED (51)), 1 text slot(s)",
       "layout": "Title Only",
       "category": "Guide-Only"
     },
     {
       "index": 52,
-      "title": "Sample Graphs (Line Charts)",
+      "title": "Title Only \u2014 chart (LINE (4)), 1 text slot(s)",
       "layout": "Title Only",
       "category": "Guide-Only"
     },
     {
       "index": 53,
-      "title": "Harvey Ball Icon Palette",
+      "title": "Title Only \u2014 no fillable content",
       "layout": "Title Only",
       "category": "Guide-Only"
     },
     {
       "index": 54,
-      "title": "Vector Icon Library 1 (1-60)",
+      "title": "Title Only \u2014 1 text slot(s)",
       "layout": "Title Only",
       "category": "Guide-Only"
     },
     {
       "index": 55,
-      "title": "Vector Icon Library 2 (61-120)",
+      "title": "Title Only \u2014 1 text slot(s)",
       "layout": "Title Only",
       "category": "Guide-Only"
     },
     {
       "index": 56,
-      "title": "Vector Icon Library 3 (121-183)",
+      "title": "Title Only \u2014 1 text slot(s)",
       "layout": "Title Only",
       "category": "Guide-Only"
     },
     {
       "index": 57,
-      "title": "Harvey Balls (Extended)",
-      "layout": "Title and Content",
+      "title": "1_Title and Content \u2014 1 text slot(s)",
+      "layout": "1_Title and Content",
       "category": "Guide-Only"
     },
     {
       "index": 58,
-      "title": "New Icons (Logistics & Tech)",
+      "title": "Title Only \u2014 4 text slot(s)",
       "layout": "Title Only",
       "category": "Guide-Only"
     },
     {
       "index": 59,
-      "title": "New Icons (Customer Care)",
+      "title": "Title Only \u2014 1 text slot(s)",
       "layout": "Title Only",
       "category": "Guide-Only"
     }

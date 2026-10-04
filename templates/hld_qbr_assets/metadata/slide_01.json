@@ -1,11 +1,107 @@
 {
   "index": 1,
   "slide_name": "slide_01",
-  "title": "Today's Discussion (Agenda)",
+  "title": "9_Section Header — 2 text slot(s)",
   "layout": "9_Section Header",
   "category": "Mandatory",
   "slide_layout_name": "9_Section Header",
-  "shape_count": 4,
+  "canvas": {
+    "width_emu": 12192000,
+    "height_emu": 6858000,
+    "width_px": 1280,
+    "height_px": 720,
+    "aspect_ratio": "16:9"
+  },
+  "structure": {
+    "shape_count": 4,
+    "text_placeholder_count": 1,
+    "image_count": 0,
+    "table_or_chart_count": 0,
+    "annotation_shape_count": 0
+  },
+  "annotation_shapes": [],
+  "editable_mapping": {
+    "layout": {
+      "name": "9_Section Header",
+      "placeholders": [
+        {
+          "raw_type": "TITLE (1)",
+          "idx": 0,
+          "position_in": {
+            "left": 0.398,
+            "top": 0.373,
+            "width": 5.552,
+            "height": 1.111
+          }
+        },
+        {
+          "raw_type": "PICTURE (18)",
+          "idx": 1,
+          "position_in": {
+            "left": 6.444,
+            "top": 0.0,
+            "width": 6.889,
+            "height": 6.833
+          }
+        },
+        {
+          "raw_type": "BODY (2)",
+          "idx": 2,
+          "position_in": {
+            "left": 0.398,
+            "top": 1.856,
+            "width": 5.552,
+            "height": 4.977
+          }
+        },
+        {
+          "raw_type": "SLIDE_NUMBER (13)",
+          "idx": 12,
+          "position_in": {
+            "left": 12.344,
+            "top": 7.099,
+            "width": 0.589,
+            "height": 0.303
+          }
+        }
+      ]
+    },
+    "master": {
+      "name": "",
+      "placeholders": [
+        {
+          "raw_type": "TITLE (1)",
+          "idx": 0,
+          "position_in": {
+            "left": 0.398,
+            "top": 0.398,
+            "width": 12.533,
+            "height": 1.033
+          }
+        },
+        {
+          "raw_type": "BODY (2)",
+          "idx": 1,
+          "position_in": {
+            "left": 0.398,
+            "top": 1.592,
+            "width": 12.533,
+            "height": 5.24
+          }
+        },
+        {
+          "raw_type": "SLIDE_NUMBER (13)",
+          "idx": 4,
+          "position_in": {
+            "left": 12.344,
+            "top": 7.099,
+            "width": 0.589,
+            "height": 0.303
+          }
+        }
+      ]
+    }
+  },
   "shapes": [
     {
       "shape_id": 5,

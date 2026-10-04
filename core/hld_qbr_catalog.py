@@ -4,10 +4,10 @@ layout_capability_catalog.json (see templates/build_hld_qbr_layout_catalog.py)
 and provides compact, prompt-ready views of it.
 
 This catalog is the single source of truth for "what can this template
-actually hold" — no topic names, pure structure (slots/maxChars/tables/
-charts/repeat-groups). The outline-assignment prompt gets a compact summary
-(cheap, no sample text); the content-fill prompt gets the full entry for
-just the slides actually picked.
+actually hold" — no topic names or sample text, only structure
+(slots/maxChars/tables/charts/repeat-groups). The outline-assignment prompt
+gets a compact summary; the content-fill prompt gets the full entry for just
+the slides actually picked.
 """
 from __future__ import annotations
 
@@ -54,8 +54,8 @@ def content_bearing_mandatory_slide_ids() -> List[str]:
 
 
 def compact_catalog_for_outline() -> List[Dict[str, Any]]:
-    """Slim view for the outline-assignment call: no sample_text, no
-    shape_ids — just enough structure to match content by SHAPE, not name.
+    """Slim view for the outline-assignment call: no renderer-only shape
+    ids — just enough structure to match content by SHAPE, not name.
     Excludes STRUCTURAL_ONLY_SLIDE_IDS (cover/agenda/closing) — nothing to
     decide there, they're force-included by the orchestrator regardless."""
     compact = []
@@ -72,8 +72,8 @@ def compact_catalog_for_outline() -> List[Dict[str, Any]]:
             if s.get("chart_schema"):
                 item["chart_schema"] = {
                     "chart_type": s["chart_schema"]["chart_type"],
-                    "category_count": len(s["chart_schema"]["categories"]),
-                    "series_count": len(s["chart_schema"]["series_names"]),
+                    "category_count": s["chart_schema"]["category_count"],
+                    "series_count": s["chart_schema"]["series_count"],
                 }
             slots_summary.append(item)
         repeat_summary = [

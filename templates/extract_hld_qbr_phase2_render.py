@@ -61,10 +61,13 @@ ICON_RENDER_DPI = 360
 POINTS_PER_INCH = 72
 
 # (slide_index, folder_name, icon_number_start) for the 3 icon-library slides.
+# Folder names are purely positional (matching the deck's own "ICONS 1-60" /
+# "61-120" / "121-183" labels) -- these 183 vector shapes have no thematic
+# grouping in the source template, so no semantic category name is invented.
 ICON_SLIDES = [
-    (54, "set_1_healthcare_coldchain", 1),
-    (55, "set_2_supply_chain_logistics", 61),
-    (56, "set_3_quality_compliance", 121),
+    (54, "set_1_icons_001_060", 1),
+    (55, "set_2_icons_061_120", 61),
+    (56, "set_3_icons_121_183", 121),
 ]
 
 NON_ICON_SHAPE_NAMES = {"title", "slide number placeholder"}

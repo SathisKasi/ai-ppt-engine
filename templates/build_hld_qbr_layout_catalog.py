@@ -12,6 +12,10 @@ notion of what document topic should go there. Topic-to-slide matching
 becomes a runtime LLM decision (outline-assignment stage), not a fixed
 pre-named bucket.
 
+The generated catalog intentionally excludes template titles and sample text.
+Those source values are used only while deriving capacity from the raw
+metadata; they must never be available to the planner or renderer at runtime.
+
 Only Mandatory/Core/Optional/Alternate slides are included (content-bearing).
 Divider/Guide-Only slides are excluded — dividers are structural and
 self-gate on neighboring content at render time, guide-only slides are
@@ -45,8 +49,8 @@ CHROME_NAME_SNIPPETS = ("slide number placeholder",)
 HEIGHT_TOLERANCE = 0.12
 
 
-def _max_chars(sample_text: str) -> int:
-    length = len(sample_text.strip())
+def _max_chars(reference_text: str) -> int:
+    length = len(reference_text.strip())
     if length == 0:
         return 20
     return max(15, int(math.ceil(length * 1.3 / 5.0) * 5))
@@ -94,7 +98,6 @@ def _slot_from_shape(shape: Dict[str, Any], slot_id: str) -> Optional[Dict[str, 
             "table_schema": {
                 "rows": table["rows"],
                 "cols": table["cols"],
-                "header_row": table["header_row"],
             },
         }
     if shape.get("chart"):
@@ -105,8 +108,8 @@ def _slot_from_shape(shape: Dict[str, Any], slot_id: str) -> Optional[Dict[str, 
             "shape_id": shape["shape_id"],
             "chart_schema": {
                 "chart_type": chart["chart_type"],
-                "categories": chart["categories"],
-                "series_names": chart["series_names"],
+                "category_count": len(chart["categories"]),
+                "series_count": len(chart["series_names"]),
             },
         }
     if text and text.get("full_text", "").strip():
@@ -114,7 +117,6 @@ def _slot_from_shape(shape: Dict[str, Any], slot_id: str) -> Optional[Dict[str, 
             "slot_id": slot_id,
             "kind": _shape_kind(shape),
             "shape_id": shape["shape_id"],
-            "sample_text": text["full_text"],
             "max_chars": _max_chars(text["full_text"]),
         }
     # Some template slides ship with a genuinely EMPTY title text box (no
@@ -128,7 +130,6 @@ def _slot_from_shape(shape: Dict[str, Any], slot_id: str) -> Optional[Dict[str, 
             "slot_id": slot_id,
             "kind": "empty_title_box",
             "shape_id": shape["shape_id"],
-            "sample_text": "",
             "max_chars": 40,
         }
     return None
@@ -177,7 +178,6 @@ def _detect_repeat_groups(shapes: List[Dict[str, Any]], used_shape_ids: set) -> 
             if text and text.get("full_text", "").strip() and not text.get("is_guidance_sticker"):
                 item_slots.append({
                     "slot_id": f"item_slot_{len(item_slots) + 1}",
-                    "sample_text": text["full_text"],
                     "max_chars": _max_chars(text["full_text"]),
                 })
         if not item_slots:
@@ -225,7 +225,6 @@ def build_entry(record: Dict[str, Any]) -> Dict[str, Any]:
     return {
         "slide_id": record["slide_name"],
         "source_slide_index": record["index"],
-        "title": record.get("title"),
         "category": record.get("category"),
         "always_include": record.get("category") == "Mandatory",
         "has_table": has_table,
@@ -234,6 +233,29 @@ def build_entry(record: Dict[str, Any]) -> Dict[str, Any]:
         "auto_number_shape_ids": auto_number_shape_ids,
         "slots": slots,
     }
+
+
+def describe_structure(entry: Dict[str, Any]) -> str:
+    """Generic, structure-only label for a slide (table/chart/repeat-group/
+    text-slot counts) — used as the human-facing 'title' in metadata and
+    inventory JSON instead of a name transcribed from the template's own
+    sample/placeholder heading text."""
+    parts: List[str] = []
+    table_slot = next((s for s in entry["slots"] if s["kind"] == "table"), None)
+    if table_slot:
+        schema = table_slot["table_schema"]
+        parts.append(f"table ({schema['cols']}x{schema['rows']})")
+    chart_slot = next((s for s in entry["slots"] if s["kind"] == "chart"), None)
+    if chart_slot:
+        parts.append(f"chart ({chart_slot['chart_schema']['chart_type']})")
+    for rg in entry["repeat_groups"]:
+        parts.append(f"repeat-group of {rg['item_count']} ({len(rg['item_slots'])} slot(s) each)")
+    simple_slot_count = sum(1 for s in entry["slots"] if s["kind"] not in ("table", "chart"))
+    if simple_slot_count:
+        parts.append(f"{simple_slot_count} text slot(s)")
+    if not parts:
+        parts.append("no fillable content")
+    return ", ".join(parts)
 
 
 def main() -> None:
@@ -246,7 +268,7 @@ def main() -> None:
         entries.append(build_entry(record))
 
     OUT_PATH.write_text(
-        json.dumps({"version": "1.0", "slides": entries}, indent=2, ensure_ascii=False),
+        json.dumps({"version": "2.0", "slides": entries}, indent=2, ensure_ascii=False),
         encoding="utf-8",
     )
     print(f"[layout-catalog] wrote {len(entries)} fillable slide entries -> {OUT_PATH}")

@@ -28,8 +28,8 @@ existing slide capabilities to use and WHAT already-extracted content feeds each
 one. Match content to a slide by its STRUCTURE (a table needs tabular data, a
 repeat-group with N max items needs content with at most N parallel entries,
 a chart needs a numeric series) — never by whether the document uses the same
-words as anything about the slide. A slide with no genuinely fitting content
-must be left unpicked rather than force-fed a weak match.
+words as anything about the slide. Every selected slide must have one or more
+source content item ids that can produce visible, source-grounded text.
 """
 
 HLD_QBR_OUTLINE_PROMPT = """\
@@ -48,13 +48,18 @@ slides — cover/agenda/closing — handled separately, do not pick them here):
 
 Requested number of CONTENT slides: {requested_slide_count}
 
-Task: choose up to {requested_slide_count} slide_ids (from the catalog above,
-excluding the always-included ones) that have genuinely fitting content, and
+Task: choose exactly {requested_slide_count} slide_ids when a requested count
+is supplied (otherwise choose only the useful slides). Select from the catalog
+above, excluding the always-included ones. Every pick must have genuinely
+fitting content, and
 for each, list the content_item ids (from the content model above) that will
 feed it. Prefer slides where the structural fit is strong. Do not invent a
 content_item id that isn't in the content model above. Do not pick the same
 content_item id for more than one slide unless the slide's repeat-group
-structure genuinely calls for reusing a broader theme across sub-items.
+structure genuinely calls for reusing a broader theme across sub-items. Never
+return an empty content_item_ids list. When more layouts are needed, use a
+less specialized text/card layout that can faithfully present a distinct
+source item; do not leave a selected layout blank.
 
 Also provide: a concise presentation_title, a facility_name if the source
 names a specific site/location, and a date if the source states one
@@ -142,9 +147,10 @@ For each slide, return:
   chart_categories is a list of category labels, chart_series is a list of
   {{"name": "...", "values": [numbers]}}
 
-Omit any key that doesn't apply to a given slide. Omit a slide entirely from
-your response only if NONE of its assigned content items turned out to be
-usable (should be rare, since matching already happened upstream).
+Omit any key that doesn't apply to a given slide, but return exactly one slide
+object for every input slide. Do not leave a selected layout blank. When an
+item cannot support a richer structure, use its source-grounded text for the
+title and any compatible simple text slot rather than omitting the slide.
 
 Return ONLY valid JSON:
 {{

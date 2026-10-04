@@ -1,11 +1,87 @@
 {
   "index": 28,
   "slide_name": "slide_28",
-  "title": "Section: Next Steps",
-  "layout": "1_Section Header",
+  "title": "1_Section Header_No Image — 1 text slot(s)",
+  "layout": "1_Section Header_No Image",
   "category": "Divider",
   "slide_layout_name": "1_Section Header_No Image",
-  "shape_count": 5,
+  "canvas": {
+    "width_emu": 12192000,
+    "height_emu": 6858000,
+    "width_px": 1280,
+    "height_px": 720,
+    "aspect_ratio": "16:9"
+  },
+  "structure": {
+    "shape_count": 5,
+    "text_placeholder_count": 2,
+    "image_count": 2,
+    "table_or_chart_count": 0,
+    "annotation_shape_count": 0
+  },
+  "annotation_shapes": [],
+  "editable_mapping": {
+    "layout": {
+      "name": "1_Section Header_No Image",
+      "placeholders": [
+        {
+          "raw_type": "TITLE (1)",
+          "idx": 0,
+          "position_in": {
+            "left": 3.571,
+            "top": 3.651,
+            "width": 6.225,
+            "height": 1.653
+          }
+        },
+        {
+          "raw_type": "SLIDE_NUMBER (13)",
+          "idx": 10,
+          "position_in": {
+            "left": 12.344,
+            "top": 7.099,
+            "width": 0.589,
+            "height": 0.303
+          }
+        }
+      ]
+    },
+    "master": {
+      "name": "",
+      "placeholders": [
+        {
+          "raw_type": "TITLE (1)",
+          "idx": 0,
+          "position_in": {
+            "left": 0.398,
+            "top": 0.398,
+            "width": 12.533,
+            "height": 1.033
+          }
+        },
+        {
+          "raw_type": "BODY (2)",
+          "idx": 1,
+          "position_in": {
+            "left": 0.398,
+            "top": 1.592,
+            "width": 12.533,
+            "height": 5.24
+          }
+        },
+        {
+          "raw_type": "SLIDE_NUMBER (13)",
+          "idx": 4,
+          "position_in": {
+            "left": 12.344,
+            "top": 7.099,
+            "width": 0.589,
+            "height": 0.303
+          }
+        }
+      ]
+    }
+  },
   "shapes": [
     {
       "shape_id": 4,

@@ -1,11 +1,97 @@
 {
   "index": 40,
   "slide_name": "slide_40",
-  "title": "Technology & Digital Enablement",
+  "title": "Title Only — 3 text slot(s)",
   "layout": "Title Only",
   "category": "Optional",
   "slide_layout_name": "Title Only",
-  "shape_count": 4,
+  "canvas": {
+    "width_emu": 12192000,
+    "height_emu": 6858000,
+    "width_px": 1280,
+    "height_px": 720,
+    "aspect_ratio": "16:9"
+  },
+  "structure": {
+    "shape_count": 4,
+    "text_placeholder_count": 3,
+    "image_count": 0,
+    "table_or_chart_count": 0,
+    "annotation_shape_count": 0
+  },
+  "annotation_shapes": [],
+  "editable_mapping": {
+    "layout": {
+      "name": "Title Only",
+      "placeholders": [
+        {
+          "raw_type": "SLIDE_NUMBER (13)",
+          "idx": 12,
+          "position_in": {
+            "left": 12.344,
+            "top": 7.099,
+            "width": 0.589,
+            "height": 0.303
+          }
+        },
+        {
+          "raw_type": "TITLE (1)",
+          "idx": 0,
+          "position_in": {
+            "left": 0.398,
+            "top": 0.398,
+            "width": 12.533,
+            "height": 0.42
+          }
+        },
+        {
+          "raw_type": "BODY (2)",
+          "idx": 13,
+          "position_in": {
+            "left": 0.398,
+            "top": 0.835,
+            "width": 12.533,
+            "height": 0.245
+          }
+        }
+      ]
+    },
+    "master": {
+      "name": "",
+      "placeholders": [
+        {
+          "raw_type": "TITLE (1)",
+          "idx": 0,
+          "position_in": {
+            "left": 0.398,
+            "top": 0.398,
+            "width": 12.533,
+            "height": 1.033
+          }
+        },
+        {
+          "raw_type": "BODY (2)",
+          "idx": 1,
+          "position_in": {
+            "left": 0.398,
+            "top": 1.592,
+            "width": 12.533,
+            "height": 5.24
+          }
+        },
+        {
+          "raw_type": "SLIDE_NUMBER (13)",
+          "idx": 4,
+          "position_in": {
+            "left": 12.344,
+            "top": 7.099,
+            "width": 0.589,
+            "height": 0.303
+          }
+        }
+      ]
+    }
+  },
   "shapes": [
     {
       "shape_id": 2,

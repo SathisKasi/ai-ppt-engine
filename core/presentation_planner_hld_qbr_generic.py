@@ -27,7 +27,6 @@ from pydantic import ValidationError
 from core.hld_qbr_catalog import (
     STRUCTURAL_ONLY_SLIDE_IDS,
     compact_catalog_for_outline,
-    content_bearing_mandatory_slide_ids,
     get_entry,
     load_catalog,
 )
@@ -66,15 +65,15 @@ def _slim_entry_for_fill(entry: Dict[str, Any]) -> Dict[str, Any]:
         if slot.get("table_schema"):
             schema = slot["table_schema"]
             slim_slot["table_schema"] = {
-                "column_count": len(schema.get("header_row") or []),
-                "row_count": schema.get("row_count"),
+                "column_count": schema["cols"],
+                "row_count": schema["rows"],
             }
         if slot.get("chart_schema"):
             schema = slot["chart_schema"]
             slim_slot["chart_schema"] = {
                 "chart_type": schema.get("chart_type"),
-                "category_count": len(schema.get("categories") or []),
-                "series_count": len(schema.get("series_names") or []),
+                "category_count": schema["category_count"],
+                "series_count": schema["series_count"],
             }
         slots.append(slim_slot)
     return {
@@ -119,27 +118,27 @@ def _run_outline_stage(
     return parse_outline_response(raw)
 
 
-def _resolve_picks(outline: Dict[str, Any], requested_slide_count: Optional[int]) -> List[Dict[str, Any]]:
+def _resolve_picks(
+    outline: Dict[str, Any],
+    content_model: ContentModel,
+    requested_slide_count: Optional[int],
+) -> List[Dict[str, Any]]:
     catalog_ids = {e["slide_id"] for e in load_catalog()}
+    source_ids = content_model.ids()
     seen: set = set()
     resolved: List[Dict[str, Any]] = []
     for pick in outline["picks"]:
         sid = pick["slide_id"]
         if sid not in catalog_ids or sid in STRUCTURAL_ONLY_SLIDE_IDS or sid in seen:
             continue
+        grounded_ids = [content_id for content_id in pick["content_item_ids"] if content_id in source_ids]
+        if not grounded_ids:
+            continue
         seen.add(sid)
-        resolved.append(pick)
+        resolved.append({"slide_id": sid, "content_item_ids": grounded_ids})
 
     if requested_slide_count:
         resolved = resolved[:requested_slide_count]
-        seen = {p["slide_id"] for p in resolved}
-
-    # Mandatory content-bearing slides (executive summary) are forced in
-    # even if the LLM omitted them — with empty content as a safe fallback.
-    for sid in content_bearing_mandatory_slide_ids():
-        if sid not in seen:
-            resolved.append({"slide_id": sid, "content_item_ids": []})
-            seen.add(sid)
 
     return resolved
 
@@ -181,14 +180,45 @@ def _run_fill_stage(
             if sid:
                 filled_by_id[sid] = slide_data
 
+    missing_payload = [
+        payload for payload in fill_payload if payload["slide_id"] not in filled_by_id
+    ]
+    if missing_payload:
+        logger.warning("Retrying content fill for %d omitted slide(s).", len(missing_payload))
+        prompt = build_hld_qbr_fill_prompt(slides_payload=missing_payload)
+        messages = [
+            {"role": "system", "content": SYSTEM_ROLE_HLD_QBR_FILL},
+            {"role": "user", "content": prompt},
+        ]
+        try:
+            raw = key_manager.get_client().chat_complete_json(
+                messages=messages, temperature=0.2, max_tokens=3800
+            )
+            for slide_data in raw.get("slides", []) if isinstance(raw, dict) else []:
+                sid = slide_data.get("slide_id")
+                if sid:
+                    filled_by_id[sid] = slide_data
+        except Exception as e:
+            logger.warning("Content-fill retry failed for %d slide(s): %s", len(missing_payload), e)
+
     return filled_by_id
 
 
 def _build_slide_assignment(pick: Dict[str, Any], filled: Optional[Dict[str, Any]]) -> Optional[SlideAssignment]:
     entry = get_entry(pick["slide_id"])
-    if entry is None:
+    if entry is None or not filled:
         return None
-    filled = filled or {}
+    has_visible_content = any([
+        filled.get("title"),
+        filled.get("slot_values"),
+        filled.get("repeat_items"),
+        filled.get("table_headers"),
+        filled.get("table_rows"),
+        filled.get("chart_categories"),
+        filled.get("chart_series"),
+    ])
+    if not has_visible_content:
+        return None
     try:
         return SlideAssignment(
             slide_id=entry["slide_id"],
@@ -216,11 +246,26 @@ def plan_hld_qbr_presentation_generic(
     facility_name_hint: str = "",
 ) -> GenericHLDQBRPlan:
     """Full pipeline: outline assignment -> content fill -> typed plan.
-    Never raises for partial failures (a slide that fails to fill is simply
-    dropped); only raises HLDQBRGenericPlanningError if literally nothing
-    could be produced, so the caller can fall back to an error message."""
+    A requested slide count is enforced; incomplete source-grounded plans
+    raise instead of emitting blank or silently short decks."""
     outline = _run_outline_stage(client, content_model, requested_slide_count)
-    resolved_picks = _resolve_picks(outline, requested_slide_count)
+    resolved_picks = _resolve_picks(outline, content_model, requested_slide_count)
+
+    # A requested slide count is a hard contract. Retry once with the same
+    # structural-only prompt before failing rather than emitting sparse slides.
+    if requested_slide_count and len(resolved_picks) < requested_slide_count:
+        logger.warning(
+            "Outline returned %d of %d requested source-backed slides; retrying.",
+            len(resolved_picks), requested_slide_count,
+        )
+        outline = _run_outline_stage(client, content_model, requested_slide_count)
+        resolved_picks = _resolve_picks(outline, content_model, requested_slide_count)
+    if requested_slide_count and len(resolved_picks) < requested_slide_count:
+        raise HLDQBRGenericPlanningError(
+            f"The document supports only {len(resolved_picks)} source-backed layout assignments; "
+            f"{requested_slide_count} were requested."
+        )
+
     filled_by_id = _run_fill_stage(key_manager, content_model, resolved_picks)
 
     slides: List[SlideAssignment] = []
@@ -229,11 +274,15 @@ def plan_hld_qbr_presentation_generic(
         if assignment is not None:
             slides.append(assignment)
 
+    if requested_slide_count and len(slides) < requested_slide_count:
+        raise HLDQBRGenericPlanningError(
+            f"Only {len(slides)} of {requested_slide_count} requested slides received source-backed content."
+        )
     if not slides:
         raise HLDQBRGenericPlanningError("No slides could be planned from the extracted content.")
 
     plan = GenericHLDQBRPlan(
-        presentation_title=outline.get("presentation_title") or "",
+        presentation_title=outline.get("presentation_title") or content_model.content_items[0].text,
         facility_name=outline.get("facility_name") or "",
         date=outline.get("date") or "",
         slides=slides,

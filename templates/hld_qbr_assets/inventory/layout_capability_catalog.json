@@ -1,10 +1,9 @@
 {
-  "version": "1.0",
+  "version": "2.0",
   "slides": [
     {
       "slide_id": "slide_00",
       "source_slide_index": 0,
-      "title": "Presentation Cover",
       "category": "Mandatory",
       "always_include": true,
       "has_table": false,
@@ -16,21 +15,18 @@
           "slot_id": "rectangle_6_7",
           "kind": "auto_shape",
           "shape_id": 7,
-          "sample_text": "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tBIORIDGE PHARMA \n\t\t\t\t\t\t\t\t\t\tMonthly Business \n\t\t\t\t\t\t\t\t\t\tReview",
           "max_chars": 80
         },
         {
           "slot_id": "date_placeholder_1_8",
           "kind": "text_box",
           "shape_id": 8,
-          "sample_text": "August 6th 2026",
           "max_chars": 20
         },
         {
           "slot_id": "title_5_9",
           "kind": "empty_title_box",
           "shape_id": 9,
-          "sample_text": "",
           "max_chars": 40
         }
       ]
@@ -38,7 +34,6 @@
     {
       "slide_id": "slide_01",
       "source_slide_index": 1,
-      "title": "Today's Discussion (Agenda)",
       "category": "Mandatory",
       "always_include": true,
       "has_table": false,
@@ -50,14 +45,12 @@
           "slot_id": "title_1_5",
           "kind": "text_box",
           "shape_id": 5,
-          "sample_text": "TODAY’S DISCUSSION",
           "max_chars": 25
         },
         {
           "slot_id": "textbox_7_8",
           "kind": "text_box",
           "shape_id": 8,
-          "sample_text": "Welcome and Organization Structure \nExecutive Summary\nPerformance Management Updates\nContinuous Improvement Program Updates\nTransportation Updates \nQuality System Management Updates\nNext Steps",
           "max_chars": 250
         }
       ]
@@ -65,7 +58,6 @@
     {
       "slide_id": "slide_02",
       "source_slide_index": 2,
-      "title": "Organizational Structure",
       "category": "Core",
       "always_include": false,
       "has_table": false,
@@ -77,77 +69,66 @@
           "slot_id": "title_1_2",
           "kind": "placeholder_title",
           "shape_id": 2,
-          "sample_text": "ORGANIZATIONAL STRUCTURE FOR BIORIDGE",
           "max_chars": 50
         },
         {
           "slot_id": "rectangle__rounded_corners_7_8",
           "kind": "auto_shape",
           "shape_id": 8,
-          "sample_text": "Nicole Gaudio\nVice President",
           "max_chars": 40
         },
         {
           "slot_id": "rectangle__rounded_corners_8_9",
           "kind": "auto_shape",
           "shape_id": 9,
-          "sample_text": "Bob Anderson\nChief Financial Officer ",
           "max_chars": 50
         },
         {
           "slot_id": "rectangle__rounded_corners_9_10",
           "kind": "auto_shape",
           "shape_id": 10,
-          "sample_text": "Edwin Rodriguez\nVP Trade Relations",
           "max_chars": 45
         },
         {
           "slot_id": "rectangle__rounded_corners_10_11",
           "kind": "auto_shape",
           "shape_id": 11,
-          "sample_text": "William Smith (Bill)\nInbound Lead ",
           "max_chars": 45
         },
         {
           "slot_id": "rectangle__rounded_corners_11_12",
           "kind": "auto_shape",
           "shape_id": 12,
-          "sample_text": "Plarent Sinamati \nFinancial Analyst ",
           "max_chars": 50
         },
         {
           "slot_id": "rectangle__rounded_corners_13_14",
           "kind": "auto_shape",
           "shape_id": 14,
-          "sample_text": "Marlo Sanchez \nFinancial Analyst",
           "max_chars": 45
         },
         {
           "slot_id": "rectangle__rounded_corners_15_16",
           "kind": "auto_shape",
           "shape_id": 16,
-          "sample_text": "Patrick Redmond\nLogistics Operations Coordinator",
           "max_chars": 65
         },
         {
           "slot_id": "rectangle__rounded_corners_16_17",
           "kind": "auto_shape",
           "shape_id": 17,
-          "sample_text": "Joe Collins\nSmall pack Lead",
           "max_chars": 40
         },
         {
           "slot_id": "rectangle__rounded_corners_21_22",
           "kind": "auto_shape",
           "shape_id": 22,
-          "sample_text": "Eloisa Arciga\nOrder Control",
           "max_chars": 40
         },
         {
           "slot_id": "rectangle__rounded_corners_23_24",
           "kind": "auto_shape",
           "shape_id": 24,
-          "sample_text": "Travis Cochran\nOutbound Lead",
           "max_chars": 40
         }
       ]
@@ -155,7 +136,6 @@
     {
       "slide_id": "slide_03",
       "source_slide_index": 3,
-      "title": "Executive Summary",
       "category": "Mandatory",
       "always_include": true,
       "has_table": false,
@@ -167,7 +147,6 @@
           "slot_id": "title_6_9",
           "kind": "text_box",
           "shape_id": 9,
-          "sample_text": "EXECUTIVE SUMMARY",
           "max_chars": 25
         }
       ]
@@ -175,7 +154,6 @@
     {
       "slide_id": "slide_04",
       "source_slide_index": 4,
-      "title": "Previous Quarter Achievements",
       "category": "Core",
       "always_include": false,
       "has_table": false,
@@ -194,49 +172,42 @@
           "slot_id": "title_2_3",
           "kind": "placeholder_title",
           "shape_id": 3,
-          "sample_text": "PREVIOUS QUARTER ACHIEVEMENTS",
           "max_chars": 40
         },
         {
           "slot_id": "content_placeholder_42_12",
           "kind": "text_box",
           "shape_id": 12,
-          "sample_text": "Transportation Amendment Signed – Reduces transportation cost ",
           "max_chars": 80
         },
         {
           "slot_id": "content_placeholder_42_13",
           "kind": "text_box",
           "shape_id": 13,
-          "sample_text": "Transportation Management services started 1/16",
           "max_chars": 65
         },
         {
           "slot_id": "content_placeholder_42_14",
           "kind": "text_box",
           "shape_id": 14,
-          "sample_text": "Successful CVS Tour ",
           "max_chars": 25
         },
         {
           "slot_id": "content_placeholder_42_19",
           "kind": "text_box",
           "shape_id": 19,
-          "sample_text": "Calgary UPS Healthcare Logistics and Distribution operations opened 1/25",
           "max_chars": 95
         },
         {
           "slot_id": "content_placeholder_42_4",
           "kind": "text_box",
           "shape_id": 4,
-          "sample_text": "Details",
           "max_chars": 15
         },
         {
           "slot_id": "content_placeholder_42_23",
           "kind": "text_box",
           "shape_id": 23,
-          "sample_text": "Details",
           "max_chars": 15
         }
       ]
@@ -244,7 +215,6 @@
     {
       "slide_id": "slide_05",
       "source_slide_index": 5,
-      "title": "Customer Priorities (Format 1)",
       "category": "Core",
       "always_include": false,
       "has_table": false,
@@ -261,12 +231,10 @@
           "item_slots": [
             {
               "slot_id": "item_slot_1",
-              "sample_text": "PRIORITY 1",
               "max_chars": 15
             },
             {
               "slot_id": "item_slot_2",
-              "sample_text": "Supporting text here",
               "max_chars": 30
             }
           ]
@@ -278,7 +246,6 @@
           "slot_id": "title_2_3",
           "kind": "placeholder_title",
           "shape_id": 3,
-          "sample_text": "[CUSTOMER NAME] PRIORITIES",
           "max_chars": 35
         }
       ]
@@ -286,7 +253,6 @@
     {
       "slide_id": "slide_06",
       "source_slide_index": 6,
-      "title": "Customer Priorities (Format 2)",
       "category": "Alternate",
       "always_include": false,
       "has_table": false,
@@ -298,49 +264,42 @@
           "slot_id": "title_2_3",
           "kind": "placeholder_title",
           "shape_id": 3,
-          "sample_text": "[CUSTOMER NAME] PRIORITIES",
           "max_chars": 35
         },
         {
           "slot_id": "textbox_22_23",
           "kind": "text_box",
           "shape_id": 23,
-          "sample_text": "EXPAND TO                              NEW MARKETS ",
           "max_chars": 65
         },
         {
           "slot_id": "textbox_23_24",
           "kind": "text_box",
           "shape_id": 24,
-          "sample_text": "MITIGATE    RISK ",
           "max_chars": 25
         },
         {
           "slot_id": "textbox_24_25",
           "kind": "text_box",
           "shape_id": 25,
-          "sample_text": "ENHANCE VISIBILITY ",
           "max_chars": 25
         },
         {
           "slot_id": "textbox_28_29",
           "kind": "text_box",
           "shape_id": 29,
-          "sample_text": "By partnering with time critical and cold chain logistics experts.",
           "max_chars": 90
         },
         {
           "slot_id": "textbox_39_40",
           "kind": "text_box",
           "shape_id": 40,
-          "sample_text": "By optimizing global supply chain to rapidly scale and adapt to increased demand ",
           "max_chars": 105
         },
         {
           "slot_id": "textbox_45_46",
           "kind": "text_box",
           "shape_id": 46,
-          "sample_text": "Using advanced technology platforms to provide insight across end-to-end service. ",
           "max_chars": 110
         }
       ]
@@ -348,7 +307,6 @@
     {
       "slide_id": "slide_07",
       "source_slide_index": 7,
-      "title": "UPS Healthcare Priorities",
       "category": "Core",
       "always_include": false,
       "has_table": false,
@@ -360,49 +318,42 @@
           "slot_id": "title_1_2",
           "kind": "placeholder_title",
           "shape_id": 2,
-          "sample_text": "UPS HEALTHCARE™ LOGISTICS AND DISTRIBUTION PRIORITIES",
           "max_chars": 70
         },
         {
           "slot_id": "textbox_21_22",
           "kind": "text_box",
           "shape_id": 22,
-          "sample_text": "Details",
           "max_chars": 15
         },
         {
           "slot_id": "textbox_8_9",
           "kind": "text_box",
           "shape_id": 9,
-          "sample_text": "Cost ",
           "max_chars": 15
         },
         {
           "slot_id": "textbox_22_23",
           "kind": "text_box",
           "shape_id": 23,
-          "sample_text": "Details",
           "max_chars": 15
         },
         {
           "slot_id": "textbox_12_13",
           "kind": "text_box",
           "shape_id": 13,
-          "sample_text": "Performance",
           "max_chars": 15
         },
         {
           "slot_id": "textbox_23_24",
           "kind": "text_box",
           "shape_id": 24,
-          "sample_text": "Details",
           "max_chars": 15
         },
         {
           "slot_id": "textbox_15_16",
           "kind": "text_box",
           "shape_id": 16,
-          "sample_text": "Partnership ",
           "max_chars": 15
         }
       ]
@@ -410,7 +361,6 @@
     {
       "slide_id": "slide_09",
       "source_slide_index": 9,
-      "title": "Action Item Tracker",
       "category": "Core",
       "always_include": false,
       "has_table": true,
@@ -422,14 +372,12 @@
           "slot_id": "title_2_3",
           "kind": "placeholder_title",
           "shape_id": 3,
-          "sample_text": "ACTION ITEM TRACKER",
           "max_chars": 25
         },
         {
           "slot_id": "text_placeholder_3_4",
           "kind": "placeholder_body",
           "shape_id": 4,
-          "sample_text": "Facility name or location",
           "max_chars": 35
         },
         {
@@ -438,14 +386,7 @@
           "shape_id": 5,
           "table_schema": {
             "rows": 8,
-            "cols": 5,
-            "header_row": [
-              "Project",
-              "Owner",
-              "Next Steps",
-              "Comment",
-              "Status"
-            ]
+            "cols": 5
           }
         }
       ]
@@ -453,7 +394,6 @@
     {
       "slide_id": "slide_10",
       "source_slide_index": 10,
-      "title": "Voice of the Customer",
       "category": "Optional",
       "always_include": false,
       "has_table": false,
@@ -465,21 +405,18 @@
           "slot_id": "title_2_3",
           "kind": "placeholder_title",
           "shape_id": 3,
-          "sample_text": "VOICE OF THE CUSTOMER ",
           "max_chars": 30
         },
         {
           "slot_id": "speech_bubble__rectangle_with_corners_rounded_4_5",
           "kind": "auto_shape",
           "shape_id": 5,
-          "sample_text": "Are there any specific quotes or callouts from the customer that we can use here? \n\n~Customer Name, Title",
           "max_chars": 140
         },
         {
           "slot_id": "textbox_5_6",
           "kind": "text_box",
           "shape_id": 6,
-          "sample_text": "Supporting information, charts, or graphs can go on this side. ",
           "max_chars": 85
         }
       ]
@@ -487,7 +424,6 @@
     {
       "slide_id": "slide_12",
       "source_slide_index": 12,
-      "title": "Key Performance Indicator Dashboard",
       "category": "Core",
       "always_include": false,
       "has_table": true,
@@ -499,14 +435,12 @@
           "slot_id": "title_2_3",
           "kind": "placeholder_title",
           "shape_id": 3,
-          "sample_text": "KEY PERFORMANCE INDICATOR (KPI) DASHBOARD",
           "max_chars": 55
         },
         {
           "slot_id": "text_placeholder_3_4",
           "kind": "placeholder_body",
           "shape_id": 4,
-          "sample_text": "1860 KYVLE",
           "max_chars": 15
         },
         {
@@ -515,12 +449,7 @@
           "shape_id": 5,
           "table_schema": {
             "rows": 13,
-            "cols": 3,
-            "header_row": [
-              "Operation highlights",
-              "1st Quarter 2026",
-              "2nd Quarter 2026"
-            ]
+            "cols": 3
           }
         },
         {
@@ -529,16 +458,7 @@
           "shape_id": 6,
           "table_schema": {
             "rows": 6,
-            "cols": 7,
-            "header_row": [
-              "Key Performance Indicators",
-              "1st Quarter 2026",
-              "",
-              "",
-              "2nd Quarter 2026",
-              "",
-              ""
-            ]
+            "cols": 7
           }
         }
       ]
@@ -546,7 +466,6 @@
     {
       "slide_id": "slide_13",
       "source_slide_index": 13,
-      "title": "Inbound Summary / Operational Chart",
       "category": "Core",
       "always_include": false,
       "has_table": false,
@@ -558,14 +477,12 @@
           "slot_id": "title_2_3",
           "kind": "placeholder_title",
           "shape_id": 3,
-          "sample_text": "INBOUND SUMMARY",
           "max_chars": 20
         },
         {
           "slot_id": "text_placeholder_3_4",
           "kind": "placeholder_body",
           "shape_id": 4,
-          "sample_text": "Facility name or location",
           "max_chars": 35
         },
         {
@@ -574,16 +491,8 @@
           "shape_id": 5,
           "chart_schema": {
             "chart_type": "COLUMN_CLUSTERED (51)",
-            "categories": [
-              "Q1",
-              "Q2",
-              "Q3",
-              "Q4"
-            ],
-            "series_names": [
-              "2025",
-              "2026"
-            ]
+            "category_count": 4,
+            "series_count": 2
           }
         }
       ]
@@ -591,7 +500,6 @@
     {
       "slide_id": "slide_14",
       "source_slide_index": 14,
-      "title": "Outbound Summary",
       "category": "Core",
       "always_include": false,
       "has_table": false,
@@ -603,14 +511,12 @@
           "slot_id": "title_2_3",
           "kind": "placeholder_title",
           "shape_id": 3,
-          "sample_text": "OUTBOUND SUMMARY",
           "max_chars": 25
         },
         {
           "slot_id": "text_placeholder_3_4",
           "kind": "placeholder_body",
           "shape_id": 4,
-          "sample_text": "Facility name or location",
           "max_chars": 35
         },
         {
@@ -619,23 +525,14 @@
           "shape_id": 5,
           "chart_schema": {
             "chart_type": "COLUMN_CLUSTERED (51)",
-            "categories": [
-              "Q1",
-              "Q2",
-              "Q3",
-              "Q4"
-            ],
-            "series_names": [
-              "2025",
-              "2026"
-            ]
+            "category_count": 4,
+            "series_count": 2
           }
         },
         {
           "slot_id": "rectangle__rounded_corners_5_6",
           "kind": "auto_shape",
           "shape_id": 6,
-          "sample_text": "Q1 INSIGHTS",
           "max_chars": 15
         }
       ]
@@ -643,7 +540,6 @@
     {
       "slide_id": "slide_15",
       "source_slide_index": 15,
-      "title": "Inventory Accuracy",
       "category": "Core",
       "always_include": false,
       "has_table": false,
@@ -655,14 +551,12 @@
           "slot_id": "title_2_3",
           "kind": "placeholder_title",
           "shape_id": 3,
-          "sample_text": "INVENTORY ACCURACY",
           "max_chars": 25
         },
         {
           "slot_id": "text_placeholder_3_4",
           "kind": "placeholder_body",
           "shape_id": 4,
-          "sample_text": "Facility name or location",
           "max_chars": 35
         },
         {
@@ -671,23 +565,14 @@
           "shape_id": 5,
           "chart_schema": {
             "chart_type": "COLUMN_CLUSTERED (51)",
-            "categories": [
-              "Q1",
-              "Q2",
-              "Q3",
-              "Q4"
-            ],
-            "series_names": [
-              "2025",
-              "2026"
-            ]
+            "category_count": 4,
+            "series_count": 2
           }
         },
         {
           "slot_id": "rectangle__rounded_corners_10_11",
           "kind": "auto_shape",
           "shape_id": 11,
-          "sample_text": "Q1 INSIGHTS",
           "max_chars": 15
         }
       ]
@@ -695,7 +580,6 @@
     {
       "slide_id": "slide_16",
       "source_slide_index": 16,
-      "title": "Customer Forecast Accuracy",
       "category": "Core",
       "always_include": false,
       "has_table": false,
@@ -707,14 +591,12 @@
           "slot_id": "title_2_3",
           "kind": "placeholder_title",
           "shape_id": 3,
-          "sample_text": "CUSTOMER FORECAST ACCURACY",
           "max_chars": 35
         },
         {
           "slot_id": "text_placeholder_3_4",
           "kind": "placeholder_body",
           "shape_id": 4,
-          "sample_text": "Facility name or location",
           "max_chars": 35
         },
         {
@@ -723,23 +605,14 @@
           "shape_id": 10,
           "chart_schema": {
             "chart_type": "COLUMN_CLUSTERED (51)",
-            "categories": [
-              "Q1",
-              "Q2",
-              "Q3",
-              "Q4"
-            ],
-            "series_names": [
-              "Forecast",
-              "Actual"
-            ]
+            "category_count": 4,
+            "series_count": 2
           }
         },
         {
           "slot_id": "rectangle__rounded_corners_6_7",
           "kind": "auto_shape",
           "shape_id": 7,
-          "sample_text": "Q1 INSIGHTS",
           "max_chars": 15
         }
       ]
@@ -747,7 +620,6 @@
     {
       "slide_id": "slide_17",
       "source_slide_index": 17,
-      "title": "Space Utilization",
       "category": "Core",
       "always_include": false,
       "has_table": false,
@@ -759,14 +631,12 @@
           "slot_id": "title_2_3",
           "kind": "placeholder_title",
           "shape_id": 3,
-          "sample_text": "SPACE UTILIZATION",
           "max_chars": 25
         },
         {
           "slot_id": "text_placeholder_3_4",
           "kind": "placeholder_body",
           "shape_id": 4,
-          "sample_text": "Facility name or location",
           "max_chars": 35
         },
         {
@@ -775,23 +645,14 @@
           "shape_id": 7,
           "chart_schema": {
             "chart_type": "COLUMN_CLUSTERED (51)",
-            "categories": [
-              "Q1",
-              "Q2",
-              "Q3",
-              "Q4"
-            ],
-            "series_names": [
-              "2025",
-              "2026"
-            ]
+            "category_count": 4,
+            "series_count": 2
           }
         },
         {
           "slot_id": "rectangle__rounded_corners_4_5",
           "kind": "auto_shape",
           "shape_id": 5,
-          "sample_text": "Q1 INSIGHTS",
           "max_chars": 15
         }
       ]
@@ -799,7 +660,6 @@
     {
       "slide_id": "slide_18",
       "source_slide_index": 18,
-      "title": "Spend Summary",
       "category": "Core",
       "always_include": false,
       "has_table": false,
@@ -811,14 +671,12 @@
           "slot_id": "title_2_3",
           "kind": "placeholder_title",
           "shape_id": 3,
-          "sample_text": "SPEND SUMMARY",
           "max_chars": 20
         },
         {
           "slot_id": "text_placeholder_3_4",
           "kind": "placeholder_body",
           "shape_id": 4,
-          "sample_text": "Facility name or location",
           "max_chars": 35
         },
         {
@@ -827,23 +685,14 @@
           "shape_id": 7,
           "chart_schema": {
             "chart_type": "COLUMN_CLUSTERED (51)",
-            "categories": [
-              "Q1",
-              "Q2",
-              "Q3",
-              "Q4"
-            ],
-            "series_names": [
-              "2025",
-              "2026"
-            ]
+            "category_count": 4,
+            "series_count": 2
           }
         },
         {
           "slot_id": "rectangle__rounded_corners_4_5",
           "kind": "auto_shape",
           "shape_id": 5,
-          "sample_text": "Q1 INSIGHTS",
           "max_chars": 15
         }
       ]
@@ -851,7 +700,6 @@
     {
       "slide_id": "slide_19",
       "source_slide_index": 19,
-      "title": "Accounts Receivable Updates",
       "category": "Optional",
       "always_include": false,
       "has_table": false,
@@ -863,14 +711,12 @@
           "slot_id": "title_2_3",
           "kind": "placeholder_title",
           "shape_id": 3,
-          "sample_text": "ACCOUNTS RECEIVABLE UPDATES",
           "max_chars": 40
         },
         {
           "slot_id": "text_placeholder_3_4",
           "kind": "placeholder_body",
           "shape_id": 4,
-          "sample_text": "Facility name or location",
           "max_chars": 35
         },
         {
@@ -879,23 +725,14 @@
           "shape_id": 11,
           "chart_schema": {
             "chart_type": "COLUMN_CLUSTERED (51)",
-            "categories": [
-              "Q1",
-              "Q2",
-              "Q3",
-              "Q4"
-            ],
-            "series_names": [
-              "2025",
-              "2026"
-            ]
+            "category_count": 4,
+            "series_count": 2
           }
         },
         {
           "slot_id": "rectangle__rounded_corners_5_6",
           "kind": "auto_shape",
           "shape_id": 6,
-          "sample_text": "Q1 INSIGHTS",
           "max_chars": 15
         }
       ]
@@ -903,7 +740,6 @@
     {
       "slide_id": "slide_20",
       "source_slide_index": 20,
-      "title": "Master Data Management KPIs",
       "category": "Core",
       "always_include": false,
       "has_table": false,
@@ -915,7 +751,6 @@
           "slot_id": "title_2_3",
           "kind": "placeholder_title",
           "shape_id": 3,
-          "sample_text": "MASTER DATA MANAGEMENT KPI’S AND UPDATES",
           "max_chars": 55
         }
       ]
@@ -923,7 +758,6 @@
     {
       "slide_id": "slide_22",
       "source_slide_index": 22,
-      "title": "Gemba Walk Summary",
       "category": "Core",
       "always_include": false,
       "has_table": true,
@@ -935,7 +769,6 @@
           "slot_id": "title_2_3",
           "kind": "placeholder_title",
           "shape_id": 3,
-          "sample_text": "GEMBA WALK SUMMARY",
           "max_chars": 25
         },
         {
@@ -944,11 +777,7 @@
           "shape_id": 6,
           "table_schema": {
             "rows": 5,
-            "cols": 2,
-            "header_row": [
-              "Area",
-              "Observation"
-            ]
+            "cols": 2
           }
         }
       ]
@@ -956,7 +785,6 @@
     {
       "slide_id": "slide_23",
       "source_slide_index": 23,
-      "title": "CI Activity Tracker",
       "category": "Core",
       "always_include": false,
       "has_table": true,
@@ -968,7 +796,6 @@
           "slot_id": "title_2_3",
           "kind": "placeholder_title",
           "shape_id": 3,
-          "sample_text": "CONTINUOUS IMPROVEMENT ACTIVITY TRACKER",
           "max_chars": 55
         },
         {
@@ -977,14 +804,7 @@
           "shape_id": 5,
           "table_schema": {
             "rows": 9,
-            "cols": 5,
-            "header_row": [
-              "CIP Activity",
-              "Category",
-              "Status\n",
-              "Annual Estimated Value",
-              "Comments"
-            ]
+            "cols": 5
           }
         }
       ]
@@ -992,7 +812,6 @@
     {
       "slide_id": "slide_25",
       "source_slide_index": 25,
-      "title": "Quality Organizational Structure",
       "category": "Core",
       "always_include": false,
       "has_table": false,
@@ -1004,42 +823,36 @@
           "slot_id": "title_1_2",
           "kind": "placeholder_title",
           "shape_id": 2,
-          "sample_text": "QUALITY ORGANIZATIONAL STRUCTURE FOR [CLIENT NAME]",
           "max_chars": 65
         },
         {
           "slot_id": "rectangle__rounded_corners_17_18",
           "kind": "auto_shape",
           "shape_id": 18,
-          "sample_text": "Timothy Bishop \nDirector\nUPS Healthcare - Louisville, KY",
           "max_chars": 75
         },
         {
           "slot_id": "rectangle__rounded_corners_18_19",
           "kind": "auto_shape",
           "shape_id": 19,
-          "sample_text": "Karen York\nSenior Manager\nUPS Healthcare - Louisville, KY",
           "max_chars": 75
         },
         {
           "slot_id": "rectangle__rounded_corners_19_20",
           "kind": "auto_shape",
           "shape_id": 20,
-          "sample_text": "Mary Barnett\nSupervisor\nUPS Healthcare",
           "max_chars": 50
         },
         {
           "slot_id": "rectangle__rounded_corners_20_21",
           "kind": "auto_shape",
           "shape_id": 21,
-          "sample_text": "Tamara Plaisance\nSpecialist\nUPS Healthcare",
           "max_chars": 55
         },
         {
           "slot_id": "rectangle__rounded_corners_22_23",
           "kind": "auto_shape",
           "shape_id": 23,
-          "sample_text": "Chelsie Draughon\nSpecialist\nUPS Healthcare",
           "max_chars": 55
         }
       ]
@@ -1047,7 +860,6 @@
     {
       "slide_id": "slide_26",
       "source_slide_index": 26,
-      "title": "Non-Conformance Review",
       "category": "Core",
       "always_include": false,
       "has_table": true,
@@ -1059,14 +871,12 @@
           "slot_id": "title_2_3",
           "kind": "placeholder_title",
           "shape_id": 3,
-          "sample_text": "NON-CONFORMANCE REVIEW",
           "max_chars": 30
         },
         {
           "slot_id": "text_placeholder_3_4",
           "kind": "placeholder_body",
           "shape_id": 4,
-          "sample_text": "Facility name or location",
           "max_chars": 35
         },
         {
@@ -1075,20 +885,13 @@
           "shape_id": 6,
           "table_schema": {
             "rows": 2,
-            "cols": 4,
-            "header_row": [
-              "Total NC Initiated 2025",
-              "Total CAPA’s Assigned ",
-              "Total CAPAS \nClosed to Date ",
-              "Percent Complete"
-            ]
+            "cols": 4
           }
         },
         {
           "slot_id": "textbox_7_8",
           "kind": "text_box",
           "shape_id": 8,
-          "sample_text": "NC-111-00071 (Critical): Missing 6 Units of Nonsaleable Product\nInvestigation is still in progress \n\nNC-111-00070 (Major): Hold Order Physically Shipped, but not systematically processed\nInvestigation in still in Progress  \n\n",
           "max_chars": 290
         }
       ]
@@ -1096,7 +899,6 @@
     {
       "slide_id": "slide_27",
       "source_slide_index": 27,
-      "title": "Non-Conformance Tracker",
       "category": "Core",
       "always_include": false,
       "has_table": true,
@@ -1108,14 +910,12 @@
           "slot_id": "title_2_3",
           "kind": "placeholder_title",
           "shape_id": 3,
-          "sample_text": "NON-CONFORMANCE TRACKER",
           "max_chars": 30
         },
         {
           "slot_id": "text_placeholder_3_4",
           "kind": "placeholder_body",
           "shape_id": 4,
-          "sample_text": "Facility name or location",
           "max_chars": 35
         },
         {
@@ -1124,14 +924,7 @@
           "shape_id": 5,
           "table_schema": {
             "rows": 8,
-            "cols": 5,
-            "header_row": [
-              "Period",
-              "NC#",
-              "Event",
-              "Due Date",
-              "Status"
-            ]
+            "cols": 5
           }
         }
       ]
@@ -1139,7 +932,6 @@
     {
       "slide_id": "slide_29",
       "source_slide_index": 29,
-      "title": "Next Steps",
       "category": "Core",
       "always_include": false,
       "has_table": true,
@@ -1151,7 +943,6 @@
           "slot_id": "title_1_2",
           "kind": "placeholder_title",
           "shape_id": 2,
-          "sample_text": "NEXT STEPS",
           "max_chars": 15
         },
         {
@@ -1160,11 +951,7 @@
           "shape_id": 6,
           "table_schema": {
             "rows": 4,
-            "cols": 2,
-            "header_row": [
-              "Step 1 description here",
-              "Date (Optional)"
-            ]
+            "cols": 2
           }
         }
       ]
@@ -1172,7 +959,6 @@
     {
       "slide_id": "slide_30",
       "source_slide_index": 30,
-      "title": "Brand Closing Slide",
       "category": "Mandatory",
       "always_include": true,
       "has_table": false,
@@ -1184,14 +970,12 @@
           "slot_id": "rectangle_3_4",
           "kind": "auto_shape",
           "shape_id": 4,
-          "sample_text": "MOVING OUR WORLD FORWARD BY DELIVERING WHAT MATTERS™",
           "max_chars": 70
         },
         {
           "slot_id": "textbox_26_27",
           "kind": "text_box",
           "shape_id": 27,
-          "sample_text": "Proprietary and Confidential: This presentation may not be used or disclosed to other than employees or customers, unless expressly authorized by UPS.\u000b© 2026 United Parcel Service of America, Inc. UPS, the UPS brandmark and the color brown are trademarks of United Parcel Service of America, Inc. All rights reserved.",
           "max_chars": 415
         }
       ]
@@ -1199,7 +983,6 @@
     {
       "slide_id": "slide_32",
       "source_slide_index": 32,
-      "title": "KPI Scorecard Quarterly Summary (Opt 1)",
       "category": "Optional",
       "always_include": false,
       "has_table": true,
@@ -1211,14 +994,12 @@
           "slot_id": "title_2_3",
           "kind": "placeholder_title",
           "shape_id": 3,
-          "sample_text": "KPI SCORECARD QUARTERLY SUMMARY",
           "max_chars": 45
         },
         {
           "slot_id": "text_placeholder_3_4",
           "kind": "placeholder_body",
           "shape_id": 4,
-          "sample_text": "Facility name or location",
           "max_chars": 35
         },
         {
@@ -1227,15 +1008,7 @@
           "shape_id": 5,
           "table_schema": {
             "rows": 6,
-            "cols": 6,
-            "header_row": [
-              "Quarterly ",
-              "On-Time \nReceiving",
-              "On-Time \nShipping",
-              "Inventory \nAccuracy",
-              "Shipment \nAccuracy",
-              "Comments"
-            ]
+            "cols": 6
           }
         }
       ]
@@ -1243,7 +1016,6 @@
     {
       "slide_id": "slide_33",
       "source_slide_index": 33,
-      "title": "KPI Scorecard Quarterly Summary (Opt 2)",
       "category": "Optional",
       "always_include": false,
       "has_table": true,
@@ -1255,14 +1027,12 @@
           "slot_id": "title_2_3",
           "kind": "placeholder_title",
           "shape_id": 3,
-          "sample_text": "KPI SCORECARD QUARTERLY SUMMARY",
           "max_chars": 45
         },
         {
           "slot_id": "text_placeholder_3_4",
           "kind": "placeholder_body",
           "shape_id": 4,
-          "sample_text": "Facility name or location",
           "max_chars": 35
         },
         {
@@ -1271,16 +1041,7 @@
           "shape_id": 5,
           "table_schema": {
             "rows": 6,
-            "cols": 7,
-            "header_row": [
-              "KPI ",
-              "Target",
-              "Q1",
-              "Q2",
-              "Q3",
-              "Q4",
-              "Comments"
-            ]
+            "cols": 7
           }
         }
       ]
@@ -1288,7 +1049,6 @@
     {
       "slide_id": "slide_34",
       "source_slide_index": 34,
-      "title": "Performance Summary Callouts",
       "category": "Optional",
       "always_include": false,
       "has_table": false,
@@ -1300,56 +1060,48 @@
           "slot_id": "title_2_6",
           "kind": "text_box",
           "shape_id": 6,
-          "sample_text": "PERFORMANCE SUMMARY",
           "max_chars": 25
         },
         {
           "slot_id": "text_placeholder_3_7",
           "kind": "text_box",
           "shape_id": 7,
-          "sample_text": "Facility name or location",
           "max_chars": 35
         },
         {
           "slot_id": "content_placeholder_2_30",
           "kind": "text_box",
           "shape_id": 30,
-          "sample_text": "1K+ Regulatory Audits/Year\nZERO Critical Findings1",
           "max_chars": 65
         },
         {
           "slot_id": "content_placeholder_2_27",
           "kind": "text_box",
           "shape_id": 27,
-          "sample_text": "Ship to Delivery\u000b1.07 Avg Business Days1*",
           "max_chars": 55
         },
         {
           "slot_id": "content_placeholder_2_28",
           "kind": "text_box",
           "shape_id": 28,
-          "sample_text": "Annual On-Time Delivery\n98.7% Controllable1",
           "max_chars": 60
         },
         {
           "slot_id": "content_placeholder_2_29",
           "kind": "text_box",
           "shape_id": 29,
-          "sample_text": "# of Units Distributed\n3.8 Billion/Year1",
           "max_chars": 55
         },
         {
           "slot_id": "content_placeholder_2_31",
           "kind": "text_box",
           "shape_id": 31,
-          "sample_text": "ISO Accredited\u000b100% of distribution facilities are ISO 9001 and 134851",
           "max_chars": 95
         },
         {
           "slot_id": "textbox_55_56",
           "kind": "text_box",
           "shape_id": 56,
-          "sample_text": "1Internal KPIs\n*TL only, excludes LTL",
           "max_chars": 50
         }
       ]
@@ -1357,7 +1109,6 @@
     {
       "slide_id": "slide_35",
       "source_slide_index": 35,
-      "title": "Value-Centric Approach",
       "category": "Optional",
       "always_include": false,
       "has_table": true,
@@ -1376,14 +1127,12 @@
           "slot_id": "title_1_2",
           "kind": "placeholder_title",
           "shape_id": 2,
-          "sample_text": "VALUE-CENTRIC APPROACH FOR [CUSTOMER NAME]",
           "max_chars": 55
         },
         {
           "slot_id": "text_placeholder_2_3",
           "kind": "placeholder_body",
           "shape_id": 3,
-          "sample_text": "KPI compliance delivers cost avoidance for [Customer Name] ",
           "max_chars": 80
         },
         {
@@ -1392,19 +1141,13 @@
           "shape_id": 4,
           "table_schema": {
             "rows": 8,
-            "cols": 3,
-            "header_row": [
-              "Operational KPI Targets",
-              "Industry Average*",
-              "2025 UPS Healthcare Results & Impact\n(based on actual [Customer Name] 2025 volumes)"
-            ]
+            "cols": 3
           }
         },
         {
           "slot_id": "rectangle_14_15",
           "kind": "auto_shape",
           "shape_id": 15,
-          "sample_text": "*Source: Warehousing Education and Research Center",
           "max_chars": 65
         }
       ]
@@ -1412,7 +1155,6 @@
     {
       "slide_id": "slide_36",
       "source_slide_index": 36,
-      "title": "Financial Value (3-Up Charts)",
       "category": "Optional",
       "always_include": false,
       "has_table": false,
@@ -1429,12 +1171,10 @@
           "item_slots": [
             {
               "slot_id": "item_slot_1",
-              "sample_text": "Q1 INSIGHTS",
               "max_chars": 15
             },
             {
               "slot_id": "item_slot_2",
-              "sample_text": "\nWhat changed\nWhy\nMissed KPIs\nRCA\nCAPA\nWhat’s next\n",
               "max_chars": 65
             }
           ]
@@ -1446,14 +1186,12 @@
           "slot_id": "title_2_3",
           "kind": "placeholder_title",
           "shape_id": 3,
-          "sample_text": "FINANCIAL VALUE",
           "max_chars": 20
         },
         {
           "slot_id": "text_placeholder_3_4",
           "kind": "placeholder_body",
           "shape_id": 4,
-          "sample_text": "Facility name or location",
           "max_chars": 35
         },
         {
@@ -1462,16 +1200,8 @@
           "shape_id": 10,
           "chart_schema": {
             "chart_type": "COLUMN_CLUSTERED (51)",
-            "categories": [
-              "Q1",
-              "Q2",
-              "Q3",
-              "Q4"
-            ],
-            "series_names": [
-              "2025",
-              "2026"
-            ]
+            "category_count": 4,
+            "series_count": 2
           }
         },
         {
@@ -1480,16 +1210,8 @@
           "shape_id": 11,
           "chart_schema": {
             "chart_type": "COLUMN_CLUSTERED (51)",
-            "categories": [
-              "Q1",
-              "Q2",
-              "Q3",
-              "Q4"
-            ],
-            "series_names": [
-              "2025",
-              "2026"
-            ]
+            "category_count": 4,
+            "series_count": 2
           }
         },
         {
@@ -1498,16 +1220,8 @@
           "shape_id": 12,
           "chart_schema": {
             "chart_type": "COLUMN_CLUSTERED (51)",
-            "categories": [
-              "Q1",
-              "Q2",
-              "Q3",
-              "Q4"
-            ],
-            "series_names": [
-              "2025",
-              "2026"
-            ]
+            "category_count": 4,
+            "series_count": 2
           }
         }
       ]
@@ -1515,7 +1229,6 @@
     {
       "slide_id": "slide_37",
       "source_slide_index": 37,
-      "title": "Cost / Data / Trend Analysis (Opt 1)",
       "category": "Optional",
       "always_include": false,
       "has_table": false,
@@ -1527,28 +1240,24 @@
           "slot_id": "title_2_3",
           "kind": "placeholder_title",
           "shape_id": 3,
-          "sample_text": "COST / DATA / TREND ANALYSIS ",
           "max_chars": 40
         },
         {
           "slot_id": "text_placeholder_3_4",
           "kind": "placeholder_body",
           "shape_id": 4,
-          "sample_text": "Facility name or location",
           "max_chars": 35
         },
         {
           "slot_id": "rectangle_10_11",
           "kind": "auto_shape",
           "shape_id": 11,
-          "sample_text": "Examples – \nUPS Supply Chain Symphony for UPS Healthcare",
           "max_chars": 75
         },
         {
           "slot_id": "rectangle__rounded_corners_4_5",
           "kind": "auto_shape",
           "shape_id": 5,
-          "sample_text": "Q1 INSIGHTS",
           "max_chars": 15
         }
       ]
@@ -1556,7 +1265,6 @@
     {
       "slide_id": "slide_38",
       "source_slide_index": 38,
-      "title": "Cost / Data / Trend Analysis (Opt 2)",
       "category": "Optional",
       "always_include": false,
       "has_table": false,
@@ -1568,28 +1276,24 @@
           "slot_id": "title_2_3",
           "kind": "placeholder_title",
           "shape_id": 3,
-          "sample_text": "COST / DATA / TREND ANALYSIS ",
           "max_chars": 40
         },
         {
           "slot_id": "text_placeholder_3_4",
           "kind": "placeholder_body",
           "shape_id": 4,
-          "sample_text": "Facility name or location",
           "max_chars": 35
         },
         {
           "slot_id": "rectangle_19_20",
           "kind": "auto_shape",
           "shape_id": 20,
-          "sample_text": "Examples",
           "max_chars": 15
         },
         {
           "slot_id": "rectangle__rounded_corners_4_5",
           "kind": "auto_shape",
           "shape_id": 5,
-          "sample_text": "Q1 INSIGHTS",
           "max_chars": 15
         }
       ]
@@ -1597,7 +1301,6 @@
     {
       "slide_id": "slide_39",
       "source_slide_index": 39,
-      "title": "Forward Looking Roadmap",
       "category": "Optional",
       "always_include": false,
       "has_table": false,
@@ -1609,49 +1312,42 @@
           "slot_id": "title_2_3",
           "kind": "placeholder_title",
           "shape_id": 3,
-          "sample_text": "FORWARD LOOKING ROADMAP",
           "max_chars": 30
         },
         {
           "slot_id": "text_placeholder_3_4",
           "kind": "placeholder_body",
           "shape_id": 4,
-          "sample_text": "Some text",
           "max_chars": 15
         },
         {
           "slot_id": "rectangle_11_12",
           "kind": "auto_shape",
           "shape_id": 12,
-          "sample_text": "GEMBA updates\nSome text\nSome text\nSome text",
           "max_chars": 60
         },
         {
           "slot_id": "rectangle_10_11",
           "kind": "auto_shape",
           "shape_id": 11,
-          "sample_text": "Continuous improvement\nSome text\nSome text\nSome text",
           "max_chars": 70
         },
         {
           "slot_id": "rectangle_9_10",
           "kind": "auto_shape",
           "shape_id": 10,
-          "sample_text": "Project roadmap\nSome text\nSome text\nSome text",
           "max_chars": 60
         },
         {
           "slot_id": "rectangle_8_9",
           "kind": "auto_shape",
           "shape_id": 9,
-          "sample_text": "Future priorities\nSome text\nSome text\nSome text",
           "max_chars": 65
         },
         {
           "slot_id": "rectangle__rounded_corners_24_25",
           "kind": "auto_shape",
           "shape_id": 25,
-          "sample_text": "Optional\nSome text\nSome text\nSome test",
           "max_chars": 50
         }
       ]
@@ -1659,7 +1355,6 @@
     {
       "slide_id": "slide_40",
       "source_slide_index": 40,
-      "title": "Technology & Digital Enablement",
       "category": "Optional",
       "always_include": false,
       "has_table": false,
@@ -1671,21 +1366,18 @@
           "slot_id": "title_2_3",
           "kind": "placeholder_title",
           "shape_id": 3,
-          "sample_text": "TECHNOLOGY AND DIGITAL ENABLEMENT",
           "max_chars": 45
         },
         {
           "slot_id": "text_placeholder_3_4",
           "kind": "placeholder_body",
           "shape_id": 4,
-          "sample_text": "Some text",
           "max_chars": 15
         },
         {
           "slot_id": "rectangle_4_5",
           "kind": "auto_shape",
           "shape_id": 5,
-          "sample_text": "Ideas:\nSerialization\nRFID\nWarehouse automation\n",
           "max_chars": 60
         }
       ]

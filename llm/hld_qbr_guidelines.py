@@ -22,7 +22,7 @@ BRAND_COLORS = {
     "accent2_blue": "426DA9",
     "accent3_dark_brown": "330000",
     "accent4_amber": "FFBE00",
-    "accent5_teal": "008575",
+    "accent5_teal": "00857D",
     "accent6_light_blue": "88A7D1",
 }
 

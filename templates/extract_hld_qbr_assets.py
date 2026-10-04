@@ -43,6 +43,7 @@ from pptx.enum.shapes import MSO_SHAPE_TYPE  # noqa: E402
 from pptx.util import Emu  # noqa: E402
 
 import config  # noqa: E402
+from templates.build_hld_qbr_layout_catalog import build_entry, describe_structure  # noqa: E402
 
 ASSETS_DIR = PROJECT_ROOT / "templates" / "hld_qbr_assets"
 METADATA_DIR = ASSETS_DIR / "metadata"
@@ -66,70 +67,72 @@ GUIDANCE_REGEX = re.compile(
     re.IGNORECASE,
 )
 
-# Slide-by-slide catalog (index, title, layout name, category) transcribed
-# from HLD_QBR_TEMPLATE_CATALOG.md section 2 — kept here as the single
-# machine-readable source of truth for inventory/slide_index.json.
+# Slide-by-slide catalog (index, category) — category is a hand-classified
+# governance tier (Mandatory/Core/Optional/Alternate/Divider/Guide-Only) that
+# isn't derivable from the pptx itself, so it stays hardcoded here. Layout
+# name is NEVER overridden — always read straight from slide.slide_layout.name
+# (the real, exact value), so metadata/title can't drift from reality.
 SLIDE_CATALOG: List[Dict[str, Any]] = [
-    {"index": 0, "title": "Presentation Cover", "layout": "Blank", "category": "Mandatory"},
-    {"index": 1, "title": "Today's Discussion (Agenda)", "layout": "9_Section Header", "category": "Mandatory"},
-    {"index": 2, "title": "Organizational Structure", "layout": "Title Only", "category": "Core"},
-    {"index": 3, "title": "Executive Summary", "layout": "Title Only", "category": "Mandatory"},
-    {"index": 4, "title": "Previous Quarter Achievements", "layout": "Title Only", "category": "Core"},
-    {"index": 5, "title": "Customer Priorities (Format 1)", "layout": "Title Only", "category": "Core"},
-    {"index": 6, "title": "Customer Priorities (Format 2)", "layout": "Title Only", "category": "Alternate"},
-    {"index": 7, "title": "UPS Healthcare Priorities", "layout": "Title Only", "category": "Core"},
-    {"index": 8, "title": "Supplemental Gallery Pointer", "layout": "Title Only", "category": "Guide-Only"},
-    {"index": 9, "title": "Action Item Tracker", "layout": "Title Only", "category": "Core"},
-    {"index": 10, "title": "Voice of the Customer", "layout": "Title Only", "category": "Optional"},
-    {"index": 11, "title": "Section: Performance Management", "layout": "1_Section Header", "category": "Divider"},
-    {"index": 12, "title": "Key Performance Indicator Dashboard", "layout": "Title Only", "category": "Core"},
-    {"index": 13, "title": "Inbound Summary / Operational Chart", "layout": "Title Only", "category": "Core"},
-    {"index": 14, "title": "Outbound Summary", "layout": "Title Only", "category": "Core"},
-    {"index": 15, "title": "Inventory Accuracy", "layout": "Title Only", "category": "Core"},
-    {"index": 16, "title": "Customer Forecast Accuracy", "layout": "Title Only", "category": "Core"},
-    {"index": 17, "title": "Space Utilization", "layout": "Title Only", "category": "Core"},
-    {"index": 18, "title": "Spend Summary", "layout": "Title Only", "category": "Core"},
-    {"index": 19, "title": "Accounts Receivable Updates", "layout": "Title Only", "category": "Optional"},
-    {"index": 20, "title": "Master Data Management KPIs", "layout": "Title Only", "category": "Core"},
-    {"index": 21, "title": "Section: Continuous Improvement", "layout": "1_Section Header", "category": "Divider"},
-    {"index": 22, "title": "Gemba Walk Summary", "layout": "Title Only", "category": "Core"},
-    {"index": 23, "title": "CI Activity Tracker", "layout": "Title Only", "category": "Core"},
-    {"index": 24, "title": "Section: Quality Management System", "layout": "1_Section Header", "category": "Divider"},
-    {"index": 25, "title": "Quality Organizational Structure", "layout": "Title Only", "category": "Core"},
-    {"index": 26, "title": "Non-Conformance Review", "layout": "Title Only", "category": "Core"},
-    {"index": 27, "title": "Non-Conformance Tracker", "layout": "Title Only", "category": "Core"},
-    {"index": 28, "title": "Section: Next Steps", "layout": "1_Section Header", "category": "Divider"},
-    {"index": 29, "title": "Next Steps", "layout": "Title Only", "category": "Core"},
-    {"index": 30, "title": "Brand Closing Slide", "layout": "Blank", "category": "Mandatory"},
-    {"index": 31, "title": "Section: Optional Slides", "layout": "2_Section Header", "category": "Divider"},
-    {"index": 32, "title": "KPI Scorecard Quarterly Summary (Opt 1)", "layout": "Title Only", "category": "Optional"},
-    {"index": 33, "title": "KPI Scorecard Quarterly Summary (Opt 2)", "layout": "Title Only", "category": "Optional"},
-    {"index": 34, "title": "Performance Summary Callouts", "layout": "Blank", "category": "Optional"},
-    {"index": 35, "title": "Value-Centric Approach", "layout": "Title Only", "category": "Optional"},
-    {"index": 36, "title": "Financial Value (3-Up Charts)", "layout": "Title Only", "category": "Optional"},
-    {"index": 37, "title": "Cost / Data / Trend Analysis (Opt 1)", "layout": "Title Only", "category": "Optional"},
-    {"index": 38, "title": "Cost / Data / Trend Analysis (Opt 2)", "layout": "Title Only", "category": "Optional"},
-    {"index": 39, "title": "Forward Looking Roadmap", "layout": "Title Only", "category": "Optional"},
-    {"index": 40, "title": "Technology & Digital Enablement", "layout": "Title Only", "category": "Optional"},
-    {"index": 41, "title": "Section: Formatting Help", "layout": "2_Section Header", "category": "Guide-Only"},
-    {"index": 42, "title": "Guardrails", "layout": "Title Only", "category": "Guide-Only"},
-    {"index": 43, "title": "Brand Approved Colors", "layout": "Title Only", "category": "Guide-Only"},
-    {"index": 44, "title": "Typography Hierarchy", "layout": "Title Only", "category": "Guide-Only"},
-    {"index": 45, "title": "4-Up Mini Data Visualizations", "layout": "Title Only", "category": "Guide-Only"},
-    {"index": 46, "title": "Data Visualization Callout Badges", "layout": "Title Only", "category": "Guide-Only"},
-    {"index": 47, "title": "Sample Tables (Multi-Column)", "layout": "Title Only", "category": "Guide-Only"},
-    {"index": 48, "title": "Sample Table (Condensed)", "layout": "Title Only", "category": "Guide-Only"},
-    {"index": 49, "title": "Sample Table (Data Matrix)", "layout": "Title Only", "category": "Guide-Only"},
-    {"index": 50, "title": "Process Flow Comparison", "layout": "Title Only", "category": "Guide-Only"},
-    {"index": 51, "title": "Chart Samples (Full Width)", "layout": "Title Only", "category": "Guide-Only"},
-    {"index": 52, "title": "Sample Graphs (Line Charts)", "layout": "Title Only", "category": "Guide-Only"},
-    {"index": 53, "title": "Harvey Ball Icon Palette", "layout": "Title Only", "category": "Guide-Only"},
-    {"index": 54, "title": "Vector Icon Library 1 (1-60)", "layout": "Title Only", "category": "Guide-Only"},
-    {"index": 55, "title": "Vector Icon Library 2 (61-120)", "layout": "Title Only", "category": "Guide-Only"},
-    {"index": 56, "title": "Vector Icon Library 3 (121-183)", "layout": "Title Only", "category": "Guide-Only"},
-    {"index": 57, "title": "Harvey Balls (Extended)", "layout": "Title and Content", "category": "Guide-Only"},
-    {"index": 58, "title": "New Icons (Logistics & Tech)", "layout": "Title Only", "category": "Guide-Only"},
-    {"index": 59, "title": "New Icons (Customer Care)", "layout": "Title Only", "category": "Guide-Only"},
+    {"index": 0, "category": "Mandatory"},
+    {"index": 1, "category": "Mandatory"},
+    {"index": 2, "category": "Core"},
+    {"index": 3, "category": "Mandatory"},
+    {"index": 4, "category": "Core"},
+    {"index": 5, "category": "Core"},
+    {"index": 6, "category": "Alternate"},
+    {"index": 7, "category": "Core"},
+    {"index": 8, "category": "Guide-Only"},
+    {"index": 9, "category": "Core"},
+    {"index": 10, "category": "Optional"},
+    {"index": 11, "category": "Divider"},
+    {"index": 12, "category": "Core"},
+    {"index": 13, "category": "Core"},
+    {"index": 14, "category": "Core"},
+    {"index": 15, "category": "Core"},
+    {"index": 16, "category": "Core"},
+    {"index": 17, "category": "Core"},
+    {"index": 18, "category": "Core"},
+    {"index": 19, "category": "Optional"},
+    {"index": 20, "category": "Core"},
+    {"index": 21, "category": "Divider"},
+    {"index": 22, "category": "Core"},
+    {"index": 23, "category": "Core"},
+    {"index": 24, "category": "Divider"},
+    {"index": 25, "category": "Core"},
+    {"index": 26, "category": "Core"},
+    {"index": 27, "category": "Core"},
+    {"index": 28, "category": "Divider"},
+    {"index": 29, "category": "Core"},
+    {"index": 30, "category": "Mandatory"},
+    {"index": 31, "category": "Divider"},
+    {"index": 32, "category": "Optional"},
+    {"index": 33, "category": "Optional"},
+    {"index": 34, "category": "Optional"},
+    {"index": 35, "category": "Optional"},
+    {"index": 36, "category": "Optional"},
+    {"index": 37, "category": "Optional"},
+    {"index": 38, "category": "Optional"},
+    {"index": 39, "category": "Optional"},
+    {"index": 40, "category": "Optional"},
+    {"index": 41, "category": "Guide-Only"},
+    {"index": 42, "category": "Guide-Only"},
+    {"index": 43, "category": "Guide-Only"},
+    {"index": 44, "category": "Guide-Only"},
+    {"index": 45, "category": "Guide-Only"},
+    {"index": 46, "category": "Guide-Only"},
+    {"index": 47, "category": "Guide-Only"},
+    {"index": 48, "category": "Guide-Only"},
+    {"index": 49, "category": "Guide-Only"},
+    {"index": 50, "category": "Guide-Only"},
+    {"index": 51, "category": "Guide-Only"},
+    {"index": 52, "category": "Guide-Only"},
+    {"index": 53, "category": "Guide-Only"},
+    {"index": 54, "category": "Guide-Only"},
+    {"index": 55, "category": "Guide-Only"},
+    {"index": 56, "category": "Guide-Only"},
+    {"index": 57, "category": "Guide-Only"},
+    {"index": 58, "category": "Guide-Only"},
+    {"index": 59, "category": "Guide-Only"},
 ]
 
 # Slide index -> archetype plan_field, for the slides that have a 1:1 mapping
@@ -227,6 +230,86 @@ def _table_record(shape) -> Optional[Dict[str, Any]]:
     }
 
 
+def _canvas_block(prs: Presentation) -> Dict[str, Any]:
+    """Slide dimensions are constant across this deck; computed once and
+    attached per-slide for metadata self-containedness (matches the
+    reference asset tree's per-slide 'canvas' block)."""
+    width_in, height_in = Emu(prs.slide_width).inches, Emu(prs.slide_height).inches
+    return {
+        "width_emu": prs.slide_width,
+        "height_emu": prs.slide_height,
+        "width_px": round(width_in * 96),
+        "height_px": round(height_in * 96),
+        "aspect_ratio": "16:9" if abs(width_in / height_in - 16 / 9) < 0.01 else f"{width_in:.2f}:{height_in:.2f}",
+    }
+
+
+def _collect_annotation_shapes(shape_records: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    """Pulls guidance-sticker shapes (already flagged by _shape_text_record's
+    is_guidance_sticker) into their own traceable list, recursing into
+    groups — mirrors the reference asset tree's annotation_shapes array."""
+    found: List[Dict[str, Any]] = []
+    for rec in shape_records:
+        text = rec.get("text")
+        if text and text.get("is_guidance_sticker"):
+            found.append({
+                "shape_id": rec["shape_id"],
+                "shape_name": rec["name"],
+                "text": text["full_text"],
+            })
+        if rec.get("children"):
+            found.extend(_collect_annotation_shapes(rec["children"]))
+    return found
+
+
+def _count_shape_type(shape_records: List[Dict[str, Any]], type_substr: str) -> int:
+    count = 0
+    for rec in shape_records:
+        if type_substr in (rec.get("shape_type") or ""):
+            count += 1
+        if rec.get("children"):
+            count += _count_shape_type(rec["children"], type_substr)
+    return count
+
+
+def _count_table_or_chart(shape_records: List[Dict[str, Any]]) -> int:
+    count = 0
+    for rec in shape_records:
+        if rec.get("table") or rec.get("chart"):
+            count += 1
+        if rec.get("children"):
+            count += _count_table_or_chart(rec["children"])
+    return count
+
+
+def _placeholder_list(placeholders) -> List[Dict[str, Any]]:
+    result = []
+    for ph in placeholders:
+        result.append({
+            "raw_type": str(ph.placeholder_format.type),
+            "idx": ph.placeholder_format.idx,
+            "position_in": {
+                "left": _emu_to_in(ph.left),
+                "top": _emu_to_in(ph.top),
+                "width": _emu_to_in(ph.width),
+                "height": _emu_to_in(ph.height),
+            },
+        })
+    return result
+
+
+def _editable_mapping(slide) -> Dict[str, Any]:
+    """Layout + master placeholder inheritance for this slide — grounded
+    facts straight from python-pptx (real idx/type/geometry), not an
+    invented size/orientation classification."""
+    layout = slide.slide_layout
+    master = layout.slide_master
+    return {
+        "layout": {"name": layout.name, "placeholders": _placeholder_list(layout.placeholders)},
+        "master": {"name": master.name, "placeholders": _placeholder_list(master.placeholders)},
+    }
+
+
 def _shape_record(shape, depth: int = 0) -> Dict[str, Any]:
     record: Dict[str, Any] = {
         "shape_id": shape.shape_id,
@@ -270,24 +353,53 @@ def _shape_record(shape, depth: int = 0) -> Dict[str, Any]:
 def extract_slide_metadata(prs: Presentation) -> None:
     METADATA_DIR.mkdir(parents=True, exist_ok=True)
     catalog_by_index = {row["index"]: row for row in SLIDE_CATALOG}
+    canvas_block = _canvas_block(prs)
+    manifest: List[Dict[str, Any]] = []
 
     for idx, slide in enumerate(prs.slides):
         catalog_row = catalog_by_index.get(idx, {})
         shapes = [_shape_record(shape) for shape in slide.shapes]
+        annotation_shapes = _collect_annotation_shapes(shapes)
+        structure = {
+            "shape_count": len(slide.shapes),
+            "text_placeholder_count": sum(1 for s in slide.shapes if s.is_placeholder and s.has_text_frame),
+            "image_count": _count_shape_type(shapes, "PICTURE"),
+            "table_or_chart_count": _count_table_or_chart(shapes),
+            "annotation_shape_count": len(annotation_shapes),
+        }
+        layout_name = slide.slide_layout.name
+        category = catalog_row.get("category")
+        structural_entry = build_entry({
+            "shapes": shapes, "slide_name": f"slide_{idx:02d}", "index": idx, "category": category,
+        })
+        title = f"{layout_name} \u2014 {describe_structure(structural_entry)}"
         record = {
             "index": idx,
             "slide_name": f"slide_{idx:02d}",
-            "title": catalog_row.get("title"),
-            "layout": catalog_row.get("layout") or slide.slide_layout.name,
-            "category": catalog_row.get("category"),
+            "title": title,
+            "layout": layout_name,
+            "category": category,
             "slide_layout_name": slide.slide_layout.name,
-            "shape_count": len(slide.shapes),
+            "canvas": canvas_block,
+            "structure": structure,
+            "annotation_shapes": annotation_shapes,
+            "editable_mapping": _editable_mapping(slide),
             "shapes": shapes,
         }
         out_path = METADATA_DIR / f"slide_{idx:02d}.json"
         out_path.write_text(json.dumps(record, indent=2, ensure_ascii=False), encoding="utf-8")
+        manifest.append({
+            "id": record["slide_name"],
+            "title": record["title"],
+            "layout": record["slide_layout_name"],
+            "category": record["category"],
+            **structure,
+        })
 
-    print(f"[metadata] wrote {len(prs.slides)} slide records -> {METADATA_DIR}")
+    (METADATA_DIR / "manifest.json").write_text(
+        json.dumps(manifest, indent=2, ensure_ascii=False), encoding="utf-8"
+    )
+    print(f"[metadata] wrote {len(prs.slides)} slide records + manifest.json -> {METADATA_DIR}")
 
 
 def extract_source_xml() -> None:
@@ -330,9 +442,22 @@ def _dir_stats(path: Path) -> Dict[str, Any]:
 def build_inventory() -> None:
     INVENTORY_DIR.mkdir(parents=True, exist_ok=True)
 
+    # slide_index.json's titles come from the already-written manifest.json
+    # (generic, structure-derived titles) rather than SLIDE_CATALOG, which
+    # intentionally carries no title at all.
+    manifest_entries = json.loads((METADATA_DIR / "manifest.json").read_text(encoding="utf-8"))
+    slide_index_entries = [
+        {
+            "index": int(m["id"].split("_")[1]),
+            "title": m["title"],
+            "layout": m["layout"],
+            "category": m["category"],
+        }
+        for m in manifest_entries
+    ]
     slide_index_path = INVENTORY_DIR / "slide_index.json"
     slide_index_path.write_text(
-        json.dumps({"version": "1.0", "slides": SLIDE_CATALOG}, indent=2), encoding="utf-8"
+        json.dumps({"version": "1.0", "slides": slide_index_entries}, indent=2), encoding="utf-8"
     )
 
     from llm.hld_qbr_layout_registry import HLD_QBR_ARCHETYPES
@@ -368,7 +493,14 @@ def build_inventory() -> None:
 
 
 def write_top_level_docs() -> None:
-    (ASSETS_DIR / "README.md").write_text(
+    """README.md/EXTRACTION_NOTES.md are now hand-maintained (narrative docs,
+    correction notes) — only bootstrap them on a fresh checkout where
+    they're missing; never overwrite hand-authored content on a rerun."""
+    readme_path = ASSETS_DIR / "README.md"
+    if readme_path.exists():
+        print(f"[docs] README.md already exists, left untouched -> {readme_path}")
+        return
+    readme_path.write_text(
         "# HLD QBR Template Asset Tree\n\n"
         "Machine-readable grounding layer for `HLD QBR Template PFv3.potx`, generated\n"
         "by `templates/extract_hld_qbr_assets.py`. This is NOT hand-authored — re-run\n"
@@ -441,9 +573,23 @@ def write_top_level_docs() -> None:
 
 
 def main() -> None:
-    if ASSETS_DIR.exists():
-        shutil.rmtree(ASSETS_DIR)
-    ASSETS_DIR.mkdir(parents=True)
+    # Surgical cleanup: only wipe the subpaths THIS script owns, so reruns
+    # never destroy Phase 2's layouts/brand-assets/icons output or the
+    # hand-authored narrative docs (guardrails.md, guidelines.md, etc.) that
+    # live alongside them in the same asset tree.
+    if METADATA_DIR.exists():
+        shutil.rmtree(METADATA_DIR)
+    if SOURCE_XML_DIR.exists():
+        shutil.rmtree(SOURCE_XML_DIR)
+    if MEDIA_DIR.exists():
+        shutil.rmtree(MEDIA_DIR)
+    if DECORATIVE_MEDIA_DIR.exists():
+        shutil.rmtree(DECORATIVE_MEDIA_DIR)
+    for owned_file in ("slide_index.json", "archetype_catalog.json", "asset_manifest.json"):
+        owned_path = INVENTORY_DIR / owned_file
+        if owned_path.exists():
+            owned_path.unlink()
+    ASSETS_DIR.mkdir(parents=True, exist_ok=True)
 
     prs = Presentation(str(config.HLD_QBR_TEMPLATE_FILE))
     extract_slide_metadata(prs)

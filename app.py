@@ -843,7 +843,7 @@ def render_configuration() -> dict:
                     step=1,
                     label_visibility="collapsed",
                 )
-                st.caption(f"📊 {slide_count} content slides (+ 4 mandatory: Title, Agenda, Executive Summary, Conclusion)")
+                st.caption(f"📊 {slide_count} source-backed content slides (+ 3 structural: Title, Agenda, Conclusion)")
 
             st.markdown("**Presentation Title**")
             pres_title = st.text_input(
@@ -1224,7 +1224,7 @@ def run_generation_pipeline(
 
         if requested_slides is None:
             requested_slides = analysis.suggested_slide_count
-            st.caption(f"🤖 AI suggests {requested_slides} content slides (+ 4 mandatory structural slides)")
+            st.caption(f"🤖 AI suggests {requested_slides} source-backed content slides (+ 3 structural slides)")
 
         # Create a normalized source record before planning so every downstream
         # decision can be tied back to the originating upload or prompt.
@@ -1255,7 +1255,7 @@ def run_generation_pipeline(
         )
 
         # ─ Step 4: Presentation Planning ────────────────────────────────
-        st.write(f"🗂️ Planning presentation ({requested_slides} content slides + 4 mandatory structural slides)...")
+        st.write(f"🗂️ Planning presentation ({requested_slides} source-backed content slides + 3 structural slides)...")
         plan_client = key_manager.get_client()  # next key in rotation
         try:
             if template_id == "techm_v3":
