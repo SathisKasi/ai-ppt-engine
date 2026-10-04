@@ -136,9 +136,15 @@ def _slot_from_shape(shape: Dict[str, Any], slot_id: str) -> Optional[Dict[str, 
 
 
 def _detect_repeat_groups(shapes: List[Dict[str, Any]], used_shape_ids: set) -> List[Dict[str, Any]]:
-    """Finds top-level sibling GROUP shapes with near-identical heights
-    (card/badge/chevron patterns e.g. 3 priority pillars, 4 stat badges).
-    Builds the item slot template from the first group's text-bearing
+    """Finds top-level GROUP shapes whose text-bearing children form a
+    reusable item template. Sibling groups with near-identical heights
+    (card/badge/chevron patterns e.g. 3 priority pillars, 4 stat badges)
+    cluster into one repeat-group with item_count > 1; a SOLITARY
+    content-bearing group (e.g. a single 'What changed/Why/RCA/CAPA'
+    analysis block) still becomes its own item_count=1 entry — otherwise
+    that content would never be exposed as a fillable slot at all and
+    would stay permanently blank after the template's sample text is
+    cleared. Item slots are built from the first group's text-bearing
     children, in top-to-bottom reading order (purely positional — no
     semantic naming beyond slot_1, slot_2, ... since there's no reliable
     generic way to know "heading" vs "label" without hardcoding)."""
@@ -146,7 +152,7 @@ def _detect_repeat_groups(shapes: List[Dict[str, Any]], used_shape_ids: set) -> 
         s for s in shapes
         if s.get("shape_type", "").startswith("GROUP") and s["shape_id"] not in used_shape_ids
     ]
-    if len(candidate_groups) < 2:
+    if not candidate_groups:
         return []
 
     clusters: List[List[Dict[str, Any]]] = []
@@ -164,8 +170,6 @@ def _detect_repeat_groups(shapes: List[Dict[str, Any]], used_shape_ids: set) -> 
 
     repeat_groups = []
     for cluster in clusters:
-        if len(cluster) < 2:
-            continue
         cluster.sort(key=lambda s: s["position_in"]["left"])
         template_group = cluster[0]
         children = sorted(

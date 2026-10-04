@@ -51,14 +51,24 @@ class HLDQBRGenericPlanningError(Exception):
     """Raised only when planning cannot produce ANY usable plan."""
 
 
-def _slim_entry_for_fill(entry: Dict[str, Any]) -> Dict[str, Any]:
+def _build_slot_alias_map(entry: Dict[str, Any]) -> Dict[str, str]:
+    """Maps each catalog slot_id (often long/irregular, e.g. derived from a
+    shape's own pptx name like "rectangle__rounded_corners_7_8") to a short
+    sequential token (slot_1, slot_2, ...). Real LLMs are far more reliable
+    at echoing back a short token verbatim than an exact long identifier —
+    a single dropped/altered character here silently loses that slot's text
+    at render time, since matching is an exact string lookup."""
+    return {slot["slot_id"]: f"slot_{i + 1}" for i, slot in enumerate(entry["slots"])}
+
+
+def _slim_entry_for_fill(entry: Dict[str, Any], alias_map: Dict[str, str]) -> Dict[str, Any]:
     """Drops shape_id (renderer-only detail) from the catalog entry so the
     content-fill prompt only sees structural constraints. Template sample
     wording is deliberately excluded: it is never source content."""
     slots = []
     for slot in entry["slots"]:
         slim_slot = {
-            "slot_id": slot["slot_id"],
+            "slot_id": alias_map[slot["slot_id"]],
             "kind": slot["kind"],
             "max_chars": slot.get("max_chars"),
         }
@@ -150,6 +160,7 @@ def _run_fill_stage(
 ) -> Dict[str, Dict[str, Any]]:
     items_by_id = {item.id: item for item in content_model.content_items}
     fill_payload = []
+    reverse_alias_by_slide_id: Dict[str, Dict[str, str]] = {}
     for pick in resolved_picks:
         entry = get_entry(pick["slide_id"])
         if entry is None:
@@ -157,9 +168,23 @@ def _run_fill_stage(
         assigned = [
             items_by_id[i].model_dump() for i in pick["content_item_ids"] if i in items_by_id
         ]
-        payload = _slim_entry_for_fill(entry)
+        alias_map = _build_slot_alias_map(entry)
+        reverse_alias_by_slide_id[entry["slide_id"]] = {v: k for k, v in alias_map.items()}
+        payload = _slim_entry_for_fill(entry, alias_map)
         payload["assigned_content_items"] = assigned
         fill_payload.append(payload)
+
+    def _store_filled(slide_data: Dict[str, Any]) -> None:
+        sid = slide_data.get("slide_id")
+        if not sid:
+            return
+        reverse_map = reverse_alias_by_slide_id.get(sid)
+        slot_values = slide_data.get("slot_values")
+        if reverse_map and isinstance(slot_values, dict):
+            slide_data["slot_values"] = {
+                reverse_map.get(alias, alias): value for alias, value in slot_values.items()
+            }
+        filled_by_id[sid] = slide_data
 
     filled_by_id: Dict[str, Dict[str, Any]] = {}
     for start in range(0, len(fill_payload), FILL_BATCH_SIZE):
@@ -176,9 +201,7 @@ def _run_fill_stage(
             logger.warning("Content-fill batch failed (%d slides), skipping batch: %s", len(batch), e)
             continue
         for slide_data in raw.get("slides", []) if isinstance(raw, dict) else []:
-            sid = slide_data.get("slide_id")
-            if sid:
-                filled_by_id[sid] = slide_data
+            _store_filled(slide_data)
 
     missing_payload = [
         payload for payload in fill_payload if payload["slide_id"] not in filled_by_id
@@ -195,9 +218,7 @@ def _run_fill_stage(
                 messages=messages, temperature=0.2, max_tokens=3800
             )
             for slide_data in raw.get("slides", []) if isinstance(raw, dict) else []:
-                sid = slide_data.get("slide_id")
-                if sid:
-                    filled_by_id[sid] = slide_data
+                _store_filled(slide_data)
         except Exception as e:
             logger.warning("Content-fill retry failed for %d slide(s): %s", len(missing_payload), e)
 

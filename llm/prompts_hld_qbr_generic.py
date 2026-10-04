@@ -59,7 +59,11 @@ content_item id for more than one slide unless the slide's repeat-group
 structure genuinely calls for reusing a broader theme across sub-items. Never
 return an empty content_item_ids list. When more layouts are needed, use a
 less specialized text/card layout that can faithfully present a distinct
-source item; do not leave a selected layout blank.
+source item; do not leave a selected layout blank. When a slide has a
+repeat-group with max_items > 1, assign enough DISTINCT content items to fill
+as many of those item slots as the content model genuinely supports — a
+repeat-group left at 1 of 3 items wastes that slide's layout capacity;
+only under-fill it when the source truly doesn't have enough distinct items.
 
 Also provide: a concise presentation_title, a facility_name if the source
 names a specific site/location, and a date if the source states one
@@ -116,10 +120,13 @@ def parse_outline_response(data: Dict[str, Any]) -> Dict[str, Any]:
 SYSTEM_ROLE_HLD_QBR_FILL = """\
 You write the actual slide text for a batch of already-chosen template slides.
 You may ONLY use facts from the content items you are given for each slide —
-never invent names, metrics, dates, or claims. Respect every maxChars limit
-(write shorter, not truncated-looking, text) and never exceed a repeat-group's
-max item count (fewer items than the max is fine and expected when the
-content doesn't support more).
+never invent names, metrics, dates, or claims. Use the FULL space available:
+write substantive, specific sentences that approach each slot's max_chars
+budget rather than terse fragments, and fill every simple text slot, table
+row/column, and repeat-group item slot your assigned content can genuinely
+support — a slide with empty slots wastes the layout. Never exceed a
+max_chars limit or a repeat-group's max item count (fewer items than the max
+is fine ONLY when the assigned content genuinely doesn't support more).
 """
 
 HLD_QBR_FILL_PROMPT = """\
@@ -127,7 +134,10 @@ For EACH slide below, write its content using ONLY the content items listed
 for that slide. The slide payload deliberately contains structural constraints
 only; every returned visible string, including titles, agenda labels, table
 headers, chart labels, and values, must be derived from those content items.
-Never invent or reuse template sample/placeholder wording.
+Never invent or reuse template sample/placeholder wording. Each slot's
+"slot_id" is a short token like "slot_1", "slot_2" — copy it back EXACTLY as
+given, character for character; a slot whose id doesn't match verbatim is
+silently dropped at render time.
 
 SLIDES TO FILL:
 {slides_json}
@@ -151,6 +161,9 @@ Omit any key that doesn't apply to a given slide, but return exactly one slide
 object for every input slide. Do not leave a selected layout blank. When an
 item cannot support a richer structure, use its source-grounded text for the
 title and any compatible simple text slot rather than omitting the slide.
+Maximize slide utilization: if a slot, table, or repeat-group item could be
+filled with genuine content from the assigned items and you haven't used it
+yet, fill it rather than leaving the slide sparse.
 
 Return ONLY valid JSON:
 {{

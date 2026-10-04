@@ -129,14 +129,22 @@ def _set_text_generic(shape: Any, text: str, kind: str, sample_max_chars: Option
 
 def _render_simple_slots(slide: Any, entry: Dict[str, Any], assignment: SlideAssignment) -> None:
     for slot in entry["slots"]:
-        if slot["kind"] in ("table", "chart"):
+        if slot["kind"] in ("table", "chart", "placeholder_title", "empty_title_box"):
             continue
         value = assignment.slot_values.get(slot["slot_id"])
-        if value is None:
-            continue
         shape = _shape_by_id(slide, slot["shape_id"])
-        if shape is not None and shape.has_text_frame:
-            _set_text_generic(shape, value, slot["kind"], slot.get("max_chars"))
+        if shape is None:
+            continue
+        if value:
+            if shape.has_text_frame:
+                _set_text_generic(shape, value, slot["kind"], slot.get("max_chars"))
+        else:
+            # Unfilled optional content shape — remove it rather than leave a
+            # visible blank box occupying layout space.
+            try:
+                shape.element.getparent().remove(shape.element)
+            except Exception:
+                pass
 
 
 def _render_auto_numbers(slide: Any, entry: Dict[str, Any], filled_count: int) -> None:
@@ -259,10 +267,13 @@ def _render_cover(prs: Presentation, plan: GenericHLDQBRPlan) -> None:
         shape = _shape_by_id(slide, slot["shape_id"])
         if shape is None or not shape.has_text_frame:
             continue
-        if slot["kind"] == "empty_title_box":
-            _set_text_generic(shape, plan.presentation_title, slot["kind"], slot.get("max_chars"))
-        elif "date" in slot["slot_id"]:
+        if "date" in slot["slot_id"]:
             _set_first_run_text(shape, plan.date)
+        else:
+            # Every other cover text shape (title box, hero banner) shows the
+            # presentation title — never left blank, no second content source
+            # exists for the cover besides the title/date.
+            _set_text_generic(shape, plan.presentation_title, slot["kind"], slot.get("max_chars"))
 
 
 def _render_agenda(prs: Presentation, agenda_title: str, content_titles: List[str]) -> None:
@@ -297,10 +308,27 @@ def _render_agenda(prs: Presentation, agenda_title: str, content_titles: List[st
             p.text = extra_line
 
 
+# Brand tagline + legal footer on the closing slide — required verbatim
+# copy per guardrails.md, not per-engagement sample content, so it is never
+# routed through the LLM like everything else on a generated slide.
+_CLOSING_TAGLINE = "MOVING OUR WORLD FORWARD BY DELIVERING WHAT MATTERS\u2122"
+_CLOSING_LEGAL_FOOTER = (
+    "Proprietary and Confidential: This presentation may not be used or disclosed to "
+    "other than employees or customers, unless expressly authorized by UPS.\u000b"
+    "\u00a9 2026 United Parcel Service of America, Inc. UPS, the UPS brandmark and the "
+    "color brown are trademarks of United Parcel Service of America, Inc. All rights reserved."
+)
+
+
 def _render_closing(prs: Presentation) -> None:
     entry = get_entry("slide_30")
     slide = _clone_slide(prs, entry["source_slide_index"])
     _clear_template_text(slide.shapes)
+    texts_by_max_chars_desc = sorted(entry["slots"], key=lambda s: -(s.get("max_chars") or 0))
+    for slot, text in zip(texts_by_max_chars_desc, (_CLOSING_LEGAL_FOOTER, _CLOSING_TAGLINE)):
+        shape = _shape_by_id(slide, slot["shape_id"])
+        if shape is not None and shape.has_text_frame:
+            _set_text_generic(shape, text, slot["kind"], slot.get("max_chars"))
 
 
 class HLDQBRGenericBuilder:

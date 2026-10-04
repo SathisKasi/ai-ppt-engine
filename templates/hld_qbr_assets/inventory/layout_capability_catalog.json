@@ -470,7 +470,25 @@
       "always_include": false,
       "has_table": false,
       "has_chart": true,
-      "repeat_groups": [],
+      "repeat_groups": [
+        {
+          "group_slot_id": "repeat_group_12",
+          "item_count": 1,
+          "member_shape_ids": [
+            12
+          ],
+          "item_slots": [
+            {
+              "slot_id": "item_slot_1",
+              "max_chars": 15
+            },
+            {
+              "slot_id": "item_slot_2",
+              "max_chars": 65
+            }
+          ]
+        }
+      ],
       "auto_number_shape_ids": [],
       "slots": [
         {
@@ -504,7 +522,25 @@
       "always_include": false,
       "has_table": false,
       "has_chart": true,
-      "repeat_groups": [],
+      "repeat_groups": [
+        {
+          "group_slot_id": "repeat_group_12",
+          "item_count": 1,
+          "member_shape_ids": [
+            12
+          ],
+          "item_slots": [
+            {
+              "slot_id": "item_slot_1",
+              "max_chars": 15
+            },
+            {
+              "slot_id": "item_slot_2",
+              "max_chars": 65
+            }
+          ]
+        }
+      ],
       "auto_number_shape_ids": [],
       "slots": [
         {
@@ -544,7 +580,25 @@
       "always_include": false,
       "has_table": false,
       "has_chart": true,
-      "repeat_groups": [],
+      "repeat_groups": [
+        {
+          "group_slot_id": "repeat_group_12",
+          "item_count": 1,
+          "member_shape_ids": [
+            12
+          ],
+          "item_slots": [
+            {
+              "slot_id": "item_slot_1",
+              "max_chars": 15
+            },
+            {
+              "slot_id": "item_slot_2",
+              "max_chars": 65
+            }
+          ]
+        }
+      ],
       "auto_number_shape_ids": [],
       "slots": [
         {
@@ -584,7 +638,25 @@
       "always_include": false,
       "has_table": false,
       "has_chart": true,
-      "repeat_groups": [],
+      "repeat_groups": [
+        {
+          "group_slot_id": "repeat_group_12",
+          "item_count": 1,
+          "member_shape_ids": [
+            12
+          ],
+          "item_slots": [
+            {
+              "slot_id": "item_slot_1",
+              "max_chars": 15
+            },
+            {
+              "slot_id": "item_slot_2",
+              "max_chars": 65
+            }
+          ]
+        }
+      ],
       "auto_number_shape_ids": [],
       "slots": [
         {
@@ -624,7 +696,25 @@
       "always_include": false,
       "has_table": false,
       "has_chart": true,
-      "repeat_groups": [],
+      "repeat_groups": [
+        {
+          "group_slot_id": "repeat_group_12",
+          "item_count": 1,
+          "member_shape_ids": [
+            12
+          ],
+          "item_slots": [
+            {
+              "slot_id": "item_slot_1",
+              "max_chars": 15
+            },
+            {
+              "slot_id": "item_slot_2",
+              "max_chars": 65
+            }
+          ]
+        }
+      ],
       "auto_number_shape_ids": [],
       "slots": [
         {
@@ -664,7 +754,25 @@
       "always_include": false,
       "has_table": false,
       "has_chart": true,
-      "repeat_groups": [],
+      "repeat_groups": [
+        {
+          "group_slot_id": "repeat_group_12",
+          "item_count": 1,
+          "member_shape_ids": [
+            12
+          ],
+          "item_slots": [
+            {
+              "slot_id": "item_slot_1",
+              "max_chars": 15
+            },
+            {
+              "slot_id": "item_slot_2",
+              "max_chars": 65
+            }
+          ]
+        }
+      ],
       "auto_number_shape_ids": [],
       "slots": [
         {
@@ -704,7 +812,25 @@
       "always_include": false,
       "has_table": false,
       "has_chart": true,
-      "repeat_groups": [],
+      "repeat_groups": [
+        {
+          "group_slot_id": "repeat_group_8",
+          "item_count": 1,
+          "member_shape_ids": [
+            8
+          ],
+          "item_slots": [
+            {
+              "slot_id": "item_slot_1",
+              "max_chars": 15
+            },
+            {
+              "slot_id": "item_slot_2",
+              "max_chars": 65
+            }
+          ]
+        }
+      ],
       "auto_number_shape_ids": [],
       "slots": [
         {
@@ -1053,7 +1179,25 @@
       "always_include": false,
       "has_table": false,
       "has_chart": false,
-      "repeat_groups": [],
+      "repeat_groups": [
+        {
+          "group_slot_id": "repeat_group_55",
+          "item_count": 1,
+          "member_shape_ids": [
+            55
+          ],
+          "item_slots": [
+            {
+              "slot_id": "item_slot_1",
+              "max_chars": 20
+            },
+            {
+              "slot_id": "item_slot_2",
+              "max_chars": 30
+            }
+          ]
+        }
+      ],
       "auto_number_shape_ids": [],
       "slots": [
         {
@@ -1233,7 +1377,25 @@
       "always_include": false,
       "has_table": false,
       "has_chart": false,
-      "repeat_groups": [],
+      "repeat_groups": [
+        {
+          "group_slot_id": "repeat_group_12",
+          "item_count": 1,
+          "member_shape_ids": [
+            12
+          ],
+          "item_slots": [
+            {
+              "slot_id": "item_slot_1",
+              "max_chars": 15
+            },
+            {
+              "slot_id": "item_slot_2",
+              "max_chars": 25
+            }
+          ]
+        }
+      ],
       "auto_number_shape_ids": [],
       "slots": [
         {
@@ -1269,7 +1431,25 @@
       "always_include": false,
       "has_table": false,
       "has_chart": false,
-      "repeat_groups": [],
+      "repeat_groups": [
+        {
+          "group_slot_id": "repeat_group_12",
+          "item_count": 1,
+          "member_shape_ids": [
+            12
+          ],
+          "item_slots": [
+            {
+              "slot_id": "item_slot_1",
+              "max_chars": 15
+            },
+            {
+              "slot_id": "item_slot_2",
+              "max_chars": 25
+            }
+          ]
+        }
+      ],
       "auto_number_shape_ids": [],
       "slots": [
         {
