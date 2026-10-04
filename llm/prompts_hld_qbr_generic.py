@@ -119,12 +119,10 @@ content doesn't support more).
 
 HLD_QBR_FILL_PROMPT = """\
 For EACH slide below, write its content using ONLY the content items listed
-for that slide. Sample_text values (if present) show the ORIGINAL template's
-placeholder content purely for sizing/format reference — never reuse those
-names/numbers/wording as if they were real; they are not part of your source.
-If a slot's sample_text contains multiple lines (e.g. a quote on one line and
-an attribution on another), your replacement value should use the same "\\n"
-line structure so each part lands in its own line.
+for that slide. The slide payload deliberately contains structural constraints
+only; every returned visible string, including titles, agenda labels, table
+headers, chart labels, and values, must be derived from those content items.
+Never invent or reuse template sample/placeholder wording.
 
 SLIDES TO FILL:
 {slides_json}
@@ -138,9 +136,8 @@ For each slide, return:
   {{item_slot_id: text, ...}}, at most max_items entries, one object per
   card/badge instance
 - "table_headers" / "table_rows": for slides with a table slot, if the
-  catalog's table_schema implies fixed headers reuse them verbatim in
-  table_headers; table_rows is a list of rows, each row a list of strings
-  matching the header count
+  catalog provides a column_count, supply source-grounded table_headers and
+  table_rows; each row must contain that many strings
 - "chart_categories" / "chart_series": for slides with a chart slot,
   chart_categories is a list of category labels, chart_series is a list of
   {{"name": "...", "values": [numbers]}}

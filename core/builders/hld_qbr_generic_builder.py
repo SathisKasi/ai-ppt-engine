@@ -32,7 +32,6 @@ from core.builders.hld_qbr_builder import (
     TEMPLATE_SERIES_COLORS,
     _clone_slide,
     _fill_table_rows,
-    _get_ordinal_date,
     _set_first_run_text,
     _strip_all_highlights,
     _strip_decorative_connectors,
@@ -61,6 +60,33 @@ def _shape_by_id(slide: Any, shape_id: int) -> Optional[Any]:
         if shape.shape_id == shape_id:
             return shape
     return None
+
+
+def _clear_template_text(shapes: Any) -> None:
+    """Blank cloned sample content while preserving the template geometry and
+    formatting. Generated values are the only text subsequently written."""
+    for shape in list(shapes):
+        if getattr(shape, "has_text_frame", False):
+            for paragraph in shape.text_frame.paragraphs:
+                for run in paragraph.runs:
+                    run.text = ""
+        if getattr(shape, "has_table", False):
+            for row in shape.table.rows:
+                for cell in row.cells:
+                    cell.text = ""
+        if getattr(shape, "shape_type", None) == 6:  # GROUP
+            _clear_template_text(shape.shapes)
+
+
+def _remove_unfilled_charts(slide: Any, assignment: Optional[SlideAssignment]) -> None:
+    """A cloned chart retains its source workbook labels unless it is replaced
+    with source-grounded data, so omit it when the assignment has no chart."""
+    has_chart_data = bool(assignment and assignment.chart_categories and assignment.chart_series)
+    if has_chart_data:
+        return
+    for shape in list(slide.shapes):
+        if getattr(shape, "has_chart", False):
+            shape.element.getparent().remove(shape.element)
 
 
 def _set_text_generic(shape: Any, text: str, kind: str, sample_max_chars: Optional[int]) -> None:
@@ -146,7 +172,7 @@ def _render_repeat_groups(slide: Any, entry: Dict[str, Any], assignment: SlideAs
                 continue
             item_values = items[i]
             text_children = sorted(
-                (s for s in member.shapes if getattr(s, "has_text_frame", False) and s.text_frame.text.strip()),
+                (s for s in member.shapes if getattr(s, "has_text_frame", False)),
                 key=lambda s: (round(s.top / 914400, 2), s.left),
             )
             for slot_def, child in zip(rg["item_slots"], text_children):
@@ -163,7 +189,7 @@ def _render_table(slide: Any, entry: Dict[str, Any], assignment: SlideAssignment
     if shape is None or not shape.has_table:
         return
     tbl = shape.table
-    headers = assignment.table_headers or table_slot["table_schema"]["header_row"]
+    headers = assignment.table_headers or []
     for c_idx, header in enumerate(headers):
         if c_idx < len(tbl.columns):
             tbl.cell(0, c_idx).text = str(header)
@@ -205,6 +231,8 @@ def _render_content_slide(prs: Presentation, assignment: SlideAssignment) -> Non
     slide = _clone_slide(prs, entry["source_slide_index"])
     _strip_guidance_shapes(slide)
     _strip_decorative_connectors(slide)
+    _clear_template_text(slide.shapes)
+    _remove_unfilled_charts(slide, assignment)
 
     if assignment.title is not None:
         title_slot = next(
@@ -226,29 +254,30 @@ def _render_content_slide(prs: Presentation, assignment: SlideAssignment) -> Non
 def _render_cover(prs: Presentation, plan: GenericHLDQBRPlan) -> None:
     entry = get_entry("slide_00")
     slide = _clone_slide(prs, entry["source_slide_index"])
+    _clear_template_text(slide.shapes)
     for slot in entry["slots"]:
         shape = _shape_by_id(slide, slot["shape_id"])
         if shape is None or not shape.has_text_frame:
             continue
         if slot["kind"] == "empty_title_box":
-            _set_text_generic(shape, plan.presentation_title or "QUARTERLY BUSINESS REVIEW", slot["kind"], slot.get("max_chars"))
+            _set_text_generic(shape, plan.presentation_title, slot["kind"], slot.get("max_chars"))
         elif "date" in slot["slot_id"]:
-            _set_first_run_text(shape, plan.date or _get_ordinal_date())
-        else:
-            # Breadcrumb banner duplicates the title area — blank it so the
-            # one real title (Title 5, handled above) isn't shown twice.
-            for para in shape.text_frame.paragraphs:
-                for run in para.runs:
-                    run.text = ""
+            _set_first_run_text(shape, plan.date)
 
 
-def _render_agenda(prs: Presentation, content_titles: List[str]) -> None:
+def _render_agenda(prs: Presentation, agenda_title: str, content_titles: List[str]) -> None:
     entry = get_entry("slide_01")
     slide = _clone_slide(prs, entry["source_slide_index"])
+    _clear_template_text(slide.shapes)
     # The agenda has exactly 2 slots: a short title and a multi-line topics box
     # (the topics box is identified generically as whichever slot allows the
     # most characters — it's always the larger of the two on this slide).
     topics_slot = max(entry["slots"], key=lambda s: s.get("max_chars") or 0)
+    title_slot = next((slot for slot in entry["slots"] if slot != topics_slot), None)
+    if title_slot is not None:
+        title_shape = _shape_by_id(slide, title_slot["shape_id"])
+        if title_shape is not None and title_shape.has_text_frame:
+            _set_text_generic(title_shape, agenda_title, title_slot["kind"], title_slot.get("max_chars"))
     shape = _shape_by_id(slide, topics_slot["shape_id"])
     if shape is not None and shape.has_text_frame and content_titles:
         joined = "\n".join(content_titles)
@@ -270,7 +299,8 @@ def _render_agenda(prs: Presentation, content_titles: List[str]) -> None:
 
 def _render_closing(prs: Presentation) -> None:
     entry = get_entry("slide_30")
-    _clone_slide(prs, entry["source_slide_index"])
+    slide = _clone_slide(prs, entry["source_slide_index"])
+    _clear_template_text(slide.shapes)
 
 
 class HLDQBRGenericBuilder:
@@ -285,10 +315,8 @@ class HLDQBRGenericBuilder:
         other_content = [s for s in content_slides if s.slide_id != "slide_03"]
 
         _render_cover(prs, plan)
-        content_titles = [
-            (get_entry(s.slide_id) or {}).get("title") or s.slide_id for s in other_content
-        ]
-        _render_agenda(prs, content_titles)
+        content_titles = [s.title for s in content_slides if s.title]
+        _render_agenda(prs, plan.presentation_title, content_titles)
         if exec_summary is not None:
             _render_content_slide(prs, exec_summary)
         for assignment in other_content:

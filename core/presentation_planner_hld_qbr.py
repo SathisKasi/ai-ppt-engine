@@ -1,5 +1,5 @@
 """
-core/presentation_planner_hld_qbr.py — LLM Planner for the HLD QBR Template.
+core/presentation_planner_hld_qbr.py — Retired hardcoded HLD QBR planner.
 
 Two-stage planning:
   Stage 1 (_select_archetypes): a small call that picks WHICH archetypes best
@@ -181,12 +181,19 @@ def plan_hld_qbr_presentation(
     content_model: Optional[ContentModel] = None,
     max_source_chars: int = 14000,
 ) -> HLDQBRPresentationPlan:
-    """Executes the HLD QBR Architect LLM call and returns a validated plan.
+    """Rejects the retired archetype pipeline.
 
-    ``slide_count`` is the user's requested number of CONTENT slides.
-    Mandatory structural slides (Cover, Agenda, Executive Summary, Closing)
-    are always included by the builder and are not subtracted from this count.
+    The active HLD QBR route is
+    ``plan_hld_qbr_presentation_generic``. It extracts content from the full
+    user document before matching it to template structure. This legacy
+    planner embeds named template archetypes and must never issue an LLM
+    prompt for a production deck.
     """
+    raise HLDQBRPlanningError(
+        "The hardcoded HLD QBR planner is retired. "
+        "Use core.presentation_planner_hld_qbr_generic."
+    )
+
     if not presentation_title or not presentation_title.strip():
         presentation_title = content_analysis.main_topic
 

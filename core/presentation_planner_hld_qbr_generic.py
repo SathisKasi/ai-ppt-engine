@@ -54,21 +54,45 @@ class HLDQBRGenericPlanningError(Exception):
 
 def _slim_entry_for_fill(entry: Dict[str, Any]) -> Dict[str, Any]:
     """Drops shape_id (renderer-only detail) from the catalog entry so the
-    content-fill prompt only sees what it needs: slot_id/kind/maxChars/
-    sample_text, table/chart schema, repeat-group item schema."""
+    content-fill prompt only sees structural constraints. Template sample
+    wording is deliberately excluded: it is never source content."""
+    slots = []
+    for slot in entry["slots"]:
+        slim_slot = {
+            "slot_id": slot["slot_id"],
+            "kind": slot["kind"],
+            "max_chars": slot.get("max_chars"),
+        }
+        if slot.get("table_schema"):
+            schema = slot["table_schema"]
+            slim_slot["table_schema"] = {
+                "column_count": len(schema.get("header_row") or []),
+                "row_count": schema.get("row_count"),
+            }
+        if slot.get("chart_schema"):
+            schema = slot["chart_schema"]
+            slim_slot["chart_schema"] = {
+                "chart_type": schema.get("chart_type"),
+                "category_count": len(schema.get("categories") or []),
+                "series_count": len(schema.get("series_names") or []),
+            }
+        slots.append(slim_slot)
     return {
         "slide_id": entry["slide_id"],
         "has_table": entry["has_table"],
         "has_chart": entry["has_chart"],
-        "slots": [
-            {k: v for k, v in s.items() if k != "shape_id"}
-            for s in entry["slots"]
-        ],
+        "slots": slots,
         "repeat_groups": [
             {
                 "group_slot_id": rg["group_slot_id"],
                 "max_items": rg["item_count"],
-                "item_slots": rg["item_slots"],
+                "item_slots": [
+                    {
+                        "slot_id": item_slot["slot_id"],
+                        "max_chars": item_slot.get("max_chars"),
+                    }
+                    for item_slot in rg["item_slots"]
+                ],
             }
             for rg in entry["repeat_groups"]
         ],
@@ -209,8 +233,8 @@ def plan_hld_qbr_presentation_generic(
         raise HLDQBRGenericPlanningError("No slides could be planned from the extracted content.")
 
     plan = GenericHLDQBRPlan(
-        presentation_title=outline.get("presentation_title") or presentation_title_hint,
-        facility_name=outline.get("facility_name") or facility_name_hint,
+        presentation_title=outline.get("presentation_title") or "",
+        facility_name=outline.get("facility_name") or "",
         date=outline.get("date") or "",
         slides=slides,
     )
