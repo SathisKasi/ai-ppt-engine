@@ -1297,6 +1297,13 @@ def run_generation_pipeline(
                 st.session_state.hld_content_model = hld_content_model
                 if hld_content_model.content_items:
                     st.caption(f"📚 Extracted {len(hld_content_model.content_items)} traceable content item(s) from source")
+                else:
+                    st.warning(
+                        "⚠️ No content could be extracted from the source document — the "
+                        "content-extraction LLM call likely failed (check API key/rate limits) "
+                        "or the document had no readable text. Planning will fail next; see the "
+                        "application logs for the underlying extraction error."
+                    )
 
                 st.write("🗺️ Matching content to template slides by structure...")
                 plan = plan_hld_qbr_presentation_generic(

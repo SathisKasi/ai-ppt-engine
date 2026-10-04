@@ -248,22 +248,37 @@ def plan_hld_qbr_presentation_generic(
     """Full pipeline: outline assignment -> content fill -> typed plan.
     A requested slide count is enforced; incomplete source-grounded plans
     raise instead of emitting blank or silently short decks."""
+    if not content_model.content_items:
+        raise HLDQBRGenericPlanningError(
+            "No content could be extracted from the source document, so no slide can be "
+            "source-grounded. This is usually an extraction-stage failure (LLM/API error, "
+            "rate limit, or no readable text in the document) rather than the document's "
+            "content not fitting the template — check the application logs for a "
+            "'Content model extraction failed' or LLM call warning."
+        )
+
     outline = _run_outline_stage(client, content_model, requested_slide_count)
     resolved_picks = _resolve_picks(outline, content_model, requested_slide_count)
+    raw_pick_count = len(outline.get("picks") or [])
 
     # A requested slide count is a hard contract. Retry once with the same
     # structural-only prompt before failing rather than emitting sparse slides.
     if requested_slide_count and len(resolved_picks) < requested_slide_count:
         logger.warning(
-            "Outline returned %d of %d requested source-backed slides; retrying.",
-            len(resolved_picks), requested_slide_count,
+            "Outline returned %d raw pick(s) -> %d source-grounded of %d requested; retrying.",
+            raw_pick_count, len(resolved_picks), requested_slide_count,
         )
         outline = _run_outline_stage(client, content_model, requested_slide_count)
         resolved_picks = _resolve_picks(outline, content_model, requested_slide_count)
+        raw_pick_count = len(outline.get("picks") or [])
     if requested_slide_count and len(resolved_picks) < requested_slide_count:
         raise HLDQBRGenericPlanningError(
-            f"The document supports only {len(resolved_picks)} source-backed layout assignments; "
-            f"{requested_slide_count} were requested."
+            f"Only {len(resolved_picks)} of {requested_slide_count} requested slides could be "
+            f"source-grounded (outline returned {raw_pick_count} raw pick(s) against "
+            f"{len(content_model.content_items)} extracted content item(s)). Either the source "
+            "document is too short/sparse for this many slides, or the outline cited "
+            "content_item_ids that don't exist in the extracted content model — check logs for "
+            "outline parsing warnings."
         )
 
     filled_by_id = _run_fill_stage(key_manager, content_model, resolved_picks)
