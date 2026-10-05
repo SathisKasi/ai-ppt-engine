@@ -85,7 +85,6 @@ class ContentModel(BaseModel):
             {
                 "id": t.id,
                 "name": t.name,
-                "summary": truncate_text(t.summary, 70) if t.summary else "",
                 "content_item_ids": t.content_item_ids,
             }
             for t in self.topics

@@ -53,16 +53,21 @@ def content_bearing_mandatory_slide_ids() -> List[str]:
 
 
 
-def compact_catalog_for_outline() -> List[Dict[str, Any]]:
+def compact_catalog_for_outline(exclude_slide_ids: Optional[List[str]] = None) -> List[Dict[str, Any]]:
     """Slim view for the outline-assignment call: no renderer-only shape
     ids — just enough structure to match content by SHAPE, not name.
-    Excludes STRUCTURAL_ONLY_SLIDE_IDS (cover/agenda/closing) — nothing to
-    decide there, they're force-included by the orchestrator regardless."""
+    Excludes STRUCTURAL_ONLY_SLIDE_IDS (cover/agenda/closing).
+    If exclude_slide_ids is provided, excludes non-repeatable slides that are in that list."""
     compact = []
+    excluded_set = set(exclude_slide_ids or [])
     for entry in load_catalog():
-        if entry["slide_id"] in STRUCTURAL_ONLY_SLIDE_IDS:
+        sid = entry["slide_id"]
+        if sid in STRUCTURAL_ONLY_SLIDE_IDS:
             continue
-        item: Dict[str, Any] = {"slide_id": entry["slide_id"]}
+        is_repeatable = entry.get("has_table") or entry.get("has_chart")
+        if sid in excluded_set and not is_repeatable:
+            continue
+        item: Dict[str, Any] = {"slide_id": sid}
         if entry.get("always_include"):
             item["always_include"] = True
 

@@ -629,7 +629,9 @@ def _fill_table_rows(
     for r_offset, row_values in enumerate(rows):
         r_idx = start_row + r_offset
         if r_idx >= len(tbl.rows):
-            break
+            import copy
+            last_tr = tbl.rows[len(tbl.rows) - 1]._tr
+            tbl._tbl.append(copy.deepcopy(last_tr))
         for c_idx, val in enumerate(row_values):
             if c_idx < len(tbl.columns):
                 cell = tbl.cell(r_idx, c_idx)

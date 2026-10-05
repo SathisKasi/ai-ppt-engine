@@ -17,7 +17,9 @@ executive-summary bullet-cards) is not yet wired into this generic path.
 """
 from __future__ import annotations
 
+import copy
 import io
+import re
 from typing import Any, Dict, List, Optional
 
 from pptx import Presentation
@@ -236,10 +238,15 @@ def _render_repeat_groups(
                     candidate_children,
                     key=lambda s: (round(s.top / 914400, 2), s.left),
                 )
-            for slot_def, child in zip(rg["item_slots"], text_children):
+            for slot_idx, (slot_def, child) in enumerate(zip(rg["item_slots"], text_children)):
                 value = item_values.get(slot_def["slot_id"])
+                if not value and slot_idx < len(item_values):
+                    # Positional fallback if LLM returned descriptive keys (e.g. "title", "text")
+                    candidate_val = list(item_values.values())[slot_idx]
+                    if candidate_val:
+                        value = str(candidate_val)
                 if value:
-                    is_title = (slot_def["slot_id"] == "item_slot_1")
+                    is_title = (slot_def["slot_id"] == "item_slot_1" or slot_idx == 0)
                     kind = "placeholder_title" if is_title else "auto_shape"
                     _set_text_generic(child, value, kind, slot_def.get("max_chars"))
                     if is_title and getattr(child, "has_text_frame", False):
@@ -255,6 +262,8 @@ def _render_table(slide: Any, entry: Dict[str, Any], assignment: SlideAssignment
     if shape is None or not shape.has_table:
         return
     tbl = shape.table
+    orig_rows = len(tbl.rows)
+    orig_height = shape.height
     headers = assignment.table_headers or []
     for c_idx, header in enumerate(headers):
         if c_idx < len(tbl.columns):
@@ -267,7 +276,9 @@ def _render_table(slide: Any, entry: Dict[str, Any], assignment: SlideAssignment
                     r.font.size = Pt(11.0)
                     r.font.bold = True
                     r.font.color.rgb = TEXT_COLOR
-    _fill_table_rows(tbl, assignment.table_rows, start_row=1, prune_unused_rows=False, text_color=TEXT_COLOR)
+    _fill_table_rows(tbl, assignment.table_rows, start_row=1, prune_unused_rows=True, text_color=TEXT_COLOR)
+    if orig_rows > 0 and len(tbl.rows) < orig_rows:
+        shape.height = min(orig_height, int(orig_height * (len(tbl.rows) / orig_rows)))
 
 
 def _render_chart(slide: Any, entry: Dict[str, Any], assignment: SlideAssignment) -> None:
@@ -354,7 +365,7 @@ def _render_cover(prs: Presentation, plan: GenericHLDQBRPlan) -> None:
             _set_text_generic(shape, plan.presentation_title, slot["kind"], slot.get("max_chars"))
 
 
-def _render_agenda(prs: Presentation, agenda_title: str, content_titles: List[str]) -> None:
+def _render_agenda(prs: Presentation, agenda_title: str, agenda_items: List[str]) -> None:
     entry = get_entry("slide_01")
     slide = _clone_slide(prs, entry["source_slide_index"])
     _clear_template_text(slide.shapes)
@@ -369,39 +380,89 @@ def _render_agenda(prs: Presentation, agenda_title: str, content_titles: List[st
             display_title = "AGENDA" if not agenda_title or agenda_title.lower() in ("agenda", "today's discussion") else agenda_title.upper()
             _set_text_generic(title_shape, display_title, "placeholder_title", 40)
     shape = _shape_by_id(slide, topics_slot["shape_id"])
-    if shape is not None and shape.has_text_frame and content_titles:
+    if shape is not None and shape.has_text_frame and agenda_items:
         tf = shape.text_frame
-        lines = [t.strip() for t in content_titles if t.strip()]
+        # Clean and deduplicate agenda items
+        cleaned_lines: List[str] = []
+        seen = set()
+        for t in agenda_items:
+            s = re.sub(r"^\d+[\.\)]\s*", "", t.strip())
+            if s and s.lower() not in seen:
+                seen.add(s.lower())
+                cleaned_lines.append(s)
+
+        # Enforce maximum 6 items to protect visual breathing room and prevent footer collisions
+        lines = cleaned_lines[:6]
+        if not lines:
+            return
+
+        # Extract template's master bullet paragraph XML properties to replicate across all paragraphs
+        sample_pPr = None
+        if tf.paragraphs and tf.paragraphs[0]._p.find(qn("a:pPr")) is not None:
+            sample_pPr = copy.deepcopy(tf.paragraphs[0]._p.find(qn("a:pPr")))
+
+        # Adaptive typography & spacing based on item count
+        n = len(lines)
+        if n <= 3:
+            ag_sz = Pt(17)
+            line_spc = 1.8
+            spc_after = Pt(14)
+        elif n <= 4:
+            ag_sz = Pt(16)
+            line_spc = 1.7
+            spc_after = Pt(10)
+        elif n <= 5:
+            ag_sz = Pt(14)
+            line_spc = 1.5
+            spc_after = Pt(8)
+        else:  # 6 items
+            ag_sz = Pt(13)
+            line_spc = 1.35
+            spc_after = Pt(6)
+
         existing_paras = list(tf.paragraphs)
 
         # 1. Populate matching existing paragraphs cleanly
         for i in range(min(len(lines), len(existing_paras))):
             para = existing_paras[i]
+            if sample_pPr is not None:
+                pPr = para._p.find(qn("a:pPr"))
+                if pPr is not None:
+                    para._p.remove(pPr)
+                para._p.insert(0, copy.deepcopy(sample_pPr))
             if para.runs:
                 para.runs[0].text = lines[i]
                 for r in para.runs[1:]:
                     r.text = ""
             else:
                 para.add_run().text = lines[i]
-            para.line_spacing = 1.8
+            para.line_spacing = line_spc
+            para.space_after = spc_after
+            for r in para.runs:
+                r.font.name = "Verdana"
+                r.font.size = ag_sz
+                r.font.color.rgb = RGBColor(0, 43, 73)
 
         # 2. Add extra paragraphs if more lines than template
         if len(lines) > len(existing_paras):
-            sample_run = existing_paras[0].runs[0] if existing_paras and existing_paras[0].runs else None
             for extra_line in lines[len(existing_paras):]:
                 p = tf.add_paragraph()
-                p.line_spacing = 1.8
+                if sample_pPr is not None:
+                    pPr = p._p.find(qn("a:pPr"))
+                    if pPr is not None:
+                        p._p.remove(pPr)
+                    p._p.insert(0, copy.deepcopy(sample_pPr))
+                p.line_spacing = line_spc
+                p.space_after = spc_after
                 run = p.add_run()
                 run.text = extra_line
-                if sample_run:
-                    if sample_run.font.name:
-                        run.font.name = sample_run.font.name
-                    if sample_run.font.size:
-                        run.font.size = sample_run.font.size
+                run.font.name = "Verdana"
+                run.font.size = ag_sz
+                run.font.color.rgb = RGBColor(0, 43, 73)
 
-        # 3. Remove excess template paragraphs so no 6-line blank gaps exist
+        # 3. Remove excess template paragraphs so no blank gaps or ghost bullets exist
         elif len(existing_paras) > len(lines):
-            for extra_p in existing_paras[max(1, len(lines)):]:
+            for extra_p in existing_paras[len(lines):]:
                 try:
                     extra_p._p.getparent().remove(extra_p._p)
                 except Exception:
@@ -443,8 +504,8 @@ class HLDQBRGenericBuilder:
         other_content = [s for s in content_slides if s.slide_id != "slide_03"]
 
         _render_cover(prs, plan)
-        content_titles = [s.title for s in content_slides if s.title]
-        _render_agenda(prs, plan.presentation_title, content_titles)
+        agenda_items = plan.agenda_topics if plan.agenda_topics else [s.title for s in content_slides if s.title]
+        _render_agenda(prs, plan.presentation_title, agenda_items)
         if exec_summary is not None:
             _render_content_slide(prs, exec_summary)
         for assignment in other_content:

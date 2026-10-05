@@ -163,6 +163,7 @@ class GenericHLDQBRPlan(BaseModel):
     presentation_title: str = ""
     facility_name: str = ""
     date: str = ""
+    agenda_topics: List[str] = Field(default_factory=list)
     slides: List[SlideAssignment] = Field(default_factory=list)
 
     @model_validator(mode="before")

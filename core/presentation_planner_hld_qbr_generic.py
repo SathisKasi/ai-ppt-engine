@@ -20,6 +20,7 @@ to slides by STRUCTURE, not by a pre-enumerated list of named topics:
 """
 from __future__ import annotations
 
+import re
 from typing import Any, Dict, List, Optional
 
 from pydantic import ValidationError
@@ -30,7 +31,7 @@ from core.hld_qbr_catalog import (
     get_entry,
     load_catalog,
 )
-from llm.content_model_schemas import ContentModel
+from llm.content_model_schemas import ContentModel, Topic
 from llm.groq_client import GroqClient
 from llm.hld_qbr_generic_schemas import GenericHLDQBRPlan, SlideAssignment
 from llm.prompts_hld_qbr_generic import (
@@ -102,7 +103,7 @@ def _slim_entry_for_fill(entry: Dict[str, Any], alias_map: Dict[str, str]) -> Di
         schema = table_slot["table_schema"]
         payload["table_schema"] = {
             "column_count": schema.get("cols", 4),
-            "row_count": schema.get("rows", 6),
+            "max_rows": schema.get("rows", 6),
         }
 
     chart_slot = next((s for s in entry["slots"] if s.get("chart_schema")), None)
@@ -122,15 +123,33 @@ def _run_outline_stage(
     content_model: ContentModel,
     requested_slide_count: Optional[int],
     exclude_slide_ids: Optional[List[str]] = None,
+    unassigned_content_item_ids: Optional[List[str]] = None,
 ) -> Dict[str, Any]:
-    compact_catalog = compact_catalog_for_outline()
-    # A large document (many chunks, now also carrying topics) can produce a
-    # content model whose full JSON alone exceeds a restrictive Groq org's
-    # tokens-per-minute cap in ONE request (seen in practice: an 8,000 TPM
-    # tier rejects the call outright, it isn't throttled/retried).
-    # compact_for_outline formats topics first, trims atomic items, and ensures
-    # syntactically valid JSON well below restrictive TPM limits.
-    content_model_json = content_model.compact_for_outline(max_chars=9000)
+    compact_catalog = compact_catalog_for_outline(exclude_slide_ids=exclude_slide_ids)
+
+    # When unassigned_content_item_ids is provided (e.g. gap-fill pass), prioritize unassigned items
+    # to dramatically reduce prompt tokens and avoid token bloat.
+    if unassigned_content_item_ids:
+        unassigned_set = set(unassigned_content_item_ids)
+        slim_items = [i for i in content_model.content_items if i.id in unassigned_set]
+        if slim_items:
+            slim_topics = [
+                Topic(
+                    id=t.id if hasattr(t, "id") else t.get("id"),
+                    name=t.name if hasattr(t, "name") else t.get("name"),
+                    summary=getattr(t, "summary", "") if hasattr(t, "summary") else (t.get("summary") or ""),
+                    content_item_ids=[cid for cid in (t.content_item_ids if hasattr(t, "content_item_ids") else t.get("content_item_ids", [])) if cid in unassigned_set],
+                )
+                for t in content_model.topics
+            ]
+            slim_topics = [t for t in slim_topics if t.content_item_ids]
+            cm_for_outline = ContentModel(content_items=slim_items, topics=slim_topics)
+            content_model_json = cm_for_outline.compact_for_outline(max_chars=4000)
+        else:
+            content_model_json = content_model.compact_for_outline(max_chars=6000)
+    else:
+        content_model_json = content_model.compact_for_outline(max_chars=6000)
+
     prompt = build_hld_qbr_outline_prompt(
         compact_catalog=compact_catalog,
         content_model_json=content_model_json,
@@ -207,7 +226,9 @@ def _run_fill_stage(
         if entry is None:
             continue
         assigned = [
-            items_by_id[i].model_dump() for i in pick["content_item_ids"] if i in items_by_id
+            {"id": items_by_id[i].id, "text": items_by_id[i].text}
+            for i in pick["content_item_ids"]
+            if i in items_by_id
         ]
         alias_map = _build_slot_alias_map(entry)
         fill_key = pick["fill_key"]
@@ -291,6 +312,18 @@ def _build_slide_assignment(pick: Dict[str, Any], filled: Optional[Dict[str, Any
     ])
     if not has_visible_content:
         return None
+    if entry.get("has_chart") and not (filled.get("chart_categories") and filled.get("chart_series")):
+        logger.warning(
+            "Slide %s is a chart layout but received no chart data; rejecting so gap-fill can recover with an appropriate layout.",
+            entry["slide_id"],
+        )
+        return None
+    if entry.get("has_table") and not filled.get("table_rows"):
+        logger.warning(
+            "Slide %s is a table layout but received no table rows; rejecting so gap-fill can recover with an appropriate layout.",
+            entry["slide_id"],
+        )
+        return None
     try:
         return SlideAssignment(
             slide_id=entry["slide_id"],
@@ -326,6 +359,72 @@ def _build_slide_assignment(pick: Dict[str, Any], filled: Optional[Dict[str, Any
         except Exception as e2:
             logger.error("Failed to rescue slide %s: %s", entry["slide_id"], e2)
             return None
+def _synthesize_agenda_topics(
+    raw_topics: Optional[List[str]],
+    content_model: ContentModel,
+    slides: List[SlideAssignment],
+) -> List[str]:
+    """Derives a clean, executive set of 4-6 agenda topics.
+
+    Prevents overflowing the slide canvas and footer when slide counts grow (e.g. 10, 15, 20, 25 slides).
+    - If LLM outline provided valid 3-6 topics, cleans and uses them.
+    - If deck is small (<= 6 content slides), unique slide titles are used directly.
+    - If deck is large (> 6 slides), derives 4-6 thematic pillars from ContentModel topics or
+      clusters slide titles, strictly capped at 6 items.
+    """
+    # 1. Check if LLM supplied good thematic agenda topics
+    if raw_topics:
+        cleaned: List[str] = []
+        seen = set()
+        for t in raw_topics:
+            s = re.sub(r"^\d+[\.\)]\s*", "", str(t).strip())
+            if s and s.lower() not in seen:
+                seen.add(s.lower())
+                cleaned.append(s)
+        if 3 <= len(cleaned) <= 6:
+            return cleaned
+        elif len(cleaned) > 6:
+            return cleaned[:6]
+
+    # Collect unique slide titles
+    slide_titles: List[str] = []
+    seen_titles = set()
+    for s in slides:
+        st = (s.title or "").strip()
+        if st and st.lower() not in seen_titles:
+            seen_titles.add(st.lower())
+            slide_titles.append(st)
+
+    # 2. Small decks (<= 6 slides): use slide titles directly
+    if len(slide_titles) <= 6:
+        return slide_titles
+
+    # 3. Medium/Large decks (> 6 slides): synthesize 4-6 thematic pillars
+    # Source A: ContentModel high-level topics
+    if content_model and content_model.topics:
+        cm_topics: List[str] = []
+        cm_seen = set()
+        for t in content_model.topics:
+            tname = (t.name or "").strip()
+            if tname and tname.lower() not in cm_seen:
+                cm_seen.add(tname.lower())
+                cm_topics.append(tname)
+        if 3 <= len(cm_topics) <= 6:
+            return cm_topics
+        elif len(cm_topics) > 6:
+            return cm_topics[:6]
+
+    # Source B: Evenly sampled anchors across the deck for large decks
+    n = len(slide_titles)
+    indices = [0, n // 4, n // 2, (3 * n) // 4, n - 1]
+    sampled: List[str] = []
+    sampled_seen = set()
+    for idx in indices:
+        t = slide_titles[idx]
+        if t.lower() not in sampled_seen:
+            sampled_seen.add(t.lower())
+            sampled.append(t)
+    return sampled[:6]
 
 
 def plan_hld_qbr_presentation_generic(
@@ -380,70 +479,155 @@ def plan_hld_qbr_presentation_generic(
             retry_outline = _run_outline_stage(client, content_model, requested_slide_count)
         else:
             used_slide_ids = [p["slide_id"] for p in resolved_picks]
+            used_content_ids = {cid for p in resolved_picks for cid in p["content_item_ids"]}
+            remaining_cids = [cid for cid in content_model.ids() if cid not in used_content_ids]
             logger.warning(
                 "Still %d short of %d requested after retry; running a narrower gap-fill call "
                 "for the remaining %d slide(s), excluding %d already-used slide_id(s).",
                 gap, requested_slide_count, gap, len(used_slide_ids),
             )
-            retry_outline = _run_outline_stage(client, content_model, gap, exclude_slide_ids=used_slide_ids)
+            retry_outline = _run_outline_stage(
+                client, content_model, gap,
+                exclude_slide_ids=used_slide_ids,
+                unassigned_content_item_ids=remaining_cids,
+            )
         all_raw_picks.extend(retry_outline.get("picks") or [])
         resolved_picks = _resolve_picks({"picks": all_raw_picks}, content_model, requested_slide_count)
         if not outline_meta.get("presentation_title"):
             outline_meta = retry_outline
 
     if requested_slide_count and len(resolved_picks) < requested_slide_count:
-        raise HLDQBRGenericPlanningError(
-            f"Only {len(resolved_picks)} of {requested_slide_count} requested slides could be "
-            f"source-grounded after {gap_fill_attempt + 1} outline attempt(s) (including a narrower "
-            f"gap-fill retry) against {len(content_model.content_items)} extracted content item(s)). "
-            "The source document likely doesn't have enough distinct, structurally-fillable topics "
-            "for this many slides -- try a lower slide count, or check logs for outline parsing warnings."
+        used_content_ids = {cid for p in resolved_picks for cid in p["content_item_ids"]}
+        remaining_cids = [cid for cid in content_model.ids() if cid not in used_content_ids]
+        used_sids = {p["slide_id"] for p in resolved_picks}
+        fallback_candidates = [
+            e["slide_id"] for e in load_catalog()
+            if not e.get("has_chart") and not e.get("has_table") and e["slide_id"] not in STRUCTURAL_ONLY_SLIDE_IDS and e["slide_id"] not in used_sids
+        ]
+        while len(resolved_picks) < requested_slide_count and remaining_cids and fallback_candidates:
+            fallback_sid = fallback_candidates.pop(0)
+            batch = remaining_cids[:3]
+            remaining_cids = remaining_cids[3:]
+            logger.info("Outline fallback: allocating unassigned items %s to flexible layout %s", batch, fallback_sid)
+            all_raw_picks.append({"slide_id": fallback_sid, "content_item_ids": batch})
+            resolved_picks = _resolve_picks({"picks": all_raw_picks}, content_model, requested_slide_count)
+
+    if not resolved_picks:
+        raise HLDQBRGenericPlanningError("No slides could be planned from the extracted content.")
+
+    if requested_slide_count and len(resolved_picks) < requested_slide_count:
+        logger.warning(
+            "Source document has only enough content for %d slides (requested %d); proceeding with available grounded slides.",
+            len(resolved_picks), requested_slide_count,
         )
 
     filled_by_id = _run_fill_stage(key_manager, content_model, resolved_picks)
 
     slides: List[SlideAssignment] = []
+    successful_picks: List[Dict[str, Any]] = []
     for pick in resolved_picks:
         assignment = _build_slide_assignment(pick, filled_by_id.get(pick["fill_key"]))
         if assignment is not None:
             slides.append(assignment)
+            successful_picks.append(pick)
 
     # A pick can survive the outline stage but still come back empty from content-fill
-    # (e.g. the LLM couldn't write real content for it). Same gap-fill principle as
-    # above: try once more for just the shortfall before giving up, excluding every
-    # slide_id already used (whether it produced a slide or not, to avoid retrying
-    # the same unproductive structural match).
-    if requested_slide_count and len(slides) < requested_slide_count:
+    # (e.g. the LLM couldn't write real content for it). Run a converging multi-attempt
+    # gap-fill loop, excluding unproductive layouts and retrying until the requested count is met.
+    post_fill_attempt = 0
+    MAX_POST_FILL_ATTEMPTS = 3
+    chart_fill_failed = any(
+        (get_entry(p["slide_id"]) or {}).get("has_chart") and p["fill_key"] not in {sp["fill_key"] for sp in successful_picks}
+        for p in resolved_picks
+    )
+
+    while (
+        requested_slide_count
+        and len(slides) < requested_slide_count
+        and post_fill_attempt < MAX_POST_FILL_ATTEMPTS
+    ):
+        post_fill_attempt += 1
         gap = requested_slide_count - len(slides)
-        used_slide_ids = [p["slide_id"] for p in resolved_picks]
+        used_slide_ids = [p["slide_id"] for p in successful_picks]
+        # Also exclude failed non-repeatable picks so we don't repeat the exact same unproductive match
+        used_slide_ids += [
+            p["slide_id"] for p in resolved_picks
+            if p["fill_key"] not in {sp["fill_key"] for sp in successful_picks}
+        ]
+        # If chart layouts failed content fill, the document lacks multi-category chart data:
+        # exclude ALL chart layouts so the AI picks from the 14 available text and card layouts.
+        if chart_fill_failed:
+            used_slide_ids += [e["slide_id"] for e in load_catalog() if e.get("has_chart")]
+
+        used_content_ids = {cid for s in slides for cid in s.content_item_ids}
+        remaining_cids = [cid for cid in content_model.ids() if cid not in used_content_ids]
+        used_slide_ids = list(set(used_slide_ids))
         logger.warning(
-            "Content-fill produced %d of %d requested slides; running one gap-fill pass for the "
-            "remaining %d slide(s).",
-            len(slides), requested_slide_count, gap,
+            "Content-fill produced %d of %d requested slides; running gap-fill pass %d for the "
+            "remaining %d slide(s) (excluding %d slide_ids).",
+            len(slides), requested_slide_count, post_fill_attempt, gap, len(used_slide_ids),
         )
-        gap_outline = _run_outline_stage(client, content_model, gap, exclude_slide_ids=used_slide_ids)
-        all_raw_picks.extend(gap_outline.get("picks") or [])
-        gap_resolved = _resolve_picks({"picks": all_raw_picks}, content_model, requested_slide_count)
-        new_picks = [p for p in gap_resolved if p["fill_key"] not in {pk["fill_key"] for pk in resolved_picks}]
+        gap_outline = _run_outline_stage(
+            client, content_model, gap,
+            exclude_slide_ids=used_slide_ids,
+            unassigned_content_item_ids=remaining_cids,
+        )
+        gap_raw_picks = list(gap_outline.get("picks") or [])
+        all_raw_picks.extend(gap_raw_picks)
+        gap_resolved = _resolve_picks({"picks": successful_picks + gap_raw_picks}, content_model, requested_slide_count)
+        new_picks = [p for p in gap_resolved if p["fill_key"] not in {pk["fill_key"] for pk in successful_picks}]
         if new_picks:
             gap_filled_by_id = _run_fill_stage(key_manager, content_model, new_picks)
             for pick in new_picks:
                 assignment = _build_slide_assignment(pick, gap_filled_by_id.get(pick["fill_key"]))
                 if assignment is not None:
                     slides.append(assignment)
-            resolved_picks = gap_resolved
+                    successful_picks.append(pick)
+            resolved_picks = successful_picks
 
     if requested_slide_count and len(slides) < requested_slide_count:
-        raise HLDQBRGenericPlanningError(
-            f"Only {len(slides)} of {requested_slide_count} requested slides received source-backed content."
+        used_content_ids = {cid for s in slides for cid in s.content_item_ids}
+        remaining_content_ids = [cid for cid in content_model.ids() if cid not in used_content_ids]
+        used_sids = {s.slide_id for s in slides}
+        fallback_candidates = [
+            e["slide_id"] for e in load_catalog()
+            if not e.get("has_chart") and not e.get("has_table") and e["slide_id"] not in STRUCTURAL_ONLY_SLIDE_IDS and e["slide_id"] not in used_sids
+        ]
+
+        while len(slides) < requested_slide_count and remaining_content_ids and fallback_candidates:
+            fallback_sid = fallback_candidates.pop(0)
+            batch_cids = remaining_content_ids[:3]
+            remaining_content_ids = remaining_content_ids[3:]
+            fallback_pick = {
+                "slide_id": fallback_sid,
+                "content_item_ids": batch_cids,
+                "fill_key": fallback_sid,
+            }
+            logger.info("Attempting emergency fallback slide %s with unassigned items %s", fallback_sid, batch_cids)
+            fallback_filled = _run_fill_stage(key_manager, content_model, [fallback_pick])
+            assignment = _build_slide_assignment(fallback_pick, fallback_filled.get(fallback_sid))
+            if assignment is not None:
+                slides.append(assignment)
+                successful_picks.append(fallback_pick)
+
+    # Deliver graceful presentation instead of crashing if document content is genuinely exhausted
+    if requested_slide_count and len(slides) < requested_slide_count:
+        logger.warning(
+            "Source document has insufficient content for %d requested slides; delivering %d complete, fully-grounded slides.",
+            requested_slide_count, len(slides),
         )
+
     if not slides:
         raise HLDQBRGenericPlanningError("No slides could be planned from the extracted content.")
+
+    raw_agenda_topics = outline_meta.get("agenda_topics") or []
+    agenda_topics = _synthesize_agenda_topics(raw_agenda_topics, content_model, slides)
 
     plan = GenericHLDQBRPlan(
         presentation_title=outline_meta.get("presentation_title") or content_model.content_items[0].text,
         facility_name=outline_meta.get("facility_name") or "",
         date=outline_meta.get("date") or "",
+        agenda_topics=agenda_topics,
         slides=slides,
     )
     used_content_ids = {cid for s in slides for cid in s.content_item_ids}
