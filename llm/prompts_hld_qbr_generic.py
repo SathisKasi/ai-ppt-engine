@@ -26,6 +26,9 @@ You assemble a slide outline for a fixed PowerPoint template.
 Select WHICH template slide_ids to use and assign extracted content item IDs to each.
 Match content by STRUCTURE (tables need tabular data, repeat-groups need parallel items, charts need numeric series).
 Every selected slide must cite valid content_item_ids from the source.
+Each slide_id is single-use for one deck, EXCEPT slide_ids marked "repeatable": true (table/chart slides) —
+those may be picked more than once if the source has multiple distinct tabular/numeric datasets, one per slide.
+The TOTAL number of picks (including repeats) must still equal the requested slide count exactly.
 """
 
 HLD_QBR_OUTLINE_PROMPT = """\
@@ -41,11 +44,15 @@ ALWAYS-INCLUDED SLIDES (handled separately, do NOT pick these):
 REQUESTED CONTENT SLIDES: {requested_slide_count}
 
 INSTRUCTIONS:
-1. Choose {requested_slide_count} slide_ids from the catalog above (excluding always-included slides).
+1. Choose slide_ids from the catalog above (excluding always-included slides) so the TOTAL number of
+   picks (including any repeats) equals {requested_slide_count} exactly.
 2. Cover distinct topics from the content model. Match content to layout structure (table, chart, repeat cards, text boxes).
 3. Assign matching content_item_ids to each slide. Use only IDs present in the content model. Never leave content_item_ids empty.
 4. For repeat-groups (max_items > 1), assign enough distinct content items to utilize the layout capacity.
-5. Provide presentation_title, facility_name (if mentioned, else ""), and date (if mentioned, else "").
+5. Every slide_id may be picked only ONCE, EXCEPT a slide_id marked "repeatable": true — pick that one
+   again (once per extra pick) only if the source document has another distinct table/chart-worthy dataset
+   for it. Never repeat a non-repeatable slide_id.
+6. Provide presentation_title, facility_name (if mentioned, else ""), and date (if mentioned, else "").
 
 Return ONLY valid JSON:
 {{

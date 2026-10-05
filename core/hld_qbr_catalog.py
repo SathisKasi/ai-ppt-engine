@@ -90,6 +90,13 @@ def compact_catalog_for_outline() -> List[Dict[str, Any]]:
                 "series": cs.get("series_count"),
             }
 
+        # Table/chart slides may be picked more than once (one per distinct
+        # tabular/numeric dataset in the source) — every other slide_id is
+        # still single-use. Flag explicitly so the outline prompt doesn't
+        # have to infer this from the presence of "table"/"chart" alone.
+        if entry.get("has_table") or entry.get("has_chart"):
+            item["repeatable"] = True
+
         # Repeat groups (cards, badges, multi-column items)
         if entry.get("repeat_groups"):
             item["repeats"] = [

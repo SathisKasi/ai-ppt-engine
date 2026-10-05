@@ -149,19 +149,32 @@ def _resolve_picks(
     content_model: ContentModel,
     requested_slide_count: Optional[int],
 ) -> List[Dict[str, Any]]:
+    """Resolves raw outline picks into grounded, deck-ready picks.
+    Every slide_id is single-use EXCEPT table/chart-capable ones (catalog
+    "has_table"/"has_chart"), which may repeat — one slide per distinct
+    tabular/numeric dataset in the source. Each pick gets a unique
+    "fill_key" (slide_id, or slide_id__2/__3... for repeats) so the content
+    -fill stage never conflates two instances of the same slide_id."""
     catalog_ids = {e["slide_id"] for e in load_catalog()}
     source_ids = content_model.ids()
     seen: set = set()
+    occurrence_count: Dict[str, int] = {}
     resolved: List[Dict[str, Any]] = []
     for pick in outline["picks"]:
         sid = pick["slide_id"]
-        if sid not in catalog_ids or sid in STRUCTURAL_ONLY_SLIDE_IDS or sid in seen:
+        if sid not in catalog_ids or sid in STRUCTURAL_ONLY_SLIDE_IDS:
+            continue
+        entry = get_entry(sid)
+        repeatable = bool(entry and (entry.get("has_table") or entry.get("has_chart")))
+        if sid in seen and not repeatable:
             continue
         grounded_ids = [content_id for content_id in pick["content_item_ids"] if content_id in source_ids]
         if not grounded_ids:
             continue
         seen.add(sid)
-        resolved.append({"slide_id": sid, "content_item_ids": grounded_ids})
+        occurrence_count[sid] = occurrence_count.get(sid, 0) + 1
+        fill_key = sid if occurrence_count[sid] == 1 else f"{sid}__{occurrence_count[sid]}"
+        resolved.append({"slide_id": sid, "content_item_ids": grounded_ids, "fill_key": fill_key})
 
     if requested_slide_count:
         resolved = resolved[:requested_slide_count]
@@ -176,7 +189,7 @@ def _run_fill_stage(
 ) -> Dict[str, Dict[str, Any]]:
     items_by_id = {item.id: item for item in content_model.content_items}
     fill_payload = []
-    reverse_alias_by_slide_id: Dict[str, Dict[str, str]] = {}
+    reverse_alias_by_fill_key: Dict[str, Dict[str, str]] = {}
     for pick in resolved_picks:
         entry = get_entry(pick["slide_id"])
         if entry is None:
@@ -185,16 +198,20 @@ def _run_fill_stage(
             items_by_id[i].model_dump() for i in pick["content_item_ids"] if i in items_by_id
         ]
         alias_map = _build_slot_alias_map(entry)
-        reverse_alias_by_slide_id[entry["slide_id"]] = {v: k for k, v in alias_map.items()}
+        fill_key = pick["fill_key"]
+        reverse_alias_by_fill_key[fill_key] = {v: k for k, v in alias_map.items()}
         payload = _slim_entry_for_fill(entry, alias_map)
+        # Overridden with the unique fill_key (not the raw catalog slide_id) so a
+        # repeated table/chart slide_id's two fill calls never collide in filled_by_id.
+        payload["slide_id"] = fill_key
         payload["assigned_content_items"] = assigned
         fill_payload.append(payload)
 
     def _store_filled(slide_data: Dict[str, Any]) -> None:
-        sid = slide_data.get("slide_id")
-        if not sid:
+        fill_key = slide_data.get("slide_id")
+        if not fill_key:
             return
-        reverse_map = reverse_alias_by_slide_id.get(sid, {})
+        reverse_map = reverse_alias_by_fill_key.get(fill_key, {})
         slot_values = slide_data.get("slot_values")
         if isinstance(slot_values, dict):
             slide_data["slot_values"] = {
@@ -202,7 +219,8 @@ def _run_fill_stage(
                 for alias, value in slot_values.items()
                 if value is not None and str(value).strip()
             }
-        filled_by_id[sid] = slide_data
+        filled_by_id[fill_key] = slide_data
+
 
     filled_by_id: Dict[str, Dict[str, Any]] = {}
     for start in range(0, len(fill_payload), FILL_BATCH_SIZE):
@@ -243,6 +261,7 @@ def _run_fill_stage(
                 logger.warning("Content-fill retry failed for %d slide(s): %s", len(batch), e)
 
     return filled_by_id
+
 
 
 def _build_slide_assignment(pick: Dict[str, Any], filled: Optional[Dict[str, Any]]) -> Optional[SlideAssignment]:
@@ -345,7 +364,7 @@ def plan_hld_qbr_presentation_generic(
 
     slides: List[SlideAssignment] = []
     for pick in resolved_picks:
-        assignment = _build_slide_assignment(pick, filled_by_id.get(pick["slide_id"]))
+        assignment = _build_slide_assignment(pick, filled_by_id.get(pick["fill_key"]))
         if assignment is not None:
             slides.append(assignment)
 
