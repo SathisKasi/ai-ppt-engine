@@ -13,14 +13,18 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 # ---------------------------------------------------------------------------
-# Load .env file (no-op when not present, e.g. in production)
+# Project paths (computed first so .env loading is anchored here, not to the
+# process's current working directory — a nested/duplicated clone or running
+# `streamlit run` from a different folder would otherwise silently load the
+# wrong .env, or none at all, with LLM_PROVIDER/keys falling back to defaults).
+# override=True: a leftover OS/shell-level env var (e.g. a stale
+# `$env:LLM_PROVIDER="groq"` from an earlier session, or a persisted Windows
+# User/System variable) otherwise silently wins over .env with ZERO warning,
+# since load_dotenv() defaults to never overriding existing environment vars.
 # ---------------------------------------------------------------------------
-load_dotenv()
+PROJECT_ROOT = Path(__file__).resolve().parent
+load_dotenv(PROJECT_ROOT / ".env", override=True)
 
-# ---------------------------------------------------------------------------
-# Project paths
-# ---------------------------------------------------------------------------
-PROJECT_ROOT = Path(__file__).parent
 TEMPLATES_DIR = PROJECT_ROOT / "templates"
 OUTPUT_DIR = PROJECT_ROOT / os.getenv("OUTPUT_DIR", "output")
 TEMPLATE_FILE = TEMPLATES_DIR / "presentation_template.pptx"

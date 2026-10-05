@@ -29,6 +29,7 @@ def extract_content_model(
     client: GroqClient,
     source_text: str,
     max_source_chars: int = 4500,
+    max_tokens: int = 4096,
 ) -> ContentModel:
     """Best-effort extraction: on any LLM/parse failure, returns an empty ContentModel
     rather than raising, so the presentation planner can always fall back to reading
@@ -42,7 +43,12 @@ def extract_content_model(
     ]
 
     try:
-        raw_data = client.chat_complete_json(messages=messages, temperature=0.2, max_tokens=1536)
+        # A chunk's full atomic-fact + topic extraction can easily exceed a
+        # small completion budget on dense source text — a response cut off
+        # mid-JSON always fails to parse, and the retry loop re-sends a
+        # GROWING correction prompt at this SAME max_tokens, so a too-small
+        # budget here fails identically on every retry rather than recovering.
+        raw_data = client.chat_complete_json(messages=messages, temperature=0.2, max_tokens=max_tokens)
         model = ContentModel.model_validate(raw_data)
     except (JSONParseError, ValidationError) as e:
         logger.warning("Content model extraction failed, continuing without it: %s", e)
