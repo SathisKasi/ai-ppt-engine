@@ -45,7 +45,7 @@ from utils.text_utils import truncate_text
 
 logger = get_logger(__name__)
 
-FILL_BATCH_SIZE = 7
+FILL_BATCH_SIZE = 1  # One slide per LLM call: avoids token competition and ensures all slots are filled
 
 
 class HLDQBRGenericPlanningError(Exception):
@@ -118,9 +118,10 @@ def _run_outline_stage(
     # A large document (many chunks, now also carrying topics) can produce a
     # content model whose full JSON alone exceeds a restrictive Groq org's
     # tokens-per-minute cap in ONE request (seen in practice: an 8,000 TPM
-    # tier rejects the call outright, it isn't throttled/retried). Capped the
-    # same way the legacy HLD QBR planner already caps raw source text.
-    content_model_json = truncate_text(content_model.compact_json(), max_chars=9000)
+    # tier rejects the call outright, it isn't throttled/retried).
+    # compact_for_outline formats topics first, trims atomic items, and ensures
+    # syntactically valid JSON well below restrictive TPM limits.
+    content_model_json = content_model.compact_for_outline(max_chars=9000)
     prompt = build_hld_qbr_outline_prompt(
         compact_catalog=compact_catalog,
         content_model_json=content_model_json,
@@ -131,7 +132,7 @@ def _run_outline_stage(
         {"role": "system", "content": SYSTEM_ROLE_HLD_QBR_OUTLINE},
         {"role": "user", "content": prompt},
     ]
-    raw = client.chat_complete_json(messages=messages, temperature=0.3, max_tokens=2000)
+    raw = client.chat_complete_json(messages=messages, temperature=0.3, max_tokens=1000)
     return parse_outline_response(raw)
 
 
@@ -203,7 +204,7 @@ def _run_fill_stage(
         ]
         client = key_manager.get_client()
         try:
-            raw = client.chat_complete_json(messages=messages, temperature=0.3, max_tokens=3800)
+            raw = client.chat_complete_json(messages=messages, temperature=0.3, max_tokens=2400)
         except Exception as e:
             logger.warning("Content-fill batch failed (%d slides), skipping batch: %s", len(batch), e)
             continue
@@ -215,19 +216,21 @@ def _run_fill_stage(
     ]
     if missing_payload:
         logger.warning("Retrying content fill for %d omitted slide(s).", len(missing_payload))
-        prompt = build_hld_qbr_fill_prompt(slides_payload=missing_payload)
-        messages = [
-            {"role": "system", "content": SYSTEM_ROLE_HLD_QBR_FILL},
-            {"role": "user", "content": prompt},
-        ]
-        try:
-            raw = key_manager.get_client().chat_complete_json(
-                messages=messages, temperature=0.2, max_tokens=3800
-            )
-            for slide_data in raw.get("slides", []) if isinstance(raw, dict) else []:
-                _store_filled(slide_data)
-        except Exception as e:
-            logger.warning("Content-fill retry failed for %d slide(s): %s", len(missing_payload), e)
+        for start in range(0, len(missing_payload), FILL_BATCH_SIZE):
+            batch = missing_payload[start:start + FILL_BATCH_SIZE]
+            prompt = build_hld_qbr_fill_prompt(slides_payload=batch)
+            messages = [
+                {"role": "system", "content": SYSTEM_ROLE_HLD_QBR_FILL},
+                {"role": "user", "content": prompt},
+            ]
+            try:
+                raw = key_manager.get_client().chat_complete_json(
+                    messages=messages, temperature=0.2, max_tokens=2400
+                )
+                for slide_data in raw.get("slides", []) if isinstance(raw, dict) else []:
+                    _store_filled(slide_data)
+            except Exception as e:
+                logger.warning("Content-fill retry failed for %d slide(s): %s", len(batch), e)
 
     return filled_by_id
 

@@ -24,6 +24,7 @@ from pptx import Presentation
 from pptx.chart.data import CategoryChartData
 from pptx.dml.color import RGBColor
 from pptx.enum.chart import XL_LEGEND_POSITION
+from pptx.enum.text import MSO_ANCHOR, PP_ALIGN
 from pptx.oxml.ns import qn
 from pptx.util import Pt
 
@@ -91,40 +92,73 @@ def _remove_unfilled_charts(slide: Any, assignment: Optional[SlideAssignment]) -
 
 def _set_text_generic(shape: Any, text: str, kind: str, sample_max_chars: Optional[int]) -> None:
     """Sets text generically, auto-scaling font size down a step when the new
-    text is noticeably longer than what the slot was sized for. Multi-line
-    text (e.g. a quote + attribution sharing one shape, as "\\n\\n"-separated
-    lines) is distributed across the shape's EXISTING paragraphs positionally,
-    preserving each paragraph's own formatting, instead of only ever touching
-    paragraph 0 — generalizes to any multi-paragraph sample shape."""
+    text is noticeably longer than what the slot was sized for. Cleans up unused
+    template paragraphs so extra blank runs do not break vertical centering."""
+    if not getattr(shape, "has_text_frame", False):
+        return
     tf = shape.text_frame
     if not tf.paragraphs:
         return
+    is_title = kind in ("placeholder_title", "empty_title_box")
     base_pt = _DEFAULT_FONT_PT.get(kind, 12)
     if sample_max_chars and len(text) > sample_max_chars:
         base_pt = max(8, base_pt - 2)
 
-    lines = text.split("\n")
+    lines = [line.strip() for line in text.split("\n") if line.strip()]
+    if not lines:
+        lines = [""]
+
+    tf.word_wrap = True
+    if kind == "auto_shape":
+        tf.vertical_anchor = MSO_ANCHOR.MIDDLE
+        tf.margin_left = Pt(6)
+        tf.margin_right = Pt(6)
+        tf.margin_top = Pt(4)
+        tf.margin_bottom = Pt(4)
+
     existing_paras = list(tf.paragraphs)
 
-    for i, para in enumerate(existing_paras):
-        line = lines[i] if i < len(lines) else ""
+    for i in range(min(len(lines), len(existing_paras))):
+        para = existing_paras[i]
+        line = lines[i]
         if para.runs:
             existing_size = para.runs[0].font.size
             para.runs[0].text = line
             for r in para.runs[1:]:
                 r.text = ""
-            if existing_size is None and line:
+            if sample_max_chars and len(text) > sample_max_chars:
+                cur_pt = existing_size.pt if existing_size else base_pt
+                para.runs[0].font.size = Pt(max(8, cur_pt - 2))
+            elif existing_size is None and line:
                 para.runs[0].font.size = Pt(base_pt)
-        elif line:
+            if not is_title:
+                para.runs[0].font.bold = False
+        else:
             run = para.add_run()
             run.text = line
             run.font.size = Pt(base_pt)
+            if not is_title:
+                run.font.bold = False
 
-    for extra_line in lines[len(existing_paras):]:
-        p = tf.add_paragraph()
-        run = p.add_run()
-        run.text = extra_line
-        run.font.size = Pt(base_pt)
+    if len(lines) > len(existing_paras):
+        sample_run = existing_paras[0].runs[0] if existing_paras and existing_paras[0].runs else None
+        for extra_line in lines[len(existing_paras):]:
+            p = tf.add_paragraph()
+            run = p.add_run()
+            run.text = extra_line
+            run.font.size = Pt(base_pt)
+            if sample_run:
+                if sample_run.font.name:
+                    run.font.name = sample_run.font.name
+                run.font.bold = is_title
+            else:
+                run.font.bold = is_title
+    elif len(existing_paras) > len(lines):
+        for extra_p in existing_paras[max(1, len(lines)):]:
+            try:
+                extra_p._p.getparent().remove(extra_p._p)
+            except Exception:
+                pass
 
 
 def _render_simple_slots(slide: Any, entry: Dict[str, Any], assignment: SlideAssignment) -> None:
@@ -164,7 +198,13 @@ def _render_auto_numbers(slide: Any, entry: Dict[str, Any], filled_count: int) -
                 pass
 
 
-def _render_repeat_groups(slide: Any, entry: Dict[str, Any], assignment: SlideAssignment) -> None:
+def _render_repeat_groups(
+    slide: Any,
+    entry: Dict[str, Any],
+    assignment: SlideAssignment,
+    group_text_children_map: Optional[Dict[int, List[int]]] = None,
+) -> None:
+    group_map = group_text_children_map or {}
     for rg in entry["repeat_groups"]:
         member_ids = rg["member_shape_ids"]
         items = assignment.repeat_items[: len(member_ids)]
@@ -179,14 +219,32 @@ def _render_repeat_groups(slide: Any, entry: Dict[str, Any], assignment: SlideAs
                     pass
                 continue
             item_values = items[i]
-            text_children = sorted(
-                (s for s in member.shapes if getattr(s, "has_text_frame", False)),
-                key=lambda s: (round(s.top / 914400, 2), s.left),
-            )
+            target_child_ids = group_map.get(shape_id)
+            if target_child_ids:
+                child_by_id = {c.shape_id: c for c in member.shapes}
+                text_children = [child_by_id[cid] for cid in target_child_ids if cid in child_by_id]
+            else:
+                # Fallback: filter out non-text shapes (Oval icons, Freeform graphics, lines)
+                candidate_children = [
+                    s for s in member.shapes
+                    if getattr(s, "has_text_frame", False)
+                    and getattr(s, "shape_type", None) not in (5, 9)
+                    and not getattr(s, "name", "").lower().startswith("oval")
+                    and not getattr(s, "name", "").lower().startswith("freeform")
+                ]
+                text_children = sorted(
+                    candidate_children,
+                    key=lambda s: (round(s.top / 914400, 2), s.left),
+                )
             for slot_def, child in zip(rg["item_slots"], text_children):
                 value = item_values.get(slot_def["slot_id"])
                 if value:
-                    _set_text_generic(child, value, "auto_shape", slot_def.get("max_chars"))
+                    is_title = (slot_def["slot_id"] == "item_slot_1")
+                    kind = "placeholder_title" if is_title else "auto_shape"
+                    _set_text_generic(child, value, kind, slot_def.get("max_chars"))
+                    if is_title and getattr(child, "has_text_frame", False):
+                        if child.text_frame.paragraphs and child.text_frame.paragraphs[0].runs:
+                            child.text_frame.paragraphs[0].runs[0].font.bold = True
 
 
 def _render_table(slide: Any, entry: Dict[str, Any], assignment: SlideAssignment) -> None:
@@ -200,7 +258,15 @@ def _render_table(slide: Any, entry: Dict[str, Any], assignment: SlideAssignment
     headers = assignment.table_headers or []
     for c_idx, header in enumerate(headers):
         if c_idx < len(tbl.columns):
-            tbl.cell(0, c_idx).text = str(header)
+            cell = tbl.cell(0, c_idx)
+            cell.text = str(header)
+            cell.vertical_anchor = MSO_ANCHOR.MIDDLE
+            for p in cell.text_frame.paragraphs:
+                for r in p.runs:
+                    r.font.name = "Verdana"
+                    r.font.size = Pt(11.0)
+                    r.font.bold = True
+                    r.font.color.rgb = TEXT_COLOR
     _fill_table_rows(tbl, assignment.table_rows, start_row=1, prune_unused_rows=False, text_color=TEXT_COLOR)
 
 
@@ -239,6 +305,18 @@ def _render_content_slide(prs: Presentation, assignment: SlideAssignment) -> Non
     slide = _clone_slide(prs, entry["source_slide_index"])
     _strip_guidance_shapes(slide)
     _strip_decorative_connectors(slide)
+
+    # Capture group text-bearing children BEFORE clearing text so decorative icons/freeforms are ignored
+    group_text_children_map: Dict[int, List[int]] = {}
+    for shape in slide.shapes:
+        if getattr(shape, "shape_type", None) == 6:  # GROUP
+            valid_children = [
+                c for c in shape.shapes
+                if getattr(c, "has_text_frame", False) and c.text_frame.text.strip()
+            ]
+            valid_children.sort(key=lambda c: (round(c.top / 914400, 2), c.left))
+            group_text_children_map[shape.shape_id] = [c.shape_id for c in valid_children]
+
     _clear_template_text(slide.shapes)
     _remove_unfilled_charts(slide, assignment)
 
@@ -254,7 +332,7 @@ def _render_content_slide(prs: Presentation, assignment: SlideAssignment) -> Non
     _render_simple_slots(slide, entry, assignment)
     filled_simple_count = sum(1 for v in assignment.slot_values.values() if v)
     _render_auto_numbers(slide, entry, filled_simple_count)
-    _render_repeat_groups(slide, entry, assignment)
+    _render_repeat_groups(slide, entry, assignment, group_text_children_map)
     _render_table(slide, entry, assignment)
     _render_chart(slide, entry, assignment)
 
@@ -288,24 +366,46 @@ def _render_agenda(prs: Presentation, agenda_title: str, content_titles: List[st
     if title_slot is not None:
         title_shape = _shape_by_id(slide, title_slot["shape_id"])
         if title_shape is not None and title_shape.has_text_frame:
-            _set_text_generic(title_shape, agenda_title, title_slot["kind"], title_slot.get("max_chars"))
+            display_title = "AGENDA" if not agenda_title or agenda_title.lower() in ("agenda", "today's discussion") else agenda_title.upper()
+            _set_text_generic(title_shape, display_title, "placeholder_title", 40)
     shape = _shape_by_id(slide, topics_slot["shape_id"])
     if shape is not None and shape.has_text_frame and content_titles:
-        joined = "\n".join(content_titles)
-        max_chars = topics_slot.get("max_chars") or 250
-        while len(joined) > max_chars and len(content_titles) > 1:
-            content_titles = content_titles[:-1]
-            joined = "\n".join(content_titles)
         tf = shape.text_frame
-        p0 = tf.paragraphs[0]
-        lines = joined.split("\n")
-        if p0.runs:
-            p0.runs[0].text = lines[0]
-            for r in p0.runs[1:]:
-                r.text = ""
-        for extra_line in lines[1:]:
-            p = tf.add_paragraph()
-            p.text = extra_line
+        lines = [t.strip() for t in content_titles if t.strip()]
+        existing_paras = list(tf.paragraphs)
+
+        # 1. Populate matching existing paragraphs cleanly
+        for i in range(min(len(lines), len(existing_paras))):
+            para = existing_paras[i]
+            if para.runs:
+                para.runs[0].text = lines[i]
+                for r in para.runs[1:]:
+                    r.text = ""
+            else:
+                para.add_run().text = lines[i]
+            para.line_spacing = 1.8
+
+        # 2. Add extra paragraphs if more lines than template
+        if len(lines) > len(existing_paras):
+            sample_run = existing_paras[0].runs[0] if existing_paras and existing_paras[0].runs else None
+            for extra_line in lines[len(existing_paras):]:
+                p = tf.add_paragraph()
+                p.line_spacing = 1.8
+                run = p.add_run()
+                run.text = extra_line
+                if sample_run:
+                    if sample_run.font.name:
+                        run.font.name = sample_run.font.name
+                    if sample_run.font.size:
+                        run.font.size = sample_run.font.size
+
+        # 3. Remove excess template paragraphs so no 6-line blank gaps exist
+        elif len(existing_paras) > len(lines):
+            for extra_p in existing_paras[max(1, len(lines)):]:
+                try:
+                    extra_p._p.getparent().remove(extra_p._p)
+                except Exception:
+                    pass
 
 
 # Brand tagline + legal footer on the closing slide — required verbatim

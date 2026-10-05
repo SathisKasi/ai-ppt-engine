@@ -22,57 +22,30 @@ import json
 from typing import Any, Dict, List, Optional
 
 SYSTEM_ROLE_HLD_QBR_OUTLINE = """\
-You are assembling a slide outline for an existing, fixed PowerPoint template.
-You cannot create new slide designs — you only decide WHICH of the template's
-existing slide capabilities to use and WHAT already-extracted content feeds each
-one. Match content to a slide by its STRUCTURE (a table needs tabular data, a
-repeat-group with N max items needs content with at most N parallel entries,
-a chart needs a numeric series) — never by whether the document uses the same
-words as anything about the slide. Every selected slide must have one or more
-source content item ids that can produce visible, source-grounded text.
+You assemble a slide outline for a fixed PowerPoint template.
+Select WHICH template slide_ids to use and assign extracted content item IDs to each.
+Match content by STRUCTURE (tables need tabular data, repeat-groups need parallel items, charts need numeric series).
+Every selected slide must cite valid content_item_ids from the source.
 """
 
 HLD_QBR_OUTLINE_PROMPT = """\
-LAYOUT CAPABILITY CATALOG (structural only — slide_id, slot kinds/maxChars,
-table/chart schema, repeat-group max item counts; no topic names):
+LAYOUT CAPABILITIES:
 {compact_catalog_json}
 
-EXTRACTED CONTENT MODEL (everything genuinely found in the source document —
-atomic items with an id, type, text, attributes, and source_reference, plus
-the document's own higher-level "topics" grouping related items together;
-this is the ONLY content you may reference):
+CONTENT MODEL:
 {content_model_json}
 
-These slide_ids are always included regardless of your picks (structural
-slides — cover/agenda/closing — handled separately, do not pick them here):
+ALWAYS-INCLUDED SLIDES (handled separately, do NOT pick these):
 {always_include_slide_ids}
 
-Requested number of CONTENT slides: {requested_slide_count}
+REQUESTED CONTENT SLIDES: {requested_slide_count}
 
-Task: choose exactly {requested_slide_count} slide_ids when a requested count
-is supplied (otherwise choose only the useful slides). Select from the catalog
-above, excluding the always-included ones. Use the content model's "topics"
-as a map of the document's real structure — aim to cover the document's
-distinct topics rather than drilling repeatedly into one topic while others
-go unrepresented, unless a topic genuinely lacks any structurally-fitting
-slide. Every pick must have genuinely
-fitting content, and
-for each, list the content_item ids (from the content model above) that will
-feed it. Prefer slides where the structural fit is strong. Do not invent a
-content_item id that isn't in the content model above. Do not pick the same
-content_item id for more than one slide unless the slide's repeat-group
-structure genuinely calls for reusing a broader theme across sub-items. Never
-return an empty content_item_ids list. When more layouts are needed, use a
-less specialized text/card layout that can faithfully present a distinct
-source item; do not leave a selected layout blank. When a slide has a
-repeat-group with max_items > 1, assign enough DISTINCT content items to fill
-as many of those item slots as the content model genuinely supports — a
-repeat-group left at 1 of 3 items wastes that slide's layout capacity;
-only under-fill it when the source truly doesn't have enough distinct items.
-
-Also provide: a concise presentation_title, a facility_name if the source
-names a specific site/location, and a date if the source states one
-(otherwise leave facility_name/date as empty strings).
+INSTRUCTIONS:
+1. Choose {requested_slide_count} slide_ids from the catalog above (excluding always-included slides).
+2. Cover distinct topics from the content model. Match content to layout structure (table, chart, repeat cards, text boxes).
+3. Assign matching content_item_ids to each slide. Use only IDs present in the content model. Never leave content_item_ids empty.
+4. For repeat-groups (max_items > 1), assign enough distinct content items to utilize the layout capacity.
+5. Provide presentation_title, facility_name (if mentioned, else ""), and date (if mentioned, else "").
 
 Return ONLY valid JSON:
 {{
@@ -80,7 +53,7 @@ Return ONLY valid JSON:
   "facility_name": "...",
   "date": "...",
   "picks": [
-    {{"slide_id": "...", "content_item_ids": ["C001", "C004"]}}
+    {{"slide_id": "slide_XX", "content_item_ids": ["C001", "C002"]}}
   ]
 }}
 """
@@ -93,11 +66,12 @@ def build_hld_qbr_outline_prompt(
     always_include_slide_ids: List[str],
     requested_slide_count: Optional[int],
 ) -> str:
+    count_str = f"exactly {requested_slide_count}" if requested_slide_count else "useful slides at AI discretion"
     return HLD_QBR_OUTLINE_PROMPT.format(
-        compact_catalog_json=json.dumps(compact_catalog, ensure_ascii=False),
+        compact_catalog_json=json.dumps(compact_catalog, separators=(',', ':'), ensure_ascii=False),
         content_model_json=content_model_json,
-        always_include_slide_ids=json.dumps(always_include_slide_ids),
-        requested_slide_count=requested_slide_count if requested_slide_count else "AI's discretion",
+        always_include_slide_ids=json.dumps(always_include_slide_ids, separators=(',', ':')),
+        requested_slide_count=count_str,
     )
 
 
@@ -123,62 +97,56 @@ def parse_outline_response(data: Dict[str, Any]) -> Dict[str, Any]:
 # ---------------------------------------------------------------------------
 
 SYSTEM_ROLE_HLD_QBR_FILL = """\
-You write the actual slide text for a batch of already-chosen template slides.
-You may ONLY use facts from the content items you are given for each slide —
-never invent names, metrics, dates, or claims. Use the FULL space available:
-write substantive, specific sentences that approach each slot's max_chars
-budget rather than terse fragments, and fill every simple text slot, table
-row/column, and repeat-group item slot your assigned content can genuinely
-support — a slide with empty slots wastes the layout. Never exceed a
-max_chars limit or a repeat-group's max item count (fewer items than the max
-is fine ONLY when the assigned content genuinely doesn't support more).
+You write slide text for a batch of already-chosen PowerPoint template slides.
+Rules:
+- Use ONLY the assigned content items for each slide — never invent facts, names, metrics, or dates.
+- FILL EVERY SLOT. Each "slot_id" in the slides payload is a separate visible text box that MUST receive text.
+  A slide with empty slots is broken output. Map one content item (or part of one) per slot.
+- For slides with many slots (e.g. slot_2 through slot_11), treat each as an independent bullet/card.
+  Distribute the assigned content items across ALL the slots — do not cluster everything in slot_1 and slot_2.
+- For repeat_groups: produce one object per content item, up to max_items. Never return an empty repeat_items list
+  when there are assigned content items.
+- Copy each slot_id back EXACTLY as given (e.g. "slot_3") — a single wrong character silently drops that slot.
+- Respect each slot's max_chars. Write substantive phrases, not terse fragments.
 """
 
 HLD_QBR_FILL_PROMPT = """\
-For EACH slide below, write its content using ONLY the content items listed
-for that slide. The slide payload deliberately contains structural constraints
-only; every returned visible string, including titles, agenda labels, table
-headers, chart labels, and values, must be derived from those content items.
-Never invent or reuse template sample/placeholder wording. Each slot's
-"slot_id" is a short token like "slot_1", "slot_2" — copy it back EXACTLY as
-given, character for character; a slot whose id doesn't match verbatim is
-silently dropped at render time.
+Fill the slides below using ONLY the assigned content items.
+Each slot_id in the "slots" array is a separate text box that MUST receive a non-empty value.
+Never leave a slot empty if any assigned content can fill it.
+
+KEY RULES:
+1. DISTRIBUTE content items across slots — one distinct item (or fact) per slot.
+   If a slide has slot_2 through slot_11, that is 10 separate text boxes: give each one its own text.
+2. For "title", derive a concise heading from the assigned content (≤ 50 chars).
+3. For repeat_groups: produce one {{item_slot_id: text}} object per content item, up to max_items.
+4. For tables: use the column schema to write meaningful headers and data rows from the content.
+5. Copy slot_ids back EXACTLY ("slot_1", "slot_2", etc.) — case and underscores must be identical.
+6. Never reference or repeat template placeholder text.
 
 SLIDES TO FILL:
 {slides_json}
 
-For each slide, return:
-- "slide_id": matching the input
-- "title": text for its title slot, if it has one (omit otherwise)
-- "slot_values": {{slot_id: text}} for every simple text slot you filled
-  (respect each slot's max_chars)
-- "repeat_items": for slides with a repeat_group, a list of objects
-  {{item_slot_id: text, ...}}, at most max_items entries, one object per
-  card/badge instance
-- "table_headers" / "table_rows": for slides with a table slot, if the
-  catalog provides a column_count, supply source-grounded table_headers and
-  table_rows; each row must contain that many strings
-- "chart_categories" / "chart_series": for slides with a chart slot,
-  chart_categories is a list of category labels, chart_series is a list of
-  {{"name": "...", "values": [numbers]}}
-
-Omit any key that doesn't apply to a given slide, but return exactly one slide
-object for every input slide. Do not leave a selected layout blank. When an
-item cannot support a richer structure, use its source-grounded text for the
-title and any compatible simple text slot rather than omitting the slide.
-Maximize slide utilization: if a slot, table, or repeat-group item could be
-filled with genuine content from the assigned items and you haven't used it
-yet, fill it rather than leaving the slide sparse.
-
-Return ONLY valid JSON:
+Return ONLY valid JSON — one entry per input slide:
 {{
   "slides": [
-    {{"slide_id": "...", "title": "...", "slot_values": {{}}, "repeat_items": [],
-      "table_headers": [], "table_rows": [], "chart_categories": [], "chart_series": []}}
+    {{
+      "slide_id": "slide_02",
+      "title": "<concise heading from content>",
+      "slot_values": {{"slot_1": "...", "slot_2": "...", "slot_3": "..."}},
+      "repeat_items": [],
+      "table_headers": null,
+      "table_rows": null,
+      "chart_categories": null,
+      "chart_series": null
+    }}
   ]
 }}
 """
 
 
 def build_hld_qbr_fill_prompt(*, slides_payload: List[Dict[str, Any]]) -> str:
-    return HLD_QBR_FILL_PROMPT.format(slides_json=json.dumps(slides_payload, ensure_ascii=False))
+    return HLD_QBR_FILL_PROMPT.format(
+        slides_json=json.dumps(slides_payload, separators=(',', ':'), ensure_ascii=False)
+    )
+

@@ -70,8 +70,64 @@ class ContentModel(BaseModel):
         topics = [t.model_dump() for t in self.topics]
         return json.dumps(
             {"content_items": items, "relationships": rels, "topics": topics},
-            ensure_ascii=False, indent=2,
+            ensure_ascii=False, separators=(',', ':'),
         )
+
+    def compact_for_outline(self, max_chars: int = 9000) -> str:
+        """Compact, outline-focused view: topics first + atomic items (id, type, trimmed text).
+        Omits unused relationships, attributes, source references, and whitespace indentation.
+        Guarantees syntactically valid JSON within character limits.
+        """
+        import json
+        from utils.text_utils import truncate_text
+
+        topics = [
+            {
+                "id": t.id,
+                "name": t.name,
+                "summary": truncate_text(t.summary, 70) if t.summary else "",
+                "content_item_ids": t.content_item_ids,
+            }
+            for t in self.topics
+        ]
+
+        # Normal pass: trim text to 75 chars (sufficient for structural matching)
+        items = [
+            {
+                "id": i.id,
+                "type": i.type,
+                "text": truncate_text(i.text, 75),
+            }
+            for i in self.content_items
+        ]
+
+        payload = {"topics": topics, "content_items": items}
+        result = json.dumps(payload, separators=(',', ':'), ensure_ascii=False)
+        if len(result) <= max_chars:
+            return result
+
+        # Second pass: trim text to 50 chars if needed
+        items_tight = [
+            {
+                "id": i.id,
+                "type": i.type,
+                "text": truncate_text(i.text, 50),
+            }
+            for i in self.content_items
+        ]
+        payload = {"topics": topics, "content_items": items_tight}
+        result = json.dumps(payload, separators=(',', ':'), ensure_ascii=False)
+        if len(result) <= max_chars:
+            return result
+
+        # Third pass: prioritize topic-referenced items
+        topic_item_ids = {iid for t in self.topics for iid in t.content_item_ids}
+        filtered_items = [it for it in items_tight if it["id"] in topic_item_ids]
+        if not filtered_items:
+            filtered_items = items_tight[:50]
+        payload = {"topics": topics, "content_items": filtered_items}
+        return json.dumps(payload, separators=(',', ':'), ensure_ascii=False)
 
     def ids(self) -> set:
         return {i.id for i in self.content_items}
+

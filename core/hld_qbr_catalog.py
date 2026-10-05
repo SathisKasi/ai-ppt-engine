@@ -62,37 +62,42 @@ def compact_catalog_for_outline() -> List[Dict[str, Any]]:
     for entry in load_catalog():
         if entry["slide_id"] in STRUCTURAL_ONLY_SLIDE_IDS:
             continue
-        slots_summary = []
-        for s in entry["slots"]:
-            item = {"slot_id": s["slot_id"], "kind": s["kind"]}
-            if s.get("max_chars") is not None:
-                item["max_chars"] = s["max_chars"]
-            if s.get("table_schema"):
-                item["table_schema"] = s["table_schema"]
-            if s.get("chart_schema"):
-                item["chart_schema"] = {
-                    "chart_type": s["chart_schema"]["chart_type"],
-                    "category_count": s["chart_schema"]["category_count"],
-                    "series_count": s["chart_schema"]["series_count"],
-                }
-            slots_summary.append(item)
-        repeat_summary = [
-            {
-                "group_slot_id": rg["group_slot_id"],
-                "max_items": rg["item_count"],
-                "item_slot_count": len(rg["item_slots"]),
-                "item_max_chars": [it["max_chars"] for it in rg["item_slots"]],
-            }
-            for rg in entry["repeat_groups"]
+        item: Dict[str, Any] = {"slide_id": entry["slide_id"]}
+        if entry.get("always_include"):
+            item["always_include"] = True
+
+        # Summarize simple text slots (titles, text boxes, callouts)
+        text_slots = [
+            s for s in entry["slots"]
+            if not s.get("table_schema") and not s.get("chart_schema")
         ]
-        compact.append({
-            "slide_id": entry["slide_id"],
-            "always_include": entry["always_include"],
-            "has_table": entry["has_table"],
-            "has_chart": entry["has_chart"],
-            "repeat_groups": repeat_summary,
-            "slots": slots_summary,
-        })
+        if text_slots:
+            item["text_slots"] = len(text_slots)
+
+        # Table capability if present
+        table_slot = next((s for s in entry["slots"] if s.get("table_schema")), None)
+        if table_slot:
+            ts = table_slot["table_schema"]
+            item["table"] = {"cols": ts.get("cols"), "rows": ts.get("rows")}
+
+        # Chart capability if present
+        chart_slot = next((s for s in entry["slots"] if s.get("chart_schema")), None)
+        if chart_slot:
+            cs = chart_slot["chart_schema"]
+            item["chart"] = {
+                "type": cs.get("chart_type"),
+                "categories": cs.get("category_count"),
+                "series": cs.get("series_count"),
+            }
+
+        # Repeat groups (cards, badges, multi-column items)
+        if entry.get("repeat_groups"):
+            item["repeats"] = [
+                {"max_items": rg["item_count"], "item_slots": len(rg["item_slots"])}
+                for rg in entry["repeat_groups"]
+            ]
+
+        compact.append(item)
     return compact
 
 
