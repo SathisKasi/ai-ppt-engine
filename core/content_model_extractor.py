@@ -24,6 +24,12 @@ from utils.text_utils import chunk_text, truncate_text
 
 logger = get_logger(__name__)
 
+# Items per reduce call — keeps each batch's prompt/completion comfortably
+# under a restrictive Groq org's tokens-per-minute cap (same reasoning as
+# FILL_BATCH_SIZE in core/presentation_planner_hld_qbr_generic.py) without
+# ever truncating a batch's content out of consideration for deduplication.
+REDUCE_BATCH_SIZE = 20
+
 
 def extract_content_model(
     client: GroqClient,
@@ -103,28 +109,76 @@ def _renumber_and_merge(models: List[ContentModel]) -> ContentModel:
     return ContentModel(content_items=merged_items, relationships=merged_relationships, topics=merged_topics)
 
 
-def _reduce_content_model(client: GroqClient, merged: ContentModel) -> ContentModel:
-    """One LLM call to dedupe/merge items extracted from overlapping chunks.
-    Falls back to the un-deduped merged model on any failure — a duplicate
-    item is a minor downstream inefficiency, never worth blocking the pipeline."""
-    prompt = build_content_model_reduce_prompt(merged_content_model_json=merged.compact_json())
+def _split_content_model_for_reduce(model: ContentModel, batch_size: int) -> List[ContentModel]:
+    """Splits a large ContentModel into independently-reducible batches by
+    content_item id range. Each batch keeps only the relationships/topics
+    fully contained within it (an item pair/topic spanning two batches is
+    dropped from that batch's view) — the same cross-batch limitation the
+    fill stage's batching already accepts. ids are already globally unique
+    (assigned once in _renumber_and_merge), so batches never collide and
+    don't need re-renumbering after reduce."""
+    items = model.content_items
+    if len(items) <= batch_size:
+        return [model]
+    batches = []
+    for start in range(0, len(items), batch_size):
+        batch_items = items[start:start + batch_size]
+        batch_ids = {i.id for i in batch_items}
+        batch_rels = [r for r in model.relationships if r.from_id in batch_ids and r.to_id in batch_ids]
+        batch_topics = []
+        for topic in model.topics:
+            kept_ids = [i for i in topic.content_item_ids if i in batch_ids]
+            if kept_ids:
+                batch_topics.append(topic.model_copy(update={"content_item_ids": kept_ids}))
+        batches.append(ContentModel(content_items=batch_items, relationships=batch_rels, topics=batch_topics))
+    return batches
+
+
+def _reduce_one_batch(client: GroqClient, batch: ContentModel) -> ContentModel:
+    """One LLM call to dedupe/merge items within a single batch. Falls back
+    to the un-deduped batch on any failure — a duplicate item is a minor
+    downstream inefficiency, never worth blocking the pipeline."""
+    # Defensive backstop only: a REDUCE_BATCH_SIZE-sized batch's JSON is
+    # normally well under this, but very long item texts could still push
+    # one batch over a restrictive Groq org's tokens-per-minute cap.
+    batch_json = truncate_text(batch.compact_json(), max_chars=10000)
+    prompt = build_content_model_reduce_prompt(merged_content_model_json=batch_json)
     messages = [
         {"role": "system", "content": SYSTEM_ROLE_CONTENT_REDUCER},
         {"role": "user", "content": prompt},
     ]
     try:
         raw_data = client.chat_complete_json(messages=messages, temperature=0.1, max_tokens=4096)
-        reduced = ContentModel.model_validate(raw_data)
+        return ContentModel.model_validate(raw_data)
     except (JSONParseError, ValidationError) as e:
-        logger.warning("Content model reduce step failed, keeping un-deduped merge: %s", e)
-        return merged
+        logger.warning("Content model reduce batch failed, keeping un-deduped batch: %s", e)
+        return batch
     except Exception as e:
-        logger.warning("Content model reduce LLM call failed, keeping un-deduped merge: %s", e)
-        return merged
+        logger.warning("Content model reduce batch LLM call failed, keeping un-deduped batch: %s", e)
+        return batch
 
+
+def _reduce_content_model(key_manager, merged: ContentModel) -> ContentModel:
+    """Dedupes a (possibly large) merged ContentModel via one or more
+    bounded reduce calls — splitting into batches instead of truncating
+    means every item still gets a chance at deduplication, just across
+    multiple calls rather than risking one oversized request."""
+    batches = _split_content_model_for_reduce(merged, REDUCE_BATCH_SIZE)
+
+    reduced_items: List[ContentItem] = []
+    reduced_relationships = []
+    reduced_topics: List[Topic] = []
+    for i, batch in enumerate(batches):
+        client = key_manager.get_client(chunk_index=i)
+        reduced_batch = _reduce_one_batch(client, batch)
+        reduced_items.extend(reduced_batch.content_items)
+        reduced_relationships.extend(reduced_batch.relationships)
+        reduced_topics.extend(reduced_batch.topics)
+
+    reduced = ContentModel(content_items=reduced_items, relationships=reduced_relationships, topics=reduced_topics)
     logger.info(
-        "Content model reduced: %d -> %d items, %d -> %d topics.",
-        len(merged.content_items), len(reduced.content_items),
+        "Content model reduced (%d batch(es)): %d -> %d items, %d -> %d topics.",
+        len(batches), len(merged.content_items), len(reduced.content_items),
         len(merged.topics), len(reduced.topics),
     )
     return reduced
@@ -157,5 +211,4 @@ def extract_content_model_full(
     if len(chunks) <= 1:
         return merged
 
-    reduce_client = key_manager.get_client()
-    return _reduce_content_model(reduce_client, merged)
+    return _reduce_content_model(key_manager, merged)

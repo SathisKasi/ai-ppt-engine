@@ -41,6 +41,7 @@ from llm.prompts_hld_qbr_generic import (
     parse_outline_response,
 )
 from utils.logging_utils import get_logger
+from utils.text_utils import truncate_text
 
 logger = get_logger(__name__)
 
@@ -114,9 +115,15 @@ def _run_outline_stage(
     requested_slide_count: Optional[int],
 ) -> Dict[str, Any]:
     compact_catalog = compact_catalog_for_outline()
+    # A large document (many chunks, now also carrying topics) can produce a
+    # content model whose full JSON alone exceeds a restrictive Groq org's
+    # tokens-per-minute cap in ONE request (seen in practice: an 8,000 TPM
+    # tier rejects the call outright, it isn't throttled/retried). Capped the
+    # same way the legacy HLD QBR planner already caps raw source text.
+    content_model_json = truncate_text(content_model.compact_json(), max_chars=9000)
     prompt = build_hld_qbr_outline_prompt(
         compact_catalog=compact_catalog,
-        content_model_json=content_model.compact_json(),
+        content_model_json=content_model_json,
         always_include_slide_ids=sorted(STRUCTURAL_ONLY_SLIDE_IDS),
         requested_slide_count=requested_slide_count,
     )
@@ -124,7 +131,7 @@ def _run_outline_stage(
         {"role": "system", "content": SYSTEM_ROLE_HLD_QBR_OUTLINE},
         {"role": "user", "content": prompt},
     ]
-    raw = client.chat_complete_json(messages=messages, temperature=0.3, max_tokens=2500)
+    raw = client.chat_complete_json(messages=messages, temperature=0.3, max_tokens=2000)
     return parse_outline_response(raw)
 
 
