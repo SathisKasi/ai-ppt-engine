@@ -121,6 +121,7 @@ def _run_outline_stage(
     client: GroqClient,
     content_model: ContentModel,
     requested_slide_count: Optional[int],
+    exclude_slide_ids: Optional[List[str]] = None,
 ) -> Dict[str, Any]:
     compact_catalog = compact_catalog_for_outline()
     # A large document (many chunks, now also carrying topics) can produce a
@@ -135,6 +136,7 @@ def _run_outline_stage(
         content_model_json=content_model_json,
         always_include_slide_ids=sorted(STRUCTURAL_ONLY_SLIDE_IDS),
         requested_slide_count=requested_slide_count,
+        exclude_slide_ids=exclude_slide_ids,
     )
     messages = [
         {"role": "system", "content": SYSTEM_ROLE_HLD_QBR_OUTLINE},
@@ -154,10 +156,16 @@ def _resolve_picks(
     "has_table"/"has_chart"), which may repeat — one slide per distinct
     tabular/numeric dataset in the source. Each pick gets a unique
     "fill_key" (slide_id, or slide_id__2/__3... for repeats) so the content
-    -fill stage never conflates two instances of the same slide_id."""
+    -fill stage never conflates two instances of the same slide_id.
+    Picks accumulate across outline/retry/gap-fill attempts (see
+    plan_hld_qbr_presentation_generic), so a repeatable slide_id citing the
+    EXACT SAME content_item_ids as an already-accepted pick is treated as a
+    duplicate (e.g. a same-prompt retry re-proposing the same table) rather
+    than a genuinely new dataset, even though repeats are otherwise allowed."""
     catalog_ids = {e["slide_id"] for e in load_catalog()}
     source_ids = content_model.ids()
     seen: set = set()
+    seen_content_by_sid: Dict[str, set] = {}
     occurrence_count: Dict[str, int] = {}
     resolved: List[Dict[str, Any]] = []
     for pick in outline["picks"]:
@@ -171,7 +179,11 @@ def _resolve_picks(
         grounded_ids = [content_id for content_id in pick["content_item_ids"] if content_id in source_ids]
         if not grounded_ids:
             continue
+        content_signature = frozenset(grounded_ids)
+        if repeatable and content_signature in seen_content_by_sid.get(sid, set()):
+            continue
         seen.add(sid)
+        seen_content_by_sid.setdefault(sid, set()).add(content_signature)
         occurrence_count[sid] = occurrence_count.get(sid, 0) + 1
         fill_key = sid if occurrence_count[sid] == 1 else f"{sid}__{occurrence_count[sid]}"
         resolved.append({"slide_id": sid, "content_item_ids": grounded_ids, "fill_key": fill_key})
@@ -337,27 +349,55 @@ def plan_hld_qbr_presentation_generic(
         )
 
     outline = _run_outline_stage(client, content_model, requested_slide_count)
-    resolved_picks = _resolve_picks(outline, content_model, requested_slide_count)
-    raw_pick_count = len(outline.get("picks") or [])
+    all_raw_picks: List[Dict[str, Any]] = list(outline.get("picks") or [])
+    resolved_picks = _resolve_picks({"picks": all_raw_picks}, content_model, requested_slide_count)
+    # Title/facility/date come from the FIRST (full) outline attempt only -- later
+    # gap-fill attempts are deliberately narrow (asked for only the missing slides)
+    # and would otherwise overwrite these with an empty/irrelevant response.
+    outline_meta = outline
 
-    # A requested slide count is a hard contract. Retry once with the same
-    # structural-only prompt before failing rather than emitting sparse slides.
-    if requested_slide_count and len(resolved_picks) < requested_slide_count:
-        logger.warning(
-            "Outline returned %d raw pick(s) -> %d source-grounded of %d requested; retrying.",
-            raw_pick_count, len(resolved_picks), requested_slide_count,
-        )
-        outline = _run_outline_stage(client, content_model, requested_slide_count)
-        resolved_picks = _resolve_picks(outline, content_model, requested_slide_count)
-        raw_pick_count = len(outline.get("picks") or [])
+    # A requested slide count is a hard contract. Picks accumulate across attempts
+    # (never discarded), so each retry can only add slides, never lose ones already
+    # found. Attempt 1 retries the SAME full prompt (model variance may do better).
+    # Attempt 2 is a narrower "gap-fill" call: only the still-missing count, explicitly
+    # excluding already-used slide_ids, so the AI covers NEW topics instead of
+    # re-proposing ones that already got picked (and may have been structurally
+    # awkward, which is exactly why they weren't grounded the first time).
+    gap_fill_attempt = 0
+    MAX_GAP_FILL_ATTEMPTS = 2
+    while (
+        requested_slide_count
+        and len(resolved_picks) < requested_slide_count
+        and gap_fill_attempt < MAX_GAP_FILL_ATTEMPTS
+    ):
+        gap_fill_attempt += 1
+        gap = requested_slide_count - len(resolved_picks)
+        if gap_fill_attempt == 1:
+            logger.warning(
+                "Outline returned %d raw pick(s) -> %d source-grounded of %d requested; retrying full outline.",
+                len(all_raw_picks), len(resolved_picks), requested_slide_count,
+            )
+            retry_outline = _run_outline_stage(client, content_model, requested_slide_count)
+        else:
+            used_slide_ids = [p["slide_id"] for p in resolved_picks]
+            logger.warning(
+                "Still %d short of %d requested after retry; running a narrower gap-fill call "
+                "for the remaining %d slide(s), excluding %d already-used slide_id(s).",
+                gap, requested_slide_count, gap, len(used_slide_ids),
+            )
+            retry_outline = _run_outline_stage(client, content_model, gap, exclude_slide_ids=used_slide_ids)
+        all_raw_picks.extend(retry_outline.get("picks") or [])
+        resolved_picks = _resolve_picks({"picks": all_raw_picks}, content_model, requested_slide_count)
+        if not outline_meta.get("presentation_title"):
+            outline_meta = retry_outline
+
     if requested_slide_count and len(resolved_picks) < requested_slide_count:
         raise HLDQBRGenericPlanningError(
             f"Only {len(resolved_picks)} of {requested_slide_count} requested slides could be "
-            f"source-grounded (outline returned {raw_pick_count} raw pick(s) against "
-            f"{len(content_model.content_items)} extracted content item(s)). Either the source "
-            "document is too short/sparse for this many slides, or the outline cited "
-            "content_item_ids that don't exist in the extracted content model — check logs for "
-            "outline parsing warnings."
+            f"source-grounded after {gap_fill_attempt + 1} outline attempt(s) (including a narrower "
+            f"gap-fill retry) against {len(content_model.content_items)} extracted content item(s)). "
+            "The source document likely doesn't have enough distinct, structurally-fillable topics "
+            "for this many slides -- try a lower slide count, or check logs for outline parsing warnings."
         )
 
     filled_by_id = _run_fill_stage(key_manager, content_model, resolved_picks)
@@ -368,6 +408,31 @@ def plan_hld_qbr_presentation_generic(
         if assignment is not None:
             slides.append(assignment)
 
+    # A pick can survive the outline stage but still come back empty from content-fill
+    # (e.g. the LLM couldn't write real content for it). Same gap-fill principle as
+    # above: try once more for just the shortfall before giving up, excluding every
+    # slide_id already used (whether it produced a slide or not, to avoid retrying
+    # the same unproductive structural match).
+    if requested_slide_count and len(slides) < requested_slide_count:
+        gap = requested_slide_count - len(slides)
+        used_slide_ids = [p["slide_id"] for p in resolved_picks]
+        logger.warning(
+            "Content-fill produced %d of %d requested slides; running one gap-fill pass for the "
+            "remaining %d slide(s).",
+            len(slides), requested_slide_count, gap,
+        )
+        gap_outline = _run_outline_stage(client, content_model, gap, exclude_slide_ids=used_slide_ids)
+        all_raw_picks.extend(gap_outline.get("picks") or [])
+        gap_resolved = _resolve_picks({"picks": all_raw_picks}, content_model, requested_slide_count)
+        new_picks = [p for p in gap_resolved if p["fill_key"] not in {pk["fill_key"] for pk in resolved_picks}]
+        if new_picks:
+            gap_filled_by_id = _run_fill_stage(key_manager, content_model, new_picks)
+            for pick in new_picks:
+                assignment = _build_slide_assignment(pick, gap_filled_by_id.get(pick["fill_key"]))
+                if assignment is not None:
+                    slides.append(assignment)
+            resolved_picks = gap_resolved
+
     if requested_slide_count and len(slides) < requested_slide_count:
         raise HLDQBRGenericPlanningError(
             f"Only {len(slides)} of {requested_slide_count} requested slides received source-backed content."
@@ -376,10 +441,17 @@ def plan_hld_qbr_presentation_generic(
         raise HLDQBRGenericPlanningError("No slides could be planned from the extracted content.")
 
     plan = GenericHLDQBRPlan(
-        presentation_title=outline.get("presentation_title") or content_model.content_items[0].text,
-        facility_name=outline.get("facility_name") or "",
-        date=outline.get("date") or "",
+        presentation_title=outline_meta.get("presentation_title") or content_model.content_items[0].text,
+        facility_name=outline_meta.get("facility_name") or "",
+        date=outline_meta.get("date") or "",
         slides=slides,
     )
-    logger.info("Generic HLD QBR plan: %d content slides assigned", len(slides))
+    used_content_ids = {cid for s in slides for cid in s.content_item_ids}
+    total_content_ids = set(content_model.ids())
+    unused_count = len(total_content_ids - used_content_ids)
+    logger.info(
+        "Generic HLD QBR plan: %d content slides assigned, %d/%d extracted content item(s) used (%d not included)",
+        len(slides), len(used_content_ids), len(total_content_ids), unused_count,
+    )
     return plan
+

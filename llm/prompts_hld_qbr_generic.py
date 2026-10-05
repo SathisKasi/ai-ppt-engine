@@ -23,8 +23,13 @@ from typing import Any, Dict, List, Optional
 
 SYSTEM_ROLE_HLD_QBR_OUTLINE = """\
 You assemble a slide outline for a fixed PowerPoint template.
-Select WHICH template slide_ids to use and assign extracted content item IDs to each.
-Match content by STRUCTURE (tables need tabular data, repeat-groups need parallel items, charts need numeric series).
+Decide WHICH TOPICS deserve a slide FIRST, ranked by importance -- THEN pick the catalog slide_id whose
+structure best fits each chosen topic. Never pick a slide structure first and search for content to fill it.
+Importance signals: more supporting content items, concrete metrics/numbers, risks/problems/decisions/outcomes,
+or topics the source clearly emphasizes rank higher than a single minor, generic fact.
+Match each selected topic to a slide by STRUCTURE (tables need tabular data, repeat-groups need parallel items,
+charts need numeric series). If no ideal structure remains available for an important topic, place it in the
+closest available plain-text slide instead of dropping it -- a text slide can always hold any topic as a fallback.
 Every selected slide must cite valid content_item_ids from the source.
 Each slide_id is single-use for one deck, EXCEPT slide_ids marked "repeatable": true (table/chart slides) —
 those may be picked more than once if the source has multiple distinct tabular/numeric datasets, one per slide.
@@ -40,19 +45,26 @@ CONTENT MODEL:
 
 ALWAYS-INCLUDED SLIDES (handled separately, do NOT pick these):
 {always_include_slide_ids}
-
+{exclude_block}
 REQUESTED CONTENT SLIDES: {requested_slide_count}
 
 INSTRUCTIONS:
-1. Choose slide_ids from the catalog above (excluding always-included slides) so the TOTAL number of
-   picks (including any repeats) equals {requested_slide_count} exactly.
-2. Cover distinct topics from the content model. Match content to layout structure (table, chart, repeat cards, text boxes).
-3. Assign matching content_item_ids to each slide. Use only IDs present in the content model. Never leave content_item_ids empty.
-4. For repeat-groups (max_items > 1), assign enough distinct content items to utilize the layout capacity.
-5. Every slide_id may be picked only ONCE, EXCEPT a slide_id marked "repeatable": true — pick that one
+1. Review every topic in the content model. Rank them by importance: more supporting content items, concrete
+   numbers/metrics, risks/problems/decisions/outcomes, or topics the source clearly emphasizes rank higher.
+2. Select the {requested_slide_count} most important, distinct topics per that ranking. Do not cover the same
+   topic twice unless it is genuinely large enough to need more than one slide.
+3. For EACH selected topic, choose the catalog slide_id whose structure best fits that topic's content shape
+   (tabular data -> table slide, numeric series -> chart slide, several parallel items -> repeat-group slide,
+   narrative content -> text slide). If no ideal structure remains available, use the closest available
+   plain-text slide instead of dropping the topic.
+4. Assign matching content_item_ids to each slide. Use only IDs present in the content model. Never leave content_item_ids empty.
+5. For repeat-groups (max_items > 1), assign enough distinct content items to utilize the layout capacity.
+6. Every slide_id may be picked only ONCE, EXCEPT a slide_id marked "repeatable": true — pick that one
    again (once per extra pick) only if the source document has another distinct table/chart-worthy dataset
    for it. Never repeat a non-repeatable slide_id.
-6. Provide presentation_title, facility_name (if mentioned, else ""), and date (if mentioned, else "").
+7. The TOTAL number of picks must equal {requested_slide_count} exactly -- if fewer high-importance topics
+   exist than requested slides, include your next-most-important remaining topics rather than leaving slides unused.
+8. Provide presentation_title, facility_name (if mentioned, else ""), and date (if mentioned, else "").
 
 Return ONLY valid JSON:
 {{
@@ -72,14 +84,26 @@ def build_hld_qbr_outline_prompt(
     content_model_json: str,
     always_include_slide_ids: List[str],
     requested_slide_count: Optional[int],
+    exclude_slide_ids: Optional[List[str]] = None,
 ) -> str:
     count_str = f"exactly {requested_slide_count}" if requested_slide_count else "useful slides at AI discretion"
+    exclude_block = ""
+    if exclude_slide_ids:
+        # Used only for the gap-fill retry: these slide_ids already have a good pick from an
+        # earlier attempt, so the AI should cover NEW topics instead of repeating them (unless repeatable).
+        exclude_block = (
+            "\nALREADY-USED SLIDE IDS (already picked in an earlier pass \u2014 do NOT pick these again "
+            "unless marked \"repeatable\" in the catalog above):\n"
+            f"{json.dumps(sorted(set(exclude_slide_ids)), separators=(',', ':'))}\n"
+        )
     return HLD_QBR_OUTLINE_PROMPT.format(
         compact_catalog_json=json.dumps(compact_catalog, separators=(',', ':'), ensure_ascii=False),
         content_model_json=content_model_json,
         always_include_slide_ids=json.dumps(always_include_slide_ids, separators=(',', ':')),
+        exclude_block=exclude_block,
         requested_slide_count=count_str,
     )
+
 
 
 def parse_outline_response(data: Dict[str, Any]) -> Dict[str, Any]:

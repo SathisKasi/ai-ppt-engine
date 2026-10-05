@@ -74,3 +74,68 @@ tabular datasets competing for the one table slide.
   ad-hoc manual check). If this becomes a regular feature, the existing e2e
   test should be refreshed (it needs fixing anyway for the `FILL_BATCH_SIZE`
   mismatch) to also cover a duplicated chart/table pick.
+
+---
+
+## Addendum (2026-10-05): topic-first selection + "no matching slide" edge-case handling
+
+Two follow-up questions were raised and are now implemented:
+
+### 1. Topic selection must happen BEFORE slide-structure matching
+Previously the outline prompt told the AI to "choose slide_ids" first and
+"cover distinct topics" only as a secondary instruction — risking the AI
+picking an attractive/available slide structure and then hunting for content
+to fill it, rather than deciding which topics matter most given a limited
+slide budget.
+Fixed in `llm/prompts_hld_qbr_generic.py` (`SYSTEM_ROLE_HLD_QBR_OUTLINE` +
+`HLD_QBR_OUTLINE_PROMPT`): the instructions now explicitly say to rank
+topics by importance FIRST (more supporting content items, concrete
+metrics, risks/problems/decisions/outcomes, or topics the source
+emphasizes), select the top N, and only THEN pick each selected topic's
+best-fit slide structure. Also added: if no ideal structure remains
+available for an important topic, fall back to the closest available
+plain-text slide instead of dropping the topic entirely.
+
+### 2. "AI can't find a matching slide" — gap-fill instead of hard-fail
+`core/presentation_planner_hld_qbr_generic.py`'s
+`plan_hld_qbr_presentation_generic()` previously: ran the outline once,
+retried once with the identical prompt (discarding the first attempt's
+picks entirely), then hard-failed if still short.
+Now: picks **accumulate** across attempts (a retry can only add, never lose,
+already-grounded slides), and a third, narrower **gap-fill** call asks only
+for the still-missing count, explicitly excluding already-used slide_ids
+(via new `exclude_slide_ids` param on `_run_outline_stage` /
+`build_hld_qbr_outline_prompt`) so the AI covers new topics instead of
+re-proposing ones that didn't work the first time. The same gap-fill pass
+is also applied after the content-fill stage, for slides that got picked
+but came back empty from fill. Only after both gap-fill passes does the
+pipeline still hard-fail (unchanged final behavior — a requested slide
+count remains a hard contract, per earlier design decision; soft-degrade
+was discussed but not implemented, pending explicit product decision).
+Title/facility/date are now taken only from the FIRST (full) outline
+response (`outline_meta`), since gap-fill calls are deliberately narrow and
+would otherwise return an empty/irrelevant title.
+Added transparency: `plan_hld_qbr_presentation_generic()` now logs how many
+of the extracted content items ended up used vs. unused in the final plan.
+
+**Bug found and fixed during testing**: allowing table/chart slide_ids to
+repeat (prior change) combined with the new accumulate-across-retries
+design created a real risk — a retry re-proposing the *exact same* content
+for an already-used repeatable slide_id would have been miscounted as a
+genuinely new dataset (since repeats are otherwise allowed), silently
+inflating the resolved count with a near-duplicate slide instead of
+correctly recognizing it as a duplicate. Fixed in `_resolve_picks()`: a
+repeatable slide_id is now only treated as a new instance if its
+`content_item_ids` differ from every previously-accepted instance for that
+same slide_id (content-signature dedup, via `seen_content_by_sid`).
+
+**Verification**: new `scratch/hld_qbr/test_gap_fill_mock.py` — mock
+outline returns only 3/5 picks on both the initial and same-prompt-retry
+attempts, a gap-fill call (excluding the 3 used slide_ids) supplies the
+remaining 2; asserts exactly 3 outline calls were made, exactly 5 slides in
+the final plan, and the title came from the first attempt. Also re-verified
+by hand: a retry citing identical content for a repeatable slide_id is now
+correctly rejected as a duplicate, while genuinely distinct content for the
+same repeatable slide_id is still accepted (no regression on the earlier
+repeatable-slides feature).
+
