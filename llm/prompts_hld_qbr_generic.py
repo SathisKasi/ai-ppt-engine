@@ -121,8 +121,9 @@ KEY RULES:
 2. For "title", derive a concise heading from the assigned content (≤ 50 chars).
 3. For repeat_groups: produce one {{item_slot_id: text}} object per content item, up to max_items.
 4. For tables: use the column schema to write meaningful headers and data rows from the content.
-5. Copy slot_ids back EXACTLY ("slot_1", "slot_2", etc.) — case and underscores must be identical.
-6. Never reference or repeat template placeholder text.
+5. For charts: if numeric data exists, provide "chart_categories" (strings) and "chart_series" with "name" and "values" (MUST be numbers: floats or ints, NEVER text). If no numeric data exists in assigned content, set BOTH "chart_categories": null and "chart_series": null.
+6. "slot_values" is ONLY for the text slots listed in "slots". Copy slot_ids back EXACTLY ("slot_1", "slot_2", etc.) — values must be non-empty strings, never null.
+7. Never reference or repeat template placeholder text.
 
 SLIDES TO FILL:
 {slides_json}

@@ -43,7 +43,10 @@ class KeyManager:
     def __init__(self, keys: List[str], model: str, temperature: float = 0.3,
                  max_tokens: int = 2048, max_retries: int = 3, provider: str = "groq",
                  project_id: Optional[str] = None, project_ids: Optional[List[str]] = None,
-                 url: Optional[str] = None, fallback_model: Optional[str] = None) -> None:
+                 url: Optional[str] = None, fallback_model: Optional[str] = None,
+                 openrouter_keys: Optional[List[str]] = None,
+                 openrouter_url: Optional[str] = None,
+                 openrouter_model: Optional[str] = None) -> None:
         valid = [k.strip() for k in keys if k and k.strip()]
         if not valid:
             raise KeyManagerError("No valid API keys provided.")
@@ -62,9 +65,40 @@ class KeyManager:
         self._fallback_model = fallback_model
         self._index = 0
         self._lock = threading.Lock()
+
+        # Shared OpenRouter fallback client for Groq rate limits
+        self._openrouter_client = None
+        or_keys = openrouter_keys
+        if or_keys is None:
+            try:
+                import config
+                or_keys = getattr(config, "OPENROUTER_API_KEYS", None)
+            except Exception:
+                or_keys = None
+
+        if or_keys:
+            try:
+                from llm.openrouter_client import OpenRouterClient
+                import config
+                self._openrouter_client = OpenRouterClient(
+                    api_keys=or_keys,
+                    model=openrouter_model or getattr(config, "OPENROUTER_MODEL", "openai/gpt-oss-120b"),
+                    url=openrouter_url or getattr(config, "OPENROUTER_URL", "https://openrouter.ai/api/v1/chat/completions"),
+                    temperature=temperature,
+                    max_tokens=max_tokens,
+                    max_retries=max_retries,
+                )
+                logger.info(
+                    "KeyManager initialized with OpenRouter backup (%d keys, model=%s)",
+                    self._openrouter_client.key_count,
+                    self._openrouter_client.model,
+                )
+            except Exception as exc:
+                logger.warning("Failed to initialize OpenRouter backup in KeyManager: %s", exc)
+
         logger.info(
-            "KeyManager initialized with %d key(s) [provider=%s, per_key_projects=%s]",
-            len(self._keys), self._provider, bool(self._project_ids),
+            "KeyManager initialized with %d key(s) [provider=%s, per_key_projects=%s, openrouter_backup=%s]",
+            len(self._keys), self._provider, bool(self._project_ids), bool(self._openrouter_client),
         )
 
     # ------------------------------------------------------------------
@@ -94,7 +128,7 @@ class KeyManager:
 
     def get_client(self, chunk_index: Optional[int] = None, max_tokens: Optional[int] = None):
         """
-        Return an LLM client (GroqClient or WatsonxClient, per configured provider)
+        Return an LLM client (GroqClient, WatsonxClient, or OpenRouterClient per configured provider)
         bound to the key for this chunk.
 
         Args:
@@ -131,6 +165,17 @@ class KeyManager:
                 key_number=key_num,
             )
 
+        if self._provider == "openrouter":
+            from llm.openrouter_client import OpenRouterClient
+            return OpenRouterClient(
+                api_keys=self._keys,
+                model=self._model,
+                temperature=self._temperature,
+                max_tokens=max_tokens or self._max_tokens,
+                max_retries=self._max_retries,
+                url=self._url or "https://openrouter.ai/api/v1/chat/completions",
+            )
+
         logger.info("Chunk %s → key #%d (%s) [provider=%s]", chunk_index, key_num, _mask_key(key), self._provider)
 
         from llm.groq_client import GroqClient  # local import to avoid circular
@@ -142,6 +187,7 @@ class KeyManager:
             max_tokens=max_tokens or self._max_tokens,
             max_retries=self._max_retries,
             key_number=key_num,
+            openrouter_client=self._openrouter_client,
         )
 
     @classmethod
@@ -163,6 +209,17 @@ class KeyManager:
                 fallback_model=config.WATSONX_FALLBACK_MODEL_ID,
             )
 
+        if config.LLM_PROVIDER == "openrouter":
+            return cls(
+                keys=config.OPENROUTER_API_KEYS,
+                model=config.OPENROUTER_MODEL,
+                temperature=config.GROQ_TEMPERATURE,
+                max_tokens=config.GROQ_MAX_TOKENS_PLAN,
+                max_retries=config.LLM_MAX_RETRIES,
+                provider="openrouter",
+                url=config.OPENROUTER_URL,
+            )
+
         return cls(
             keys=config.GROQ_API_KEYS,
             model=config.GROQ_MODEL,
@@ -170,4 +227,7 @@ class KeyManager:
             max_tokens=config.GROQ_MAX_TOKENS_PLAN,
             max_retries=config.LLM_MAX_RETRIES,
             provider="groq",
+            openrouter_keys=config.OPENROUTER_API_KEYS,
+            openrouter_url=config.OPENROUTER_URL,
+            openrouter_model=config.OPENROUTER_MODEL,
         )

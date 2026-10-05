@@ -41,9 +41,35 @@ def _sanitize_value(obj: Any) -> Any:
     return obj
 
 
+import re
+
+
 class ChartSeriesValues(BaseModel):
-    name: str
+    name: str = "Series"
     values: List[float] = Field(default_factory=list)
+
+    @model_validator(mode="before")
+    @classmethod
+    def _sanitize_series(cls, data: Any) -> Any:
+        if not isinstance(data, dict):
+            return data
+        name = data.get("name") or data.get("series_name") or data.get("label") or data.get("title") or "Series"
+        raw_vals = data.get("values") or []
+        cleaned_vals = []
+        for v in raw_vals:
+            if v is None:
+                cleaned_vals.append(0.0)
+            elif isinstance(v, (int, float)):
+                cleaned_vals.append(float(v))
+            elif isinstance(v, str):
+                cleaned_str = re.sub(r"[^0-9.-]", "", v.strip())
+                try:
+                    cleaned_vals.append(float(cleaned_str))
+                except ValueError:
+                    cleaned_vals.append(0.0)
+            else:
+                cleaned_vals.append(0.0)
+        return {"name": str(name), "values": cleaned_vals}
 
 
 class SlideAssignment(BaseModel):
@@ -66,6 +92,71 @@ class SlideAssignment(BaseModel):
     content_item_ids: List[str] = Field(
         default_factory=list, description="ContentModel item ids this slide's content was grounded in (traceability)"
     )
+
+    @model_validator(mode="before")
+    @classmethod
+    def _sanitize_assignment(cls, data: Any) -> Any:
+        if not isinstance(data, dict):
+            return data
+
+        # 1. Sanitize slot_values: coerce values to str, ignore None
+        raw_slots = data.get("slot_values")
+        if isinstance(raw_slots, dict):
+            cleaned_slots = {}
+            for k, v in raw_slots.items():
+                if v is not None and str(v).strip():
+                    cleaned_slots[str(k)] = str(v).strip()
+            data["slot_values"] = cleaned_slots
+        elif raw_slots is None:
+            data["slot_values"] = {}
+
+        # 2. Sanitize repeat_items: coerce all dict values to string
+        raw_items = data.get("repeat_items")
+        if isinstance(raw_items, list):
+            cleaned_items = []
+            for item in raw_items:
+                if isinstance(item, dict):
+                    cleaned_items.append({str(k): str(v) if v is not None else "" for k, v in item.items()})
+            data["repeat_items"] = cleaned_items
+
+        # 3. Sanitize table_headers & table_rows
+        raw_headers = data.get("table_headers")
+        if isinstance(raw_headers, list):
+            data["table_headers"] = [str(h) if h is not None else "" for h in raw_headers]
+        raw_rows = data.get("table_rows")
+        if isinstance(raw_rows, list):
+            cleaned_rows = []
+            for r in raw_rows:
+                if isinstance(r, list):
+                    cleaned_rows.append([str(c) if c is not None else "" for c in r])
+            data["table_rows"] = cleaned_rows
+
+        # 4. Sanitize chart_categories & chart_series
+        raw_series = data.get("chart_series")
+        raw_cats = data.get("chart_categories")
+        if raw_series and isinstance(raw_series, list):
+            # Check if there is at least one series with real numeric content
+            has_numeric = False
+            for s in raw_series:
+                if isinstance(s, dict):
+                    vals = s.get("values") or []
+                    for v in vals:
+                        if isinstance(v, (int, float)):
+                            has_numeric = True
+                            break
+                        elif isinstance(v, str) and re.search(r"\d", v):
+                            has_numeric = True
+                            break
+                if has_numeric:
+                    break
+            if not has_numeric or not raw_cats:
+                # LLM output descriptive text or empty chart data -> safely omit chart
+                data["chart_series"] = None
+                data["chart_categories"] = None
+        else:
+            data["chart_series"] = None
+
+        return data
 
 
 class GenericHLDQBRPlan(BaseModel):

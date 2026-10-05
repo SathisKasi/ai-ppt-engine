@@ -53,41 +53,30 @@ class HLDQBRGenericPlanningError(Exception):
 
 
 def _build_slot_alias_map(entry: Dict[str, Any]) -> Dict[str, str]:
-    """Maps each catalog slot_id (often long/irregular, e.g. derived from a
-    shape's own pptx name like "rectangle__rounded_corners_7_8") to a short
-    sequential token (slot_1, slot_2, ...). Real LLMs are far more reliable
-    at echoing back a short token verbatim than an exact long identifier —
-    a single dropped/altered character here silently loses that slot's text
-    at render time, since matching is an exact string lookup."""
-    return {slot["slot_id"]: f"slot_{i + 1}" for i, slot in enumerate(entry["slots"])}
+    """Maps each text-bearing catalog slot_id to a short sequential token
+    (slot_1, slot_2, ...). Table and chart slots are excluded here because
+    they are filled via table_rows/chart_series rather than slot_values."""
+    text_slots = [s for s in entry["slots"] if s["kind"] not in ("table", "chart")]
+    return {slot["slot_id"]: f"slot_{i + 1}" for i, slot in enumerate(text_slots)}
 
 
 def _slim_entry_for_fill(entry: Dict[str, Any], alias_map: Dict[str, str]) -> Dict[str, Any]:
     """Drops shape_id (renderer-only detail) from the catalog entry so the
-    content-fill prompt only sees structural constraints. Template sample
-    wording is deliberately excluded: it is never source content."""
+    content-fill prompt only sees structural constraints. Text slots are
+    aliased to slot_1, slot_2... while table and chart schemas are attached
+    directly at the slide level."""
     slots = []
-    for slot in entry["slots"]:
-        slim_slot = {
+    text_slots = [s for s in entry["slots"] if s["kind"] not in ("table", "chart")]
+    for slot in text_slots:
+        if slot["slot_id"] not in alias_map:
+            continue
+        slots.append({
             "slot_id": alias_map[slot["slot_id"]],
             "kind": slot["kind"],
             "max_chars": slot.get("max_chars"),
-        }
-        if slot.get("table_schema"):
-            schema = slot["table_schema"]
-            slim_slot["table_schema"] = {
-                "column_count": schema["cols"],
-                "row_count": schema["rows"],
-            }
-        if slot.get("chart_schema"):
-            schema = slot["chart_schema"]
-            slim_slot["chart_schema"] = {
-                "chart_type": schema.get("chart_type"),
-                "category_count": schema["category_count"],
-                "series_count": schema["series_count"],
-            }
-        slots.append(slim_slot)
-    return {
+        })
+
+    payload = {
         "slide_id": entry["slide_id"],
         "has_table": entry["has_table"],
         "has_chart": entry["has_chart"],
@@ -107,6 +96,25 @@ def _slim_entry_for_fill(entry: Dict[str, Any], alias_map: Dict[str, str]) -> Di
             for rg in entry["repeat_groups"]
         ],
     }
+
+    table_slot = next((s for s in entry["slots"] if s.get("table_schema")), None)
+    if table_slot and table_slot.get("table_schema"):
+        schema = table_slot["table_schema"]
+        payload["table_schema"] = {
+            "column_count": schema.get("cols", 4),
+            "row_count": schema.get("rows", 6),
+        }
+
+    chart_slot = next((s for s in entry["slots"] if s.get("chart_schema")), None)
+    if chart_slot and chart_slot.get("chart_schema"):
+        schema = chart_slot["chart_schema"]
+        payload["chart_schema"] = {
+            "chart_type": schema.get("chart_type"),
+            "category_count": schema.get("category_count", 4),
+            "series_count": schema.get("series_count", 2),
+        }
+
+    return payload
 
 
 def _run_outline_stage(
@@ -186,11 +194,13 @@ def _run_fill_stage(
         sid = slide_data.get("slide_id")
         if not sid:
             return
-        reverse_map = reverse_alias_by_slide_id.get(sid)
+        reverse_map = reverse_alias_by_slide_id.get(sid, {})
         slot_values = slide_data.get("slot_values")
-        if reverse_map and isinstance(slot_values, dict):
+        if isinstance(slot_values, dict):
             slide_data["slot_values"] = {
-                reverse_map.get(alias, alias): value for alias, value in slot_values.items()
+                reverse_map.get(alias, alias): str(value).strip()
+                for alias, value in slot_values.items()
+                if value is not None and str(value).strip()
             }
         filled_by_id[sid] = slide_data
 
@@ -264,8 +274,27 @@ def _build_slide_assignment(pick: Dict[str, Any], filled: Optional[Dict[str, Any
             content_item_ids=pick.get("content_item_ids", []),
         )
     except ValidationError as e:
-        logger.warning("Dropping slide %s: schema validation failed: %s", entry["slide_id"], e)
-        return None
+        logger.warning(
+            "SlideAssignment validation warning on %s: %s; attempting rescue as text-only slide assignment...",
+            entry["slide_id"],
+            e,
+        )
+        try:
+            return SlideAssignment(
+                slide_id=entry["slide_id"],
+                source_slide_index=entry["source_slide_index"],
+                title=filled.get("title") or "Overview",
+                slot_values={k: str(v) for k, v in (filled.get("slot_values") or {}).items() if v is not None and str(v).strip()},
+                repeat_items=filled.get("repeat_items") or [],
+                table_headers=None,
+                table_rows=None,
+                chart_categories=None,
+                chart_series=None,
+                content_item_ids=pick.get("content_item_ids", []),
+            )
+        except Exception as e2:
+            logger.error("Failed to rescue slide %s: %s", entry["slide_id"], e2)
+            return None
 
 
 def plan_hld_qbr_presentation_generic(

@@ -67,6 +67,16 @@ GROQ_API_KEYS: list[str] = [
 ] if _raw_keys else ([GROQ_API_KEY] if GROQ_API_KEY else [])
 
 # ---------------------------------------------------------------------------
+# OpenRouter settings (Fallback for Groq rate limits)
+# ---------------------------------------------------------------------------
+OPENROUTER_URL: str = os.getenv("OPENROUTER_URL", "https://openrouter.ai/api/v1/chat/completions")
+OPENROUTER_MODEL: str = os.getenv("OPENROUTER_MODEL", "openai/gpt-oss-120b")
+_raw_openrouter_keys = os.getenv("OPENROUTER_API_KEYS", "")
+OPENROUTER_API_KEYS: list[str] = [
+    k.strip() for k in _raw_openrouter_keys.split(",") if k.strip()
+] if _raw_openrouter_keys else ([os.getenv("OPENROUTER_API_KEY", "").strip()] if os.getenv("OPENROUTER_API_KEY", "").strip() else [])
+
+# ---------------------------------------------------------------------------
 # IBM watsonx.ai settings
 # ---------------------------------------------------------------------------
 WATSONX_API_KEY: str = os.getenv("WATSONX_API_KEY", "")

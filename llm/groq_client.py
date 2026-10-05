@@ -63,6 +63,7 @@ class GroqClient:
         max_tokens: int = 4096,
         max_retries: int = 3,
         key_number: Optional[int] = None,
+        openrouter_client: Optional[Any] = None,
     ) -> None:
         if not api_key or api_key.strip() == "":
             raise GroqAuthError(
@@ -89,6 +90,47 @@ class GroqClient:
         self.key_number = key_number
         self._key_label = f"...{api_key.strip()[-4:]}" if len(api_key.strip()) > 4 else "..."
 
+        self.openrouter_client = openrouter_client
+        if self.openrouter_client is None:
+            try:
+                import config
+                if getattr(config, "OPENROUTER_API_KEYS", None):
+                    from llm.openrouter_client import OpenRouterClient
+                    self.openrouter_client = OpenRouterClient(
+                        api_keys=config.OPENROUTER_API_KEYS,
+                        model=getattr(config, "OPENROUTER_MODEL", "openai/gpt-oss-120b"),
+                        url=getattr(config, "OPENROUTER_URL", "https://openrouter.ai/api/v1/chat/completions"),
+                        temperature=temperature,
+                        max_tokens=max_tokens,
+                        max_retries=max_retries,
+                    )
+            except Exception as e:
+                logger.debug("Could not auto-initialize OpenRouter fallback client: %s", e)
+
+    def _fallback_to_openrouter(
+        self,
+        messages: List[Dict[str, str]],
+        temperature: Optional[float] = None,
+        max_tokens: Optional[int] = None,
+        reason: str = "Rate limit",
+    ) -> str:
+        """Call OpenRouter fallback when Groq rate limits are exceeded."""
+        if not self.openrouter_client:
+            raise GroqRateLimitError(f"Groq rate limit exceeded ({reason}), and no OpenRouter backup configured.")
+        logger.warning(
+            "Groq rate limit on key #%s (%s) [%s] — failing over to OpenRouter (model=%s, %d keys active)",
+            self.key_number,
+            self._key_label,
+            reason,
+            self.openrouter_client.model,
+            self.openrouter_client.key_count,
+        )
+        return self.openrouter_client.chat_complete(
+            messages=messages,
+            temperature=temperature,
+            max_tokens=max_tokens,
+        )
+
     def chat_complete(
         self,
         messages: List[Dict[str, str]],
@@ -98,6 +140,7 @@ class GroqClient:
         """
         Send a chat completion request to Groq.
         Returns the raw text response.
+        If Groq rate limit is encountered, transparently fails over to OpenRouter.
         """
         _temp = temperature if temperature is not None else self.temperature
         _max_tok = max_tokens if max_tokens is not None else self.max_tokens
@@ -142,16 +185,56 @@ class GroqClient:
             ) from e
 
         except self._RateLimitError as e:
+            if self.openrouter_client:
+                try:
+                    return self._fallback_to_openrouter(
+                        messages=messages,
+                        temperature=_temp,
+                        max_tokens=_max_tok,
+                        reason="RateLimitError",
+                    )
+                except Exception as or_err:
+                    logger.error("OpenRouter fallback failed after Groq rate limit: %s", or_err)
+                    raise GroqRateLimitError(
+                        f"Groq rate limit exceeded and OpenRouter fallback failed: {or_err}"
+                    ) from or_err
             raise GroqRateLimitError(
                 "Groq rate limit exceeded. Please wait a moment and try again."
             ) from e
 
         except self._APIStatusError as e:
+            if getattr(e, "status_code", None) == 429 and self.openrouter_client:
+                try:
+                    return self._fallback_to_openrouter(
+                        messages=messages,
+                        temperature=_temp,
+                        max_tokens=_max_tok,
+                        reason=f"HTTP 429: {e.message}",
+                    )
+                except Exception as or_err:
+                    logger.error("OpenRouter fallback failed after Groq 429: %s", or_err)
+                    raise GroqRateLimitError(
+                        f"Groq rate limit exceeded (429) and OpenRouter fallback failed: {or_err}"
+                    ) from or_err
             raise GroqAPIError(
                 f"Groq API error (status {e.status_code}): {e.message}"
             ) from e
 
         except Exception as e:
+            err_msg = str(e).lower()
+            if ("rate limit" in err_msg or "429" in err_msg) and self.openrouter_client:
+                try:
+                    return self._fallback_to_openrouter(
+                        messages=messages,
+                        temperature=_temp,
+                        max_tokens=_max_tok,
+                        reason=f"Rate limit in error: {e}",
+                    )
+                except Exception as or_err:
+                    logger.error("OpenRouter fallback failed after Groq rate limit: %s", or_err)
+                    raise GroqRateLimitError(
+                        f"Groq rate limit encountered and OpenRouter fallback failed: {or_err}"
+                    ) from or_err
             raise GroqAPIError(f"Unexpected error calling Groq: {e}") from e
 
     def chat_complete_json(

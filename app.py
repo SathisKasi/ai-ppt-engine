@@ -57,6 +57,7 @@ from core.governance import (
 )
 from llm.groq_client import GroqClient, GroqAuthError, GroqRateLimitError, GroqAPIError
 from llm.watsonx_client import WatsonxAuthError, WatsonxRateLimitError, WatsonxAPIError
+from llm.openrouter_client import OpenRouterAuthError, OpenRouterRateLimitError, OpenRouterAPIError
 from llm.key_manager import KeyManager, KeyManagerError
 from utils.file_utils import validate_upload, get_output_path, cleanup_old_outputs
 from utils.text_utils import sanitize_filename, truncate_text
@@ -589,6 +590,12 @@ def render_sidebar() -> dict:
             st.caption(f"🔀 {len(all_keys)} key(s) active — round-robin across sections")
         else:
             st.warning(f"⚠️ No API keys configured. Add keys above or set {provider_env_var} in .env")
+
+        if not is_watsonx and getattr(config, "OPENROUTER_API_KEYS", None):
+            st.caption(
+                f"🛡️ **OpenRouter Backup:** {len(config.OPENROUTER_API_KEYS)} key(s) active "
+                f"(`{config.OPENROUTER_MODEL}`) — auto-failover on rate limits"
+            )
 
         st.divider()
 
@@ -1125,6 +1132,9 @@ def run_generation_pipeline(
                     max_tokens=config.GROQ_MAX_TOKENS_PLAN,
                     max_retries=config.LLM_MAX_RETRIES,
                     provider="groq",
+                    openrouter_keys=config.OPENROUTER_API_KEYS,
+                    openrouter_url=config.OPENROUTER_URL,
+                    openrouter_model=config.OPENROUTER_MODEL,
                 )
             st.caption(f"✅ {key_manager.key_count} API key(s) active — round-robin per section")
         except KeyManagerError as e:
@@ -1217,7 +1227,7 @@ def run_generation_pipeline(
                 status.update(label="❌ Content analysis failed", state="error")
                 st.error(f"❌ {e}")
                 return
-            except (GroqRateLimitError, GroqAPIError, WatsonxRateLimitError, WatsonxAPIError) as e:
+            except (GroqRateLimitError, GroqAPIError, WatsonxRateLimitError, WatsonxAPIError, OpenRouterRateLimitError, OpenRouterAPIError) as e:
                 status.update(label="❌ API error", state="error")
                 st.error(f"❌ LLM API error: {e}")
                 return
@@ -1627,6 +1637,9 @@ def _build_qa_client(api_config: dict):
             max_tokens=config.GROQ_MAX_TOKENS_SLIDE,
             max_retries=config.LLM_MAX_RETRIES,
             provider="groq",
+            openrouter_keys=config.OPENROUTER_API_KEYS,
+            openrouter_url=config.OPENROUTER_URL,
+            openrouter_model=config.OPENROUTER_MODEL,
         )
     return key_manager.get_client()
 
@@ -1668,11 +1681,11 @@ def render_qa_tab(api_config: dict) -> None:
                 )
                 if not answer:
                     answer = "⚠️ The model returned an empty response. Please try rephrasing your question."
-            except (GroqAuthError, WatsonxAuthError) as e:
+            except (GroqAuthError, WatsonxAuthError, OpenRouterAuthError) as e:
                 answer = f"❌ Authentication error: {e}"
-            except (GroqRateLimitError, WatsonxRateLimitError) as e:
+            except (GroqRateLimitError, WatsonxRateLimitError, OpenRouterRateLimitError) as e:
                 answer = f"⏳ Rate limit/quota exceeded: {e}"
-            except (GroqAPIError, WatsonxAPIError, KeyManagerError) as e:
+            except (GroqAPIError, WatsonxAPIError, OpenRouterAPIError, KeyManagerError) as e:
                 answer = f"❌ API error: {e}"
             except Exception as e:
                 answer = f"❌ Unexpected error: {e}"
