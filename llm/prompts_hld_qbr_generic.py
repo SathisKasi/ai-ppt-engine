@@ -38,8 +38,9 @@ table/chart schema, repeat-group max item counts; no topic names):
 {compact_catalog_json}
 
 EXTRACTED CONTENT MODEL (everything genuinely found in the source document —
-atomic items with an id, type, text, attributes, and source_reference; this is
-the ONLY content you may reference):
+atomic items with an id, type, text, attributes, and source_reference, plus
+the document's own higher-level "topics" grouping related items together;
+this is the ONLY content you may reference):
 {content_model_json}
 
 These slide_ids are always included regardless of your picks (structural
@@ -50,7 +51,11 @@ Requested number of CONTENT slides: {requested_slide_count}
 
 Task: choose exactly {requested_slide_count} slide_ids when a requested count
 is supplied (otherwise choose only the useful slides). Select from the catalog
-above, excluding the always-included ones. Every pick must have genuinely
+above, excluding the always-included ones. Use the content model's "topics"
+as a map of the document's real structure — aim to cover the document's
+distinct topics rather than drilling repeatedly into one topic while others
+go unrepresented, unless a topic genuinely lacks any structurally-fitting
+slide. Every pick must have genuinely
 fitting content, and
 for each, list the content_item ids (from the content model above) that will
 feed it. Prefer slides where the structural fit is strong. Do not invent a

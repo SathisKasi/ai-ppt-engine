@@ -9,8 +9,9 @@ from __future__ import annotations
 
 SYSTEM_ROLE_CONTENT_EXTRACTOR = """\
 You are a meticulous document analyst. You extract exactly what is stated in a source
-document into a structured list of atomic content items. You do not write slides, choose
-layouts, or format a presentation — you only determine what information exists.
+document into a structured list of atomic content items, plus the higher-level topics
+those items belong to. You do not write slides, choose layouts, or format a
+presentation — you only determine what information exists and how it clusters.
 
 Rules:
 1. Extract only facts, claims, and information genuinely present in the source text.
@@ -21,11 +22,15 @@ Rules:
    text makes one available; otherwise leave it as an empty string.
 6. Identify relationships between items only when the source text itself implies them
    (e.g. a stated problem being addressed by a stated solution).
+7. Identify topics as whatever themes this excerpt naturally covers — never a fixed
+   taxonomy — and list which content_item ids belong to each; a topic with no items
+   that clearly belong to it should not be reported.
 """
 
 CONTENT_MODEL_EXTRACTION_PROMPT = """\
 Read the source document below and extract a Content Model: a flat list of atomic
-content items plus any relationships the source itself implies between them.
+content items, any relationships the source itself implies between them, and the
+higher-level topics this excerpt discusses.
 
 Each content item must have:
 - id: short stable id, e.g. "C001", "C002", ... (sequential)
@@ -37,9 +42,16 @@ Each content item must have:
   metric); use {{}} when there is nothing structured to add
 - source_reference: a page/section hint if available in the source, else ""
 
+Each topic must have:
+- id: short stable id, e.g. "T001", "T002", ... (sequential)
+- name: a concise label for the theme, in the source's own terms (not a fixed category)
+- summary: 1-2 sentences describing what this topic covers in THIS excerpt
+- content_item_ids: the ids of the content items above that belong to this topic
+
 Do NOT require every category to appear — only extract what is genuinely present.
 Do NOT skip content merely because it doesn't match a presentation template; this
-extraction has no knowledge of any template.
+extraction has no knowledge of any template. Do NOT force every content item into a
+topic — an item with no natural topical home can be left out of every topic's list.
 
 SOURCE DOCUMENT:
 {source_content}
@@ -47,7 +59,8 @@ SOURCE DOCUMENT:
 Return ONLY valid JSON of the form:
 {{
   "content_items": [ {{"id": "...", "type": "...", "text": "...", "attributes": {{}}, "source_reference": "..."}} ],
-  "relationships": [ {{"from_id": "...", "to_id": "...", "type": "..."}} ]
+  "relationships": [ {{"from_id": "...", "to_id": "...", "type": "..."}} ],
+  "topics": [ {{"id": "...", "name": "...", "summary": "...", "content_item_ids": ["..."]}} ]
 }}
 """
 
@@ -79,8 +92,15 @@ copies, and keep every genuinely distinct item. Preserve each relationship, rema
 from_id/to_id to whichever surviving id now represents that item; drop a relationship
 only if both its endpoints were duplicates of the same surviving item.
 
-Do NOT add, infer, or invent any item not already present below. Do NOT drop a
-genuinely distinct item merely to shorten the list.
+The topics below have the same overlap problem — the same theme may have been
+identified independently in multiple chunks under different ids. Merge duplicate/
+overlapping topics into one (keep the clearest name/summary), remapping each merged
+topic's content_item_ids to the surviving item ids and combining the distinct item ids
+from every topic being merged. Drop a topic only if it has no genuinely distinct theme
+left after merging.
+
+Do NOT add, infer, or invent any item or topic not already present below. Do NOT drop a
+genuinely distinct item or topic merely to shorten the list.
 
 MERGED CONTENT ITEMS (pre-dedupe):
 {merged_content_model_json}
@@ -88,7 +108,8 @@ MERGED CONTENT ITEMS (pre-dedupe):
 Return ONLY valid JSON of the same form:
 {{
   "content_items": [ {{"id": "...", "type": "...", "text": "...", "attributes": {{}}, "source_reference": "..."}} ],
-  "relationships": [ {{"from_id": "...", "to_id": "...", "type": "..."}} ]
+  "relationships": [ {{"from_id": "...", "to_id": "...", "type": "..."}} ],
+  "topics": [ {{"id": "...", "name": "...", "summary": "...", "content_item_ids": ["..."]}} ]
 }}
 """
 

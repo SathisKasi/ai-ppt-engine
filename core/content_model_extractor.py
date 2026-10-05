@@ -11,7 +11,7 @@ from typing import List
 
 from pydantic import ValidationError
 
-from llm.content_model_schemas import ContentItem, ContentModel
+from llm.content_model_schemas import ContentItem, ContentModel, Topic
 from llm.groq_client import GroqClient, JSONParseError
 from llm.prompts_content_model import (
     SYSTEM_ROLE_CONTENT_EXTRACTOR,
@@ -52,8 +52,8 @@ def extract_content_model(
         return ContentModel()
 
     logger.info(
-        "Content model extracted: %d items, %d relationships.",
-        len(model.content_items), len(model.relationships),
+        "Content model extracted: %d items, %d relationships, %d topics.",
+        len(model.content_items), len(model.relationships), len(model.topics),
     )
     return model
 
@@ -68,10 +68,13 @@ def extract_content_model(
 
 def _renumber_and_merge(models: List[ContentModel]) -> ContentModel:
     """Concatenates per-chunk ContentModels into one, renumbering ids
-    sequentially (C001, C002, ...) and remapping relationship endpoints."""
+    sequentially (C001, C002, ... and T001, T002, ...) and remapping
+    relationship endpoints and topic content_item_ids."""
     merged_items: List[ContentItem] = []
     merged_relationships = []
+    merged_topics: List[Topic] = []
     next_num = 1
+    next_topic_num = 1
 
     for model in models:
         id_map = {}
@@ -85,8 +88,13 @@ def _renumber_and_merge(models: List[ContentModel]) -> ContentModel:
                 merged_relationships.append(
                     rel.model_copy(update={"from_id": id_map[rel.from_id], "to_id": id_map[rel.to_id]})
                 )
+        for topic in model.topics:
+            new_topic_id = f"T{next_topic_num:03d}"
+            next_topic_num += 1
+            remapped_item_ids = [id_map[i] for i in topic.content_item_ids if i in id_map]
+            merged_topics.append(topic.model_copy(update={"id": new_topic_id, "content_item_ids": remapped_item_ids}))
 
-    return ContentModel(content_items=merged_items, relationships=merged_relationships)
+    return ContentModel(content_items=merged_items, relationships=merged_relationships, topics=merged_topics)
 
 
 def _reduce_content_model(client: GroqClient, merged: ContentModel) -> ContentModel:
@@ -109,8 +117,9 @@ def _reduce_content_model(client: GroqClient, merged: ContentModel) -> ContentMo
         return merged
 
     logger.info(
-        "Content model reduced: %d -> %d items.",
+        "Content model reduced: %d -> %d items, %d -> %d topics.",
         len(merged.content_items), len(reduced.content_items),
+        len(merged.topics), len(reduced.topics),
     )
     return reduced
 

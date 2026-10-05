@@ -38,11 +38,26 @@ class ContentRelationship(BaseModel):
     type: str
 
 
+class Topic(BaseModel):
+    """A higher-level theme the source document discusses, grouping related
+    ContentItems together. Additive to, not a replacement for, atomic fact
+    extraction — topics give the outline stage a document-structure view,
+    while content_items remain the traceable, citable unit of fact."""
+
+    id: str = Field(..., description="Stable short id, e.g. 'T001'")
+    name: str = Field(..., description="Concise topic label, in the source's own terms")
+    summary: str = Field(default="", description="1-2 sentence description of what this topic covers")
+    content_item_ids: List[str] = Field(
+        default_factory=list, description="ids of the content_items that belong to this topic"
+    )
+
+
 class ContentModel(BaseModel):
     """The full extracted representation of a source document."""
 
     content_items: List[ContentItem] = Field(default_factory=list)
     relationships: List[ContentRelationship] = Field(default_factory=list)
+    topics: List[Topic] = Field(default_factory=list)
 
     def compact_json(self) -> str:
         """Minimal id+type+text+source_reference view for prompt injection (no attributes)."""
@@ -52,7 +67,11 @@ class ContentModel(BaseModel):
             for i in self.content_items
         ]
         rels = [r.model_dump() for r in self.relationships]
-        return json.dumps({"content_items": items, "relationships": rels}, ensure_ascii=False, indent=2)
+        topics = [t.model_dump() for t in self.topics]
+        return json.dumps(
+            {"content_items": items, "relationships": rels, "topics": topics},
+            ensure_ascii=False, indent=2,
+        )
 
     def ids(self) -> set:
         return {i.id for i in self.content_items}
