@@ -632,19 +632,20 @@ def _fill_table_rows(
             import copy
             last_tr = tbl.rows[len(tbl.rows) - 1]._tr
             tbl._tbl.append(copy.deepcopy(last_tr))
-        for c_idx, val in enumerate(row_values):
-            if c_idx < len(tbl.columns):
-                cell = tbl.cell(r_idx, c_idx)
-                cell.text = str(val)
-                cell.margin_top = Inches(0.04)
-                cell.margin_bottom = Inches(0.04)
-                cell.margin_left = Inches(0.08)
-                cell.margin_right = Inches(0.08)
-                for para in cell.text_frame.paragraphs:
-                    for run in para.runs:
-                        run.font.name = "Verdana"
-                        run.font.size = font_sz
-                        run.font.color.rgb = text_color
+        for c_idx in range(len(tbl.columns)):
+            val = row_values[c_idx] if c_idx < len(row_values) else "-"
+            cell = tbl.cell(r_idx, c_idx)
+            cell_text = str(val).strip() if val is not None else ""
+            cell.text = cell_text if cell_text else "-"
+            cell.margin_top = Inches(0.04)
+            cell.margin_bottom = Inches(0.04)
+            cell.margin_left = Inches(0.08)
+            cell.margin_right = Inches(0.08)
+            for para in cell.text_frame.paragraphs:
+                for run in para.runs:
+                    run.font.name = "Verdana"
+                    run.font.size = font_sz
+                    run.font.color.rgb = text_color
 
     used_through = start_row + len(rows)
     if prune_unused_rows:

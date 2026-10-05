@@ -144,11 +144,11 @@ def _run_outline_stage(
             ]
             slim_topics = [t for t in slim_topics if t.content_item_ids]
             cm_for_outline = ContentModel(content_items=slim_items, topics=slim_topics)
-            content_model_json = cm_for_outline.compact_for_outline(max_chars=4000)
+            content_model_json = cm_for_outline.compact_for_outline(max_chars=6000)
         else:
-            content_model_json = content_model.compact_for_outline(max_chars=6000)
+            content_model_json = content_model.compact_for_outline(max_chars=9000)
     else:
-        content_model_json = content_model.compact_for_outline(max_chars=6000)
+        content_model_json = content_model.compact_for_outline(max_chars=9000)
 
     prompt = build_hld_qbr_outline_prompt(
         compact_catalog=compact_catalog,
@@ -225,11 +225,14 @@ def _run_fill_stage(
         entry = get_entry(pick["slide_id"])
         if entry is None:
             continue
-        assigned = [
-            {"id": items_by_id[i].id, "text": items_by_id[i].text}
-            for i in pick["content_item_ids"]
-            if i in items_by_id
-        ]
+        assigned = []
+        for i in pick["content_item_ids"]:
+            if i in items_by_id:
+                it = items_by_id[i]
+                item_dict = {"id": it.id, "type": it.type, "text": it.text}
+                if getattr(it, "attributes", None):
+                    item_dict["attributes"] = it.attributes
+                assigned.append(item_dict)
         alias_map = _build_slot_alias_map(entry)
         fill_key = pick["fill_key"]
         reverse_alias_by_fill_key[fill_key] = {v: k for k, v in alias_map.items()}

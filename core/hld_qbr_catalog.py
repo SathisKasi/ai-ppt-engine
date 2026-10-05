@@ -15,8 +15,12 @@ import json
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
-_PROJECT_ROOT = Path(__file__).resolve().parent.parent
-CATALOG_PATH = _PROJECT_ROOT / "templates" / "hld_qbr_assets" / "inventory" / "layout_capability_catalog.json"
+import config
+
+CATALOG_PATH = getattr(config, "HLD_QBR_CATALOG_FILE", None)
+if CATALOG_PATH is None or not CATALOG_PATH.exists():
+    _PROJECT_ROOT = Path(__file__).resolve().parent.parent
+    CATALOG_PATH = _PROJECT_ROOT / "templates" / "hld_qbr_assets" / "inventory" / "layout_capability_catalog.json"
 
 _cache: Optional[List[Dict[str, Any]]] = None
 

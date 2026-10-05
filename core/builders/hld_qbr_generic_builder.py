@@ -164,6 +164,7 @@ def _set_text_generic(shape: Any, text: str, kind: str, sample_max_chars: Option
 
 
 def _render_simple_slots(slide: Any, entry: Dict[str, Any], assignment: SlideAssignment) -> None:
+    seen_texts = set()
     for slot in entry["slots"]:
         if slot["kind"] in ("table", "chart", "placeholder_title", "empty_title_box"):
             continue
@@ -171,8 +172,18 @@ def _render_simple_slots(slide: Any, entry: Dict[str, Any], assignment: SlideAss
         shape = _shape_by_id(slide, slot["shape_id"])
         if shape is None:
             continue
+        # Deduplication guard: if an identical non-trivial statement was already rendered on this slide,
+        # prune the duplicate shape rather than stamping identical duplicate cards
+        norm_val = value.strip().lower() if value else ""
+        if value and (norm_val in seen_texts and len(norm_val) > 20):
+            try:
+                shape.element.getparent().remove(shape.element)
+            except Exception:
+                pass
+            continue
         if value:
             if shape.has_text_frame:
+                seen_texts.add(norm_val)
                 _set_text_generic(shape, value, slot["kind"], slot.get("max_chars"))
         else:
             # Unfilled optional content shape — remove it rather than leave a
@@ -209,7 +220,18 @@ def _render_repeat_groups(
     group_map = group_text_children_map or {}
     for rg in entry["repeat_groups"]:
         member_ids = rg["member_shape_ids"]
-        items = assignment.repeat_items[: len(member_ids)]
+        # Deduplicate repeat items: don't render identical duplicate cards
+        unique_items = []
+        seen_card_signatures = set()
+        for it in assignment.repeat_items:
+            vals = [str(v).strip().lower() for v in it.values() if str(v).strip()]
+            sig = tuple(vals)
+            if sig and sig in seen_card_signatures:
+                continue
+            if sig:
+                seen_card_signatures.add(sig)
+                unique_items.append(it)
+        items = unique_items[: len(member_ids)]
         for i, shape_id in enumerate(member_ids):
             member = _shape_by_id(slide, shape_id)
             if member is None:
@@ -256,29 +278,37 @@ def _render_repeat_groups(
 
 def _render_table(slide: Any, entry: Dict[str, Any], assignment: SlideAssignment) -> None:
     table_slot = next((s for s in entry["slots"] if s["kind"] == "table"), None)
-    if table_slot is None or not assignment.table_rows:
-        return
-    shape = _shape_by_id(slide, table_slot["shape_id"])
-    if shape is None or not shape.has_table:
-        return
-    tbl = shape.table
-    orig_rows = len(tbl.rows)
-    orig_height = shape.height
-    headers = assignment.table_headers or []
-    for c_idx, header in enumerate(headers):
-        if c_idx < len(tbl.columns):
-            cell = tbl.cell(0, c_idx)
-            cell.text = str(header)
-            cell.vertical_anchor = MSO_ANCHOR.MIDDLE
-            for p in cell.text_frame.paragraphs:
-                for r in p.runs:
-                    r.font.name = "Verdana"
-                    r.font.size = Pt(11.0)
-                    r.font.bold = True
-                    r.font.color.rgb = TEXT_COLOR
-    _fill_table_rows(tbl, assignment.table_rows, start_row=1, prune_unused_rows=True, text_color=TEXT_COLOR)
-    if orig_rows > 0 and len(tbl.rows) < orig_rows:
-        shape.height = min(orig_height, int(orig_height * (len(tbl.rows) / orig_rows)))
+    rendered_shape_id = None
+    if table_slot is not None and assignment.table_rows:
+        shape = _shape_by_id(slide, table_slot["shape_id"])
+        if shape is not None and shape.has_table:
+            rendered_shape_id = shape.shape_id
+            tbl = shape.table
+            orig_rows = len(tbl.rows)
+            orig_height = shape.height
+            headers = assignment.table_headers or []
+            for c_idx, header in enumerate(headers):
+                if c_idx < len(tbl.columns):
+                    cell = tbl.cell(0, c_idx)
+                    cell.text = str(header)
+                    cell.vertical_anchor = MSO_ANCHOR.MIDDLE
+                    for p in cell.text_frame.paragraphs:
+                        for r in p.runs:
+                            r.font.name = "Verdana"
+                            r.font.size = Pt(11.0)
+                            r.font.bold = True
+                            r.font.color.rgb = TEXT_COLOR
+            _fill_table_rows(tbl, assignment.table_rows, start_row=1, prune_unused_rows=True, text_color=TEXT_COLOR)
+            if orig_rows > 0 and len(tbl.rows) < orig_rows:
+                shape.height = min(orig_height, int(orig_height * (len(tbl.rows) / orig_rows)))
+
+    # Remove any unpopulated / ghost table shapes on this slide so empty grids never appear
+    for shape in list(slide.shapes):
+        if getattr(shape, "has_table", False) and shape.shape_id != rendered_shape_id:
+            try:
+                shape.element.getparent().remove(shape.element)
+            except Exception:
+                pass
 
 
 def _render_chart(slide: Any, entry: Dict[str, Any], assignment: SlideAssignment) -> None:

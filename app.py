@@ -23,7 +23,7 @@ st.set_page_config(
     page_title="AI PowerPoint Generator",
     page_icon="🎯",
     layout="wide",
-    initial_sidebar_state="expanded",
+    initial_sidebar_state="collapsed",
 )
 
 # ---------------------------------------------------------------------------
@@ -554,48 +554,79 @@ def render_sidebar() -> dict:
         <div style="text-align:center; padding: 1rem 0 0.75rem;">
             <span style="font-size:2.2rem;">📊</span>
             <h2 style="color:#0B2545; margin:0.4rem 0 0; font-size:1.25rem; font-weight:800; letter-spacing:-0.01em;">AI PPT Studio</h2>
-            <p style="color:#64748B; font-size:0.82rem; margin:0.25rem 0 0; font-weight:500;">Powered by IBM watsonx.ai</p>
+            <p style="color:#64748B; font-size:0.82rem; margin:0.25rem 0 0; font-weight:500;">Desktop Edition</p>
         </div>
         """, unsafe_allow_html=True)
 
         st.divider()
 
+        # Provider selection
+        is_watsonx_current = config.LLM_PROVIDER == "watsonx"
+        provider_idx = 0 if is_watsonx_current else 1
+        provider_choice = st.selectbox(
+            "⚙️ LLM Provider",
+            options=["watsonx", "groq"],
+            index=provider_idx,
+            format_func=lambda p: "IBM watsonx.ai" if p == "watsonx" else "Groq Cloud",
+        )
+        if provider_choice != config.LLM_PROVIDER:
+            config.update_env_variable("LLM_PROVIDER", provider_choice)
+            config.reload_keys()
+            st.rerun()
+
         is_watsonx = config.LLM_PROVIDER == "watsonx"
         provider_label = "watsonx.ai" if is_watsonx else "Groq"
         provider_keys = config.WATSONX_API_KEYS if is_watsonx else config.GROQ_API_KEYS
-        provider_env_var = "WATSONX_API_KEY" if is_watsonx else "GROQ_API_KEYS"
 
-        # ── API Keys — multi-key, never displayed back ───────────────────
-        st.markdown(f"**🔑 {provider_label} API Keys**")
+        st.markdown(f"**🔑 {provider_label} Configuration**")
 
-        # Show keys from .env as pre-loaded (count only, no display)
-        env_key_count = len(provider_keys)
-        if env_key_count > 0:
-            st.success(f"✅ {env_key_count} key(s) loaded from configuration")
-
-        # Allow adding more keys via UI (password type, never echoed)
-        extra_keys_raw = st.text_area(
-            "Additional API Keys",
-            height=80,
-            placeholder="Paste extra API keys here (one per line)",
-            help=f"Optional. Add more {provider_label} API keys to distribute load across sections. Keys entered here are never shown.",
-            label_visibility="visible",
-        )
-
-        # Combine env keys + UI keys
-        ui_keys = [k.strip() for k in (extra_keys_raw or "").splitlines() if k.strip()]
-        all_keys = list(dict.fromkeys(provider_keys + ui_keys))  # deduplicate
-
-        if all_keys:
-            st.caption(f"🔀 {len(all_keys)} key(s) active — round-robin across sections")
-        else:
-            st.warning(f"⚠️ No API keys configured. Add keys above or set {provider_env_var} in .env")
-
-        if not is_watsonx and getattr(config, "OPENROUTER_API_KEYS", None):
-            st.caption(
-                f"🛡️ **OpenRouter Backup:** {len(config.OPENROUTER_API_KEYS)} key(s) active "
-                f"(`{config.OPENROUTER_MODEL}`) — auto-failover on rate limits"
+        if is_watsonx:
+            wx_key = st.text_input(
+                "Watsonx API Key",
+                type="password",
+                value=config.WATSONX_API_KEY if config.WATSONX_API_KEY else "",
+                placeholder="Enter IBM Cloud API key",
+                help="Your IBM watsonx.ai Cloud API key.",
             )
+            wx_project = st.text_input(
+                "Watsonx Project ID",
+                value=config.WATSONX_PROJECT_ID if config.WATSONX_PROJECT_ID else "",
+                placeholder="Enter watsonx Project GUID",
+                help="Project GUID associated with your watsonx instance.",
+            )
+            if st.button("💾 Save Watsonx Settings", use_container_width=True):
+                if wx_key:
+                    config.update_env_variable("WATSONX_API_KEY", wx_key.strip())
+                if wx_project:
+                    config.update_env_variable("WATSONX_PROJECT_ID", wx_project.strip())
+                config.reload_keys()
+                st.success("Settings saved to local configuration!")
+                st.rerun()
+
+            all_keys = [wx_key.strip()] if wx_key.strip() else provider_keys
+        else:
+            groq_key = st.text_input(
+                "Groq API Key",
+                type="password",
+                value=config.GROQ_API_KEY if config.GROQ_API_KEY else "",
+                placeholder="gsk_...",
+                help="Your Groq Cloud API key.",
+            )
+            if st.button("💾 Save Groq Key", use_container_width=True):
+                if groq_key:
+                    config.update_env_variable("GROQ_API_KEY", groq_key.strip())
+                config.reload_keys()
+                st.success("Groq key saved!")
+                st.rerun()
+
+            all_keys = [groq_key.strip()] if groq_key.strip() else provider_keys
+
+        # Key status
+        active_keys = [k for k in all_keys if k]
+        if active_keys:
+            st.caption(f"✅ {len(active_keys)} key(s) active")
+        else:
+            st.warning("⚠️ No API key configured. Enter your key above.")
 
         st.divider()
 
@@ -631,7 +662,7 @@ def render_sidebar() -> dict:
         st.divider()
         st.caption(f"v{config.APP_VERSION} • Corporate White & Navy Blue Edition")
 
-    return {"api_keys": all_keys, "model": model}
+    return {"api_keys": [k for k in all_keys if k], "model": model}
 
 
 # ---------------------------------------------------------------------------
@@ -1508,8 +1539,7 @@ def render_semantic_debug(cache, chunks) -> None:
 # ---------------------------------------------------------------------------
 
 def main() -> None:
-    # Sidebar (temporarily commented out)
-    # api_config = render_sidebar()
+    # Sidebar bypassed: configuration is loaded directly from .env
     if config.LLM_PROVIDER == "watsonx":
         api_config = {
             "api_keys": config.WATSONX_API_KEYS,
@@ -1559,7 +1589,7 @@ def render_generator_tab(api_config: dict) -> None:
     with col_info:
         if not has_keys:
             env_var = "WATSONX_API_KEY" if config.LLM_PROVIDER == "watsonx" else "GROQ_API_KEYS"
-            st.info(f"👈 No API keys configured. Add keys in the sidebar or set {env_var} in .env")
+            st.info(f"⚠️ No API keys configured. Please configure {env_var} in .env")
         elif not source_text:
             st.info("📄 Upload a document or enter a prompt above to get started.")
         else:

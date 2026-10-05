@@ -23,13 +23,15 @@ from typing import Any, Dict, List, Optional
 
 SYSTEM_ROLE_HLD_QBR_OUTLINE = """\
 You are an executive presentation architect for UPS Healthcare QBR decks.
-Match source content to the most structurally appropriate slide layouts:
-- Tables: Multi-attribute data rows and columns.
-- Charts: Multi-category or multi-period numeric series comparisons. (Never use charts for isolated single metrics).
-- Cards / Repeat Groups: 3-4 parallel items, capabilities, or metrics.
-- Text Slides: Narrative, executive takeaways, or problem/solution.
-Select distinct, high-impact topics and cite valid source content_item_ids.
-Non-repeatable slide layouts may only be used once.
+Your objective is to design a high-density, strategic presentation from the source document.
+
+Core Matching Principles:
+1. STRATEGIC RELEVANCE: Prioritize substantive operational and performance topics (e.g. SLA delivery performance, cold-chain compliance, turnaround times, quality assurance, throughput, inventory accuracy, operational challenges & action plans). NEVER create a slide for isolated metadata, single dates, regulatory entity names (e.g. 'WHO', 'September 2025'), or minor daily fluctuations.
+2. CAPACITY MATCHING: Match layout capacity to content depth:
+   - For multi-slot or multi-card layouts (layouts with 4 to 10 slots or cards like slide_02), assign 4 to 8 distinct content_item_ids so every card/slot receives its own substantive, unique fact. NEVER assign only 1 or 2 items to a multi-slot/card layout.
+   - For table layouts (has_table: true), assign items that contain structured metrics, tabular data, or multiple comparable attributes with values and benchmarks.
+   - For chart layouts (has_chart: true), only assign if the content has multi-period or multi-category numeric series comparisons (e.g. quarterly metrics). Never pick charts for isolated single metrics.
+3. DIVERSITY & NON-REPETITION: Select distinct topics across the source. Non-repeatable slide layouts may only be used once.
 """
 
 HLD_QBR_OUTLINE_PROMPT = """\
@@ -42,11 +44,15 @@ SOURCE CONTENT:
 REQUESTED CONTENT SLIDES: {requested_slide_count}
 
 INSTRUCTIONS:
-1. Select {requested_slide_count} distinct, high-value topics from the source content.
-2. Match each topic to the layout whose structure best fits its data shape (tabular -> table, multi-point numbers -> chart, cards -> repeat group, narrative -> text).
-3. Assign valid content_item_ids to each pick (never leave empty).
-4. Provide presentation_title, facility_name (if mentioned, else ""), and date (if mentioned, else "").
-5. Provide agenda_topics: 4 to 6 high-level thematic pillars structuring the presentation narrative.
+1. Select {requested_slide_count} distinct, high-impact operational and performance topics from the source content.
+2. Match each topic to the layout whose structure best fits its data shape (tabular metrics -> table, multi-point series -> chart, cards -> repeat group, narrative -> text).
+3. CAPACITY MATCHING: Look at the "text_slots" and "repeats" capacity in AVAILABLE LAYOUTS:
+   - If a layout has 6-10 text slots or cards, assign 5 to 8 distinct content_item_ids so all slots get unique substantive points.
+   - If a layout has 3-4 cards/slots, assign 3 to 4 distinct content_item_ids.
+   - Never assign only 1 or 2 items to multi-slot/card layouts.
+4. CITE VALID IDS: Assign valid content_item_ids to each pick (never leave empty).
+5. METADATA: Provide presentation_title (executive, professional title), facility_name (if mentioned, else ""), and date (if mentioned, else "").
+6. AGENDAS: Provide agenda_topics: 4 to 6 high-level thematic pillars structuring the presentation narrative.
 
 Return ONLY valid JSON:
 {{
@@ -55,7 +61,7 @@ Return ONLY valid JSON:
   "date": "...",
   "agenda_topics": ["Pillar 1", "Pillar 2", "Pillar 3", "Pillar 4"],
   "picks": [
-    {{"slide_id": "slide_XX", "content_item_ids": ["C001", "C002"]}}
+    {{"slide_id": "slide_XX", "content_item_ids": ["C001", "C002", "C003", "C004"]}}
   ]
 }}
 """
@@ -125,17 +131,34 @@ def parse_outline_response(data: Any) -> Dict[str, Any]:
 # ---------------------------------------------------------------------------
 
 SYSTEM_ROLE_HLD_QBR_FILL = """\
-You write concise, executive slide text for UPS Healthcare presentations using ONLY the assigned content.
-Never invent metrics, names, or facts. Distribute assigned points across all designated text slots and cards.
+You are an executive slide writer for UPS Healthcare Quarterly Business Reviews.
+Your job is to transform assigned raw content items into rich, dense, executive-grade slide content.
+
+Rules:
+1. EXECUTIVE DEPTH & CONTENT ENRICHMENT: Write professional, high-impact business prose. Incorporate concrete quantitative metrics, targets, benchmarks, units, and operational context from the assigned items' text and attributes (e.g., "Achieved 99.4% on-time delivery against 98.0% SLA target across regional cold-chain lanes").
+2. STRICT ZERO REPETITION: Every slot and card must express a DIFFERENT observation, metric, root cause, or business outcome. NEVER repeat the same phrase, sentence, or fragment across slots or cards.
+3. GROUNDED IN TRUTH: Use ONLY the provided assigned content items and attributes. Never invent external facts or metrics.
+4. FULL TABLE & CHART INTEGRATION:
+   - For tables, populate EVERY column across all data rows (Metric Name, Operational Detail, Target, Actual, Status). Never leave cells empty ("") or output blank columns.
+   - For charts, generate category labels and numeric series values whenever multi-period or multi-point comparisons exist.
 """
 
 HLD_QBR_FILL_PROMPT = """\
-Fill each slide using ONLY its assigned content items:
-1. "title": Concise heading (<= 50 chars).
-2. "slot_values": Provide non-empty text for every slot_id in "slots". Copy slot_ids exactly. Distribute distinct facts across slots.
+Fill each slide using ONLY its assigned content items and attributes:
+1. "title": Executive slide title (3-7 words, e.g. "Cold Chain SLA Performance & Quality Metrics"). Must synthesize the core business takeaway. Never use all-caps sentences or single generic words.
+2. "slot_values": Provide substantive, non-repeating executive copy for every slot_id in "slots". Copy slot_ids exactly.
+   - ZERO REPETITION: Every slot must be distinct.
+   - ENRICHMENT: Integrate specific metrics, percentages, dollar amounts, targets, and operational details.
+   - If there are more slots than assigned items, synthesize distinct operational facets (e.g. Performance Metric, Root Cause Analysis, Operational Impact, Strategic Next Step) rather than repeating text.
 3. "repeat_items": For repeat groups, provide an object for each card up to max_items.
-4. "table_headers" & "table_rows": For table slides, provide headers and genuine data rows from the content (never invent rows).
-5. "chart_categories" & "chart_series": If numeric series comparisons exist, provide category names and numeric values (numbers, never text). If no numeric series comparisons exist, set both to null.
+   - Each card object must contain keys matching item_slots (e.g. "item_slot_1": "Bold Metric / Key Takeaway", "item_slot_2": "Operational context, impact, and targets").
+   - Ensure every card has unique content.
+4. "table_headers" & "table_rows": For table layouts, populate headers matching column_count and provide data rows:
+   - Every column must be populated with genuine data (Metric, Description, Target, Actual, Status). NEVER leave cells blank ("").
+5. "chart_categories" & "chart_series": When numeric comparisons exist across periods or categories in the assigned items, set:
+   - "chart_categories": ["Q1", "Q2", "Q3", "Q4"]
+   - "chart_series": [{{"name": "Metric Name", "values": [98.2, 99.1, 99.5, 99.8]}}]
+   - Values must be numbers. If no multi-point numeric series comparisons exist in the content, set both to null.
 
 SLIDES TO FILL:
 {slides_json}

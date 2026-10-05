@@ -73,29 +73,32 @@ class ContentModel(BaseModel):
             ensure_ascii=False, separators=(',', ':'),
         )
 
-    def compact_for_outline(self, max_chars: int = 9000) -> str:
-        """Compact, outline-focused view: topics first + atomic items (id, type, trimmed text).
+    def compact_for_outline(self, max_chars: int = 12000) -> str:
+        """Compact, outline-focused view: topics with summary + atomic items (id, type, trimmed text).
         Omits unused relationships, attributes, source references, and whitespace indentation.
         Guarantees syntactically valid JSON within character limits.
         """
         import json
         from utils.text_utils import truncate_text
 
-        topics = [
-            {
-                "id": t.id,
-                "name": t.name,
-                "content_item_ids": t.content_item_ids,
+        topics = []
+        for t in self.topics:
+            td = {
+                "id": t.id if hasattr(t, "id") else t.get("id"),
+                "name": t.name if hasattr(t, "name") else t.get("name"),
+                "content_item_ids": t.content_item_ids if hasattr(t, "content_item_ids") else t.get("content_item_ids", []),
             }
-            for t in self.topics
-        ]
+            summary = getattr(t, "summary", "") if hasattr(t, "summary") else (t.get("summary") or "")
+            if summary:
+                td["summary"] = summary
+            topics.append(td)
 
-        # Normal pass: trim text to 75 chars (sufficient for structural matching)
+        # Normal pass: trim text to 90 chars (sufficient for structural matching)
         items = [
             {
                 "id": i.id,
                 "type": i.type,
-                "text": truncate_text(i.text, 75),
+                "text": truncate_text(i.text, 90),
             }
             for i in self.content_items
         ]
