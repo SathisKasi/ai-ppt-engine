@@ -1,0 +1,517 @@
+{
+  "index": 39,
+  "slide_name": "slide_39",
+  "title": "Title Only — 7 text slot(s)",
+  "layout": "Title Only",
+  "category": "Optional",
+  "slide_layout_name": "Title Only",
+  "canvas": {
+    "width_emu": 12192000,
+    "height_emu": 6858000,
+    "width_px": 1280,
+    "height_px": 720,
+    "aspect_ratio": "16:9"
+  },
+  "structure": {
+    "shape_count": 15,
+    "text_placeholder_count": 3,
+    "image_count": 0,
+    "table_or_chart_count": 0,
+    "annotation_shape_count": 1
+  },
+  "annotation_shapes": [
+    {
+      "shape_id": 5,
+      "shape_name": "Rectangle 4",
+      "text": "Example items for discussion"
+    }
+  ],
+  "editable_mapping": {
+    "layout": {
+      "name": "Title Only",
+      "placeholders": [
+        {
+          "raw_type": "SLIDE_NUMBER (13)",
+          "idx": 12,
+          "position_in": {
+            "left": 12.344,
+            "top": 7.099,
+            "width": 0.589,
+            "height": 0.303
+          }
+        },
+        {
+          "raw_type": "TITLE (1)",
+          "idx": 0,
+          "position_in": {
+            "left": 0.398,
+            "top": 0.398,
+            "width": 12.533,
+            "height": 0.42
+          }
+        },
+        {
+          "raw_type": "BODY (2)",
+          "idx": 13,
+          "position_in": {
+            "left": 0.398,
+            "top": 0.835,
+            "width": 12.533,
+            "height": 0.245
+          }
+        }
+      ]
+    },
+    "master": {
+      "name": "",
+      "placeholders": [
+        {
+          "raw_type": "TITLE (1)",
+          "idx": 0,
+          "position_in": {
+            "left": 0.398,
+            "top": 0.398,
+            "width": 12.533,
+            "height": 1.033
+          }
+        },
+        {
+          "raw_type": "BODY (2)",
+          "idx": 1,
+          "position_in": {
+            "left": 0.398,
+            "top": 1.592,
+            "width": 12.533,
+            "height": 5.24
+          }
+        },
+        {
+          "raw_type": "SLIDE_NUMBER (13)",
+          "idx": 4,
+          "position_in": {
+            "left": 12.344,
+            "top": 7.099,
+            "width": 0.589,
+            "height": 0.303
+          }
+        }
+      ]
+    }
+  },
+  "shapes": [
+    {
+      "shape_id": 2,
+      "name": "Slide Number Placeholder 1",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 12.344,
+        "top": 7.099,
+        "width": 0.589,
+        "height": 0.303
+      },
+      "placeholder_type": "SLIDE_NUMBER (13)",
+      "placeholder_idx": 12,
+      "text": {
+        "full_text": "40",
+        "runs": [],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 3,
+      "name": "Title 2",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 0.398,
+        "top": 0.398,
+        "width": 12.533,
+        "height": 0.42
+      },
+      "placeholder_type": "TITLE (1)",
+      "placeholder_idx": 0,
+      "text": {
+        "full_text": "FORWARD LOOKING ROADMAP",
+        "runs": [
+          {
+            "text": "FORWARD LOOKING ROADMAP",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 4,
+      "name": "Text Placeholder 3",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 0.398,
+        "top": 0.835,
+        "width": 12.533,
+        "height": 0.245
+      },
+      "placeholder_type": "BODY (2)",
+      "placeholder_idx": 13,
+      "text": {
+        "full_text": "Some text",
+        "runs": [
+          {
+            "text": "Some text",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 22,
+      "name": "Freeform: Shape 21",
+      "shape_type": "FREEFORM (5)",
+      "position_in": {
+        "left": 0.0,
+        "top": 3.453,
+        "width": 13.333,
+        "height": 3.387
+      },
+      "fill_color": null
+    },
+    {
+      "shape_id": 14,
+      "name": "Straight Connector 13",
+      "shape_type": "LINE (9)",
+      "position_in": {
+        "left": 11.594,
+        "top": 3.745,
+        "width": 0.0,
+        "height": 1.594
+      }
+    },
+    {
+      "shape_id": 12,
+      "name": "Rectangle 11",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 10.676,
+        "top": 2.771,
+        "width": 1.877,
+        "height": 1.103
+      },
+      "text": {
+        "full_text": "GEMBA updates\nSome text\nSome text\nSome text",
+        "runs": [
+          {
+            "text": "GEMBA updates",
+            "font": null,
+            "size_pt": 10.0,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "Some text",
+            "font": null,
+            "size_pt": 10.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "Some text",
+            "font": null,
+            "size_pt": 10.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "Some text",
+            "font": null,
+            "size_pt": 10.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      },
+      "fill_color": null
+    },
+    {
+      "shape_id": 16,
+      "name": "Straight Connector 15",
+      "shape_type": "LINE (9)",
+      "position_in": {
+        "left": 7.761,
+        "top": 2.987,
+        "width": 0.0,
+        "height": 1.56
+      }
+    },
+    {
+      "shape_id": 11,
+      "name": "Rectangle 10",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 6.818,
+        "top": 2.13,
+        "width": 1.877,
+        "height": 1.103
+      },
+      "text": {
+        "full_text": "Continuous improvement\nSome text\nSome text\nSome text",
+        "runs": [
+          {
+            "text": "Continuous improvement",
+            "font": null,
+            "size_pt": 10.0,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "Some text",
+            "font": null,
+            "size_pt": 10.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "Some text",
+            "font": null,
+            "size_pt": 10.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "Some text",
+            "font": null,
+            "size_pt": 10.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      },
+      "fill_color": null
+    },
+    {
+      "shape_id": 19,
+      "name": "Straight Connector 18",
+      "shape_type": "LINE (9)",
+      "position_in": {
+        "left": 4.519,
+        "top": 2.575,
+        "width": 0.0,
+        "height": 1.481
+      }
+    },
+    {
+      "shape_id": 10,
+      "name": "Rectangle 9",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 3.525,
+        "top": 1.696,
+        "width": 1.877,
+        "height": 1.103
+      },
+      "text": {
+        "full_text": "Project roadmap\nSome text\nSome text\nSome text",
+        "runs": [
+          {
+            "text": "Project roadmap",
+            "font": null,
+            "size_pt": 10.0,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "Some text",
+            "font": null,
+            "size_pt": 10.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "Some text",
+            "font": null,
+            "size_pt": 10.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "Some text",
+            "font": null,
+            "size_pt": 10.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      },
+      "fill_color": null
+    },
+    {
+      "shape_id": 20,
+      "name": "Straight Connector 19",
+      "shape_type": "LINE (9)",
+      "position_in": {
+        "left": 1.302,
+        "top": 2.302,
+        "width": 0.0,
+        "height": 1.481
+      }
+    },
+    {
+      "shape_id": 9,
+      "name": "Rectangle 8",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 0.368,
+        "top": 1.406,
+        "width": 1.877,
+        "height": 1.103
+      },
+      "text": {
+        "full_text": "Future priorities\nSome text\nSome text\nSome text",
+        "runs": [
+          {
+            "text": "Future priorities",
+            "font": null,
+            "size_pt": 10.0,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "Some text",
+            "font": null,
+            "size_pt": 10.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "Some text",
+            "font": null,
+            "size_pt": 10.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "Some text",
+            "font": null,
+            "size_pt": 10.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      },
+      "fill_color": null
+    },
+    {
+      "shape_id": 24,
+      "name": "Freeform: Shape 23",
+      "shape_type": "FREEFORM (5)",
+      "position_in": {
+        "left": 0.0,
+        "top": 3.679,
+        "width": 13.302,
+        "height": 2.057
+      }
+    },
+    {
+      "shape_id": 25,
+      "name": "Rectangle: Rounded Corners 24",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 0.34,
+        "top": 4.877,
+        "width": 3.406,
+        "height": 1.726
+      },
+      "text": {
+        "full_text": "Optional\nSome text\nSome text\nSome test",
+        "runs": [
+          {
+            "text": "Optional",
+            "font": null,
+            "size_pt": 12.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "Some text",
+            "font": null,
+            "size_pt": 12.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "Some text",
+            "font": null,
+            "size_pt": 12.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "Some test",
+            "font": null,
+            "size_pt": 12.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 5,
+      "name": "Rectangle 4",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 7.478,
+        "top": 0.403,
+        "width": 4.245,
+        "height": 0.651
+      },
+      "text": {
+        "full_text": "Example items for discussion",
+        "runs": [
+          {
+            "text": "Example items for discussion",
+            "font": null,
+            "size_pt": 14.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": true
+      },
+      "fill_color": "FFFF00"
+    }
+  ]
+}

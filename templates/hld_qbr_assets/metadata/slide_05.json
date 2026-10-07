@@ -1,0 +1,507 @@
+{
+  "index": 5,
+  "slide_name": "slide_05",
+  "title": "Title Only — repeat-group of 3 (2 slot(s) each), 1 text slot(s)",
+  "layout": "Title Only",
+  "category": "Core",
+  "slide_layout_name": "Title Only",
+  "canvas": {
+    "width_emu": 12192000,
+    "height_emu": 6858000,
+    "width_px": 1280,
+    "height_px": 720,
+    "aspect_ratio": "16:9"
+  },
+  "structure": {
+    "shape_count": 10,
+    "text_placeholder_count": 3,
+    "image_count": 0,
+    "table_or_chart_count": 0,
+    "annotation_shape_count": 1
+  },
+  "annotation_shapes": [
+    {
+      "shape_id": 5,
+      "shape_name": "Rectangle 4",
+      "text": "Required content\nFormat Option 1\nMay include customer slides or their specific goals/challenges"
+    }
+  ],
+  "editable_mapping": {
+    "layout": {
+      "name": "Title Only",
+      "placeholders": [
+        {
+          "raw_type": "SLIDE_NUMBER (13)",
+          "idx": 12,
+          "position_in": {
+            "left": 12.344,
+            "top": 7.099,
+            "width": 0.589,
+            "height": 0.303
+          }
+        },
+        {
+          "raw_type": "TITLE (1)",
+          "idx": 0,
+          "position_in": {
+            "left": 0.398,
+            "top": 0.398,
+            "width": 12.533,
+            "height": 0.42
+          }
+        },
+        {
+          "raw_type": "BODY (2)",
+          "idx": 13,
+          "position_in": {
+            "left": 0.398,
+            "top": 0.835,
+            "width": 12.533,
+            "height": 0.245
+          }
+        }
+      ]
+    },
+    "master": {
+      "name": "",
+      "placeholders": [
+        {
+          "raw_type": "TITLE (1)",
+          "idx": 0,
+          "position_in": {
+            "left": 0.398,
+            "top": 0.398,
+            "width": 12.533,
+            "height": 1.033
+          }
+        },
+        {
+          "raw_type": "BODY (2)",
+          "idx": 1,
+          "position_in": {
+            "left": 0.398,
+            "top": 1.592,
+            "width": 12.533,
+            "height": 5.24
+          }
+        },
+        {
+          "raw_type": "SLIDE_NUMBER (13)",
+          "idx": 4,
+          "position_in": {
+            "left": 12.344,
+            "top": 7.099,
+            "width": 0.589,
+            "height": 0.303
+          }
+        }
+      ]
+    }
+  },
+  "shapes": [
+    {
+      "shape_id": 2,
+      "name": "Slide Number Placeholder 1",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 12.344,
+        "top": 7.099,
+        "width": 0.589,
+        "height": 0.303
+      },
+      "placeholder_type": "SLIDE_NUMBER (13)",
+      "placeholder_idx": 12,
+      "text": {
+        "full_text": "6",
+        "runs": [],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 3,
+      "name": "Title 2",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 0.398,
+        "top": 0.398,
+        "width": 12.533,
+        "height": 0.42
+      },
+      "placeholder_type": "TITLE (1)",
+      "placeholder_idx": 0,
+      "text": {
+        "full_text": "[CUSTOMER NAME] PRIORITIES",
+        "runs": [
+          {
+            "text": "[CUSTOMER NAME]",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": " PRIORITIES",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 4,
+      "name": "Text Placeholder 3",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 0.398,
+        "top": 0.835,
+        "width": 12.533,
+        "height": 0.245
+      },
+      "placeholder_type": "BODY (2)",
+      "placeholder_idx": 13
+    },
+    {
+      "shape_id": 5,
+      "name": "Rectangle 4",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 8.181,
+        "top": 0.255,
+        "width": 4.244,
+        "height": 1.0
+      },
+      "text": {
+        "full_text": "Required content\nFormat Option 1\nMay include customer slides or their specific goals/challenges",
+        "runs": [
+          {
+            "text": "Required content",
+            "font": null,
+            "size_pt": 14.0,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "Format Option 1",
+            "font": null,
+            "size_pt": 14.0,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "May include customer slides or their specific goals/challenges",
+            "font": null,
+            "size_pt": 14.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": true
+      },
+      "fill_color": "FFFF00"
+    },
+    {
+      "shape_id": 26,
+      "name": "Freeform: Shape 25",
+      "shape_type": "FREEFORM (5)",
+      "position_in": {
+        "left": 0.0,
+        "top": 1.735,
+        "width": 13.333,
+        "height": 5.099
+      },
+      "fill_color": null
+    },
+    {
+      "shape_id": 27,
+      "name": "Freeform: Shape 26",
+      "shape_type": "FREEFORM (5)",
+      "position_in": {
+        "left": -0.041,
+        "top": 2.189,
+        "width": 13.424,
+        "height": 1.23
+      },
+      "fill_color": null
+    },
+    {
+      "shape_id": 28,
+      "name": "Freeform: Shape 27",
+      "shape_type": "FREEFORM (5)",
+      "position_in": {
+        "left": -0.039,
+        "top": 1.934,
+        "width": 13.399,
+        "height": 1.262
+      }
+    },
+    {
+      "shape_id": 30,
+      "name": "Group 29",
+      "shape_type": "GROUP (6)",
+      "position_in": {
+        "left": 0.953,
+        "top": 2.94,
+        "width": 3.153,
+        "height": 1.806
+      },
+      "children": [
+        {
+          "shape_id": 31,
+          "name": "Oval 30",
+          "shape_type": "AUTO_SHAPE (1)",
+          "position_in": {
+            "left": 1.721,
+            "top": 2.94,
+            "width": 1.0,
+            "height": 1.0
+          },
+          "fill_color": null
+        },
+        {
+          "shape_id": 32,
+          "name": "Google Shape;873;g2813fe57c0f_1_214",
+          "shape_type": "TEXT_BOX (17)",
+          "position_in": {
+            "left": 1.358,
+            "top": 3.851,
+            "width": 1.727,
+            "height": 0.583
+          },
+          "text": {
+            "full_text": "PRIORITY 1",
+            "runs": [
+              {
+                "text": "PRIORITY 1",
+                "font": null,
+                "size_pt": 16.0,
+                "bold": true,
+                "italic": false,
+                "color": null
+              }
+            ],
+            "is_guidance_sticker": false
+          }
+        },
+        {
+          "shape_id": 33,
+          "name": "Google Shape;879;g2813fe57c0f_1_214",
+          "shape_type": "TEXT_BOX (17)",
+          "position_in": {
+            "left": 0.645,
+            "top": 4.309,
+            "width": 3.153,
+            "height": 0.438
+          },
+          "text": {
+            "full_text": "Supporting text here",
+            "runs": [
+              {
+                "text": "Supporting text here",
+                "font": null,
+                "size_pt": 14.0,
+                "bold": null,
+                "italic": null,
+                "color": null
+              }
+            ],
+            "is_guidance_sticker": false
+          }
+        },
+        {
+          "shape_id": 34,
+          "name": "Freeform 851",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 2.012,
+            "top": 3.227,
+            "width": 0.419,
+            "height": 0.425
+          },
+          "fill_color": "58595B"
+        }
+      ]
+    },
+    {
+      "shape_id": 35,
+      "name": "Group 34",
+      "shape_type": "GROUP (6)",
+      "position_in": {
+        "left": 5.346,
+        "top": 2.94,
+        "width": 2.67,
+        "height": 1.806
+      },
+      "children": [
+        {
+          "shape_id": 36,
+          "name": "Oval 35",
+          "shape_type": "AUTO_SHAPE (1)",
+          "position_in": {
+            "left": 6.048,
+            "top": 2.94,
+            "width": 1.0,
+            "height": 1.0
+          },
+          "fill_color": null
+        },
+        {
+          "shape_id": 37,
+          "name": "Google Shape;874;g2813fe57c0f_1_214",
+          "shape_type": "TEXT_BOX (17)",
+          "position_in": {
+            "left": 5.52,
+            "top": 3.851,
+            "width": 2.056,
+            "height": 0.583
+          },
+          "text": {
+            "full_text": "PRIORITY 2",
+            "runs": [
+              {
+                "text": "PRIORITY 2",
+                "font": null,
+                "size_pt": 16.0,
+                "bold": true,
+                "italic": null,
+                "color": null
+              }
+            ],
+            "is_guidance_sticker": false
+          }
+        },
+        {
+          "shape_id": 38,
+          "name": "Google Shape;880;g2813fe57c0f_1_214",
+          "shape_type": "TEXT_BOX (17)",
+          "position_in": {
+            "left": 5.213,
+            "top": 4.309,
+            "width": 2.67,
+            "height": 0.438
+          },
+          "text": {
+            "full_text": "Supporting text here",
+            "runs": [
+              {
+                "text": "Supporting text here",
+                "font": null,
+                "size_pt": 14.0,
+                "bold": null,
+                "italic": null,
+                "color": null
+              }
+            ],
+            "is_guidance_sticker": false
+          }
+        },
+        {
+          "shape_id": 39,
+          "name": "Freeform 803",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 6.426,
+            "top": 3.227,
+            "width": 0.245,
+            "height": 0.425
+          },
+          "fill_color": "58595B"
+        }
+      ]
+    },
+    {
+      "shape_id": 45,
+      "name": "Group 44",
+      "shape_type": "GROUP (6)",
+      "position_in": {
+        "left": 9.862,
+        "top": 2.94,
+        "width": 2.273,
+        "height": 1.806
+      },
+      "children": [
+        {
+          "shape_id": 41,
+          "name": "Google Shape;881;g2813fe57c0f_1_214",
+          "shape_type": "TEXT_BOX (17)",
+          "position_in": {
+            "left": 9.862,
+            "top": 4.309,
+            "width": 2.273,
+            "height": 0.438
+          },
+          "text": {
+            "full_text": "Supporting text here",
+            "runs": [
+              {
+                "text": "Supporting text here",
+                "font": null,
+                "size_pt": 14.0,
+                "bold": null,
+                "italic": null,
+                "color": null
+              }
+            ],
+            "is_guidance_sticker": false
+          }
+        },
+        {
+          "shape_id": 42,
+          "name": "Oval 41",
+          "shape_type": "AUTO_SHAPE (1)",
+          "position_in": {
+            "left": 10.498,
+            "top": 2.94,
+            "width": 1.0,
+            "height": 1.0
+          },
+          "fill_color": null
+        },
+        {
+          "shape_id": 43,
+          "name": "Google Shape;875;g2813fe57c0f_1_214",
+          "shape_type": "TEXT_BOX (17)",
+          "position_in": {
+            "left": 10.149,
+            "top": 3.851,
+            "width": 1.698,
+            "height": 0.584
+          },
+          "text": {
+            "full_text": "PRIORITY 3",
+            "runs": [
+              {
+                "text": "PRIORITY 3",
+                "font": null,
+                "size_pt": 16.0,
+                "bold": true,
+                "italic": null,
+                "color": null
+              }
+            ],
+            "is_guidance_sticker": false
+          }
+        },
+        {
+          "shape_id": 44,
+          "name": "Freeform 845",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 10.815,
+            "top": 3.227,
+            "width": 0.366,
+            "height": 0.425
+          },
+          "fill_color": "58595B"
+        }
+      ]
+    }
+  ]
+}

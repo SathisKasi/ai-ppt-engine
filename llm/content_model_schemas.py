@@ -38,11 +38,26 @@ class ContentRelationship(BaseModel):
     type: str
 
 
+class Topic(BaseModel):
+    """A higher-level theme the source document discusses, grouping related
+    ContentItems together. Additive to, not a replacement for, atomic fact
+    extraction — topics give the outline stage a document-structure view,
+    while content_items remain the traceable, citable unit of fact."""
+
+    id: str = Field(..., description="Stable short id, e.g. 'T001'")
+    name: str = Field(..., description="Concise topic label, in the source's own terms")
+    summary: str = Field(default="", description="1-2 sentence description of what this topic covers")
+    content_item_ids: List[str] = Field(
+        default_factory=list, description="ids of the content_items that belong to this topic"
+    )
+
+
 class ContentModel(BaseModel):
     """The full extracted representation of a source document."""
 
     content_items: List[ContentItem] = Field(default_factory=list)
     relationships: List[ContentRelationship] = Field(default_factory=list)
+    topics: List[Topic] = Field(default_factory=list)
 
     def compact_json(self) -> str:
         """Minimal id+type+text+source_reference view for prompt injection (no attributes)."""
@@ -52,7 +67,69 @@ class ContentModel(BaseModel):
             for i in self.content_items
         ]
         rels = [r.model_dump() for r in self.relationships]
-        return json.dumps({"content_items": items, "relationships": rels}, ensure_ascii=False, indent=2)
+        topics = [t.model_dump() for t in self.topics]
+        return json.dumps(
+            {"content_items": items, "relationships": rels, "topics": topics},
+            ensure_ascii=False, separators=(',', ':'),
+        )
+
+    def compact_for_outline(self, max_chars: int = 12000) -> str:
+        """Compact, outline-focused view: topics with summary + atomic items (id, type, trimmed text).
+        Omits unused relationships, attributes, source references, and whitespace indentation.
+        Guarantees syntactically valid JSON within character limits.
+        """
+        import json
+        from utils.text_utils import truncate_text
+
+        topics = []
+        for t in self.topics:
+            td = {
+                "id": t.id if hasattr(t, "id") else t.get("id"),
+                "name": t.name if hasattr(t, "name") else t.get("name"),
+                "content_item_ids": t.content_item_ids if hasattr(t, "content_item_ids") else t.get("content_item_ids", []),
+            }
+            summary = getattr(t, "summary", "") if hasattr(t, "summary") else (t.get("summary") or "")
+            if summary:
+                td["summary"] = summary
+            topics.append(td)
+
+        # Normal pass: trim text to 90 chars (sufficient for structural matching)
+        items = [
+            {
+                "id": i.id,
+                "type": i.type,
+                "text": truncate_text(i.text, 90),
+            }
+            for i in self.content_items
+        ]
+
+        payload = {"topics": topics, "content_items": items}
+        result = json.dumps(payload, separators=(',', ':'), ensure_ascii=False)
+        if len(result) <= max_chars:
+            return result
+
+        # Second pass: trim text to 50 chars if needed
+        items_tight = [
+            {
+                "id": i.id,
+                "type": i.type,
+                "text": truncate_text(i.text, 50),
+            }
+            for i in self.content_items
+        ]
+        payload = {"topics": topics, "content_items": items_tight}
+        result = json.dumps(payload, separators=(',', ':'), ensure_ascii=False)
+        if len(result) <= max_chars:
+            return result
+
+        # Third pass: prioritize topic-referenced items
+        topic_item_ids = {iid for t in self.topics for iid in t.content_item_ids}
+        filtered_items = [it for it in items_tight if it["id"] in topic_item_ids]
+        if not filtered_items:
+            filtered_items = items_tight[:50]
+        payload = {"topics": topics, "content_items": filtered_items}
+        return json.dumps(payload, separators=(',', ':'), ensure_ascii=False)
 
     def ids(self) -> set:
         return {i.id for i in self.content_items}
+

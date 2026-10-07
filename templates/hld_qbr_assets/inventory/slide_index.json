@@ -1,0 +1,365 @@
+{
+  "version": "1.0",
+  "slides": [
+    {
+      "index": 0,
+      "title": "Blank \u2014 3 text slot(s)",
+      "layout": "Blank",
+      "category": "Mandatory"
+    },
+    {
+      "index": 1,
+      "title": "9_Section Header \u2014 2 text slot(s)",
+      "layout": "9_Section Header",
+      "category": "Mandatory"
+    },
+    {
+      "index": 2,
+      "title": "Title Only \u2014 11 text slot(s)",
+      "layout": "Title Only",
+      "category": "Core"
+    },
+    {
+      "index": 3,
+      "title": "Title Only \u2014 1 text slot(s)",
+      "layout": "Title Only",
+      "category": "Mandatory"
+    },
+    {
+      "index": 4,
+      "title": "Title Only \u2014 7 text slot(s)",
+      "layout": "Title Only",
+      "category": "Core"
+    },
+    {
+      "index": 5,
+      "title": "Title Only \u2014 repeat-group of 3 (2 slot(s) each), 1 text slot(s)",
+      "layout": "Title Only",
+      "category": "Core"
+    },
+    {
+      "index": 6,
+      "title": "Title Only \u2014 7 text slot(s)",
+      "layout": "Title Only",
+      "category": "Alternate"
+    },
+    {
+      "index": 7,
+      "title": "Title Only \u2014 7 text slot(s)",
+      "layout": "Title Only",
+      "category": "Core"
+    },
+    {
+      "index": 8,
+      "title": "Title Only \u2014 1 text slot(s)",
+      "layout": "Title Only",
+      "category": "Guide-Only"
+    },
+    {
+      "index": 9,
+      "title": "Title Only \u2014 table (5x8), 2 text slot(s)",
+      "layout": "Title Only",
+      "category": "Core"
+    },
+    {
+      "index": 10,
+      "title": "Title Only \u2014 3 text slot(s)",
+      "layout": "Title Only",
+      "category": "Optional"
+    },
+    {
+      "index": 11,
+      "title": "1_Section Header_No Image \u2014 1 text slot(s)",
+      "layout": "1_Section Header_No Image",
+      "category": "Divider"
+    },
+    {
+      "index": 12,
+      "title": "Title Only \u2014 table (3x13), 2 text slot(s)",
+      "layout": "Title Only",
+      "category": "Core"
+    },
+    {
+      "index": 13,
+      "title": "Title Only \u2014 chart (COLUMN_CLUSTERED (51)), 2 text slot(s)",
+      "layout": "Title Only",
+      "category": "Core"
+    },
+    {
+      "index": 14,
+      "title": "Title Only \u2014 chart (COLUMN_CLUSTERED (51)), 3 text slot(s)",
+      "layout": "Title Only",
+      "category": "Core"
+    },
+    {
+      "index": 15,
+      "title": "Title Only \u2014 chart (COLUMN_CLUSTERED (51)), 3 text slot(s)",
+      "layout": "Title Only",
+      "category": "Core"
+    },
+    {
+      "index": 16,
+      "title": "Title Only \u2014 chart (COLUMN_CLUSTERED (51)), 3 text slot(s)",
+      "layout": "Title Only",
+      "category": "Core"
+    },
+    {
+      "index": 17,
+      "title": "Title Only \u2014 chart (COLUMN_CLUSTERED (51)), 3 text slot(s)",
+      "layout": "Title Only",
+      "category": "Core"
+    },
+    {
+      "index": 18,
+      "title": "Title Only \u2014 chart (COLUMN_CLUSTERED (51)), 3 text slot(s)",
+      "layout": "Title Only",
+      "category": "Core"
+    },
+    {
+      "index": 19,
+      "title": "Title Only \u2014 chart (COLUMN_CLUSTERED (51)), 3 text slot(s)",
+      "layout": "Title Only",
+      "category": "Optional"
+    },
+    {
+      "index": 20,
+      "title": "Title Only \u2014 1 text slot(s)",
+      "layout": "Title Only",
+      "category": "Core"
+    },
+    {
+      "index": 21,
+      "title": "1_Section Header_No Image \u2014 1 text slot(s)",
+      "layout": "1_Section Header_No Image",
+      "category": "Divider"
+    },
+    {
+      "index": 22,
+      "title": "Title Only \u2014 table (2x5), 1 text slot(s)",
+      "layout": "Title Only",
+      "category": "Core"
+    },
+    {
+      "index": 23,
+      "title": "Title Only \u2014 table (5x9), 1 text slot(s)",
+      "layout": "Title Only",
+      "category": "Core"
+    },
+    {
+      "index": 24,
+      "title": "1_Section Header_No Image \u2014 1 text slot(s)",
+      "layout": "1_Section Header_No Image",
+      "category": "Divider"
+    },
+    {
+      "index": 25,
+      "title": "Title Only \u2014 6 text slot(s)",
+      "layout": "Title Only",
+      "category": "Core"
+    },
+    {
+      "index": 26,
+      "title": "Title Only \u2014 table (4x2), 3 text slot(s)",
+      "layout": "Title Only",
+      "category": "Core"
+    },
+    {
+      "index": 27,
+      "title": "Title Only \u2014 table (5x8), 2 text slot(s)",
+      "layout": "Title Only",
+      "category": "Core"
+    },
+    {
+      "index": 28,
+      "title": "1_Section Header_No Image \u2014 1 text slot(s)",
+      "layout": "1_Section Header_No Image",
+      "category": "Divider"
+    },
+    {
+      "index": 29,
+      "title": "Title Only \u2014 table (2x4), 1 text slot(s)",
+      "layout": "Title Only",
+      "category": "Core"
+    },
+    {
+      "index": 30,
+      "title": "Blank \u2014 2 text slot(s)",
+      "layout": "Blank",
+      "category": "Mandatory"
+    },
+    {
+      "index": 31,
+      "title": "2_Section Header_No Image_Blue BG \u2014 1 text slot(s)",
+      "layout": "2_Section Header_No Image_Blue BG",
+      "category": "Divider"
+    },
+    {
+      "index": 32,
+      "title": "Title Only \u2014 table (6x6), 2 text slot(s)",
+      "layout": "Title Only",
+      "category": "Optional"
+    },
+    {
+      "index": 33,
+      "title": "Title Only \u2014 table (7x6), 2 text slot(s)",
+      "layout": "Title Only",
+      "category": "Optional"
+    },
+    {
+      "index": 34,
+      "title": "Blank \u2014 8 text slot(s)",
+      "layout": "Blank",
+      "category": "Optional"
+    },
+    {
+      "index": 35,
+      "title": "Title Only \u2014 table (3x8), 3 text slot(s)",
+      "layout": "Title Only",
+      "category": "Optional"
+    },
+    {
+      "index": 36,
+      "title": "Title Only \u2014 chart (COLUMN_CLUSTERED (51)), repeat-group of 3 (2 slot(s) each), 2 text slot(s)",
+      "layout": "Title Only",
+      "category": "Optional"
+    },
+    {
+      "index": 37,
+      "title": "Title Only \u2014 4 text slot(s)",
+      "layout": "Title Only",
+      "category": "Optional"
+    },
+    {
+      "index": 38,
+      "title": "Title Only \u2014 4 text slot(s)",
+      "layout": "Title Only",
+      "category": "Optional"
+    },
+    {
+      "index": 39,
+      "title": "Title Only \u2014 7 text slot(s)",
+      "layout": "Title Only",
+      "category": "Optional"
+    },
+    {
+      "index": 40,
+      "title": "Title Only \u2014 3 text slot(s)",
+      "layout": "Title Only",
+      "category": "Optional"
+    },
+    {
+      "index": 41,
+      "title": "2_Section Header_No Image_Blue BG \u2014 1 text slot(s)",
+      "layout": "2_Section Header_No Image_Blue BG",
+      "category": "Guide-Only"
+    },
+    {
+      "index": 42,
+      "title": "Title Only \u2014 2 text slot(s)",
+      "layout": "Title Only",
+      "category": "Guide-Only"
+    },
+    {
+      "index": 43,
+      "title": "Title Only \u2014 5 text slot(s)",
+      "layout": "Title Only",
+      "category": "Guide-Only"
+    },
+    {
+      "index": 44,
+      "title": "Title Only \u2014 3 text slot(s)",
+      "layout": "Title Only",
+      "category": "Guide-Only"
+    },
+    {
+      "index": 45,
+      "title": "Title Only \u2014 chart (DOUGHNUT (-4120)), 5 text slot(s)",
+      "layout": "Title Only",
+      "category": "Guide-Only"
+    },
+    {
+      "index": 46,
+      "title": "Title Only \u2014 6 text slot(s)",
+      "layout": "Title Only",
+      "category": "Guide-Only"
+    },
+    {
+      "index": 47,
+      "title": "Title Only \u2014 table (3x5), 1 text slot(s)",
+      "layout": "Title Only",
+      "category": "Guide-Only"
+    },
+    {
+      "index": 48,
+      "title": "Title Only \u2014 table (8x9), 1 text slot(s)",
+      "layout": "Title Only",
+      "category": "Guide-Only"
+    },
+    {
+      "index": 49,
+      "title": "Title Only \u2014 table (5x4), 1 text slot(s)",
+      "layout": "Title Only",
+      "category": "Guide-Only"
+    },
+    {
+      "index": 50,
+      "title": "Title Only \u2014 10 text slot(s)",
+      "layout": "Title Only",
+      "category": "Guide-Only"
+    },
+    {
+      "index": 51,
+      "title": "Title Only \u2014 chart (COLUMN_CLUSTERED (51)), 1 text slot(s)",
+      "layout": "Title Only",
+      "category": "Guide-Only"
+    },
+    {
+      "index": 52,
+      "title": "Title Only \u2014 chart (LINE (4)), 1 text slot(s)",
+      "layout": "Title Only",
+      "category": "Guide-Only"
+    },
+    {
+      "index": 53,
+      "title": "Title Only \u2014 no fillable content",
+      "layout": "Title Only",
+      "category": "Guide-Only"
+    },
+    {
+      "index": 54,
+      "title": "Title Only \u2014 1 text slot(s)",
+      "layout": "Title Only",
+      "category": "Guide-Only"
+    },
+    {
+      "index": 55,
+      "title": "Title Only \u2014 1 text slot(s)",
+      "layout": "Title Only",
+      "category": "Guide-Only"
+    },
+    {
+      "index": 56,
+      "title": "Title Only \u2014 1 text slot(s)",
+      "layout": "Title Only",
+      "category": "Guide-Only"
+    },
+    {
+      "index": 57,
+      "title": "1_Title and Content \u2014 1 text slot(s)",
+      "layout": "1_Title and Content",
+      "category": "Guide-Only"
+    },
+    {
+      "index": 58,
+      "title": "Title Only \u2014 4 text slot(s)",
+      "layout": "Title Only",
+      "category": "Guide-Only"
+    },
+    {
+      "index": 59,
+      "title": "Title Only \u2014 1 text slot(s)",
+      "layout": "Title Only",
+      "category": "Guide-Only"
+    }
+  ]
+}

@@ -1,0 +1,379 @@
+<?xml version='1.0' encoding='utf-8'?>
+<ns0:svg xmlns:ns0="http://www.w3.org/2000/svg" xmlns:ns1="http://www.w3.org/1999/xlink" version="1.1" width="960" height="540" viewBox="0 0 960 540">
+<ns0:defs>
+<ns0:clipPath id="clip_1">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" d="M0 .00012207H960V540.0001H0Z" clip-rule="evenodd" />
+</ns0:clipPath>
+<ns0:clipPath id="clip_2">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" d="M183.55 5.5001H349.55V35.0001H183.55Z" clip-rule="evenodd" />
+</ns0:clipPath>
+<ns0:mask id="mask_3">
+<ns0:g transform="matrix(.75113126,0,0,.75641027,183.55,504.99989)">
+<ns0:image id="image_4" width="221" height="39" ns1:href="data:image/png;base64, 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 TkSuQmCC" />
+</ns0:g>
+</ns0:mask>
+<ns0:clipPath id="clip_6">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" d="M19.843 5.5001H185.573V35.0001H19.843Z" clip-rule="evenodd" />
+</ns0:clipPath>
+<ns0:mask id="mask_7">
+<ns0:g transform="matrix(.75331816,0,0,.75641027,19.843,504.99989)">
+<ns0:image id="image_8" width="220" height="39" ns1:href="data:image/png;base64, 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 TkSuQmCC" />
+</ns0:g>
+</ns0:mask>
+<ns0:clipPath id="clip_10">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" d="M.000014305 0H960V540H.000014305Z" clip-rule="evenodd" />
+</ns0:clipPath>
+<ns0:clipPath id="clip_11">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" d="M.000014305 0H960V540H.000014305Z" clip-rule="evenodd" />
+</ns0:clipPath>
+<ns0:clipPath id="clip_12">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" d="M.000014305 0H960V540H.000014305Z" clip-rule="evenodd" />
+</ns0:clipPath>
+<ns0:clipPath id="clip_13">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" d="M.000014305 0H960V540H.000014305Z" clip-rule="evenodd" />
+</ns0:clipPath>
+<ns0:clipPath id="clip_14">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" d="M.000014305 0H960V540H.000014305Z" clip-rule="evenodd" />
+</ns0:clipPath>
+<ns0:clipPath id="clip_15">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" d="M.000014305 0H960V540H.000014305Z" clip-rule="evenodd" />
+</ns0:clipPath>
+<ns0:clipPath id="clip_16">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" d="M.000014305 0H960V540H.000014305Z" clip-rule="evenodd" />
+</ns0:clipPath>
+<ns0:clipPath id="clip_17">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" d="M.000014305 0H960V540H.000014305Z" clip-rule="evenodd" />
+</ns0:clipPath>
+<ns0:clipPath id="clip_18">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" d="M.000014305 0H960V540H.000014305Z" clip-rule="evenodd" />
+</ns0:clipPath>
+<ns0:clipPath id="clip_19">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" d="M.000014305 0H960V540H.000014305Z" clip-rule="evenodd" />
+</ns0:clipPath>
+<ns0:clipPath id="clip_20">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" d="M.000014305 0H960V540H.000014305Z" clip-rule="evenodd" />
+</ns0:clipPath>
+<ns0:clipPath id="clip_21">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" d="M-.000001907 .00018311H960V540.0002H-.000001907Z" clip-rule="evenodd" />
+</ns0:clipPath>
+<ns0:clipPath id="clip_22">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" d="M.000014305 0H960V540H.000014305Z" clip-rule="evenodd" />
+</ns0:clipPath>
+<ns0:clipPath id="clip_23">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" d="M-.000001907 .00018311H960V540.0002H-.000001907Z" clip-rule="evenodd" />
+</ns0:clipPath>
+<ns0:clipPath id="clip_24">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" d="M-.000001907 .00018311H960V540.0002H-.000001907Z" clip-rule="evenodd" />
+</ns0:clipPath>
+<ns0:clipPath id="clip_25">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" d="M-.000001907 .00018311H960V540.0002H-.000001907Z" clip-rule="evenodd" />
+</ns0:clipPath>
+<ns0:clipPath id="clip_26">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" d="M-.000001907 .00018311H960V540.0002H-.000001907Z" clip-rule="evenodd" />
+</ns0:clipPath>
+<ns0:clipPath id="clip_27">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" d="M-.000001907 .00018311H960V540.0002H-.000001907Z" clip-rule="evenodd" />
+</ns0:clipPath>
+<ns0:clipPath id="clip_28">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" d="M-.000001907 .00018311H960V540.0002H-.000001907Z" clip-rule="evenodd" />
+</ns0:clipPath>
+<ns0:clipPath id="clip_29">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" d="M-.000001907 .00018311H960V540.0002H-.000001907Z" clip-rule="evenodd" />
+</ns0:clipPath>
+<ns0:clipPath id="clip_30">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" d="M-.000001907 .00018311H960V540.0002H-.000001907Z" clip-rule="evenodd" />
+</ns0:clipPath>
+<ns0:clipPath id="clip_31">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" d="M-.000001907 .00018311H960V540.0002H-.000001907Z" clip-rule="evenodd" />
+</ns0:clipPath>
+<ns0:clipPath id="clip_32">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" d="M-.000001907 .00018311H960V540.0002H-.000001907Z" clip-rule="evenodd" />
+</ns0:clipPath>
+<ns0:clipPath id="clip_33">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" d="M-.000001907 .00018311H960V540.0002H-.000001907Z" clip-rule="evenodd" />
+</ns0:clipPath>
+<ns0:clipPath id="clip_34">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" d="M-.000001907 .00018311H960V540.0002H-.000001907Z" clip-rule="evenodd" />
+</ns0:clipPath>
+<ns0:clipPath id="clip_35">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" d="M-.000001907 .00018311H960V540.0002H-.000001907Z" clip-rule="evenodd" />
+</ns0:clipPath>
+<ns0:clipPath id="clip_36">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" d="M-.000001907 .00018311H960V540.0002H-.000001907Z" clip-rule="evenodd" />
+</ns0:clipPath>
+<ns0:clipPath id="clip_37">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" d="M-.000001907 .00018311H960V540.0002H-.000001907Z" clip-rule="evenodd" />
+</ns0:clipPath>
+<ns0:clipPath id="clip_38">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" d="M-.000001907 .00018311H960V540.0002H-.000001907Z" clip-rule="evenodd" />
+</ns0:clipPath>
+<ns0:clipPath id="clip_39">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" d="M-.000001907 .00018311H960V540.0002H-.000001907Z" clip-rule="evenodd" />
+</ns0:clipPath>
+<ns0:clipPath id="clip_40">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" d="M26.64 347.76H249.12V465.48H26.64Z" clip-rule="evenodd" />
+</ns0:clipPath>
+<ns0:clipPath id="clip_41">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" d="M249 347.76H471.6V465.48H249Z" clip-rule="evenodd" />
+</ns0:clipPath>
+<ns0:clipPath id="clip_42">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" d="M471.48 288.96H693.96V524.28H471.48Z" clip-rule="evenodd" />
+</ns0:clipPath>
+<ns0:clipPath id="clip_43">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" d="M471.48 288.96H693.96V524.28H471.48Z" clip-rule="evenodd" />
+</ns0:clipPath>
+<ns0:clipPath id="clip_44">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" d="M693.84 347.76H916.32V465.48H693.84Z" clip-rule="evenodd" />
+</ns0:clipPath>
+<ns0:clipPath id="clip_45">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" d="M26.64 315.36H249.12V433.08H26.64Z" clip-rule="evenodd" />
+</ns0:clipPath>
+<ns0:clipPath id="clip_46">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" d="M249 315.36H471.6V433.08H249Z" clip-rule="evenodd" />
+</ns0:clipPath>
+<ns0:clipPath id="clip_47">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" d="M471.48 315.36H693.96V433.08H471.48Z" clip-rule="evenodd" />
+</ns0:clipPath>
+<ns0:clipPath id="clip_48">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" d="M693.84 315.36H916.32V433.08H693.84Z" clip-rule="evenodd" />
+</ns0:clipPath>
+<ns0:clipPath id="clip_49">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" d="M.000014305 0H960V540H.000014305Z" clip-rule="evenodd" />
+</ns0:clipPath>
+<ns0:clipPath id="clip_50">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" d="M.000014305 0H960V540H.000014305Z" clip-rule="evenodd" />
+</ns0:clipPath>
+<ns0:clipPath id="clip_51">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" d="M.000014305 0H960V540H.000014305Z" clip-rule="evenodd" />
+</ns0:clipPath>
+<ns0:clipPath id="clip_52">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" d="M.000014305 0H960V540H.000014305Z" clip-rule="evenodd" />
+</ns0:clipPath>
+<ns0:clipPath id="clip_53">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" d="M.000014305 0H960V540H.000014305Z" clip-rule="evenodd" />
+</ns0:clipPath>
+<ns0:clipPath id="clip_54">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" d="M.000014305 0H960V540H.000014305Z" clip-rule="evenodd" />
+</ns0:clipPath>
+<ns0:clipPath id="clip_55">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" d="M.000014305 0H960V540H.000014305Z" clip-rule="evenodd" />
+</ns0:clipPath>
+<ns0:clipPath id="clip_56">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" d="M.000014305 0H960V540H.000014305Z" clip-rule="evenodd" />
+</ns0:clipPath>
+<ns0:clipPath id="clip_57">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" d="M.000014305 0H960V540H.000014305Z" clip-rule="evenodd" />
+</ns0:clipPath>
+<ns0:clipPath id="clip_58">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" d="M.000014305 0H960V540H.000014305Z" clip-rule="evenodd" />
+</ns0:clipPath>
+<ns0:clipPath id="clip_59">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" d="M.000014305 0H960V540H.000014305Z" clip-rule="evenodd" />
+</ns0:clipPath>
+<ns0:clipPath id="clip_60">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" d="M.000014305 0H960V540H.000014305Z" clip-rule="evenodd" />
+</ns0:clipPath>
+<ns0:clipPath id="clip_61">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" d="M.000014305 0H960V540H.000014305Z" clip-rule="evenodd" />
+</ns0:clipPath>
+<ns0:clipPath id="clip_62">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" d="M.000014305 0H960V540H.000014305Z" clip-rule="evenodd" />
+</ns0:clipPath>
+<ns0:clipPath id="clip_63">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" d="M0 .00024414H960V540.00027H0Z" clip-rule="evenodd" />
+</ns0:clipPath>
+<ns0:clipPath id="clip_64">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" d="M.000014305 0H960V540H.000014305Z" clip-rule="evenodd" />
+</ns0:clipPath>
+<ns0:clipPath id="clip_65">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" d="M.000014305 0H960V540H.000014305Z" clip-rule="evenodd" />
+</ns0:clipPath>
+</ns0:defs>
+<ns0:g>
+<ns0:g clip-path="url(#clip_1)">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" d="M0 .000061035H960V540.00009H0Z" fill="#ffffff" fill-rule="evenodd" />
+</ns0:g>
+<ns0:g clip-path="url(#clip_2)">
+<ns0:g mask="url(#mask_3)">
+<ns0:g transform="matrix(.75113126,0,0,.75641027,183.55,504.99989)">
+<ns0:image id="image_5" width="221" height="39" ns1:href="data:image/png;base64, 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 jgiGFaUOkAAAAABJRU5ErkJggg==" />
+</ns0:g>
+</ns0:g>
+</ns0:g>
+<ns0:g clip-path="url(#clip_6)">
+<ns0:g mask="url(#mask_7)">
+<ns0:g transform="matrix(.75331816,0,0,.75641027,19.843,504.99989)">
+<ns0:image id="image_9" width="220" height="39" ns1:href="data:image/jpeg;base64, /9j/4AAQSkZJRgABAQEAeAB4AAD/2wBDAA0JCgsKCA0LCwsPDg0QFCEVFBISFCgd HhghMCoyMS8qLi00O0tANDhHOS0uQllCR05QVFVUMz9dY1xSYktTVFH/2wBDAQ4P DxQRFCcVFSdRNi42UVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFR UVFRUVFRUVFRUVFRUVH/wAARCAAnANwDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEA AAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIh MUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6 Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZ mqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx 8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREA AgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAV YnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hp anN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPE xcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDz 8pBAMkDPvyaia7H8Ef50SorOpPJMm089qDHEnVM5fb16V0Ny6aGSt1I2uN3WND+F MkADDHAIBqYwoit8u8g889BUMvVf90fyrOSdtS1boMoqeRFCwkD7w596kESedKAg OBkClyMOYqUVaeOMGPeNhJ5GaSaPahIiXb2ZT0o5GHMVqKmtkV2YMAfl4zTjEFt2 J2s2eCDmkoNq479CvRVg2pAPJ3AZ6cfnSRweYoIYgn/Z4/OnyS2DmRBRU6ovkLkA HfgmpBHGLsKOR3UjpxRyMXMVKKmaEbAyPuydvTHNI8SJkeZlh2xS5WO6IqKna3xG XDHj1XFI0AAX5xuYAgYo5GHMiGip2tiqscnKjJ44qCk4tbgncKKKKQwooooAKKKK ACiiigC00qg/MpI3b1IpTIhiEjKT85IANV1fA2sNy/yp2FK4EmFHY9q1U2RYckyh y5Vi59DxUcv38egApQyrnZ1/vHr+FR1LelhpEyzYVQyBtvQmkE7bnYgZcY+lJ5J7 EEjGRSCJyCcdBmi8g0EVtrbiA3sae03yFEQKD15oMJGeRx/jimiNt4Q8E0e8tB6M I5DGSQM5GKBIREY8dTnNKYm5xzSeW3t+dL3kGg9pw3LIC2OuaVbgjZ8gJUYBzTPJ kzjHvSNGVTcfyp3luKyFMp8vZj+Ldmnef+9Emwbu/PWmrEWj35o8lu+B0oXMGgCU iPYB/FuzStMGO7y13+tJ5L9ccGkaMquTjrij3g0HtPuD/IBu6nNNeUsUOMFQAKPJ PYgnjP5ZoMTYyOaHzMNBXmD5JjG4981FUnkyZxgfnUdKV+o1boFFFFSMKKKKACii igAooooAKKKKACiiigB/mttAz0OQaTzH5+Y80UU7sVgLsc5Y80F2L7880UUXY7AG YDAJxS+Y/PzHmiii7CwnmP8A3jRvbGNxxRRRdhYTJwBnpyKXzHzncaKKLsA3t/eN BZiME5FFFF2AeY/HzHijc2MZOMYooouwDzHzncaQknqaKKLgJRRRSAKKKKACiiig AooooA//2Q==" />
+</ns0:g>
+</ns0:g>
+</ns0:g>
+<ns0:g clip-path="url(#clip_10)">
+<ns0:text fill="#595555" xml:space="preserve" transform="matrix(1 0 -0 1 0 540)" font-size="4.56" font-family="Verdana"><ns0:tspan y="-17.088" x="306.02 308.76969 310.69856 313.46647 316.33473 318.25447 319.45375 322.20799 324.0046 326.76344 328.5646 331.20487 332.5227 335.27696 338.16343 341.03169 342.47267 345.71028 348.47819 351.35099 352.91053 354.1098 356.98716 359.7414 362.62788 364.4245 365.61924 368.37348 369.57276 371.61109 372.92893 375.6877 378.5742 379.76893 382.16294 383.83647 386.7138 388.63356 391.3878 393.7818 396.42207 399.30854 401.10517 403.74085 405.53749 406.74134 409.50926 412.38206 413.6999 418.13679 420.8956 423.53587 425.0954 427.98188 430.7361 432.53276 434.09684 436.97419 439.72843 441.04627 443.93275 446.32218 449.07643 451.95378 453.2716 456.03953 457.95018 459.5097 462.38706 463.58634 465.98036 468.37437 469.57365 472.34156 474.731 477.48524 480.36259 481.68043 483.47706 486.24497 487.79994 490.56785 492.36448 495.25096 497.9961 499.91584 501.23368 503.0303 505.91679 508.67103 511.5575 513.1124 515.8667 520.3036 523.18099 524.38027 527.1482 529.7793 532.41958 535.0598 537.4538 538.7716 541.53958 543.4502 545.0097 547.4037 550.29019 552.67959 554.4762 557.24417 561.681 564.4353 566.3551 568.7491 570.3086 571.8681 574.7546 577.64108 578.8266 581.5809 583.97488 586.2548 587.81436 590.5686 593.20889">Proprietary and Confidential: This presentation may not be used or disclosed to other than employees or customers, unless exp</ns0:tspan></ns0:text>
+</ns0:g>
+<ns0:g clip-path="url(#clip_11)">
+<ns0:text fill="#595555" xml:space="preserve" transform="matrix(1 0 -0 1 0 540)" font-size="4.56" font-family="Verdana"><ns0:tspan y="-17.088" x="596.23 598.0312 600.67147">res</ns0:tspan></ns0:text>
+</ns0:g>
+<ns0:g clip-path="url(#clip_12)">
+<ns0:text fill="#595555" xml:space="preserve" transform="matrix(1 0 -0 1 0 540)" font-size="4.56" font-family="Verdana"><ns0:tspan y="-17.088" x="603.07 605.464 606.66329 609.3035 610.62136 613.37557 616.262 618.05868 620.9451 623.6948 625.6146 626.8139 629.2079 631.97128 634.73007 636.28958 639.16696 641.8072 643.0065 646.3626 649.1123 652.2313">sly authorized by UPS.</ns0:tspan></ns0:text>
+</ns0:g>
+<ns0:g clip-path="url(#clip_13)">
+<ns0:text fill="#595555" xml:space="preserve" transform="matrix(1 0 -0 1 0 540)" font-size="4.56" font-family="Verdana"><ns0:tspan y="-11.688" x="287.54 292.1 293.65956 296.54145 299.42335 302.30525 305.18714 306.74668 310.10285 312.98933 314.18406 315.98069 318.7395 321.61686 322.9347 325.6844 328.45234 330.37208 332.76609 335.52033 336.7196 338.16059 341.27964 344.03388 345.9536 348.59388 349.79316 352.18717 354.9414 356.25926 359.02717 360.57759 362.2511 365.37016 369.80705 372.56587 374.4856 375.68489 378.0789 380.83314 382.50666 383.8245 385.74427 388.63075 391.02018 392.6937 394.25325 397.6094 400.3591 403.47816 405.16539 406.60636 408.40299 411.28947 414.0437 415.48469 418.84086 421.59056 424.7096 426.1597 429.03706 430.9568 433.71104 436.5975 439.46577 443.90266 446.66148 448.5812 451.1029 452.66246 455.4167 458.30317 461.17143 462.3707 464.16734 467.0538 469.80805 471.24903 473.64305 476.41096 477.6011 480.36903 482.27967 483.9532 486.83055 488.75028 491.5182 495.23 498.1165 499.42979 502.18403 504.10377 506.858 508.29899 510.0956 512.0199 514.7741 517.6515 520.40579 524.7241 527.47836 529.39816 531.9198 534.3138 535.6316 538.39956 539.9499 541.6234 544.97958 547.866 549.0607 550.85739 553.61618 556.4935 557.6928 560.4425 563.2104 565.1302 567.5242 570.27847 571.4777 572.91867 576.03768 578.79196 580.71176">© 2026 United Parcel Service of America, Inc. UPS, the UPS brandmark and the color brown are trademarks of United Parcel Serv</ns0:tspan></ns0:text>
+</ns0:g>
+<ns0:g clip-path="url(#clip_14)">
+<ns0:text fill="#595555" xml:space="preserve" transform="matrix(1 0 -0 1 0 540)" font-size="4.56" font-family="Verdana"><ns0:tspan y="-11.688" x="583.63 584.8293 587.22329">ice</ns0:tspan></ns0:text>
+</ns0:g>
+<ns0:g clip-path="url(#clip_15)">
+<ns0:text fill="#595555" xml:space="preserve" transform="matrix(1 0 -0 1 0 540)" font-size="4.56" font-family="Verdana"><ns0:tspan y="-11.688" x="589.99"> </ns0:tspan></ns0:text>
+</ns0:g>
+<ns0:g clip-path="url(#clip_16)">
+<ns0:text fill="#595555" xml:space="preserve" transform="matrix(1 0 -0 1 0 540)" font-size="4.56" font-family="Verdana"><ns0:tspan y="-11.688" x="591.31 594.07797 595.6283 597.3018 600.42086 604.8577 607.6165 609.5363 610.7356 613.1296 615.8838 617.5573 618.8751 620.79489 623.68136 626.07077 627.74429 629.3038 632.4228 633.6221 634.82138 636.4949 638.4147 639.61398 642.49136 645.3778 647.17446 649.5684 651.00936 652.92916 655.6834 658.0774 660.83169 662.75149 665.3917 668.032 670.7908">of America, Inc. All rights reserved.</ns0:tspan></ns0:text>
+</ns0:g>
+<ns0:g clip-path="url(#clip_17)">
+<ns0:text fill="#8c8285" xml:space="preserve" transform="matrix(1 0 -0 1 0 540)" font-size="7.56" font-family="Verdana"><ns0:tspan y="-14.928" x="921.67 926.47">27</ns0:tspan></ns0:text>
+</ns0:g>
+<ns0:g clip-path="url(#clip_18)">
+<ns0:text fill="#426da9" xml:space="preserve" transform="matrix(1 0 -0 1 0 540)" font-size="21.984" font-family="Verdana" font-weight="bold"><ns0:tspan y="-489.53" x="28.632 47.25245 65.93885">NON</ns0:tspan></ns0:text>
+</ns0:g>
+<ns0:g clip-path="url(#clip_19)">
+<ns0:text fill="#426da9" xml:space="preserve" transform="matrix(1 0 -0 1 0 540)" font-size="21.984" font-family="Verdana" font-weight="bold"><ns0:tspan y="-489.53" x="84.552">-</ns0:tspan></ns0:text>
+</ns0:g>
+<ns0:g clip-path="url(#clip_20)">
+<ns0:text fill="#426da9" xml:space="preserve" transform="matrix(1 0 -0 1 0 540)" font-size="21.984" font-family="Verdana" font-weight="bold"><ns0:tspan y="-489.53" x="95.112 111.02841 129.71482 148.33527 162.62487 181.37722 198.5687 219.40953 236.46912 255.08957 270.89607 285.91114 293.84736 311.03886 326.05393 342.8497 354.85298 369.86805">CONFORMANCE REVIEW</ns0:tspan></ns0:text>
+</ns0:g>
+<ns0:g clip-path="url(#clip_21)">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" d="M28.63 458.31H249.43001V480.15H28.63Z" fill="#ff00ff" fill-rule="evenodd" />
+</ns0:g>
+<ns0:g clip-path="url(#clip_22)">
+<ns0:text fill="#58595b" xml:space="preserve" transform="matrix(1 0 -0 1 0 540)" font-size="18" font-family="Verdana"><ns0:tspan y="-462" x="28.632 38.118005 48.936006 58.314004 63.300004 68.32201 73.34401 80.31001 90.96601 97.23001 108.62401 119.44201 136.95601 147.63 153.966 164.892 172.578 178.824 183.84601 194.772 204.15001 214.968 222.006 227.028 237.954">Facility name or location</ns0:tspan></ns0:text>
+</ns0:g>
+<ns0:g clip-path="url(#clip_23)">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" d="M26.712 386.24H249.112V427.03999H26.712Z" fill="#0e2554" fill-rule="evenodd" />
+</ns0:g>
+<ns0:g clip-path="url(#clip_24)">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" d="M249.11 386.24H471.51V427.03999H249.11Z" fill="#0e2554" fill-rule="evenodd" />
+</ns0:g>
+<ns0:g clip-path="url(#clip_25)">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" d="M471.51 386.24H693.91006V427.03999H471.51Z" fill="#0e2554" fill-rule="evenodd" />
+</ns0:g>
+<ns0:g clip-path="url(#clip_26)">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" d="M693.9 386.24H916.30007V427.03999H693.9Z" fill="#0e2554" fill-rule="evenodd" />
+</ns0:g>
+<ns0:g clip-path="url(#clip_27)">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" stroke-width="1" stroke-linecap="butt" stroke-linejoin="round" fill="none" stroke="#ffffff" d="M249.11 427.54V386.24" />
+</ns0:g>
+<ns0:g clip-path="url(#clip_28)">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" stroke-width="1" stroke-linecap="butt" stroke-linejoin="round" fill="none" stroke="#dddede" d="M249.11 386.24V356.54" />
+</ns0:g>
+<ns0:g clip-path="url(#clip_29)">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" stroke-width="1" stroke-linecap="butt" stroke-linejoin="round" fill="none" stroke="#ffffff" d="M471.51 427.54V386.24" />
+</ns0:g>
+<ns0:g clip-path="url(#clip_30)">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" stroke-width="1" stroke-linecap="butt" stroke-linejoin="round" fill="none" stroke="#dddede" d="M471.51 386.24V356.54" />
+</ns0:g>
+<ns0:g clip-path="url(#clip_31)">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" stroke-width="1" stroke-linecap="butt" stroke-linejoin="round" fill="none" stroke="#ffffff" d="M693.9 427.54V386.24" />
+</ns0:g>
+<ns0:g clip-path="url(#clip_32)">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" stroke-width="1" stroke-linecap="butt" stroke-linejoin="round" fill="none" stroke="#dddede" d="M693.9 386.24V356.54" />
+</ns0:g>
+<ns0:g clip-path="url(#clip_33)">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" stroke-width="1" stroke-linecap="butt" stroke-linejoin="round" fill="none" stroke="#dddede" d="M26.212 386.24H916.8" />
+</ns0:g>
+<ns0:g clip-path="url(#clip_34)">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" stroke-width="1" stroke-linecap="butt" stroke-linejoin="round" fill="none" stroke="#ffffff" d="M26.712 427.54V386.24" />
+</ns0:g>
+<ns0:g clip-path="url(#clip_35)">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" stroke-width="1" stroke-linecap="butt" stroke-linejoin="round" fill="none" stroke="#dddede" d="M26.712 386.24V356.54" />
+</ns0:g>
+<ns0:g clip-path="url(#clip_36)">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" stroke-width="1" stroke-linecap="butt" stroke-linejoin="round" fill="none" stroke="#ffffff" d="M916.3 427.54V386.24" />
+</ns0:g>
+<ns0:g clip-path="url(#clip_37)">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" stroke-width="1" stroke-linecap="butt" stroke-linejoin="round" fill="none" stroke="#dddede" d="M916.3 386.24V356.54" />
+</ns0:g>
+<ns0:g clip-path="url(#clip_38)">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" stroke-width="1" stroke-linecap="butt" stroke-linejoin="round" fill="none" stroke="#ffffff" d="M26.212 427.04H916.8" />
+</ns0:g>
+<ns0:g clip-path="url(#clip_39)">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" stroke-width="1" stroke-linecap="butt" stroke-linejoin="round" fill="none" stroke="#dddede" d="M26.212 357.04H916.8" />
+</ns0:g>
+<ns0:g clip-path="url(#clip_40)">
+<ns0:text fill="#ffffff" xml:space="preserve" transform="matrix(1 0 -0 1 0 540)" font-size="14.04" font-family="Verdana" font-weight="bold"><ns0:tspan y="-401.09" x="33.912 43.487279 53.13276 59.47884 68.85756 73.65924 78.32052 90.2124 100.377368 105.080768 112.746608 122.74309 127.54477 133.8768 138.67848 148.0572 154.40328 163.72583 173.59597 178.03261 188.01505 197.95537 207.9378">Total NC Initiated 2025</ns0:tspan></ns0:text>
+</ns0:g>
+<ns0:g clip-path="url(#clip_41)">
+<ns0:text fill="#ffffff" xml:space="preserve" transform="matrix(1 0 -0 1 0 540)" font-size="14.04" font-family="Verdana" font-weight="bold"><ns0:tspan y="-401.09" x="256.34 265.91529 275.56077 281.90687 291.28559 296.08726 300.7485 310.91346 321.85063 332.14195 343.0791 347.7404 356.0661 360.47465 371.3697 379.6954 387.95094 392.7526 402.56657 412.56306 421.88563 431.6294">Total CAPA’s Assigned </ns0:tspan></ns0:text>
+</ns0:g>
+<ns0:g clip-path="url(#clip_42)">
+<ns0:text fill="#ffffff" xml:space="preserve" transform="matrix(1 0 -0 1 0 540)" font-size="14.04" font-family="Verdana" font-weight="bold"><ns0:tspan y="-409.49" x="478.78 488.3553 498.00077 504.34687 513.7256 518.5273 523.1886 533.3536 544.2907 554.58206 565.51919 575.48757">Total CAPAS </ns0:tspan></ns0:text>
+</ns0:g>
+<ns0:g clip-path="url(#clip_43)">
+<ns0:text fill="#ffffff" xml:space="preserve" transform="matrix(1 0 -0 1 0 540)" font-size="14.04" font-family="Verdana" font-weight="bold"><ns0:tspan y="-392.69" x="478.78 488.94496 493.7466 503.3921 511.66166 520.9842 530.8543 535.29098 541.65109 551.25448 556.05618 567.70938 577.0881 583.4201 592.7427">Closed to Date </ns0:tspan></ns0:text>
+</ns0:g>
+<ns0:g clip-path="url(#clip_44)">
+<ns0:text fill="#ffffff" xml:space="preserve" transform="matrix(1 0 -0 1 0 540)" font-size="14.04" font-family="Verdana" font-weight="bold"><ns0:tspan y="-401.09" x="701.18 711.5134 720.8781 727.856 736.1536 745.5183 755.5148 761.917 766.4519 776.659 786.3045 801.1588 811.04299 815.84469 825.20938 831.6116">Percent Complete</ns0:tspan></ns0:text>
+</ns0:g>
+<ns0:g clip-path="url(#clip_45)">
+<ns0:text fill="#58595b" xml:space="preserve" transform="matrix(1 0 -0 1 0 540)" font-size="14.04" font-family="Verdana"><ns0:tspan y="-368.69" x="33.912">2</ns0:tspan></ns0:text>
+</ns0:g>
+<ns0:g clip-path="url(#clip_46)">
+<ns0:text fill="#58595b" xml:space="preserve" transform="matrix(1 0 -0 1 0 540)" font-size="14.04" font-family="Verdana"><ns0:tspan y="-368.69" x="256.34 262.25083 271.13816 276.02409 284.771 290.76609 299.28837 308.03529 314.03038 322.45436 329.7692 337.08406">In progress </ns0:tspan></ns0:text>
+</ns0:g>
+<ns0:g clip-path="url(#clip_47)">
+<ns0:text fill="#58595b" xml:space="preserve" transform="matrix(1 0 -0 1 0 540)" font-size="14.04" font-family="Verdana"><ns0:tspan y="-368.69" x="478.78 484.69084 493.57817 498.46409 507.211 513.20608 521.72836 530.4753 536.47036 544.89437 552.20919 559.524">In progress </ns0:tspan></ns0:text>
+</ns0:g>
+<ns0:g clip-path="url(#clip_48)">
+<ns0:text fill="#58595b" xml:space="preserve" transform="matrix(1 0 -0 1 0 540)" font-size="14.04" font-family="Verdana"><ns0:tspan y="-368.69" x="701.18 711.7521 718.1262">N/A</ns0:tspan></ns0:text>
+</ns0:g>
+<ns0:g clip-path="url(#clip_49)">
+<ns0:text fill="#58595b" xml:space="preserve" transform="matrix(1 0 -0 1 0 540)" font-size="14.04" font-family="Verdana"><ns0:tspan y="-330.24" x="30.432 40.99202">NC</ns0:tspan></ns0:text>
+</ns0:g>
+<ns0:g clip-path="url(#clip_50)">
+<ns0:text fill="#58595b" xml:space="preserve" transform="matrix(1 0 -0 1 0 540)" font-size="14.04" font-family="Verdana"><ns0:tspan y="-330.24" x="50.472">-</ns0:tspan></ns0:text>
+</ns0:g>
+<ns0:g clip-path="url(#clip_51)">
+<ns0:text fill="#58595b" xml:space="preserve" transform="matrix(1 0 -0 1 0 540)" font-size="14.04" font-family="Verdana"><ns0:tspan y="-330.24" x="56.832 65.71204 74.59209">111</ns0:tspan></ns0:text>
+</ns0:g>
+<ns0:g clip-path="url(#clip_52)">
+<ns0:text fill="#58595b" xml:space="preserve" transform="matrix(1 0 -0 1 0 540)" font-size="14.04" font-family="Verdana"><ns0:tspan y="-330.24" x="83.472">-</ns0:tspan></ns0:text>
+</ns0:g>
+<ns0:g clip-path="url(#clip_53)">
+<ns0:text fill="#58595b" xml:space="preserve" transform="matrix(1 0 -0 1 0 540)" font-size="14.04" font-family="Verdana"><ns0:tspan y="-330.24" x="89.832 98.705287 107.57857 116.45185 125.325138 134.19841 138.87374 145.2479 155.04782 161.04291 165.01622 170.54798 174.47917 181.794 190.23204 194.1492 200.52336 206.89752 211.43244 223.29624 227.24147 234.5563 241.87114 245.69002 254.57733 263.32426 267.803 276.6763 281.61839 291.89567 300.783 304.74229 310.27406 317.5889 322.26423 330.7865 335.72859 340.50218 351.0462 359.56849 368.4558 375.77067 384.1666 388.11186 396.47969 404.91773 413.66465 417.48353 425.89347 430.45646 438.9647 444.95979 453.48207 462.22898 471.1163 478.43116">00071 (Critical): Missing 6 Units of Nonsaleable Product</ns0:tspan></ns0:text>
+</ns0:g>
+<ns0:g clip-path="url(#clip_54)">
+<ns0:text fill="#58595b" xml:space="preserve" transform="matrix(1 0 -0 1 0 540)" font-size="14.04" font-family="Arial"><ns0:tspan y="-313.44" x="52.032">•</ns0:tspan></ns0:text>
+</ns0:g>
+<ns0:g clip-path="url(#clip_55)">
+<ns0:text fill="#58595b" xml:space="preserve" transform="matrix(1 0 -0 1 0 540)" font-size="14.04" font-family="Verdana" font-weight="bold"><ns0:tspan y="-313.44" x="66.432 74.09784 84.09432 93.22032 102.542888 110.86861 117.1866 121.98828 131.80225 141.18097 147.5832 152.38489 161.94612 171.9426 176.46347 181.26515 189.54875 194.22408 202.50768 208.8678 213.66948 218.47116 223.27285 227.82181 232.62349 242.61997 247.26721 257.08119 264.05906 273.70454 283.5185 290.49638 299.81895 308.14466 316.38615">Investigation is still in progress </ns0:tspan></ns0:text>
+</ns0:g>
+<ns0:g clip-path="url(#clip_56)">
+<ns0:text fill="#58595b" xml:space="preserve" transform="matrix(1 0 -0 1 0 540)" font-size="14.04" font-family="Verdana"><ns0:tspan y="-279.84" x="30.432 40.99202">NC</ns0:tspan></ns0:text>
+</ns0:g>
+<ns0:g clip-path="url(#clip_57)">
+<ns0:text fill="#58595b" xml:space="preserve" transform="matrix(1 0 -0 1 0 540)" font-size="14.04" font-family="Verdana"><ns0:tspan y="-279.84" x="50.472">-</ns0:tspan></ns0:text>
+</ns0:g>
+<ns0:g clip-path="url(#clip_58)">
+<ns0:text fill="#58595b" xml:space="preserve" transform="matrix(1 0 -0 1 0 540)" font-size="14.04" font-family="Verdana"><ns0:tspan y="-279.84" x="56.832 65.71204 74.59209">111</ns0:tspan></ns0:text>
+</ns0:g>
+<ns0:g clip-path="url(#clip_59)">
+<ns0:text fill="#58595b" xml:space="preserve" transform="matrix(1 0 -0 1 0 540)" font-size="14.04" font-family="Verdana"><ns0:tspan y="-279.84" x="83.472">-</ns0:tspan></ns0:text>
+</ns0:g>
+<ns0:g clip-path="url(#clip_60)">
+<ns0:text fill="#58595b" xml:space="preserve" transform="matrix(1 0 -0 1 0 540)" font-size="14.04" font-family="Verdana"><ns0:tspan y="-279.84" x="89.832 98.705287 107.57857 116.45185 125.325138 134.19841 138.87374 145.2479 157.08362 165.52165 170.35141 178.87369 184.86878 191.18677 197.56093 202.503 213.04705 221.56932 225.48648 234.2334 238.92276 249.97225 255.96733 264.71427 273.0821 279.10527 283.90693 292.41517 301.17613 309.4878 316.80265 320.7198 328.03465 336.4727 340.29158 344.22279 352.38 356.943 366.54637 375.4337 379.3649 388.11183 396.85874 405.26869 414.0156 419.16828 423.8436 432.5905 441.47785 447.0096 451.9517 460.83903 469.3613 474.8369 479.63859 486.95344 495.2651 502.57997 508.11174 516.47958 530.1405 538.57858 544.1103 548.02749 555.23 563.668 567.48696 571.30587 579.61758 584.15249 592.8994 598.8945 607.41677 614.73159 623.14157 630.45639 637.7712 646.1671">00070 (Major): Hold Order Physically Shipped, but not systematically processed</ns0:tspan></ns0:text>
+</ns0:g>
+<ns0:g clip-path="url(#clip_61)">
+<ns0:text fill="#58595b" xml:space="preserve" transform="matrix(1 0 -0 1 0 540)" font-size="14.064" font-family="Arial"><ns0:tspan y="-263.04" x="52.032">•</ns0:tspan></ns0:text>
+</ns0:g>
+<ns0:g clip-path="url(#clip_62)">
+<ns0:text fill="#58595b" xml:space="preserve" transform="matrix(1 0 -0 1 0 540)" font-size="14.064" font-family="Verdana" font-weight="bold"><ns0:tspan y="-263.04" x="66.432 74.11095 84.06825 93.209857 102.54835 110.83204 117.188968 121.998859 131.82959 141.22434 147.55313 152.36302 161.95468 171.91199 176.46872 181.27861 191.22187 195.90518 204.18888 210.54579 215.35569 220.16558 224.97547 229.50408 234.31397 244.25722 249.06711 259.376 266.3658 275.9434 285.77415 292.76396 302.10246 310.38618 318.6699 323.22663">Investigation in still in Progress  </ns0:tspan></ns0:text>
+</ns0:g>
+<ns0:g clip-path="url(#clip_63)">
+<ns0:path transform="matrix(1,0,0,-1,0,540)" d="M681.28 449.66H894.56008V521.66006H681.28Z" fill="#ffff00" fill-rule="evenodd" />
+</ns0:g>
+<ns0:g clip-path="url(#clip_64)">
+<ns0:text fill="#0e2554" xml:space="preserve" transform="matrix(1 0 -0 1 0 540)" font-size="14.04" font-family="Verdana" font-weight="bold" />
+</ns0:g>
+<ns0:g clip-path="url(#clip_65)">
+<ns0:text fill="#0e2554" xml:space="preserve" transform="matrix(1 0 -0 1 0 540)" font-size="14.04" font-family="Verdana" />
+</ns0:g>
+</ns0:g>
+</ns0:svg>

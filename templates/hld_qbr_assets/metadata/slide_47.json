@@ -1,0 +1,235 @@
+{
+  "index": 47,
+  "slide_name": "slide_47",
+  "title": "Title Only — table (3x5), 1 text slot(s)",
+  "layout": "Title Only",
+  "category": "Guide-Only",
+  "slide_layout_name": "Title Only",
+  "canvas": {
+    "width_emu": 12192000,
+    "height_emu": 6858000,
+    "width_px": 1280,
+    "height_px": 720,
+    "aspect_ratio": "16:9"
+  },
+  "structure": {
+    "shape_count": 7,
+    "text_placeholder_count": 3,
+    "image_count": 0,
+    "table_or_chart_count": 4,
+    "annotation_shape_count": 0
+  },
+  "annotation_shapes": [],
+  "editable_mapping": {
+    "layout": {
+      "name": "Title Only",
+      "placeholders": [
+        {
+          "raw_type": "SLIDE_NUMBER (13)",
+          "idx": 12,
+          "position_in": {
+            "left": 12.344,
+            "top": 7.099,
+            "width": 0.589,
+            "height": 0.303
+          }
+        },
+        {
+          "raw_type": "TITLE (1)",
+          "idx": 0,
+          "position_in": {
+            "left": 0.398,
+            "top": 0.398,
+            "width": 12.533,
+            "height": 0.42
+          }
+        },
+        {
+          "raw_type": "BODY (2)",
+          "idx": 13,
+          "position_in": {
+            "left": 0.398,
+            "top": 0.835,
+            "width": 12.533,
+            "height": 0.245
+          }
+        }
+      ]
+    },
+    "master": {
+      "name": "",
+      "placeholders": [
+        {
+          "raw_type": "TITLE (1)",
+          "idx": 0,
+          "position_in": {
+            "left": 0.398,
+            "top": 0.398,
+            "width": 12.533,
+            "height": 1.033
+          }
+        },
+        {
+          "raw_type": "BODY (2)",
+          "idx": 1,
+          "position_in": {
+            "left": 0.398,
+            "top": 1.592,
+            "width": 12.533,
+            "height": 5.24
+          }
+        },
+        {
+          "raw_type": "SLIDE_NUMBER (13)",
+          "idx": 4,
+          "position_in": {
+            "left": 12.344,
+            "top": 7.099,
+            "width": 0.589,
+            "height": 0.303
+          }
+        }
+      ]
+    }
+  },
+  "shapes": [
+    {
+      "shape_id": 4,
+      "name": "Slide Number Placeholder 3",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 12.344,
+        "top": 7.099,
+        "width": 0.589,
+        "height": 0.303
+      },
+      "placeholder_type": "SLIDE_NUMBER (13)",
+      "placeholder_idx": 12,
+      "text": {
+        "full_text": "48",
+        "runs": [],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 6,
+      "name": "Title 1",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 0.398,
+        "top": 0.398,
+        "width": 12.533,
+        "height": 0.42
+      },
+      "placeholder_type": "TITLE (1)",
+      "placeholder_idx": 0,
+      "text": {
+        "full_text": "SAMPLE TABLES CREATED USING THE TABLE FUNCTION",
+        "runs": [
+          {
+            "text": "SAMPLE TABLES CREATED USING THE TABLE FUNCTION",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 13,
+      "name": "Text Placeholder 12",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 0.398,
+        "top": 0.835,
+        "width": 12.533,
+        "height": 0.245
+      },
+      "placeholder_type": "BODY (2)",
+      "placeholder_idx": 13
+    },
+    {
+      "shape_id": 8,
+      "name": "Table 7",
+      "shape_type": "TABLE (19)",
+      "position_in": {
+        "left": 2.137,
+        "top": 1.583,
+        "width": 3.952,
+        "height": 1.558
+      },
+      "table": {
+        "rows": 5,
+        "cols": 3,
+        "header_row": [
+          "Consolidated",
+          "Amount",
+          "%"
+        ]
+      }
+    },
+    {
+      "shape_id": 9,
+      "name": "Table 8",
+      "shape_type": "TABLE (19)",
+      "position_in": {
+        "left": 2.137,
+        "top": 3.649,
+        "width": 3.953,
+        "height": 1.558
+      },
+      "table": {
+        "rows": 5,
+        "cols": 3,
+        "header_row": [
+          "London",
+          "Amount",
+          "%"
+        ]
+      }
+    },
+    {
+      "shape_id": 10,
+      "name": "Table 9",
+      "shape_type": "TABLE (19)",
+      "position_in": {
+        "left": 7.243,
+        "top": 1.583,
+        "width": 3.953,
+        "height": 1.558
+      },
+      "table": {
+        "rows": 5,
+        "cols": 3,
+        "header_row": [
+          "New York",
+          "Amount",
+          "%"
+        ]
+      }
+    },
+    {
+      "shape_id": 11,
+      "name": "Table 10",
+      "shape_type": "TABLE (19)",
+      "position_in": {
+        "left": 7.243,
+        "top": 3.649,
+        "width": 3.953,
+        "height": 1.558
+      },
+      "table": {
+        "rows": 5,
+        "cols": 3,
+        "header_row": [
+          "Mexico",
+          "Amount",
+          "%"
+        ]
+      }
+    }
+  ]
+}

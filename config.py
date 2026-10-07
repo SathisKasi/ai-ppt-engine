@@ -13,29 +13,56 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 # ---------------------------------------------------------------------------
-# Load .env file (no-op when not present, e.g. in production)
+# Project paths & PyInstaller frozen execution support
 # ---------------------------------------------------------------------------
-load_dotenv()
+import sys
 
-# ---------------------------------------------------------------------------
-# Project paths
-# ---------------------------------------------------------------------------
-PROJECT_ROOT = Path(__file__).parent
-TEMPLATES_DIR = PROJECT_ROOT / "templates"
-OUTPUT_DIR = PROJECT_ROOT / os.getenv("OUTPUT_DIR", "output")
-TEMPLATE_FILE = TEMPLATES_DIR / "presentation_template.pptx"
-LAYOUT_METADATA_FILE = TEMPLATES_DIR / "layout_metadata.json"
+IS_FROZEN = getattr(sys, "frozen", False)
+if IS_FROZEN:
+    # Directory containing the executable (for user files: .env, output/, logs/)
+    APP_DIR = Path(sys.executable).resolve().parent
+    # Directory containing internal bundled assets (_internal or temp _MEIPASS)
+    BUNDLE_DIR = Path(getattr(sys, "_MEIPASS", sys.executable)).resolve()
+    if not BUNDLE_DIR.is_dir():
+        BUNDLE_DIR = BUNDLE_DIR.parent
+else:
+    APP_DIR = Path(__file__).resolve().parent
+    BUNDLE_DIR = APP_DIR
+
+PROJECT_ROOT = APP_DIR
+
+def resolve_asset_path(relative_path: str | Path) -> Path:
+    """Resolve an asset path: checks APP_DIR first, then falls back to BUNDLE_DIR."""
+    rel = Path(relative_path)
+    user_path = APP_DIR / rel
+    if user_path.exists():
+        return user_path
+    bundle_path = BUNDLE_DIR / rel
+    if bundle_path.exists():
+        return bundle_path
+    return user_path
+
+# Load .env (first from APP_DIR, fallback to BUNDLE_DIR)
+_env_path = APP_DIR / ".env"
+if not _env_path.exists() and (BUNDLE_DIR / ".env").exists():
+    _env_path = BUNDLE_DIR / ".env"
+load_dotenv(_env_path, override=True)
+
+TEMPLATES_DIR = resolve_asset_path("templates")
+OUTPUT_DIR = APP_DIR / os.getenv("OUTPUT_DIR", "output")
+TEMPLATE_FILE = resolve_asset_path("templates/presentation_template.pptx")
+LAYOUT_METADATA_FILE = resolve_asset_path("templates/layout_metadata.json")
 
 # Additional template files
-TECHM_TEMPLATE_FILE = TEMPLATES_DIR / "techm_template.pptx"
-WHITE_BLUE_TEMPLATE_FILE = TEMPLATES_DIR / "white_blue_template.pptx"
-TECHM_V3_TEMPLATE_FILE = PROJECT_ROOT / "TechM_RefPPT-V3.pptx"
-TEMPLATE1_FILE = PROJECT_ROOT / "AITransformationWeeklyUpdate4SEP2026.pptx"
-HLD_QBR_TEMPLATE_FILE = TEMPLATES_DIR / "hld_qbr_template.pptx"
-
+TECHM_TEMPLATE_FILE = resolve_asset_path("templates/techm_template.pptx")
+WHITE_BLUE_TEMPLATE_FILE = resolve_asset_path("templates/white_blue_template.pptx")
+TECHM_V3_TEMPLATE_FILE = resolve_asset_path("TechM_RefPPT-V3.pptx")
+TEMPLATE1_FILE = resolve_asset_path("AITransformationWeeklyUpdate4SEP2026.pptx")
+HLD_QBR_TEMPLATE_FILE = resolve_asset_path("templates/hld_qbr_template.pptx")
+HLD_QBR_CATALOG_FILE = resolve_asset_path("templates/hld_qbr_assets/inventory/layout_capability_catalog.json")
 
 # LLM analysis logs directory
-LOGS_DIR: Path = PROJECT_ROOT / "logs" / "llm"
+LOGS_DIR: Path = APP_DIR / "logs" / "llm"
 
 # Ensure directories exist
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
@@ -63,12 +90,24 @@ GROQ_API_KEYS: list[str] = [
 ] if _raw_keys else ([GROQ_API_KEY] if GROQ_API_KEY else [])
 
 # ---------------------------------------------------------------------------
+# OpenRouter settings (Fallback for Groq rate limits)
+# ---------------------------------------------------------------------------
+OPENROUTER_URL: str = os.getenv("OPENROUTER_URL", "https://openrouter.ai/api/v1/chat/completions")
+OPENROUTER_MODEL: str = os.getenv("OPENROUTER_MODEL", "openai/gpt-oss-120b")
+_raw_openrouter_keys = os.getenv("OPENROUTER_API_KEYS", "")
+OPENROUTER_API_KEYS: list[str] = [
+    k.strip() for k in _raw_openrouter_keys.split(",") if k.strip()
+] if _raw_openrouter_keys else ([os.getenv("OPENROUTER_API_KEY", "").strip()] if os.getenv("OPENROUTER_API_KEY", "").strip() else [])
+
+# ---------------------------------------------------------------------------
 # IBM watsonx.ai settings
 # ---------------------------------------------------------------------------
 WATSONX_API_KEY: str = os.getenv("WATSONX_API_KEY", "")
 WATSONX_PROJECT_ID: str = os.getenv("WATSONX_PROJECT_ID", "")
 WATSONX_URL: str = os.getenv("WATSONX_URL", "https://us-south.ml.cloud.ibm.com")
-WATSONX_MODEL_ID: str = os.getenv("WATSONX_MODEL_ID", "openai/gpt-oss-120b")
+WATSONX_MODEL_ID: str = os.getenv("WATSONX_MODEL_ID", "meta-llama/llama-3-3-70b-instruct")
+# Used when the primary model hits a 429/consumption_limit_reached after all retries.
+WATSONX_FALLBACK_MODEL_ID: str = os.getenv("WATSONX_FALLBACK_MODEL_ID", "ibm/granite-4-h-small")
 WATSONX_MAX_TOKENS_PLAN: int = int(os.getenv("WATSONX_MAX_TOKENS_PLAN", "4096"))
 WATSONX_MAX_TOKENS_SLIDE: int = int(os.getenv("WATSONX_MAX_TOKENS_SLIDE", "2048"))
 WATSONX_TEMPERATURE: float = float(os.getenv("WATSONX_TEMPERATURE", "0.3"))
@@ -78,6 +117,14 @@ _raw_watsonx_keys = os.getenv("WATSONX_API_KEYS", "")
 WATSONX_API_KEYS: list[str] = [
     k.strip() for k in _raw_watsonx_keys.split(",") if k.strip()
 ] if _raw_watsonx_keys else ([WATSONX_API_KEY] if WATSONX_API_KEY else [])
+
+# Per-key project IDs (comma-separated, same order as WATSONX_API_KEYS) — lets each
+# collaborator's key bill against their own project instead of a single shared one.
+# Falls back to WATSONX_PROJECT_ID for every key when not set.
+_raw_watsonx_project_ids = os.getenv("WATSONX_PROJECT_IDS", "")
+WATSONX_PROJECT_IDS: list[str] = [
+    p.strip() for p in _raw_watsonx_project_ids.split(",") if p.strip()
+] if _raw_watsonx_project_ids else ([WATSONX_PROJECT_ID] if WATSONX_PROJECT_ID else [])
 
 # ---------------------------------------------------------------------------
 # Semantic chunking settings
@@ -162,3 +209,52 @@ COLOR_BULLET_ACCENT = "E94560"  # Vibrant red-pink for accents
 APP_TITLE = "AI PowerPoint Generator"
 APP_SUBTITLE = "Transform documents and ideas into professional presentations"
 APP_VERSION = "1.0.0"
+
+
+# ---------------------------------------------------------------------------
+# Environment / Key management helpers
+# ---------------------------------------------------------------------------
+def update_env_variable(key: str, value: str) -> None:
+    """Safely update or append a key=value pair in the local .env file."""
+    env_file = APP_DIR / ".env"
+    lines = []
+    found = False
+    if env_file.exists():
+        lines = env_file.read_text(encoding="utf-8").splitlines()
+        new_lines = []
+        for line in lines:
+            stripped = line.strip()
+            if stripped.startswith(f"{key}=") or stripped.startswith(f"{key} ="):
+                new_lines.append(f"{key}={value}")
+                found = True
+            else:
+                new_lines.append(line)
+        lines = new_lines
+
+    if not found:
+        lines.append(f"{key}={value}")
+
+    env_file.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    os.environ[key] = value
+
+
+def reload_keys() -> None:
+    """Reload API keys and provider configuration from environment variables."""
+    global LLM_PROVIDER, GROQ_API_KEY, GROQ_API_KEYS, WATSONX_API_KEY, WATSONX_API_KEYS, WATSONX_PROJECT_ID, OPENROUTER_API_KEYS
+    env_file = APP_DIR / ".env"
+    if env_file.exists():
+        load_dotenv(env_file, override=True)
+    
+    LLM_PROVIDER = os.getenv("LLM_PROVIDER", "watsonx").strip().lower()
+    GROQ_API_KEY = os.getenv("GROQ_API_KEY", "")
+    _raw_keys = os.getenv("GROQ_API_KEYS", "")
+    GROQ_API_KEYS = [k.strip() for k in _raw_keys.split(",") if k.strip()] if _raw_keys else ([GROQ_API_KEY] if GROQ_API_KEY else [])
+    
+    WATSONX_API_KEY = os.getenv("WATSONX_API_KEY", "")
+    _raw_wx_keys = os.getenv("WATSONX_API_KEYS", "")
+    WATSONX_API_KEYS = [k.strip() for k in _raw_wx_keys.split(",") if k.strip()] if _raw_wx_keys else ([WATSONX_API_KEY] if WATSONX_API_KEY else [])
+    WATSONX_PROJECT_ID = os.getenv("WATSONX_PROJECT_ID", "")
+
+    _raw_or_keys = os.getenv("OPENROUTER_API_KEYS", "")
+    OPENROUTER_API_KEYS = [k.strip() for k in _raw_or_keys.split(",") if k.strip()] if _raw_or_keys else ([os.getenv("OPENROUTER_API_KEY", "").strip()] if os.getenv("OPENROUTER_API_KEY", "").strip() else [])
+

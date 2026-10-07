@@ -1,0 +1,533 @@
+{
+  "index": 45,
+  "slide_name": "slide_45",
+  "title": "Title Only — chart (DOUGHNUT (-4120)), 5 text slot(s)",
+  "layout": "Title Only",
+  "category": "Guide-Only",
+  "slide_layout_name": "Title Only",
+  "canvas": {
+    "width_emu": 12192000,
+    "height_emu": 6858000,
+    "width_px": 1280,
+    "height_px": 720,
+    "aspect_ratio": "16:9"
+  },
+  "structure": {
+    "shape_count": 15,
+    "text_placeholder_count": 3,
+    "image_count": 0,
+    "table_or_chart_count": 4,
+    "annotation_shape_count": 0
+  },
+  "annotation_shapes": [],
+  "editable_mapping": {
+    "layout": {
+      "name": "Title Only",
+      "placeholders": [
+        {
+          "raw_type": "SLIDE_NUMBER (13)",
+          "idx": 12,
+          "position_in": {
+            "left": 12.344,
+            "top": 7.099,
+            "width": 0.589,
+            "height": 0.303
+          }
+        },
+        {
+          "raw_type": "TITLE (1)",
+          "idx": 0,
+          "position_in": {
+            "left": 0.398,
+            "top": 0.398,
+            "width": 12.533,
+            "height": 0.42
+          }
+        },
+        {
+          "raw_type": "BODY (2)",
+          "idx": 13,
+          "position_in": {
+            "left": 0.398,
+            "top": 0.835,
+            "width": 12.533,
+            "height": 0.245
+          }
+        }
+      ]
+    },
+    "master": {
+      "name": "",
+      "placeholders": [
+        {
+          "raw_type": "TITLE (1)",
+          "idx": 0,
+          "position_in": {
+            "left": 0.398,
+            "top": 0.398,
+            "width": 12.533,
+            "height": 1.033
+          }
+        },
+        {
+          "raw_type": "BODY (2)",
+          "idx": 1,
+          "position_in": {
+            "left": 0.398,
+            "top": 1.592,
+            "width": 12.533,
+            "height": 5.24
+          }
+        },
+        {
+          "raw_type": "SLIDE_NUMBER (13)",
+          "idx": 4,
+          "position_in": {
+            "left": 12.344,
+            "top": 7.099,
+            "width": 0.589,
+            "height": 0.303
+          }
+        }
+      ]
+    }
+  },
+  "shapes": [
+    {
+      "shape_id": 4,
+      "name": "Slide Number Placeholder 3",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 12.344,
+        "top": 7.099,
+        "width": 0.589,
+        "height": 0.303
+      },
+      "placeholder_type": "SLIDE_NUMBER (13)",
+      "placeholder_idx": 12,
+      "text": {
+        "full_text": "46",
+        "runs": [],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 2,
+      "name": "Title 1",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 0.398,
+        "top": 0.398,
+        "width": 12.533,
+        "height": 0.42
+      },
+      "placeholder_type": "TITLE (1)",
+      "placeholder_idx": 0,
+      "text": {
+        "full_text": "VISUALIZE YOUR DATA IN AN EASY TO READ MANNER",
+        "runs": [
+          {
+            "text": "VISUALIZE YOUR DATA IN AN EASY TO READ MANNER",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 3,
+      "name": "Text Placeholder 2",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 0.398,
+        "top": 0.835,
+        "width": 12.533,
+        "height": 0.245
+      },
+      "placeholder_type": "BODY (2)",
+      "placeholder_idx": 13
+    },
+    {
+      "shape_id": 6,
+      "name": "TextBox 5",
+      "shape_type": "TEXT_BOX (17)",
+      "position_in": {
+        "left": 2.047,
+        "top": 3.88,
+        "width": 1.947,
+        "height": 0.572
+      },
+      "text": {
+        "full_text": "60%  \u000bsupporting copy",
+        "runs": [
+          {
+            "text": "60%  ",
+            "font": null,
+            "size_pt": 14.0,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "supporting copy",
+            "font": null,
+            "size_pt": 14.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 7,
+      "name": "TextBox 6",
+      "shape_type": "TEXT_BOX (17)",
+      "position_in": {
+        "left": 4.403,
+        "top": 3.88,
+        "width": 1.989,
+        "height": 0.572
+      },
+      "text": {
+        "full_text": "51%  \u000bsupporting copy",
+        "runs": [
+          {
+            "text": "51%  ",
+            "font": null,
+            "size_pt": 14.0,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "supporting copy",
+            "font": null,
+            "size_pt": 14.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 8,
+      "name": "TextBox 7",
+      "shape_type": "TEXT_BOX (17)",
+      "position_in": {
+        "left": 6.886,
+        "top": 3.891,
+        "width": 1.989,
+        "height": 0.572
+      },
+      "text": {
+        "full_text": "44% \nsupporting copy",
+        "runs": [
+          {
+            "text": "44% ",
+            "font": null,
+            "size_pt": 14.0,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "supporting copy",
+            "font": null,
+            "size_pt": 14.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 9,
+      "name": "TextBox 8",
+      "shape_type": "TEXT_BOX (17)",
+      "position_in": {
+        "left": 9.271,
+        "top": 3.876,
+        "width": 1.989,
+        "height": 0.572
+      },
+      "text": {
+        "full_text": "40%\nsupporting copy",
+        "runs": [
+          {
+            "text": "40%",
+            "font": null,
+            "size_pt": 14.0,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "supporting copy",
+            "font": null,
+            "size_pt": 14.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 10,
+      "name": "Chart 9",
+      "shape_type": "CHART (3)",
+      "position_in": {
+        "left": 1.798,
+        "top": 1.756,
+        "width": 2.342,
+        "height": 2.041
+      },
+      "chart": {
+        "chart_type": "DOUGHNUT (-4120)",
+        "categories": [
+          "1st Qtr",
+          "2nd Qtr"
+        ],
+        "series_names": [
+          "Column1"
+        ]
+      }
+    },
+    {
+      "shape_id": 11,
+      "name": "Chart 10",
+      "shape_type": "CHART (3)",
+      "position_in": {
+        "left": 4.23,
+        "top": 1.756,
+        "width": 2.342,
+        "height": 2.041
+      },
+      "chart": {
+        "chart_type": "DOUGHNUT (-4120)",
+        "categories": [
+          "1st Qtr",
+          "2nd Qtr"
+        ],
+        "series_names": [
+          "Column1"
+        ]
+      }
+    },
+    {
+      "shape_id": 12,
+      "name": "Chart 11",
+      "shape_type": "CHART (3)",
+      "position_in": {
+        "left": 6.662,
+        "top": 1.756,
+        "width": 2.342,
+        "height": 2.041
+      },
+      "chart": {
+        "chart_type": "DOUGHNUT (-4120)",
+        "categories": [
+          "1st Qtr",
+          "2nd Qtr"
+        ],
+        "series_names": [
+          "Column1"
+        ]
+      }
+    },
+    {
+      "shape_id": 13,
+      "name": "Chart 12",
+      "shape_type": "CHART (3)",
+      "position_in": {
+        "left": 9.095,
+        "top": 1.756,
+        "width": 2.342,
+        "height": 2.041
+      },
+      "chart": {
+        "chart_type": "DOUGHNUT (-4120)",
+        "categories": [
+          "1st Qtr",
+          "2nd Qtr"
+        ],
+        "series_names": [
+          "Column1"
+        ]
+      }
+    },
+    {
+      "shape_id": 14,
+      "name": "Group 13",
+      "shape_type": "GROUP (6)",
+      "position_in": {
+        "left": 2.641,
+        "top": 2.619,
+        "width": 0.655,
+        "height": 0.351
+      },
+      "children": [
+        {
+          "shape_id": 15,
+          "name": "Freeform 894",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 2.583,
+            "top": 5.471,
+            "width": 0.641,
+            "height": 0.284
+          }
+        },
+        {
+          "shape_id": 16,
+          "name": "Freeform 895",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 2.642,
+            "top": 5.71,
+            "width": 0.105,
+            "height": 0.105
+          }
+        },
+        {
+          "shape_id": 17,
+          "name": "Freeform 896",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 3.076,
+            "top": 5.71,
+            "width": 0.096,
+            "height": 0.105
+          }
+        }
+      ]
+    },
+    {
+      "shape_id": 18,
+      "name": "Group 17",
+      "shape_type": "GROUP (6)",
+      "position_in": {
+        "left": 5.166,
+        "top": 2.555,
+        "width": 0.496,
+        "height": 0.393
+      },
+      "children": [
+        {
+          "shape_id": 19,
+          "name": "Freeform 825",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 10.332,
+            "top": 2.035,
+            "width": 0.418,
+            "height": 0.5
+          }
+        },
+        {
+          "shape_id": 20,
+          "name": "Freeform 826",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 10.108,
+            "top": 2.178,
+            "width": 0.179,
+            "height": 0.365
+          }
+        }
+      ]
+    },
+    {
+      "shape_id": 21,
+      "name": "Group 20",
+      "shape_type": "GROUP (6)",
+      "position_in": {
+        "left": 10.018,
+        "top": 2.581,
+        "width": 0.497,
+        "height": 0.492
+      },
+      "children": [
+        {
+          "shape_id": 22,
+          "name": "Rectangle 818",
+          "shape_type": "AUTO_SHAPE (1)",
+          "position_in": {
+            "left": 3.419,
+            "top": 3.014,
+            "width": 0.643,
+            "height": 0.425
+          }
+        },
+        {
+          "shape_id": 23,
+          "name": "Freeform 819",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 3.419,
+            "top": 2.804,
+            "width": 0.299,
+            "height": 0.173
+          }
+        },
+        {
+          "shape_id": 24,
+          "name": "Freeform 820",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 3.763,
+            "top": 2.804,
+            "width": 0.299,
+            "height": 0.173
+          }
+        }
+      ]
+    },
+    {
+      "shape_id": 25,
+      "name": "Group 24",
+      "shape_type": "GROUP (6)",
+      "position_in": {
+        "left": 7.504,
+        "top": 2.541,
+        "width": 0.491,
+        "height": 0.492
+      },
+      "children": [
+        {
+          "shape_id": 26,
+          "name": "Freeform 154",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 8.653,
+            "top": 5.318,
+            "width": 0.634,
+            "height": 0.455
+          }
+        },
+        {
+          "shape_id": 27,
+          "name": "Freeform 155",
+          "shape_type": "FREEFORM (5)",
+          "position_in": {
+            "left": 8.771,
+            "top": 5.714,
+            "width": 0.396,
+            "height": 0.24
+          }
+        }
+      ]
+    }
+  ]
+}

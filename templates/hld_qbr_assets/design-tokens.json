@@ -1,0 +1,46 @@
+{
+  "source": "HLD QBR Template PFv3.potx \u2014 ppt/theme/theme1.xml + slide_43 'Brand Approved Colors'",
+  "note": "accent5 corrected to #00857D (was transcribed as #008575 in an earlier pass of llm/hld_qbr_guidelines.py; core/builders/hld_qbr_builder.py's TEMPLATE_SERIES_COLORS already used the correct RGB(0,133,125) = #00857D).",
+  "colors": {
+    "theme": {
+      "dk1": { "hex": "#000000", "role": "Black / text" },
+      "lt1": { "hex": "#FFFFFF", "role": "White / background" },
+      "dk2": { "hex": "#58595B", "role": "UPS Gray 1" },
+      "lt2": { "hex": "#D8D4D7", "role": "Light neutral" },
+      "accent1": { "hex": "#0E2554", "role": "UPS Dark Blue (primary)" },
+      "accent2": { "hex": "#426DA9", "role": "UPS Blue" },
+      "accent3": { "hex": "#330000", "role": "UPS Brown (default body/title text)" },
+      "accent4": { "hex": "#FFBE00", "role": "UPS Gold (secondary accent, section-label color)" },
+      "accent5": { "hex": "#00857D", "role": "UPS Teal (secondary)" },
+      "accent6": { "hex": "#88A7D1", "role": "UPS Blue 60% tint" },
+      "hlink": { "hex": "#330000" },
+      "folHlink": { "hex": "#88A7D1" }
+    },
+    "usage_rules": [
+      "Default slide background is white.",
+      "Normal body text is UPS Brown; UPS Blue is the default emphasis/bullet color.",
+      "Title and subtitle text is UPS Brown.",
+      "Only pick from the theme color row in PowerPoint's color picker, never Standard Colors.",
+      "Process-flow diagrams prefer UPS Gray 4 with a single accent-color highlighted segment."
+    ]
+  },
+  "fonts": {
+    "major_theme_font": "Georgia",
+    "minor_theme_font": "Verdana",
+    "title": { "typeface": "Verdana", "size_pt": 22, "weight": "bold", "case": "UPPERCASE" },
+    "subheadline": { "typeface": "Verdana", "size_pt": 18, "weight": "regular" },
+    "body_level1": { "typeface": "Verdana", "size_pt": 18, "color": "UPS Gray 1 or theme color" },
+    "body_min_size_pt": 12
+  },
+  "slide_size": {
+    "aspect_ratio": "16:9",
+    "width_in": 13.33,
+    "height_in": 7.5,
+    "width_emu": 12192000,
+    "height_emu": 6858000
+  },
+  "cross_references": {
+    "llm_module": "llm/hld_qbr_guidelines.py (BRAND_COLORS, TYPOGRAPHY, COLOR_USAGE_RULES)",
+    "render_module": "core/builders/hld_qbr_builder.py (TEMPLATE_SERIES_COLORS, TEXT_COLOR)"
+  }
+}

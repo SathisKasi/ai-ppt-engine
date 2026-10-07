@@ -1,0 +1,309 @@
+{
+  "index": 44,
+  "slide_name": "slide_44",
+  "title": "Title Only — 3 text slot(s)",
+  "layout": "Title Only",
+  "category": "Guide-Only",
+  "slide_layout_name": "Title Only",
+  "canvas": {
+    "width_emu": 12192000,
+    "height_emu": 6858000,
+    "width_px": 1280,
+    "height_px": 720,
+    "aspect_ratio": "16:9"
+  },
+  "structure": {
+    "shape_count": 5,
+    "text_placeholder_count": 3,
+    "image_count": 0,
+    "table_or_chart_count": 0,
+    "annotation_shape_count": 0
+  },
+  "annotation_shapes": [],
+  "editable_mapping": {
+    "layout": {
+      "name": "Title Only",
+      "placeholders": [
+        {
+          "raw_type": "SLIDE_NUMBER (13)",
+          "idx": 12,
+          "position_in": {
+            "left": 12.344,
+            "top": 7.099,
+            "width": 0.589,
+            "height": 0.303
+          }
+        },
+        {
+          "raw_type": "TITLE (1)",
+          "idx": 0,
+          "position_in": {
+            "left": 0.398,
+            "top": 0.398,
+            "width": 12.533,
+            "height": 0.42
+          }
+        },
+        {
+          "raw_type": "BODY (2)",
+          "idx": 13,
+          "position_in": {
+            "left": 0.398,
+            "top": 0.835,
+            "width": 12.533,
+            "height": 0.245
+          }
+        }
+      ]
+    },
+    "master": {
+      "name": "",
+      "placeholders": [
+        {
+          "raw_type": "TITLE (1)",
+          "idx": 0,
+          "position_in": {
+            "left": 0.398,
+            "top": 0.398,
+            "width": 12.533,
+            "height": 1.033
+          }
+        },
+        {
+          "raw_type": "BODY (2)",
+          "idx": 1,
+          "position_in": {
+            "left": 0.398,
+            "top": 1.592,
+            "width": 12.533,
+            "height": 5.24
+          }
+        },
+        {
+          "raw_type": "SLIDE_NUMBER (13)",
+          "idx": 4,
+          "position_in": {
+            "left": 12.344,
+            "top": 7.099,
+            "width": 0.589,
+            "height": 0.303
+          }
+        }
+      ]
+    }
+  },
+  "shapes": [
+    {
+      "shape_id": 10,
+      "name": "Object 9",
+      "shape_type": "EMBEDDED_OLE_OBJECT (7)",
+      "position_in": {
+        "left": 0.002,
+        "top": 0.002,
+        "width": 0.002,
+        "height": 0.002
+      }
+    },
+    {
+      "shape_id": 6,
+      "name": "Slide Number Placeholder 5",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 12.344,
+        "top": 7.099,
+        "width": 0.589,
+        "height": 0.303
+      },
+      "placeholder_type": "SLIDE_NUMBER (13)",
+      "placeholder_idx": 12,
+      "text": {
+        "full_text": "45",
+        "runs": [],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 2,
+      "name": "Title 1",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 0.398,
+        "top": 0.398,
+        "width": 12.533,
+        "height": 0.42
+      },
+      "placeholder_type": "TITLE (1)",
+      "placeholder_idx": 0,
+      "text": {
+        "full_text": "TITLE IS 22 PT VERDANA BOLD UPPERCASE",
+        "runs": [
+          {
+            "text": "TITLE IS 22 PT VERDANA BOLD UPPERCASE",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 3,
+      "name": "Text Placeholder 2",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 0.398,
+        "top": 0.835,
+        "width": 12.533,
+        "height": 0.245
+      },
+      "placeholder_type": "BODY (2)",
+      "placeholder_idx": 13,
+      "text": {
+        "full_text": "Sub-headline text is 18 pt Verdana",
+        "runs": [
+          {
+            "text": "Sub-headline text is 18 pt Verdana",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 8,
+      "name": "Content Placeholder 2",
+      "shape_type": "TEXT_BOX (17)",
+      "position_in": {
+        "left": 0.4,
+        "top": 1.592,
+        "width": 12.533,
+        "height": 4.908
+      },
+      "text": {
+        "full_text": "Title \nChoose the Title and Content layout page from the New Slide menu\nFirst level of text is 18 pt Verdana, gray 1, but may be set to other theme color if it functions as a title\nUse the “promote and demote” buttons to adjust bullet level\n Do not use the bullet button to turn bullets on or off\nSpacing and alignment are preset within the template \nIf text does not fit, reduce line and paragraph spacing\nIf necessary, reduce font size down to 12 pt for normal text slides or 12 pt for 2-column slides\n",
+        "runs": [
+          {
+            "text": "Title",
+            "font": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": " ",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "Choose the ",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "Title and Content",
+            "font": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": true,
+            "color": null
+          },
+          {
+            "text": " ",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": true,
+            "color": null
+          },
+          {
+            "text": "layout page from the New Slide menu",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "First level of text is 18 pt Verdana, gray 1, but may be set to ",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "other theme color ",
+            "font": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "if it functions as a title",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "Use the “promote and demote” buttons to adjust bullet level",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": " Do not use the bullet button to turn bullets on or off",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "Spacing and alignment are preset within the template ",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "If text does not fit, reduce line and paragraph spacing",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "If necessary, reduce font size down to 12 pt for normal text slides or 12 pt for 2-column slides",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    }
+  ]
+}

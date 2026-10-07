@@ -21,8 +21,8 @@ logger = get_logger(__name__)
 _REGISTRY: Dict[str, Dict[str, Any]] = {
     "dark_navy": {
         "id":          "dark_navy",
-        "name":        "Dark Navy (Default)",
-        "description": "Sleek dark navy & purple professional theme",
+        "name":        "RFP",
+        "description": "PROPOSAL",
         "icon":        "🌑",
     },
     # "techm": {
@@ -33,26 +33,26 @@ _REGISTRY: Dict[str, Dict[str, Any]] = {
     # },
     "white_blue": {
         "id":          "white_blue",
-        "name":        "White & Blue Professional",
-        "description": "Clean white + blue corporate design",
+        "name":        "DEPARTMENT",
+        "description": "MEETING",
         "icon":        "☁️",
     },
     "techm_v3": {
         "id":          "techm_v3",
-        "name":        "TechM Dynamic V3 (Freeform Layouts)",
-        "description": "Tech Mahindra 3-slide master: dynamic LLM layouts & content enrichment",
+        "name":        "TOWN HALL",
+        "description": "PRESENTATION",
         "icon":        "✨",
     },
     "template1": {
         "id":          "template1",
-        "name":        "Template-1: AI Transformation Weekly",
-        "description": "Warm earth-tone palette (espresso/amber/sand) — 5-slide master with ACTION_TABLE & dynamic LLM layouts",
+        "name":        "CUSTOMER",
+        "description": "FACING",
         "icon":        "🟤",
     },
     "hld_qbr": {
         "id":          "hld_qbr",
-        "name":        "HLD QBR (UPS Healthcare)",
-        "description": "UPS Healthcare Quarterly Business Review template — archetype-based (org structure, KPI dashboard, non-conformance, gemba walk...) with brand guardrails enforced",
+        "name":        "HLD QBR",
+        "description": "UPS Healthcare",
         "icon":        "🏥",
     },
 }
@@ -81,8 +81,8 @@ def get_builder(template_id: str, layout_manager=None):
         return Template1Builder(template_path=config.TEMPLATE1_FILE)
 
     if tid == "hld_qbr":
-        from core.builders.hld_qbr_builder import HLDQBRBuilder
-        return HLDQBRBuilder(template_path=config.HLD_QBR_TEMPLATE_FILE)
+        from core.builders.hld_qbr_generic_builder import HLDQBRGenericBuilder
+        return HLDQBRGenericBuilder()
 
     if tid == "techm_v3":
         from core.builders.techm_v3_builder import TechMV3Builder
