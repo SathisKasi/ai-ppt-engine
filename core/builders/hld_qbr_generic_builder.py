@@ -35,6 +35,7 @@ from core.builders.hld_qbr_builder import (
     TEMPLATE_SERIES_COLORS,
     _clone_slide,
     _fill_table_rows,
+    _get_ordinal_date,
     _set_first_run_text,
     _strip_all_highlights,
     _strip_decorative_connectors,
@@ -338,11 +339,11 @@ def _render_chart(slide: Any, entry: Dict[str, Any], assignment: SlideAssignment
         pass
 
 
-def _render_content_slide(prs: Presentation, assignment: SlideAssignment) -> None:
+def _render_content_slide(prs: Presentation, assignment: SlideAssignment, slide_number: Optional[int] = None) -> bool:
     entry = get_entry(assignment.slide_id)
     if entry is None:
         logger.warning("Skipping unknown slide_id %s", assignment.slide_id)
-        return
+        return False
     slide = _clone_slide(prs, entry["source_slide_index"])
     _strip_guidance_shapes(slide)
     _strip_decorative_connectors(slide)
@@ -361,6 +362,16 @@ def _render_content_slide(prs: Presentation, assignment: SlideAssignment) -> Non
     _clear_template_text(slide.shapes)
     _remove_unfilled_charts(slide, assignment)
 
+    # Set sequential slide number if provided (must happen after clearing template text)
+    if slide_number is not None:
+        for shape in slide.shapes:
+            if "slide number" in shape.name.lower() or (
+                getattr(shape, "is_placeholder", False)
+                and getattr(shape.placeholder_format, "type", None) in (13, 16)
+            ):
+                if shape.has_text_frame:
+                    _set_first_run_text(shape, str(slide_number))
+
     if assignment.title is not None:
         title_slot = next(
             (s for s in entry["slots"] if s["kind"] in ("placeholder_title", "empty_title_box")), None
@@ -376,22 +387,31 @@ def _render_content_slide(prs: Presentation, assignment: SlideAssignment) -> Non
     _render_repeat_groups(slide, entry, assignment, group_text_children_map)
     _render_table(slide, entry, assignment)
     _render_chart(slide, entry, assignment)
+    return True
 
 
 def _render_cover(prs: Presentation, plan: GenericHLDQBRPlan) -> None:
     entry = get_entry("slide_00")
     slide = _clone_slide(prs, entry["source_slide_index"])
     _clear_template_text(slide.shapes)
+    date_str = plan.date.strip() if plan.date else _get_ordinal_date()
     for slot in entry["slots"]:
         shape = _shape_by_id(slide, slot["shape_id"])
         if shape is None or not shape.has_text_frame:
             continue
         if "date" in slot["slot_id"]:
-            _set_first_run_text(shape, plan.date)
+            _set_first_run_text(shape, date_str)
+        elif "title_5" in slot["slot_id"]:
+            # Title 5 overlaps the primary hero title (Rectangle 6).
+            # Use it for facility/subtitle if present; otherwise remove it to avoid duplicate text.
+            if plan.facility_name:
+                _set_text_generic(shape, plan.facility_name, slot["kind"], slot.get("max_chars"))
+            else:
+                try:
+                    shape.element.getparent().remove(shape.element)
+                except Exception:
+                    pass
         else:
-            # Every other cover text shape (title box, hero banner) shows the
-            # presentation title — never left blank, no second content source
-            # exists for the cover besides the title/date.
             _set_text_generic(shape, plan.presentation_title, slot["kind"], slot.get("max_chars"))
 
 
@@ -399,9 +419,16 @@ def _render_agenda(prs: Presentation, agenda_title: str, agenda_items: List[str]
     entry = get_entry("slide_01")
     slide = _clone_slide(prs, entry["source_slide_index"])
     _clear_template_text(slide.shapes)
-    # The agenda has exactly 2 slots: a short title and a multi-line topics box
-    # (the topics box is identified generically as whichever slot allows the
-    # most characters — it's always the larger of the two on this slide).
+
+    # Update slide number placeholder to 2
+    for shape in slide.shapes:
+        if "slide number" in shape.name.lower() or (
+            getattr(shape, "is_placeholder", False)
+            and getattr(shape.placeholder_format, "type", None) in (13, 16)
+        ):
+            if shape.has_text_frame:
+                _set_first_run_text(shape, "2")
+
     topics_slot = max(entry["slots"], key=lambda s: s.get("max_chars") or 0)
     title_slot = next((slot for slot in entry["slots"] if slot != topics_slot), None)
     if title_slot is not None:
@@ -530,16 +557,15 @@ class HLDQBRGenericBuilder:
         initial_count = len(prs.slides)
 
         content_slides = [s for s in plan.slides if s.slide_id not in STRUCTURAL_ONLY_SLIDE_IDS]
-        exec_summary = next((s for s in content_slides if s.slide_id == "slide_03"), None)
-        other_content = [s for s in content_slides if s.slide_id != "slide_03"]
 
         _render_cover(prs, plan)
         agenda_items = plan.agenda_topics if plan.agenda_topics else [s.title for s in content_slides if s.title]
-        _render_agenda(prs, plan.presentation_title, agenda_items)
-        if exec_summary is not None:
-            _render_content_slide(prs, exec_summary)
-        for assignment in other_content:
-            _render_content_slide(prs, assignment)
+        _render_agenda(prs, "AGENDA", agenda_items)
+
+        slide_idx = 3
+        for assignment in content_slides:
+            if _render_content_slide(prs, assignment, slide_number=slide_idx):
+                slide_idx += 1
         _render_closing(prs)
 
         # Prune the original 60 source slides, leaving only the generated ones

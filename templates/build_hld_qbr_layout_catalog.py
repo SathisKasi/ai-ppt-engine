@@ -49,11 +49,21 @@ CHROME_NAME_SNIPPETS = ("slide number placeholder",)
 HEIGHT_TOLERANCE = 0.12
 
 
-def _max_chars(reference_text: str) -> int:
-    length = len(reference_text.strip())
+def _max_chars(reference_text: str, shape: Optional[Dict[str, Any]] = None) -> int:
+    ref = reference_text.strip()
+    length = len(ref)
+    width = 0.0
+    if shape and shape.get("position_in"):
+        width = shape["position_in"].get("width", 0.0)
+    ref_lower = ref.lower()
+    # If the placeholder was generic dummy text like "Details", give it real bullet capacity (80-120 chars)
+    if ref_lower in ("details", "detail", "text", "description", "body", "insert text here", "content"):
+        return max(80, int(width * 28) if width else 80)
+    if length <= 15 and width >= 2.0:
+        return max(60, int(width * 24))
     if length == 0:
-        return 20
-    return max(15, int(math.ceil(length * 1.3 / 5.0) * 5))
+        return max(40, int(width * 20) if width else 40)
+    return max(30, int(math.ceil(length * 1.35 / 5.0) * 5))
 
 
 def _is_chrome(shape: Dict[str, Any]) -> bool:
@@ -117,7 +127,7 @@ def _slot_from_shape(shape: Dict[str, Any], slot_id: str) -> Optional[Dict[str, 
             "slot_id": slot_id,
             "kind": _shape_kind(shape),
             "shape_id": shape["shape_id"],
-            "max_chars": _max_chars(text["full_text"]),
+            "max_chars": _max_chars(text["full_text"], shape),
         }
     # Some template slides ship with a genuinely EMPTY title text box (no
     # sample run at all) — e.g. the cover slide's "Title 5". Still a real,
@@ -213,8 +223,19 @@ def build_entry(record: Dict[str, Any]) -> Dict[str, Any]:
     auto_number_shape_ids = [s["shape_id"] for s in auto_number_shapes]
     used_shape_ids.update(auto_number_shape_ids)
 
+    # Sort shapes: title shapes first, then body shapes by vertical top position, then horizontal left position
+    def _shape_sort_key(s: Dict[str, Any]):
+        pos = s.get("position_in", {})
+        top = pos.get("top", 0.0)
+        left = pos.get("left", 0.0)
+        name_lower = (s.get("name") or "").lower()
+        is_title = "title" in name_lower or s.get("placeholder_type", "").startswith("TITLE")
+        return (0 if is_title else 1, round(top, 2), round(left, 2))
+
+    sorted_shapes = sorted(shapes, key=_shape_sort_key)
+
     slots = []
-    for shape in shapes:
+    for shape in sorted_shapes:
         if _is_chrome(shape) or shape["shape_id"] in used_shape_ids:
             continue
         name_slug = "".join(c if c.isalnum() else "_" for c in shape["name"].lower()).strip("_")
@@ -269,7 +290,17 @@ def main() -> None:
         record = json.loads(metadata_path.read_text(encoding="utf-8"))
         if record.get("category") in EXCLUDED_CATEGORIES:
             continue
-        entries.append(build_entry(record))
+        entry = build_entry(record)
+        # Exclude slides that have zero body content capability (no body slots, no table, no chart, no repeat groups)
+        # Note: slide_00 (Cover) and slide_01 (Agenda) and slide_30 (Closing) are kept as mandatory structural slides
+        body_slots = [
+            s for s in entry["slots"]
+            if s["kind"] not in ("placeholder_title", "empty_title_box")
+        ]
+        if not body_slots and not entry["has_table"] and not entry["has_chart"] and not entry["repeat_groups"]:
+            print(f"[layout-catalog] omitting zero-content slide {entry['slide_id']}")
+            continue
+        entries.append(entry)
 
     OUT_PATH.write_text(
         json.dumps({"version": "2.0", "slides": entries}, indent=2, ensure_ascii=False),
