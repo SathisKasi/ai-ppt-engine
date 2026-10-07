@@ -79,7 +79,7 @@ class OpenRouterClient:
         temperature: float = 0.3,
         max_tokens: int = 4096,
         max_retries: int = 3,
-        timeout: int = 90,
+        timeout: int = 120,
     ) -> None:
         if isinstance(api_keys, str):
             raw_keys = [k.strip() for k in api_keys.split(",") if k.strip()]

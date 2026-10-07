@@ -85,6 +85,33 @@ The app will open at [http://localhost:8501](http://localhost:8501)
 
 ---
 
+### 🐳 Run with Docker
+
+Alternatively, build and run via Docker or Docker Compose:
+
+#### Using Docker Compose (Recommended)
+
+1. Make sure your `.env` file is configured (`cp .env.example .env`).
+2. Run:
+
+```bash
+docker compose up -d --build
+```
+
+The application will be live at [http://localhost:8501](http://localhost:8501) with persistent `./output` and `./logs` mounted.
+
+#### Using Docker CLI
+
+```bash
+# Build the image
+docker build -t ai-ppt-engine .
+
+# Run container with your .env file and port mapped
+docker run -d -p 8501:8501 --env-file .env -v ./output:/app/output -v ./logs:/app/logs --name ai-ppt-engine ai-ppt-engine
+```
+
+---
+
 ## 📖 Usage
 
 1. **Enter your Groq API key** in the left sidebar

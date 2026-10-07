@@ -177,7 +177,23 @@ def consolidate(
     except JSONParseError as e:
         raise ConsolidationError(f"Consolidation LLM returned invalid JSON: {e}") from e
     except Exception as e:
-        raise ConsolidationError(f"Consolidation LLM call failed: {e}") from e
+        err_msg = str(e).lower()
+        if any(term in err_msg for term in ("413", "rate limit", "rate_limit", "too large", "tpm", "tokens per minute")):
+            logger.warning("Consolidation encountered Groq limit error (%s) — attempting direct OpenRouter fallback", e)
+            or_client = getattr(key_manager, "_openrouter_client", None) or getattr(client, "openrouter_client", None)
+            if or_client:
+                try:
+                    raw_data = or_client.chat_complete_json(
+                        messages=messages,
+                        temperature=0.2,
+                        max_tokens=3000,
+                    )
+                except Exception as or_err:
+                    raise ConsolidationError(f"Consolidation LLM call failed: {e} (OpenRouter backup also failed: {or_err})") from or_err
+            else:
+                raise ConsolidationError(f"Consolidation LLM call failed: {e}") from e
+        else:
+            raise ConsolidationError(f"Consolidation LLM call failed: {e}") from e
 
     # Parse into ContentAnalysis
     raw_data = normalize_content_analysis_lists(raw_data)

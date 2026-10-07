@@ -10,6 +10,9 @@ groq>=0.9.0
 # IBM watsonx.ai
 ibm-watsonx-ai>=1.1.0
 
+# OpenRouter / HTTP requests
+requests>=2.31.0
+
 # PowerPoint generation
 python-pptx>=1.0.0
 

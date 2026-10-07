@@ -107,6 +107,58 @@ class GroqClient:
             except Exception as e:
                 logger.debug("Could not auto-initialize OpenRouter fallback client: %s", e)
 
+    def _is_rate_or_capacity_error(self, exc: Exception) -> tuple[bool, str]:
+        """
+        Check if an error represents a rate limit, TPM quota, request size limit,
+        or service capacity issue that should fail over to OpenRouter.
+        """
+        if not self.openrouter_client:
+            return False, "no OpenRouter client configured"
+
+        # 1. Direct RateLimitError from SDK
+        if self._RateLimitError and isinstance(exc, self._RateLimitError):
+            return True, "RateLimitError"
+
+        # 2. APIStatusError with status codes:
+        # 429 (Too Many Requests / Rate Limit)
+        # 413 (Payload Too Large / TPM tokens limit exceeded)
+        # 503 (Service Unavailable / Capacity overloaded)
+        status = getattr(exc, "status_code", None)
+        if status in (413, 429, 503):
+            return True, f"HTTP status {status}"
+
+        # 3. Check error body if available
+        body = getattr(exc, "body", None)
+        if isinstance(body, dict):
+            err_dict = body.get("error", {})
+            if isinstance(err_dict, dict):
+                code = str(err_dict.get("code", "")).lower()
+                err_type = str(err_dict.get("type", "")).lower()
+                msg = str(err_dict.get("message", "")).lower()
+                if "rate_limit" in code or "token" in err_type or "too large" in msg or "tpm" in msg:
+                    return True, f"Groq error code='{code}', type='{err_type}'"
+
+        # 4. Check error string representation
+        err_str = str(exc).lower()
+        trigger_phrases = (
+            "rate limit",
+            "rate_limit_exceeded",
+            "request too large",
+            "tokens per minute",
+            "tpm",
+            "status 413",
+            "status 429",
+            "error code: 413",
+            "error code: 429",
+            "limit 8000",
+            "service tier on_demand",
+        )
+        for phrase in trigger_phrases:
+            if phrase in err_str:
+                return True, f"matched '{phrase}' in error"
+
+        return False, ""
+
     def _fallback_to_openrouter(
         self,
         messages: List[Dict[str, str]],
@@ -114,11 +166,11 @@ class GroqClient:
         max_tokens: Optional[int] = None,
         reason: str = "Rate limit",
     ) -> str:
-        """Call OpenRouter fallback when Groq rate limits are exceeded."""
+        """Call OpenRouter fallback when Groq rate or capacity limits are exceeded."""
         if not self.openrouter_client:
-            raise GroqRateLimitError(f"Groq rate limit exceeded ({reason}), and no OpenRouter backup configured.")
+            raise GroqRateLimitError(f"Groq limit exceeded ({reason}), and no OpenRouter backup configured.")
         logger.warning(
-            "Groq rate limit on key #%s (%s) [%s] — failing over to OpenRouter (model=%s, %d keys active)",
+            "Groq limit exceeded on key #%s (%s) [%s] — failing over to OpenRouter (model=%s, %d keys active)",
             self.key_number,
             self._key_label,
             reason,
@@ -140,7 +192,7 @@ class GroqClient:
         """
         Send a chat completion request to Groq.
         Returns the raw text response.
-        If Groq rate limit is encountered, transparently fails over to OpenRouter.
+        If Groq rate limit, TPM quota, or HTTP 413 is encountered, transparently fails over to OpenRouter.
         """
         _temp = temperature if temperature is not None else self.temperature
         _max_tok = max_tokens if max_tokens is not None else self.max_tokens
@@ -203,37 +255,38 @@ class GroqClient:
             ) from e
 
         except self._APIStatusError as e:
-            if getattr(e, "status_code", None) == 429 and self.openrouter_client:
+            is_limit, reason = self._is_rate_or_capacity_error(e)
+            if is_limit:
                 try:
                     return self._fallback_to_openrouter(
                         messages=messages,
                         temperature=_temp,
                         max_tokens=_max_tok,
-                        reason=f"HTTP 429: {e.message}",
+                        reason=reason,
                     )
                 except Exception as or_err:
-                    logger.error("OpenRouter fallback failed after Groq 429: %s", or_err)
+                    logger.error("OpenRouter fallback failed after Groq API status error (%s): %s", reason, or_err)
                     raise GroqRateLimitError(
-                        f"Groq rate limit exceeded (429) and OpenRouter fallback failed: {or_err}"
+                        f"Groq limit exceeded ({reason}) and OpenRouter fallback failed: {or_err}"
                     ) from or_err
             raise GroqAPIError(
                 f"Groq API error (status {e.status_code}): {e.message}"
             ) from e
 
         except Exception as e:
-            err_msg = str(e).lower()
-            if ("rate limit" in err_msg or "429" in err_msg) and self.openrouter_client:
+            is_limit, reason = self._is_rate_or_capacity_error(e)
+            if is_limit:
                 try:
                     return self._fallback_to_openrouter(
                         messages=messages,
                         temperature=_temp,
                         max_tokens=_max_tok,
-                        reason=f"Rate limit in error: {e}",
+                        reason=reason,
                     )
                 except Exception as or_err:
-                    logger.error("OpenRouter fallback failed after Groq rate limit: %s", or_err)
+                    logger.error("OpenRouter fallback failed after Groq error (%s): %s", reason, or_err)
                     raise GroqRateLimitError(
-                        f"Groq rate limit encountered and OpenRouter fallback failed: {or_err}"
+                        f"Groq limit encountered ({reason}) and OpenRouter fallback failed: {or_err}"
                     ) from or_err
             raise GroqAPIError(f"Unexpected error calling Groq: {e}") from e
 
