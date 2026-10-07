@@ -28,10 +28,11 @@ Your objective is to design a high-density, strategic presentation from the sour
 Core Matching Principles:
 1. STRATEGIC RELEVANCE: Prioritize substantive operational and performance topics (e.g. SLA delivery performance, cold-chain compliance, turnaround times, quality assurance, throughput, inventory accuracy, operational challenges & action plans). NEVER create a slide for isolated metadata, single dates, regulatory entity names (e.g. 'WHO', 'September 2025'), or minor daily fluctuations.
 2. CAPACITY MATCHING: Match layout capacity to content depth:
-   - For multi-slot or multi-card layouts (layouts with 4 to 10 slots or cards like slide_02), assign 4 to 8 distinct content_item_ids so every card/slot receives its own substantive, unique fact. NEVER assign only 1 or 2 items to a multi-slot/card layout.
+   - For multi-slot or multi-card layouts (layouts with 4 to 10 slots or cards like slide_02, slide_06, slide_34), assign 4 to 8 distinct content_item_ids so every card/slot receives its own substantive, unique fact. NEVER assign only 1 or 2 items to a multi-slot/card layout.
    - For table layouts (has_table: true), assign items that contain structured metrics, tabular data, or multiple comparable attributes with values and benchmarks.
-   - For chart layouts (has_chart: true), only assign if the content has multi-period or multi-category numeric series comparisons (e.g. quarterly metrics). Never pick charts for isolated single metrics.
-3. DIVERSITY & NON-REPETITION: Select distinct topics across the source. Non-repeatable slide layouts may only be used once.
+   - For chart layouts (has_chart: true), ONLY pick if the source document has genuine numeric time-series or multi-category comparisons. If the source is an SOW, agreement, or descriptive document without time-series data, DO NOT pick chart layouts; use multi-slot cards or tables instead.
+3. BROAD CONTENT COVERAGE: For comprehensive documents (e.g. SOWs, modernization plans), distribute slide picks across all key pillars: Scope & Objectives, Architecture & Roadmap, Governance & Responsibilities, Milestones & Timeline, and Commercial/Contract terms.
+4. DIVERSITY & NON-REPETITION: Select distinct topics across the source. Non-repeatable slide layouts may only be used once.
 """
 
 HLD_QBR_OUTLINE_PROMPT = """\

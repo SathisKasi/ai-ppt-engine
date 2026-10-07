@@ -46,7 +46,7 @@ def always_include_slide_ids() -> List[str]:
 # these 3 specific ids are a structural fact about this template (every QBR
 # deck needs a cover and closing slide), not a hardcoded document topic, so
 # they're excluded from the pickable/content-matching catalog entirely.
-STRUCTURAL_ONLY_SLIDE_IDS = {"slide_00", "slide_01", "slide_30"}
+STRUCTURAL_ONLY_SLIDE_IDS = {"slide_00", "slide_01", "slide_03", "slide_30"}
 
 
 def content_bearing_mandatory_slide_ids() -> List[str]:
@@ -71,15 +71,24 @@ def compact_catalog_for_outline(exclude_slide_ids: Optional[List[str]] = None) -
         is_repeatable = entry.get("has_table") or entry.get("has_chart")
         if sid in excluded_set and not is_repeatable:
             continue
-        item: Dict[str, Any] = {"slide_id": sid}
-        if entry.get("always_include"):
-            item["always_include"] = True
 
-        # Summarize simple text slots (titles, text boxes, callouts)
+        # Summarize simple body text slots (exclude slide titles so outline matches real body capacity)
         text_slots = [
             s for s in entry["slots"]
             if not s.get("table_schema") and not s.get("chart_schema")
+            and s.get("kind") not in ("placeholder_title", "empty_title_box")
         ]
+        has_table = bool(entry.get("has_table"))
+        has_chart = bool(entry.get("has_chart"))
+        has_repeats = bool(entry.get("repeat_groups"))
+
+        # Skip slides that have zero body capacity
+        if not text_slots and not has_table and not has_chart and not has_repeats:
+            continue
+
+        item: Dict[str, Any] = {"slide_id": sid}
+        if entry.get("always_include"):
+            item["always_include"] = True
         if text_slots:
             item["text_slots"] = len(text_slots)
 

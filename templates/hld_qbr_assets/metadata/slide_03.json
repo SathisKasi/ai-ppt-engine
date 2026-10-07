@@ -3,7 +3,7 @@
   "slide_name": "slide_03",
   "title": "Title Only — 1 text slot(s)",
   "layout": "Title Only",
-  "category": "Mandatory",
+  "category": "Divider",
   "slide_layout_name": "Title Only",
   "canvas": {
     "width_emu": 12192000,

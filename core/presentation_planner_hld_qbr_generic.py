@@ -513,6 +513,10 @@ def plan_hld_qbr_presentation_generic(
         fallback_candidates = [
             e["slide_id"] for e in load_catalog()
             if not e.get("has_chart") and not e.get("has_table") and e["slide_id"] not in STRUCTURAL_ONLY_SLIDE_IDS and e["slide_id"] not in used_sids
+            and (
+                len([s for s in e.get("slots", []) if s.get("kind") not in ("placeholder_title", "empty_title_box")]) >= 2
+                or len(e.get("repeat_groups", [])) > 0
+            )
         ]
         while len(resolved_picks) < requested_slide_count and remaining_cids and fallback_candidates:
             fallback_sid = fallback_candidates.pop(0)
@@ -602,6 +606,10 @@ def plan_hld_qbr_presentation_generic(
         fallback_candidates = [
             e["slide_id"] for e in load_catalog()
             if not e.get("has_chart") and not e.get("has_table") and e["slide_id"] not in STRUCTURAL_ONLY_SLIDE_IDS and e["slide_id"] not in used_sids
+            and (
+                len([s for s in e.get("slots", []) if s.get("kind") not in ("placeholder_title", "empty_title_box")]) >= 2
+                or len(e.get("repeat_groups", [])) > 0
+            )
         ]
 
         while len(slides) < requested_slide_count and remaining_content_ids and fallback_candidates:
