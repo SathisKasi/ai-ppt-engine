@@ -368,10 +368,13 @@ def extract_structure_from_pdf(file_path: Path) -> Tuple[DocumentSection, str]:
         (root_section, detection_method)
     """
     try:
-        import fitz  # PyMuPDF
+        import pymupdf as fitz
     except ImportError:
-        logger.warning("PyMuPDF not available for PDF heading detection")
-        return _pdf_fallback_txt(file_path)
+        try:
+            import fitz  # PyMuPDF fallback
+        except ImportError:
+            logger.warning("PyMuPDF not available for PDF heading detection")
+            return _pdf_fallback_txt(file_path)
 
     doc = fitz.open(str(file_path))
     blocks: List[Dict] = []
@@ -487,7 +490,10 @@ def extract_structure_from_pdf(file_path: Path) -> Tuple[DocumentSection, str]:
 def _pdf_fallback_txt(file_path: Path) -> Tuple[DocumentSection, str]:
     """Fallback: extract PDF as plain text and apply TXT detection."""
     try:
-        import fitz
+        try:
+            import pymupdf as fitz
+        except ImportError:
+            import fitz
         doc = fitz.open(str(file_path))
         text = "\n\n".join(page.get_text() for page in doc)
         doc.close()

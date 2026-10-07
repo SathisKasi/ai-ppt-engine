@@ -1,0 +1,586 @@
+{
+  "index": 2,
+  "slide_name": "slide_02",
+  "title": "Title Only — 11 text slot(s)",
+  "layout": "Title Only",
+  "category": "Core",
+  "slide_layout_name": "Title Only",
+  "canvas": {
+    "width_emu": 12192000,
+    "height_emu": 6858000,
+    "width_px": 1280,
+    "height_px": 720,
+    "aspect_ratio": "16:9"
+  },
+  "structure": {
+    "shape_count": 20,
+    "text_placeholder_count": 2,
+    "image_count": 1,
+    "table_or_chart_count": 0,
+    "annotation_shape_count": 0
+  },
+  "annotation_shapes": [],
+  "editable_mapping": {
+    "layout": {
+      "name": "Title Only",
+      "placeholders": [
+        {
+          "raw_type": "SLIDE_NUMBER (13)",
+          "idx": 12,
+          "position_in": {
+            "left": 12.344,
+            "top": 7.099,
+            "width": 0.589,
+            "height": 0.303
+          }
+        },
+        {
+          "raw_type": "TITLE (1)",
+          "idx": 0,
+          "position_in": {
+            "left": 0.398,
+            "top": 0.398,
+            "width": 12.533,
+            "height": 0.42
+          }
+        },
+        {
+          "raw_type": "BODY (2)",
+          "idx": 13,
+          "position_in": {
+            "left": 0.398,
+            "top": 0.835,
+            "width": 12.533,
+            "height": 0.245
+          }
+        }
+      ]
+    },
+    "master": {
+      "name": "",
+      "placeholders": [
+        {
+          "raw_type": "TITLE (1)",
+          "idx": 0,
+          "position_in": {
+            "left": 0.398,
+            "top": 0.398,
+            "width": 12.533,
+            "height": 1.033
+          }
+        },
+        {
+          "raw_type": "BODY (2)",
+          "idx": 1,
+          "position_in": {
+            "left": 0.398,
+            "top": 1.592,
+            "width": 12.533,
+            "height": 5.24
+          }
+        },
+        {
+          "raw_type": "SLIDE_NUMBER (13)",
+          "idx": 4,
+          "position_in": {
+            "left": 12.344,
+            "top": 7.099,
+            "width": 0.589,
+            "height": 0.303
+          }
+        }
+      ]
+    }
+  },
+  "shapes": [
+    {
+      "shape_id": 91,
+      "name": "Picture 90",
+      "shape_type": "PICTURE (13)",
+      "position_in": {
+        "left": 0.0,
+        "top": 0.0,
+        "width": 13.333,
+        "height": 6.833
+      }
+    },
+    {
+      "shape_id": 2,
+      "name": "Title 1",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 0.398,
+        "top": 0.398,
+        "width": 12.533,
+        "height": 0.42
+      },
+      "placeholder_type": "TITLE (1)",
+      "placeholder_idx": 0,
+      "text": {
+        "full_text": "ORGANIZATIONAL STRUCTURE FOR BIORIDGE",
+        "runs": [
+          {
+            "text": "ORGANIZATIONAL STRUCTURE FOR BIORIDGE",
+            "font": "verdana",
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": "426DA9"
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 15,
+      "name": "Slide Number Placeholder 14",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 12.346,
+        "top": 7.098,
+        "width": 0.591,
+        "height": 0.303
+      },
+      "placeholder_type": "SLIDE_NUMBER (13)",
+      "placeholder_idx": 12,
+      "text": {
+        "full_text": "3",
+        "runs": [],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 5,
+      "name": "Straight Connector 4",
+      "shape_type": "LINE (9)",
+      "position_in": {
+        "left": 3.026,
+        "top": 3.667,
+        "width": 6.98,
+        "height": 0.0
+      }
+    },
+    {
+      "shape_id": 6,
+      "name": "Straight Connector 5",
+      "shape_type": "LINE (9)",
+      "position_in": {
+        "left": 6.667,
+        "top": 1.554,
+        "width": 0.0,
+        "height": 4.087
+      }
+    },
+    {
+      "shape_id": 8,
+      "name": "Rectangle: Rounded Corners 7",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 5.231,
+        "top": 0.953,
+        "width": 2.897,
+        "height": 0.601
+      },
+      "text": {
+        "full_text": "Nicole Gaudio\nVice President",
+        "runs": [
+          {
+            "text": "Nicole Gaudio",
+            "font": null,
+            "size_pt": 12.0,
+            "bold": true,
+            "italic": false,
+            "color": null
+          },
+          {
+            "text": "Vice President",
+            "font": null,
+            "size_pt": 12.0,
+            "bold": false,
+            "italic": false,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      },
+      "fill_color": null
+    },
+    {
+      "shape_id": 9,
+      "name": "Rectangle: Rounded Corners 8",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 5.228,
+        "top": 1.854,
+        "width": 2.899,
+        "height": 0.601
+      },
+      "text": {
+        "full_text": "Bob Anderson\nChief Financial Officer ",
+        "runs": [
+          {
+            "text": "Bob Anderson",
+            "font": null,
+            "size_pt": 12.0,
+            "bold": true,
+            "italic": false,
+            "color": null
+          },
+          {
+            "text": "Chief Financial Officer ",
+            "font": null,
+            "size_pt": 12.0,
+            "bold": false,
+            "italic": false,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      },
+      "fill_color": null
+    },
+    {
+      "shape_id": 10,
+      "name": "Rectangle: Rounded Corners 9",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 5.224,
+        "top": 2.755,
+        "width": 2.899,
+        "height": 0.601
+      },
+      "text": {
+        "full_text": "Edwin Rodriguez\nVP Trade Relations",
+        "runs": [
+          {
+            "text": "Edwin Rodriguez",
+            "font": null,
+            "size_pt": 12.0,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "VP Trade Relations",
+            "font": null,
+            "size_pt": 12.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      },
+      "fill_color": null
+    },
+    {
+      "shape_id": 11,
+      "name": "Rectangle: Rounded Corners 10",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 5.333,
+        "top": 5.447,
+        "width": 2.68,
+        "height": 0.601
+      },
+      "text": {
+        "full_text": "William Smith (Bill)\nInbound Lead ",
+        "runs": [
+          {
+            "text": "William Smith (Bill)",
+            "font": null,
+            "size_pt": 12.0,
+            "bold": true,
+            "italic": false,
+            "color": null
+          },
+          {
+            "text": "Inbound Lead ",
+            "font": null,
+            "size_pt": 12.0,
+            "bold": false,
+            "italic": false,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      },
+      "fill_color": null
+    },
+    {
+      "shape_id": 12,
+      "name": "Rectangle: Rounded Corners 11",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 5.333,
+        "top": 3.921,
+        "width": 2.68,
+        "height": 0.601
+      },
+      "text": {
+        "full_text": "Plarent Sinamati \nFinancial Analyst ",
+        "runs": [
+          {
+            "text": "Plarent ",
+            "font": null,
+            "size_pt": 12.0,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "Sinamati",
+            "font": null,
+            "size_pt": 12.0,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": " ",
+            "font": null,
+            "size_pt": 12.0,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "Financial Analyst ",
+            "font": null,
+            "size_pt": 12.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      },
+      "fill_color": null
+    },
+    {
+      "shape_id": 14,
+      "name": "Rectangle: Rounded Corners 13",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 8.66,
+        "top": 3.883,
+        "width": 2.68,
+        "height": 0.601
+      },
+      "text": {
+        "full_text": "Marlo Sanchez \nFinancial Analyst",
+        "runs": [
+          {
+            "text": "Marlo Sanchez ",
+            "font": null,
+            "size_pt": 12.0,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "Financial Analyst",
+            "font": null,
+            "size_pt": 12.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      },
+      "fill_color": null
+    },
+    {
+      "shape_id": 16,
+      "name": "Rectangle: Rounded Corners 15",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 1.705,
+        "top": 3.883,
+        "width": 2.68,
+        "height": 0.601
+      },
+      "text": {
+        "full_text": "Patrick Redmond\nLogistics Operations Coordinator",
+        "runs": [
+          {
+            "text": "Patrick Redmond",
+            "font": null,
+            "size_pt": 12.0,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "Logistics Operations Coordinator",
+            "font": null,
+            "size_pt": 12.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      },
+      "fill_color": null
+    },
+    {
+      "shape_id": 17,
+      "name": "Rectangle: Rounded Corners 16",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 1.705,
+        "top": 5.427,
+        "width": 2.68,
+        "height": 0.601
+      },
+      "text": {
+        "full_text": "Joe Collins\nSmall pack Lead",
+        "runs": [
+          {
+            "text": "Joe Collins",
+            "font": null,
+            "size_pt": 12.0,
+            "bold": true,
+            "italic": false,
+            "color": null
+          },
+          {
+            "text": "Small pack Lead",
+            "font": null,
+            "size_pt": 12.0,
+            "bold": false,
+            "italic": false,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      },
+      "fill_color": null
+    },
+    {
+      "shape_id": 22,
+      "name": "Rectangle: Rounded Corners 21",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 8.666,
+        "top": 5.427,
+        "width": 2.68,
+        "height": 0.601
+      },
+      "text": {
+        "full_text": "Eloisa Arciga\nOrder Control",
+        "runs": [
+          {
+            "text": "Eloisa Arciga",
+            "font": null,
+            "size_pt": 12.0,
+            "bold": true,
+            "italic": false,
+            "color": null
+          },
+          {
+            "text": "Order Control",
+            "font": null,
+            "size_pt": 12.0,
+            "bold": false,
+            "italic": false,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      },
+      "fill_color": null
+    },
+    {
+      "shape_id": 24,
+      "name": "Rectangle: Rounded Corners 23",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 8.666,
+        "top": 6.224,
+        "width": 2.68,
+        "height": 0.601
+      },
+      "text": {
+        "full_text": "Travis Cochran\nOutbound Lead",
+        "runs": [
+          {
+            "text": "Travis Cochran",
+            "font": null,
+            "size_pt": 12.0,
+            "bold": true,
+            "italic": false,
+            "color": null
+          },
+          {
+            "text": "Outbound Lead",
+            "font": null,
+            "size_pt": 12.0,
+            "bold": false,
+            "italic": false,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      },
+      "fill_color": null
+    },
+    {
+      "shape_id": 26,
+      "name": "Straight Connector 25",
+      "shape_type": "LINE (9)",
+      "position_in": {
+        "left": 10.008,
+        "top": 3.667,
+        "width": 0.0,
+        "height": 0.217
+      }
+    },
+    {
+      "shape_id": 27,
+      "name": "Straight Connector 26",
+      "shape_type": "LINE (9)",
+      "position_in": {
+        "left": 3.026,
+        "top": 3.667,
+        "width": 0.0,
+        "height": 0.216
+      }
+    },
+    {
+      "shape_id": 28,
+      "name": "Straight Connector 27",
+      "shape_type": "LINE (9)",
+      "position_in": {
+        "left": 3.045,
+        "top": 4.484,
+        "width": 0.0,
+        "height": 0.943
+      }
+    },
+    {
+      "shape_id": 30,
+      "name": "Straight Connector 29",
+      "shape_type": "LINE (9)",
+      "position_in": {
+        "left": 10.0,
+        "top": 4.484,
+        "width": 0.006,
+        "height": 0.943
+      }
+    },
+    {
+      "shape_id": 31,
+      "name": "Straight Connector 30",
+      "shape_type": "LINE (9)",
+      "position_in": {
+        "left": 10.006,
+        "top": 6.029,
+        "width": 0.0,
+        "height": 0.196
+      }
+    }
+  ]
+}

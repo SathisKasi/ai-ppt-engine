@@ -1,0 +1,476 @@
+{
+  "index": 57,
+  "slide_name": "slide_57",
+  "title": "1_Title and Content — 1 text slot(s)",
+  "layout": "1_Title and Content",
+  "category": "Guide-Only",
+  "slide_layout_name": "1_Title and Content",
+  "canvas": {
+    "width_emu": 12192000,
+    "height_emu": 6858000,
+    "width_px": 1280,
+    "height_px": 720,
+    "aspect_ratio": "16:9"
+  },
+  "structure": {
+    "shape_count": 28,
+    "text_placeholder_count": 1,
+    "image_count": 24,
+    "table_or_chart_count": 0,
+    "annotation_shape_count": 0
+  },
+  "annotation_shapes": [],
+  "editable_mapping": {
+    "layout": {
+      "name": "1_Title and Content",
+      "placeholders": [
+        {
+          "raw_type": "TITLE (1)",
+          "idx": 0,
+          "position_in": {
+            "left": 0.4,
+            "top": 0.399,
+            "width": 12.533,
+            "height": 0.42
+          }
+        }
+      ]
+    },
+    "master": {
+      "name": "",
+      "placeholders": [
+        {
+          "raw_type": "TITLE (1)",
+          "idx": 0,
+          "position_in": {
+            "left": 0.398,
+            "top": 0.398,
+            "width": 12.533,
+            "height": 1.033
+          }
+        },
+        {
+          "raw_type": "BODY (2)",
+          "idx": 1,
+          "position_in": {
+            "left": 0.398,
+            "top": 1.592,
+            "width": 12.533,
+            "height": 5.24
+          }
+        },
+        {
+          "raw_type": "SLIDE_NUMBER (13)",
+          "idx": 4,
+          "position_in": {
+            "left": 12.344,
+            "top": 7.099,
+            "width": 0.589,
+            "height": 0.303
+          }
+        }
+      ]
+    }
+  },
+  "shapes": [
+    {
+      "shape_id": 2,
+      "name": "Title 1",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 0.4,
+        "top": 0.399,
+        "width": 12.533,
+        "height": 0.42
+      },
+      "placeholder_type": "TITLE (1)",
+      "placeholder_idx": 0,
+      "text": {
+        "full_text": "HARVEY BALL ICONS",
+        "runs": [
+          {
+            "text": "HARVEY BALL ICONS",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 3,
+      "name": "Graphic 2",
+      "shape_type": "PICTURE (13)",
+      "position_in": {
+        "left": 0.547,
+        "top": 1.631,
+        "width": 0.6,
+        "height": 0.6
+      }
+    },
+    {
+      "shape_id": 4,
+      "name": "Graphic 3",
+      "shape_type": "PICTURE (13)",
+      "position_in": {
+        "left": 1.995,
+        "top": 1.631,
+        "width": 0.6,
+        "height": 0.6
+      }
+    },
+    {
+      "shape_id": 5,
+      "name": "Graphic 4",
+      "shape_type": "PICTURE (13)",
+      "position_in": {
+        "left": 3.444,
+        "top": 1.631,
+        "width": 0.6,
+        "height": 0.6
+      }
+    },
+    {
+      "shape_id": 6,
+      "name": "Graphic 5",
+      "shape_type": "PICTURE (13)",
+      "position_in": {
+        "left": 4.892,
+        "top": 1.631,
+        "width": 0.6,
+        "height": 0.6
+      }
+    },
+    {
+      "shape_id": 7,
+      "name": "Graphic 6",
+      "shape_type": "PICTURE (13)",
+      "position_in": {
+        "left": 6.34,
+        "top": 1.631,
+        "width": 0.6,
+        "height": 0.6
+      }
+    },
+    {
+      "shape_id": 8,
+      "name": "Graphic 7",
+      "shape_type": "PICTURE (13)",
+      "position_in": {
+        "left": 7.789,
+        "top": 1.631,
+        "width": 0.6,
+        "height": 0.6
+      }
+    },
+    {
+      "shape_id": 9,
+      "name": "Graphic 8",
+      "shape_type": "PICTURE (13)",
+      "position_in": {
+        "left": 10.535,
+        "top": 1.631,
+        "width": 0.6,
+        "height": 0.6
+      }
+    },
+    {
+      "shape_id": 10,
+      "name": "Graphic 9",
+      "shape_type": "PICTURE (13)",
+      "position_in": {
+        "left": 11.984,
+        "top": 1.631,
+        "width": 0.6,
+        "height": 0.6
+      }
+    },
+    {
+      "shape_id": 11,
+      "name": "Graphic 10",
+      "shape_type": "PICTURE (13)",
+      "position_in": {
+        "left": 0.497,
+        "top": 3.127,
+        "width": 0.7,
+        "height": 0.7
+      }
+    },
+    {
+      "shape_id": 12,
+      "name": "Graphic 11",
+      "shape_type": "PICTURE (13)",
+      "position_in": {
+        "left": 1.945,
+        "top": 3.127,
+        "width": 0.7,
+        "height": 0.7
+      }
+    },
+    {
+      "shape_id": 13,
+      "name": "Graphic 12",
+      "shape_type": "PICTURE (13)",
+      "position_in": {
+        "left": 4.842,
+        "top": 3.127,
+        "width": 0.7,
+        "height": 0.7
+      }
+    },
+    {
+      "shape_id": 14,
+      "name": "Graphic 13",
+      "shape_type": "PICTURE (13)",
+      "position_in": {
+        "left": 3.394,
+        "top": 3.127,
+        "width": 0.7,
+        "height": 0.7
+      }
+    },
+    {
+      "shape_id": 15,
+      "name": "Graphic 14",
+      "shape_type": "PICTURE (13)",
+      "position_in": {
+        "left": 7.739,
+        "top": 3.127,
+        "width": 0.7,
+        "height": 0.7
+      }
+    },
+    {
+      "shape_id": 16,
+      "name": "Graphic 15",
+      "shape_type": "PICTURE (13)",
+      "position_in": {
+        "left": 6.29,
+        "top": 3.127,
+        "width": 0.7,
+        "height": 0.7
+      }
+    },
+    {
+      "shape_id": 17,
+      "name": "Graphic 16",
+      "shape_type": "PICTURE (13)",
+      "position_in": {
+        "left": 10.485,
+        "top": 3.127,
+        "width": 0.7,
+        "height": 0.7
+      }
+    },
+    {
+      "shape_id": 18,
+      "name": "Graphic 17",
+      "shape_type": "PICTURE (13)",
+      "position_in": {
+        "left": 11.934,
+        "top": 3.127,
+        "width": 0.7,
+        "height": 0.7
+      }
+    },
+    {
+      "shape_id": 19,
+      "name": "Graphic 18",
+      "shape_type": "PICTURE (13)",
+      "position_in": {
+        "left": 0.447,
+        "top": 4.869,
+        "width": 0.8,
+        "height": 0.8
+      }
+    },
+    {
+      "shape_id": 20,
+      "name": "Graphic 19",
+      "shape_type": "PICTURE (13)",
+      "position_in": {
+        "left": 1.902,
+        "top": 4.869,
+        "width": 0.8,
+        "height": 0.8
+      }
+    },
+    {
+      "shape_id": 21,
+      "name": "Graphic 20",
+      "shape_type": "PICTURE (13)",
+      "position_in": {
+        "left": 4.811,
+        "top": 4.869,
+        "width": 0.8,
+        "height": 0.8
+      }
+    },
+    {
+      "shape_id": 22,
+      "name": "Graphic 21",
+      "shape_type": "PICTURE (13)",
+      "position_in": {
+        "left": 3.356,
+        "top": 4.869,
+        "width": 0.8,
+        "height": 0.8
+      }
+    },
+    {
+      "shape_id": 23,
+      "name": "Graphic 22",
+      "shape_type": "PICTURE (13)",
+      "position_in": {
+        "left": 7.72,
+        "top": 4.869,
+        "width": 0.8,
+        "height": 0.8
+      }
+    },
+    {
+      "shape_id": 24,
+      "name": "Graphic 23",
+      "shape_type": "PICTURE (13)",
+      "position_in": {
+        "left": 6.265,
+        "top": 4.869,
+        "width": 0.8,
+        "height": 0.8
+      }
+    },
+    {
+      "shape_id": 25,
+      "name": "Graphic 24",
+      "shape_type": "PICTURE (13)",
+      "position_in": {
+        "left": 10.429,
+        "top": 4.869,
+        "width": 0.8,
+        "height": 0.8
+      }
+    },
+    {
+      "shape_id": 26,
+      "name": "Graphic 25",
+      "shape_type": "PICTURE (13)",
+      "position_in": {
+        "left": 11.884,
+        "top": 4.869,
+        "width": 0.8,
+        "height": 0.8
+      }
+    },
+    {
+      "shape_id": 29,
+      "name": "Group 28",
+      "shape_type": "GROUP (6)",
+      "position_in": {
+        "left": 9.237,
+        "top": 1.706,
+        "width": 0.45,
+        "height": 0.45
+      },
+      "children": [
+        {
+          "shape_id": 27,
+          "name": "Oval 26",
+          "shape_type": "AUTO_SHAPE (1)",
+          "position_in": {
+            "left": 5.115,
+            "top": 0.609,
+            "width": 0.6,
+            "height": 0.6
+          },
+          "fill_color": null
+        },
+        {
+          "shape_id": 28,
+          "name": "Partial Circle 27",
+          "shape_type": "AUTO_SHAPE (1)",
+          "position_in": {
+            "left": 5.115,
+            "top": 0.609,
+            "width": 0.6,
+            "height": 0.6
+          }
+        }
+      ]
+    },
+    {
+      "shape_id": 30,
+      "name": "Group 29",
+      "shape_type": "GROUP (6)",
+      "position_in": {
+        "left": 9.174,
+        "top": 4.969,
+        "width": 0.6,
+        "height": 0.6
+      },
+      "children": [
+        {
+          "shape_id": 31,
+          "name": "Oval 30",
+          "shape_type": "AUTO_SHAPE (1)",
+          "position_in": {
+            "left": 5.115,
+            "top": 0.609,
+            "width": 0.6,
+            "height": 0.6
+          },
+          "fill_color": null
+        },
+        {
+          "shape_id": 32,
+          "name": "Partial Circle 31",
+          "shape_type": "AUTO_SHAPE (1)",
+          "position_in": {
+            "left": 5.115,
+            "top": 0.609,
+            "width": 0.6,
+            "height": 0.6
+          }
+        }
+      ]
+    },
+    {
+      "shape_id": 33,
+      "name": "Group 32",
+      "shape_type": "GROUP (6)",
+      "position_in": {
+        "left": 9.187,
+        "top": 3.202,
+        "width": 0.55,
+        "height": 0.55
+      },
+      "children": [
+        {
+          "shape_id": 34,
+          "name": "Oval 33",
+          "shape_type": "AUTO_SHAPE (1)",
+          "position_in": {
+            "left": 5.115,
+            "top": 0.609,
+            "width": 0.6,
+            "height": 0.6
+          },
+          "fill_color": null
+        },
+        {
+          "shape_id": 35,
+          "name": "Partial Circle 34",
+          "shape_type": "AUTO_SHAPE (1)",
+          "position_in": {
+            "left": 5.115,
+            "top": 0.609,
+            "width": 0.6,
+            "height": 0.6
+          }
+        }
+      ]
+    }
+  ]
+}

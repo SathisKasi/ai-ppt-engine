@@ -23,7 +23,7 @@ st.set_page_config(
     page_title="AI PowerPoint Generator",
     page_icon="🎯",
     layout="wide",
-    initial_sidebar_state="expanded",
+    initial_sidebar_state="collapsed",
 )
 
 # ---------------------------------------------------------------------------
@@ -49,7 +49,15 @@ from core.layout_manager import LayoutManager, LayoutManagerError
 from core.presentation_planner import plan_presentation, PresentationPlanningError
 from core.pptx_builder import build_presentation, PptxBuilderError
 from core.validator import validate_plan, validate_pptx_bytes
+from core.presentation_intelligence import ContentSource, classify_presentation
+from core.governance import (
+    validate_plan_governance,
+    validate_pptx_governance,
+    write_audit_record,
+)
 from llm.groq_client import GroqClient, GroqAuthError, GroqRateLimitError, GroqAPIError
+from llm.watsonx_client import WatsonxAuthError, WatsonxRateLimitError, WatsonxAPIError
+from llm.openrouter_client import OpenRouterAuthError, OpenRouterRateLimitError, OpenRouterAPIError
 from llm.key_manager import KeyManager, KeyManagerError
 from utils.file_utils import validate_upload, get_output_path, cleanup_old_outputs
 from utils.text_utils import sanitize_filename, truncate_text
@@ -546,51 +554,103 @@ def render_sidebar() -> dict:
         <div style="text-align:center; padding: 1rem 0 0.75rem;">
             <span style="font-size:2.2rem;">📊</span>
             <h2 style="color:#0B2545; margin:0.4rem 0 0; font-size:1.25rem; font-weight:800; letter-spacing:-0.01em;">AI PPT Studio</h2>
-            <p style="color:#64748B; font-size:0.82rem; margin:0.25rem 0 0; font-weight:500;">Powered by Groq Cloud</p>
+            <p style="color:#64748B; font-size:0.82rem; margin:0.25rem 0 0; font-weight:500;">Desktop Edition</p>
         </div>
         """, unsafe_allow_html=True)
 
         st.divider()
 
-        # ── API Keys — multi-key, never displayed back ───────────────────
-        st.markdown("**🔑 Groq API Keys**")
-
-        # Show keys from .env as pre-loaded (count only, no display)
-        env_key_count = len(config.GROQ_API_KEYS)
-        if env_key_count > 0:
-            st.success(f"✅ {env_key_count} key(s) loaded from configuration")
-
-        # Allow adding more keys via UI (password type, never echoed)
-        extra_keys_raw = st.text_area(
-            "Additional API Keys",
-            height=80,
-            placeholder="Paste extra gsk_... keys here (one per line)",
-            help="Optional. Add more Groq API keys to distribute load across sections. Keys entered here are never shown.",
-            label_visibility="visible",
+        # Provider selection
+        is_watsonx_current = config.LLM_PROVIDER == "watsonx"
+        provider_idx = 0 if is_watsonx_current else 1
+        provider_choice = st.selectbox(
+            "⚙️ LLM Provider",
+            options=["watsonx", "groq"],
+            index=provider_idx,
+            format_func=lambda p: "IBM watsonx.ai" if p == "watsonx" else "Groq Cloud",
         )
+        if provider_choice != config.LLM_PROVIDER:
+            config.update_env_variable("LLM_PROVIDER", provider_choice)
+            config.reload_keys()
+            st.rerun()
 
-        # Combine env keys + UI keys
-        ui_keys = [k.strip() for k in (extra_keys_raw or "").splitlines() if k.strip()]
-        all_keys = list(dict.fromkeys(config.GROQ_API_KEYS + ui_keys))  # deduplicate
+        is_watsonx = config.LLM_PROVIDER == "watsonx"
+        provider_label = "watsonx.ai" if is_watsonx else "Groq"
+        provider_keys = config.WATSONX_API_KEYS if is_watsonx else config.GROQ_API_KEYS
 
-        if all_keys:
-            st.caption(f"🔀 {len(all_keys)} key(s) active — round-robin across sections")
+        st.markdown(f"**🔑 {provider_label} Configuration**")
+
+        if is_watsonx:
+            wx_key = st.text_input(
+                "Watsonx API Key",
+                type="password",
+                value=config.WATSONX_API_KEY if config.WATSONX_API_KEY else "",
+                placeholder="Enter IBM Cloud API key",
+                help="Your IBM watsonx.ai Cloud API key.",
+            )
+            wx_project = st.text_input(
+                "Watsonx Project ID",
+                value=config.WATSONX_PROJECT_ID if config.WATSONX_PROJECT_ID else "",
+                placeholder="Enter watsonx Project GUID",
+                help="Project GUID associated with your watsonx instance.",
+            )
+            if st.button("💾 Save Watsonx Settings", use_container_width=True):
+                if wx_key:
+                    config.update_env_variable("WATSONX_API_KEY", wx_key.strip())
+                if wx_project:
+                    config.update_env_variable("WATSONX_PROJECT_ID", wx_project.strip())
+                config.reload_keys()
+                st.success("Settings saved to local configuration!")
+                st.rerun()
+
+            all_keys = [wx_key.strip()] if wx_key.strip() else provider_keys
         else:
-            st.warning("⚠️ No API keys configured. Add keys above or set GROQ_API_KEYS in .env")
+            groq_key = st.text_input(
+                "Groq API Key",
+                type="password",
+                value=config.GROQ_API_KEY if config.GROQ_API_KEY else "",
+                placeholder="gsk_...",
+                help="Your Groq Cloud API key.",
+            )
+            if st.button("💾 Save Groq Key", use_container_width=True):
+                if groq_key:
+                    config.update_env_variable("GROQ_API_KEY", groq_key.strip())
+                config.reload_keys()
+                st.success("Groq key saved!")
+                st.rerun()
+
+            all_keys = [groq_key.strip()] if groq_key.strip() else provider_keys
+
+        # Key status
+        active_keys = [k for k in all_keys if k]
+        if active_keys:
+            st.caption(f"✅ {len(active_keys)} key(s) active")
+        else:
+            st.warning("⚠️ No API key configured. Enter your key above.")
 
         st.divider()
 
         # Model selection
         st.markdown("**🤖 Model**")
-        model_options = [
-            "openai/gpt-oss-120b",
-            "openai/gpt-oss-20b",
-            "qwen/qwen3.6-27b",
-            "qwen/qwen3.8-27b",
-            "groq/compound",
-            "groq/compound-mini",
-        ]
-        default_model = config.GROQ_MODEL
+        if is_watsonx:
+            model_options = [
+                "openai/gpt-oss-120b",
+                "meta-llama/llama-3-3-70b-instruct",
+                "meta-llama/llama-3-1-8b",
+                "mistralai/mistral-small-3-1-24b-instruct-2503",
+                "mistralai/mistral-medium-2505",
+            ]
+            default_model = config.WATSONX_MODEL_ID
+        else:
+            model_options = [
+                "openai/gpt-oss-120b",
+                "openai/gpt-oss-20b",
+                "qwen/qwen3.6-27b",
+                "qwen/qwen3.8-27b",
+                "groq/compound",
+                "groq/compound-mini",
+            ]
+            default_model = config.GROQ_MODEL
         default_idx = model_options.index(default_model) if default_model in model_options else 0
         model = st.selectbox(
             "Model",
@@ -602,7 +662,7 @@ def render_sidebar() -> dict:
         st.divider()
         st.caption(f"v{config.APP_VERSION} • Corporate White & Navy Blue Edition")
 
-    return {"api_keys": all_keys, "model": model}
+    return {"api_keys": [k for k in all_keys if k], "model": model}
 
 
 # ---------------------------------------------------------------------------
@@ -617,7 +677,7 @@ def render_header() -> None:
     #         <span class="nav-brand-text">AI POC SOLUTION</span>
     #     </div>
     #     <div class="nav-items">
-    #         <span class="nav-badge"><span class="status-dot"></span> Groq Active</span>
+    #         <span class="nav-badge"><span class="status-dot"></span> watsonx.ai Active</span>
     #         <span class="nav-item">Corporate Templates</span>
     #         <span class="nav-item">Smart Semantic Chunker</span>
     #     </div>
@@ -821,7 +881,7 @@ def render_configuration() -> dict:
                     step=1,
                     label_visibility="collapsed",
                 )
-                st.caption(f"📊 {slide_count} slides")
+                st.caption(f"📊 {slide_count} source-backed content slides (+ 3 structural: Title, Agenda, Conclusion)")
 
             st.markdown("**Presentation Title**")
             pres_title = st.text_input(
@@ -1071,6 +1131,7 @@ def run_generation_pipeline(
     st.session_state.chunk_analyses = None
     st.session_state.semantic_chunks = None
     st.session_state.analysis_cache = None
+    st.session_state.governance_report = None
 
     run_id = datetime.now().strftime("%Y%m%d_%H%M%S") + "_" + uuid.uuid4().hex[:6]
     requested_slides = pres_config.get("slide_count")  # None = auto
@@ -1081,13 +1142,31 @@ def run_generation_pipeline(
         # ─ Step 1: Key Manager ────────────────────────────────────────
         st.write("🔑 Initializing API keys...")
         try:
-            key_manager = KeyManager(
-                keys=api_config["api_keys"],
-                model=api_config["model"],
-                temperature=config.GROQ_TEMPERATURE,
-                max_tokens=config.GROQ_MAX_TOKENS_PLAN,
-                max_retries=config.LLM_MAX_RETRIES,
-            )
+            if config.LLM_PROVIDER == "watsonx":
+                key_manager = KeyManager(
+                    keys=api_config["api_keys"],
+                    model=api_config["model"],
+                    temperature=config.WATSONX_TEMPERATURE,
+                    max_tokens=config.WATSONX_MAX_TOKENS_PLAN,
+                    max_retries=config.LLM_MAX_RETRIES,
+                    provider="watsonx",
+                    project_id=config.WATSONX_PROJECT_ID,
+                    project_ids=config.WATSONX_PROJECT_IDS,
+                    url=config.WATSONX_URL,
+                    fallback_model=config.WATSONX_FALLBACK_MODEL_ID,
+                )
+            else:
+                key_manager = KeyManager(
+                    keys=api_config["api_keys"],
+                    model=api_config["model"],
+                    temperature=config.GROQ_TEMPERATURE,
+                    max_tokens=config.GROQ_MAX_TOKENS_PLAN,
+                    max_retries=config.LLM_MAX_RETRIES,
+                    provider="groq",
+                    openrouter_keys=config.OPENROUTER_API_KEYS,
+                    openrouter_url=config.OPENROUTER_URL,
+                    openrouter_model=config.OPENROUTER_MODEL,
+                )
             st.caption(f"✅ {key_manager.key_count} API key(s) active — round-robin per section")
         except KeyManagerError as e:
             status.update(label="❌ No API keys", state="error")
@@ -1179,17 +1258,45 @@ def run_generation_pipeline(
                 status.update(label="❌ Content analysis failed", state="error")
                 st.error(f"❌ {e}")
                 return
-            except (GroqRateLimitError, GroqAPIError) as e:
+            except (GroqRateLimitError, GroqAPIError, WatsonxRateLimitError, WatsonxAPIError, OpenRouterRateLimitError, OpenRouterAPIError) as e:
                 status.update(label="❌ API error", state="error")
-                st.error(f"❌ Groq API error: {e}")
+                st.error(f"❌ LLM API error: {e}")
                 return
 
         if requested_slides is None:
             requested_slides = analysis.suggested_slide_count
-            st.caption(f"🤖 AI suggests {requested_slides} slides")
+            st.caption(f"🤖 AI suggests {requested_slides} source-backed content slides (+ 3 structural slides)")
+
+        # Create a normalized source record before planning so every downstream
+        # decision can be tied back to the originating upload or prompt.
+        source = ContentSource(
+            source_id=run_id,
+            source_type="document" if use_semantic else "prompt",
+            filename=filename or "prompt",
+            title=getattr(analysis, "main_topic", ""),
+            text=source_text,
+            provenance=[{"source_id": run_id, "filename": filename or "prompt"}],
+            extraction_warnings=([] if source_text.strip() else ["Source text is empty"]),
+        )
+        brief = classify_presentation(
+            content_analysis=analysis,
+            audience=pres_config.get("audience", "General"),
+            template_id=template_id,
+        )
+        st.caption(
+            f"🧭 Classified as **{brief.presentation_type}** for **{brief.audience}** audience"
+        )
+        intelligence_instructions = (
+            f"Presentation intelligence classification: {brief.presentation_type}. "
+            f"Recommended storyline: {'; '.join(brief.storyline[:8])}. "
+            f"Executive message: {brief.executive_message or 'Derive from source content'}."
+        )
+        planner_instructions = " ".join(
+            filter(None, [pres_config.get("additional_instructions", ""), intelligence_instructions])
+        )
 
         # ─ Step 4: Presentation Planning ────────────────────────────────
-        st.write(f"🗂️ Planning {requested_slides}-slide presentation...")
+        st.write(f"🗂️ Planning presentation ({requested_slides} source-backed content slides + 3 structural slides)...")
         plan_client = key_manager.get_client()  # next key in rotation
         try:
             if template_id == "techm_v3":
@@ -1203,7 +1310,7 @@ def run_generation_pipeline(
                     style=pres_config.get("style", "Corporate Strategic"),
                     slide_count=requested_slides,
                     language=pres_config.get("language", "English"),
-                    additional_instructions=pres_config.get("additional_instructions", ""),
+                    additional_instructions=planner_instructions,
                     max_source_chars=8000,
                 )
             elif template_id == "template1":
@@ -1217,8 +1324,36 @@ def run_generation_pipeline(
                     style=pres_config.get("style", "Corporate Strategic"),
                     slide_count=requested_slides,
                     language=pres_config.get("language", "English"),
-                    additional_instructions=pres_config.get("additional_instructions", ""),
+                    additional_instructions=planner_instructions,
                     max_source_chars=12000,
+                )
+            elif template_id == "hld_qbr":
+                from core.content_model_extractor import extract_content_model_full
+                from core.presentation_planner_hld_qbr_generic import plan_hld_qbr_presentation_generic
+                # Always extract the FULL document (chunked map-reduce, no slide-count
+                # gate, no truncation) — the whole point is nothing in the source gets
+                # silently dropped before the LLM ever sees it.
+                st.write("🧩 Extracting content model from source (full document)...")
+                hld_content_model = extract_content_model_full(key_manager, source_text)
+                st.session_state.hld_content_model = hld_content_model
+                if hld_content_model.content_items:
+                    st.caption(f"📚 Extracted {len(hld_content_model.content_items)} traceable content item(s) from source")
+                else:
+                    st.warning(
+                        "⚠️ No content could be extracted from the source document — the "
+                        "content-extraction LLM call likely failed (check API key/rate limits) "
+                        "or the document had no readable text. Planning will fail next; see the "
+                        "application logs for the underlying extraction error."
+                    )
+
+                st.write("🗺️ Matching content to template slides by structure...")
+                plan = plan_hld_qbr_presentation_generic(
+                    client=plan_client,
+                    key_manager=key_manager,
+                    content_model=hld_content_model,
+                    requested_slide_count=requested_slides,
+                    presentation_title_hint=pres_config.get("presentation_title", ""),
+                    facility_name_hint=pres_config.get("facility_name", ""),
                 )
             else:
                 plan = plan_presentation(
@@ -1230,7 +1365,7 @@ def run_generation_pipeline(
                     style=pres_config.get("style", "Professional"),
                     slide_count=requested_slides,
                     language=pres_config.get("language", "English"),
-                    additional_instructions=pres_config.get("additional_instructions", ""),
+                    additional_instructions=planner_instructions,
                     max_source_chars=8000,
                 )
         except Exception as e:
@@ -1250,12 +1385,26 @@ def run_generation_pipeline(
 
         # ─ Step 5: Validate Plan ─────────────────────────────────────────
         st.write("✅ Validating presentation structure...")
-        if template_id not in ("techm_v3", "template1"):
+        plan_governance = validate_plan_governance(
+            plan, template_id, source.source_id and [source.source_id],
+            content_model=st.session_state.get("hld_content_model") if template_id == "hld_qbr" else None,
+        )
+        st.session_state.governance_report = plan_governance
+        if plan_governance.errors:
+            for error in plan_governance.errors:
+                st.error(f"❌ Governance: {error}")
+        if plan_governance.warnings:
+            with st.expander(f"🛡️ {len(plan_governance.warnings)} governance notice(s)"):
+                for warning in plan_governance.warnings:
+                    st.caption(f"• {warning}")
+        if template_id not in ("techm_v3", "template1", "hld_qbr"):
             validation = validate_plan(plan, layout_manager, requested_slides)
             if validation.warnings:
                 with st.expander(f"ℹ️ {len(validation.warnings)} validation notice(s)"):
                     for warn in validation.warnings:
                         st.caption(f"• {warn}")
+        elif template_id == "hld_qbr":
+            st.caption("✨ HLD QBR archetype-based layout active (sections included only where source content supports them)")
         else:
             tmpl_name = "TechM V3" if template_id == "techm_v3" else "Template-1 (Weekly Update)"
             st.caption(f"✨ {tmpl_name} Dynamic Layout Active ({len(plan.slides)} content slides composed)")
@@ -1263,6 +1412,11 @@ def run_generation_pipeline(
         # ─ Step 6: Build PowerPoint ───────────────────────────────────────
         st.write("🎨 Building PowerPoint presentation...")
         try:
+            import importlib
+            import core.builders.hld_qbr_generic_builder
+            importlib.reload(core.builders.hld_qbr_generic_builder)
+            import core.template_registry
+            importlib.reload(core.template_registry)
             from core.template_registry import get_builder
             engine = get_builder(template_id, layout_manager)
             pptx_bytes = engine.build(plan)
@@ -1281,7 +1435,43 @@ def run_generation_pipeline(
                 st.error(f"❌ {err}")
             return
 
-        pptx_filename = sanitize_filename(plan.title)
+        output_governance = validate_pptx_governance(pptx_bytes, template_id)
+        if output_governance.warnings:
+            with st.expander(f"🔎 {len(output_governance.warnings)} output governance notice(s)"):
+                for warning in output_governance.warnings:
+                    st.caption(f"• {warning}")
+        if output_governance.errors:
+            status.update(label="❌ Governance validation failed", state="error")
+            for error in output_governance.errors:
+                st.error(f"❌ Governance: {error}")
+            return
+        st.session_state.governance_report = output_governance
+        st.caption(
+            f"🛡️ Governance score: **{output_governance.quality_score}/100** | "
+            f"Brand: {'pass' if output_governance.brand_compliance else 'review required'} | "
+            f"Accessibility: {'pass' if output_governance.accessibility else 'review required'}"
+        )
+
+        try:
+            write_audit_record(
+                config.LOGS_DIR / run_id / "governance_audit.json",
+                source=source,
+                brief=brief,
+                plan=plan,
+                plan_report=plan_governance,
+                output_report=output_governance,
+            )
+        except Exception as audit_error:
+            logger.warning("Could not write governance audit record: %s", audit_error)
+
+        # HLDQBRPresentationPlan uses `presentation_title` and has no `slides` list
+        plan_title = getattr(plan, "title", None) or getattr(plan, "presentation_title", "presentation")
+        pptx_filename = sanitize_filename(plan_title)
+        if hasattr(plan, "slides"):
+            slide_count = len(plan.slides)
+        else:
+            from pptx import Presentation
+            slide_count = len(Presentation(io.BytesIO(pptx_bytes)).slides)
 
         # --- Persist to disk (backup copy) so file is available even after Streamlit re-run ---
         try:
@@ -1296,7 +1486,7 @@ def run_generation_pipeline(
         st.session_state.pptx_filename = pptx_filename
         st.session_state.presentation_plan = plan
         st.session_state.generation_complete = True
-        status.update(label=f"✅ Done: {len(plan.slides)} slides", state="complete")
+        status.update(label=f"✅ Done: {slide_count} slides", state="complete")
         cleanup_old_outputs(config.OUTPUT_DIR)
 
 
@@ -1349,16 +1539,31 @@ def render_semantic_debug(cache, chunks) -> None:
 # ---------------------------------------------------------------------------
 
 def main() -> None:
-    # Sidebar (temporarily commented out)
-    # api_config = render_sidebar()
-    api_config = {
-        "api_keys": getattr(config, "get_groq_api_keys", lambda: config.GROQ_API_KEYS)(),
-        "model": config.GROQ_MODEL,
-    }
+    # Sidebar bypassed: configuration is loaded directly from .env
+    if config.LLM_PROVIDER == "watsonx":
+        api_config = {
+            "api_keys": config.WATSONX_API_KEYS,
+            "model": config.WATSONX_MODEL_ID,
+        }
+    else:
+        api_config = {
+            "api_keys": getattr(config, "get_groq_api_keys", lambda: config.GROQ_API_KEYS)(),
+            "model": config.GROQ_MODEL,
+        }
 
     # Hero header
     render_header()
 
+    tab_generate, tab_qa = st.tabs(["🎨 Generate Presentation", "💬 Ask watsonx.ai"])
+
+    with tab_generate:
+        render_generator_tab(api_config)
+
+    with tab_qa:
+        render_qa_tab(api_config)
+
+
+def render_generator_tab(api_config: dict) -> None:
     # Input section — returns extended tuple now
     source_text, input_mode, file_bytes, filename, doc_root, detection_method = render_input_section()
 
@@ -1383,7 +1588,8 @@ def main() -> None:
 
     with col_info:
         if not has_keys:
-            st.info("👈 No API keys configured. Add keys in the sidebar or set GROQ_API_KEYS in .env")
+            env_var = "WATSONX_API_KEY" if config.LLM_PROVIDER == "watsonx" else "GROQ_API_KEYS"
+            st.info(f"⚠️ No API keys configured. Please configure {env_var} in .env")
         elif not source_text:
             st.info("📄 Upload a document or enter a prompt above to get started.")
         else:
@@ -1432,6 +1638,90 @@ def main() -> None:
     #         cache=st.session_state.analysis_cache,
     #         chunks=st.session_state.semantic_chunks,
     #     )
+
+
+# ---------------------------------------------------------------------------
+# Simple Q&A tab — direct chat against the configured LLM provider
+# ---------------------------------------------------------------------------
+
+def _build_qa_client(api_config: dict):
+    """Build a single LLM client (Groq or watsonx, per config.LLM_PROVIDER) for Q&A."""
+    if config.LLM_PROVIDER == "watsonx":
+        key_manager = KeyManager(
+            keys=api_config["api_keys"],
+            model=api_config["model"],
+            temperature=config.WATSONX_TEMPERATURE,
+            max_tokens=config.WATSONX_MAX_TOKENS_SLIDE,
+            max_retries=config.LLM_MAX_RETRIES,
+            provider="watsonx",
+            project_id=config.WATSONX_PROJECT_ID,
+            project_ids=config.WATSONX_PROJECT_IDS,
+            url=config.WATSONX_URL,
+            fallback_model=config.WATSONX_FALLBACK_MODEL_ID,
+        )
+    else:
+        key_manager = KeyManager(
+            keys=api_config["api_keys"],
+            model=api_config["model"],
+            temperature=config.GROQ_TEMPERATURE,
+            max_tokens=config.GROQ_MAX_TOKENS_SLIDE,
+            max_retries=config.LLM_MAX_RETRIES,
+            provider="groq",
+            openrouter_keys=config.OPENROUTER_API_KEYS,
+            openrouter_url=config.OPENROUTER_URL,
+            openrouter_model=config.OPENROUTER_MODEL,
+        )
+    return key_manager.get_client()
+
+
+def render_qa_tab(api_config: dict) -> None:
+    """Simple chat-style Q&A that sends questions directly to the configured LLM provider."""
+    st.markdown("### 💬 Ask watsonx.ai")
+    st.caption("Ask a general question and get a direct answer — no document upload required.")
+
+    if "qa_history" not in st.session_state:
+        st.session_state.qa_history = []  # list of (question, answer) tuples
+
+    for question, answer in st.session_state.qa_history:
+        with st.chat_message("user"):
+            st.markdown(question)
+        with st.chat_message("assistant"):
+            st.markdown(answer)
+
+    question = st.chat_input("Type your question...")
+    if not question:
+        return
+
+    if not api_config.get("api_keys"):
+        st.error("❌ No API keys configured. Set the appropriate keys in .env.")
+        return
+
+    with st.chat_message("user"):
+        st.markdown(question)
+
+    with st.chat_message("assistant"):
+        with st.spinner("Thinking..."):
+            try:
+                client = _build_qa_client(api_config)
+                answer = client.chat_complete(
+                    messages=[
+                        {"role": "system", "content": "You are a helpful, concise assistant."},
+                        {"role": "user", "content": question},
+                    ],
+                )
+                if not answer:
+                    answer = "⚠️ The model returned an empty response. Please try rephrasing your question."
+            except (GroqAuthError, WatsonxAuthError, OpenRouterAuthError) as e:
+                answer = f"❌ Authentication error: {e}"
+            except (GroqRateLimitError, WatsonxRateLimitError, OpenRouterRateLimitError) as e:
+                answer = f"⏳ Rate limit/quota exceeded: {e}"
+            except (GroqAPIError, WatsonxAPIError, OpenRouterAPIError, KeyManagerError) as e:
+                answer = f"❌ API error: {e}"
+            except Exception as e:
+                answer = f"❌ Unexpected error: {e}"
+            st.markdown(answer)
+
+    st.session_state.qa_history.append((question, answer))
 
 
 # ---------------------------------------------------------------------------

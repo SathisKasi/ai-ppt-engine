@@ -1,0 +1,462 @@
+{
+  "index": 43,
+  "slide_name": "slide_43",
+  "title": "Title Only — 5 text slot(s)",
+  "layout": "Title Only",
+  "category": "Guide-Only",
+  "slide_layout_name": "Title Only",
+  "canvas": {
+    "width_emu": 12192000,
+    "height_emu": 6858000,
+    "width_px": 1280,
+    "height_px": 720,
+    "aspect_ratio": "16:9"
+  },
+  "structure": {
+    "shape_count": 11,
+    "text_placeholder_count": 3,
+    "image_count": 2,
+    "table_or_chart_count": 0,
+    "annotation_shape_count": 0
+  },
+  "annotation_shapes": [],
+  "editable_mapping": {
+    "layout": {
+      "name": "Title Only",
+      "placeholders": [
+        {
+          "raw_type": "SLIDE_NUMBER (13)",
+          "idx": 12,
+          "position_in": {
+            "left": 12.344,
+            "top": 7.099,
+            "width": 0.589,
+            "height": 0.303
+          }
+        },
+        {
+          "raw_type": "TITLE (1)",
+          "idx": 0,
+          "position_in": {
+            "left": 0.398,
+            "top": 0.398,
+            "width": 12.533,
+            "height": 0.42
+          }
+        },
+        {
+          "raw_type": "BODY (2)",
+          "idx": 13,
+          "position_in": {
+            "left": 0.398,
+            "top": 0.835,
+            "width": 12.533,
+            "height": 0.245
+          }
+        }
+      ]
+    },
+    "master": {
+      "name": "",
+      "placeholders": [
+        {
+          "raw_type": "TITLE (1)",
+          "idx": 0,
+          "position_in": {
+            "left": 0.398,
+            "top": 0.398,
+            "width": 12.533,
+            "height": 1.033
+          }
+        },
+        {
+          "raw_type": "BODY (2)",
+          "idx": 1,
+          "position_in": {
+            "left": 0.398,
+            "top": 1.592,
+            "width": 12.533,
+            "height": 5.24
+          }
+        },
+        {
+          "raw_type": "SLIDE_NUMBER (13)",
+          "idx": 4,
+          "position_in": {
+            "left": 12.344,
+            "top": 7.099,
+            "width": 0.589,
+            "height": 0.303
+          }
+        }
+      ]
+    }
+  },
+  "shapes": [
+    {
+      "shape_id": 10,
+      "name": "Object 9",
+      "shape_type": "EMBEDDED_OLE_OBJECT (7)",
+      "position_in": {
+        "left": 0.002,
+        "top": 0.002,
+        "width": 0.002,
+        "height": 0.002
+      }
+    },
+    {
+      "shape_id": 6,
+      "name": "Slide Number Placeholder 5",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 12.344,
+        "top": 7.099,
+        "width": 0.589,
+        "height": 0.303
+      },
+      "placeholder_type": "SLIDE_NUMBER (13)",
+      "placeholder_idx": 12,
+      "text": {
+        "full_text": "44",
+        "runs": [],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 2,
+      "name": "Title 1",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 0.398,
+        "top": 0.398,
+        "width": 12.533,
+        "height": 0.42
+      },
+      "placeholder_type": "TITLE (1)",
+      "placeholder_idx": 0,
+      "text": {
+        "full_text": "BRAND APPROVED COLORS",
+        "runs": [
+          {
+            "text": "BRAND APPROVED COLORS",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 3,
+      "name": "Text Placeholder 2",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 0.398,
+        "top": 0.835,
+        "width": 12.533,
+        "height": 0.245
+      },
+      "placeholder_type": "BODY (2)",
+      "placeholder_idx": 13,
+      "text": {
+        "full_text": "Sub-headline",
+        "runs": [
+          {
+            "text": "Sub-headline",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 9,
+      "name": "Content Placeholder 4",
+      "shape_type": "TEXT_BOX (17)",
+      "position_in": {
+        "left": 0.4,
+        "top": 1.592,
+        "width": 4.518,
+        "height": 4.908
+      },
+      "text": {
+        "full_text": "The default slide background is white\nNormal text is dark brown tone; UPS Blue is the default color, for emphasis and bullets but other theme colors can be used as needed\nTitle and subtitle text is UPS dark brown tone\nOnly use the colors set within this template",
+        "runs": [
+          {
+            "text": "The default slide background is white",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "Normal text is dark brown tone; ",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "UPS Blue is the default color,",
+            "font": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": " ",
+            "font": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "for emphasis and bullets but other theme colors can be used as needed",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "Title and subtitle text is ",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "UPS dark brown tone",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "Only use the colors set within this template",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 11,
+      "name": "Picture 10",
+      "shape_type": "PICTURE (13)",
+      "position_in": {
+        "left": 6.345,
+        "top": 0.273,
+        "width": 6.588,
+        "height": 6.643
+      }
+    },
+    {
+      "shape_id": 12,
+      "name": "TextBox 11",
+      "shape_type": "TEXT_BOX (17)",
+      "position_in": {
+        "left": 5.238,
+        "top": 1.351,
+        "width": 1.326,
+        "height": 0.404
+      },
+      "text": {
+        "full_text": "Primary",
+        "runs": [
+          {
+            "text": "Primary",
+            "font": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 13,
+      "name": "TextBox 12",
+      "shape_type": "TEXT_BOX (17)",
+      "position_in": {
+        "left": 5.057,
+        "top": 4.72,
+        "width": 1.689,
+        "height": 0.404
+      },
+      "text": {
+        "full_text": "Secondary",
+        "runs": [
+          {
+            "text": "Secondary",
+            "font": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 14,
+      "name": "Straight Connector 13",
+      "shape_type": "LINE (9)",
+      "position_in": {
+        "left": 6.233,
+        "top": 0.338,
+        "width": 0.0,
+        "height": 2.522
+      }
+    },
+    {
+      "shape_id": 15,
+      "name": "Straight Connector 14",
+      "shape_type": "LINE (9)",
+      "position_in": {
+        "left": 6.233,
+        "top": 3.0,
+        "width": 0.0,
+        "height": 3.843
+      }
+    },
+    {
+      "shape_id": 20,
+      "name": "Group 19",
+      "shape_type": "GROUP (6)",
+      "position_in": {
+        "left": 2.763,
+        "top": 4.838,
+        "width": 2.129,
+        "height": 2.076
+      },
+      "children": [
+        {
+          "shape_id": 4,
+          "name": "Picture 3",
+          "shape_type": "PICTURE (13)",
+          "position_in": {
+            "left": 3.56,
+            "top": 5.002,
+            "width": 1.166,
+            "height": 1.812
+          }
+        },
+        {
+          "shape_id": 5,
+          "name": "Rectangle 4",
+          "shape_type": "AUTO_SHAPE (1)",
+          "position_in": {
+            "left": 3.433,
+            "top": 5.172,
+            "width": 1.356,
+            "height": 0.172
+          }
+        },
+        {
+          "shape_id": 16,
+          "name": "Rectangle 15",
+          "shape_type": "AUTO_SHAPE (1)",
+          "position_in": {
+            "left": 3.433,
+            "top": 5.383,
+            "width": 1.356,
+            "height": 0.967
+          }
+        },
+        {
+          "shape_id": 7,
+          "name": "TextBox 6",
+          "shape_type": "TEXT_BOX (17)",
+          "position_in": {
+            "left": 2.865,
+            "top": 5.547,
+            "width": 0.225,
+            "height": 0.64
+          },
+          "text": {
+            "full_text": "",
+            "runs": [
+              {
+                "text": "",
+                "font": null,
+                "size_pt": 32.0,
+                "bold": null,
+                "italic": null,
+                "color": null
+              }
+            ],
+            "is_guidance_sticker": false
+          }
+        },
+        {
+          "shape_id": 17,
+          "name": "TextBox 16",
+          "shape_type": "TEXT_BOX (17)",
+          "position_in": {
+            "left": 2.865,
+            "top": 4.939,
+            "width": 0.225,
+            "height": 0.64
+          },
+          "text": {
+            "full_text": "",
+            "runs": [
+              {
+                "text": "",
+                "font": null,
+                "size_pt": 32.0,
+                "bold": null,
+                "italic": null,
+                "color": null
+              }
+            ],
+            "is_guidance_sticker": false
+          }
+        },
+        {
+          "shape_id": 18,
+          "name": "Straight Connector 17",
+          "shape_type": "LINE (9)",
+          "position_in": {
+            "left": 3.188,
+            "top": 5.258,
+            "width": 0.246,
+            "height": 0.0
+          }
+        },
+        {
+          "shape_id": 21,
+          "name": "Straight Connector 20",
+          "shape_type": "LINE (9)",
+          "position_in": {
+            "left": 3.188,
+            "top": 5.867,
+            "width": 0.246,
+            "height": 0.0
+          }
+        }
+      ]
+    }
+  ]
+}

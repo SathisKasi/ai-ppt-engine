@@ -1,0 +1,357 @@
+{
+  "index": 42,
+  "slide_name": "slide_42",
+  "title": "Title Only — 2 text slot(s)",
+  "layout": "Title Only",
+  "category": "Guide-Only",
+  "slide_layout_name": "Title Only",
+  "canvas": {
+    "width_emu": 12192000,
+    "height_emu": 6858000,
+    "width_px": 1280,
+    "height_px": 720,
+    "aspect_ratio": "16:9"
+  },
+  "structure": {
+    "shape_count": 3,
+    "text_placeholder_count": 1,
+    "image_count": 0,
+    "table_or_chart_count": 0,
+    "annotation_shape_count": 0
+  },
+  "annotation_shapes": [],
+  "editable_mapping": {
+    "layout": {
+      "name": "Title Only",
+      "placeholders": [
+        {
+          "raw_type": "SLIDE_NUMBER (13)",
+          "idx": 12,
+          "position_in": {
+            "left": 12.344,
+            "top": 7.099,
+            "width": 0.589,
+            "height": 0.303
+          }
+        },
+        {
+          "raw_type": "TITLE (1)",
+          "idx": 0,
+          "position_in": {
+            "left": 0.398,
+            "top": 0.398,
+            "width": 12.533,
+            "height": 0.42
+          }
+        },
+        {
+          "raw_type": "BODY (2)",
+          "idx": 13,
+          "position_in": {
+            "left": 0.398,
+            "top": 0.835,
+            "width": 12.533,
+            "height": 0.245
+          }
+        }
+      ]
+    },
+    "master": {
+      "name": "",
+      "placeholders": [
+        {
+          "raw_type": "TITLE (1)",
+          "idx": 0,
+          "position_in": {
+            "left": 0.398,
+            "top": 0.398,
+            "width": 12.533,
+            "height": 1.033
+          }
+        },
+        {
+          "raw_type": "BODY (2)",
+          "idx": 1,
+          "position_in": {
+            "left": 0.398,
+            "top": 1.592,
+            "width": 12.533,
+            "height": 5.24
+          }
+        },
+        {
+          "raw_type": "SLIDE_NUMBER (13)",
+          "idx": 4,
+          "position_in": {
+            "left": 12.344,
+            "top": 7.099,
+            "width": 0.589,
+            "height": 0.303
+          }
+        }
+      ]
+    }
+  },
+  "shapes": [
+    {
+      "shape_id": 2,
+      "name": "Title 1",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 0.398,
+        "top": 0.398,
+        "width": 12.533,
+        "height": 0.42
+      },
+      "placeholder_type": "TITLE (1)",
+      "placeholder_idx": 0,
+      "text": {
+        "full_text": "GUARDRAILS",
+        "runs": [
+          {
+            "text": "GUARDRAILS",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 5,
+      "name": "Slide Number Placeholder 2",
+      "shape_type": "TEXT_BOX (17)",
+      "position_in": {
+        "left": 12.346,
+        "top": 7.098,
+        "width": 0.591,
+        "height": 0.303
+      },
+      "text": {
+        "full_text": "43",
+        "runs": [],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 6,
+      "name": "TextBox 5",
+      "shape_type": "TEXT_BOX (17)",
+      "position_in": {
+        "left": 0.398,
+        "top": 1.223,
+        "width": 12.936,
+        "height": 5.385
+      },
+      "text": {
+        "full_text": "Do not import any slides that are not in the current HC brand guidelines. Please insert a new slide within the existing presentation and copy only the content over\nProduct slide verbiage cannot be changed, header can be customized but must remain one line\nNewly created product slides need to be approved by SME, product owners, or Seismic\nAll claims must be sourced\nPer legal, we cannot use customer logos or personal data without written consent\nTranslation services are not available, content other than English cannot be included.\nUpdates need to be provided latest 48H before deadline, if the meeting/call is postponed sales needs to inform PF asap with new date (so PF can reschedule priorities)\nSales to provide PF with the final deck and indicate their changes within two business days after the meeting\n\n",
+        "runs": [
+          {
+            "text": "Do ",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "not import any slides ",
+            "font": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "that are not in the current HC brand guidelines. Please insert a new slide within the existing presentation and copy only the content over",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "Product slide verbiage ",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "cannot be changed",
+            "font": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": ", header can be customized but must remain one line",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "Newly created product slides need to be ",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "approved",
+            "font": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": " by SME, product owners, or Seismic",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "All claims must be ",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "sourced",
+            "font": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "Per legal, we ",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "cannot use customer logos or personal data without written consent",
+            "font": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "Translation services ",
+            "font": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "are not available, content other than English cannot be included.",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "Updates need to be provided ",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "latest 48H before deadline",
+            "font": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": ", if the meeting/call is ",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "postponed",
+            "font": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": " sales needs to ",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "inform PF asap with new date ",
+            "font": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "(so PF can reschedule priorities)",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "Sales to provide PF with the final deck and indicate their changes ",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "within two business days ",
+            "font": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "after the meeting",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    }
+  ]
+}

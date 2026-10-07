@@ -21,8 +21,8 @@ logger = get_logger(__name__)
 _REGISTRY: Dict[str, Dict[str, Any]] = {
     "dark_navy": {
         "id":          "dark_navy",
-        "name":        "Dark Navy (Default)",
-        "description": "Sleek dark navy & purple professional theme",
+        "name":        "RFP",
+        "description": "PROPOSAL",
         "icon":        "🌑",
     },
     # "techm": {
@@ -33,21 +33,27 @@ _REGISTRY: Dict[str, Dict[str, Any]] = {
     # },
     "white_blue": {
         "id":          "white_blue",
-        "name":        "White & Blue Professional",
-        "description": "Clean white + blue corporate design",
+        "name":        "DEPARTMENT",
+        "description": "MEETING",
         "icon":        "☁️",
     },
     "techm_v3": {
         "id":          "techm_v3",
-        "name":        "TechM Dynamic V3 (Freeform Layouts)",
-        "description": "Tech Mahindra 3-slide master: dynamic LLM layouts & content enrichment",
+        "name":        "TOWN HALL",
+        "description": "PRESENTATION",
         "icon":        "✨",
     },
     "template1": {
         "id":          "template1",
-        "name":        "Template-1: AI Transformation Weekly",
-        "description": "Warm earth-tone palette (espresso/amber/sand) — 5-slide master with ACTION_TABLE & dynamic LLM layouts",
+        "name":        "CUSTOMER",
+        "description": "FACING",
         "icon":        "🟤",
+    },
+    "hld_qbr": {
+        "id":          "hld_qbr",
+        "name":        "HLD QBR",
+        "description": "UPS Healthcare",
+        "icon":        "🏥",
     },
 }
 
@@ -62,7 +68,7 @@ def get_builder(template_id: str, layout_manager=None):
     Instantiate and return the appropriate builder for the given template_id.
 
     Args:
-        template_id:    One of 'dark_navy', 'techm', 'white_blue', 'techm_v3'
+        template_id:    One of 'dark_navy', 'techm', 'white_blue', 'techm_v3', 'template1', 'hld_qbr'
         layout_manager: Required only for dark_navy (existing LayoutManager instance)
 
     Returns:
@@ -73,6 +79,10 @@ def get_builder(template_id: str, layout_manager=None):
     if tid == "template1":
         from core.builders.template1_builder import Template1Builder
         return Template1Builder(template_path=config.TEMPLATE1_FILE)
+
+    if tid == "hld_qbr":
+        from core.builders.hld_qbr_generic_builder import HLDQBRGenericBuilder
+        return HLDQBRGenericBuilder()
 
     if tid == "techm_v3":
         from core.builders.techm_v3_builder import TechMV3Builder

@@ -50,7 +50,8 @@ def plan_dynamic_presentation(
         presentation_title: Desired title or fallback to main topic.
         audience: Target audience.
         style: Presentation style.
-        slide_count: Number of content slides (excluding cover & closing).
+        slide_count: Total slides requested by the user, INCLUDING the mandatory
+            Cover and Thank You slides added automatically by the template cloner.
         language: Output language.
         additional_instructions: Custom instructions from user.
         max_source_chars: Character limit for source excerpt.
@@ -61,6 +62,11 @@ def plan_dynamic_presentation(
     if not presentation_title or not presentation_title.strip():
         presentation_title = content_analysis.main_topic
 
+    # slide_count represents the requested number of CONTENT slides.
+    # Mandatory structural slides (Cover, Agenda, Executive Summary, Closing)
+    # are added in addition and must not be subtracted from the user's requested count.
+    content_slide_count = max(1, slide_count)
+
     truncated_source = truncate_text(source_text, max_source_chars)
     analysis_json = content_analysis.model_dump_json(indent=2)
 
@@ -70,7 +76,7 @@ def plan_dynamic_presentation(
         presentation_title=presentation_title,
         audience=audience or "Executive Leadership",
         style=style or "Corporate Strategic",
-        slide_count=slide_count,
+        slide_count=content_slide_count,
         language=language or "English",
         additional_instructions=additional_instructions or "None",
     )
@@ -81,8 +87,9 @@ def plan_dynamic_presentation(
     ]
 
     logger.info(
-        "Running V3 Dynamic Presentation Planning: %d content slides requested for '%s'",
+        "Running V3 Dynamic Presentation Planning: %d total requested (%d content slides) for '%s'",
         slide_count,
+        content_slide_count,
         presentation_title,
     )
 

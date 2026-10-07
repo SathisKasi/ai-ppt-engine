@@ -1,0 +1,174 @@
+{
+  "index": 3,
+  "slide_name": "slide_03",
+  "title": "Title Only — 1 text slot(s)",
+  "layout": "Title Only",
+  "category": "Mandatory",
+  "slide_layout_name": "Title Only",
+  "canvas": {
+    "width_emu": 12192000,
+    "height_emu": 6858000,
+    "width_px": 1280,
+    "height_px": 720,
+    "aspect_ratio": "16:9"
+  },
+  "structure": {
+    "shape_count": 5,
+    "text_placeholder_count": 1,
+    "image_count": 2,
+    "table_or_chart_count": 0,
+    "annotation_shape_count": 0
+  },
+  "annotation_shapes": [],
+  "editable_mapping": {
+    "layout": {
+      "name": "Title Only",
+      "placeholders": [
+        {
+          "raw_type": "SLIDE_NUMBER (13)",
+          "idx": 12,
+          "position_in": {
+            "left": 12.344,
+            "top": 7.099,
+            "width": 0.589,
+            "height": 0.303
+          }
+        },
+        {
+          "raw_type": "TITLE (1)",
+          "idx": 0,
+          "position_in": {
+            "left": 0.398,
+            "top": 0.398,
+            "width": 12.533,
+            "height": 0.42
+          }
+        },
+        {
+          "raw_type": "BODY (2)",
+          "idx": 13,
+          "position_in": {
+            "left": 0.398,
+            "top": 0.835,
+            "width": 12.533,
+            "height": 0.245
+          }
+        }
+      ]
+    },
+    "master": {
+      "name": "",
+      "placeholders": [
+        {
+          "raw_type": "TITLE (1)",
+          "idx": 0,
+          "position_in": {
+            "left": 0.398,
+            "top": 0.398,
+            "width": 12.533,
+            "height": 1.033
+          }
+        },
+        {
+          "raw_type": "BODY (2)",
+          "idx": 1,
+          "position_in": {
+            "left": 0.398,
+            "top": 1.592,
+            "width": 12.533,
+            "height": 5.24
+          }
+        },
+        {
+          "raw_type": "SLIDE_NUMBER (13)",
+          "idx": 4,
+          "position_in": {
+            "left": 12.344,
+            "top": 7.099,
+            "width": 0.589,
+            "height": 0.303
+          }
+        }
+      ]
+    }
+  },
+  "shapes": [
+    {
+      "shape_id": 4,
+      "name": "Picture 3",
+      "shape_type": "PICTURE (13)",
+      "position_in": {
+        "left": 0.0,
+        "top": 0.0,
+        "width": 13.333,
+        "height": 6.833
+      }
+    },
+    {
+      "shape_id": 7,
+      "name": "Rectangle 6",
+      "shape_type": "AUTO_SHAPE (1)",
+      "position_in": {
+        "left": 0.0,
+        "top": -0.0,
+        "width": 13.333,
+        "height": 6.833
+      },
+      "fill_color": null
+    },
+    {
+      "shape_id": 8,
+      "name": "Picture 7",
+      "shape_type": "PICTURE (13)",
+      "position_in": {
+        "left": -0.154,
+        "top": 1.214,
+        "width": 3.266,
+        "height": 3.351
+      }
+    },
+    {
+      "shape_id": 6,
+      "name": "Slide Number Placeholder 28",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 12.346,
+        "top": 7.098,
+        "width": 0.591,
+        "height": 0.303
+      },
+      "placeholder_type": "SLIDE_NUMBER (13)",
+      "placeholder_idx": 12,
+      "text": {
+        "full_text": "4",
+        "runs": [],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 9,
+      "name": "Title 6",
+      "shape_type": "TEXT_BOX (17)",
+      "position_in": {
+        "left": 3.571,
+        "top": 3.651,
+        "width": 6.225,
+        "height": 1.653
+      },
+      "text": {
+        "full_text": "EXECUTIVE SUMMARY",
+        "runs": [
+          {
+            "text": "EXECUTIVE SUMMARY",
+            "font": "+mn-lt",
+            "size_pt": 28.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    }
+  ]
+}

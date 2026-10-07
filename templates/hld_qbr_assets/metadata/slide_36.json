@@ -1,0 +1,556 @@
+{
+  "index": 36,
+  "slide_name": "slide_36",
+  "title": "Title Only — chart (COLUMN_CLUSTERED (51)), repeat-group of 3 (2 slot(s) each), 2 text slot(s)",
+  "layout": "Title Only",
+  "category": "Optional",
+  "slide_layout_name": "Title Only",
+  "canvas": {
+    "width_emu": 12192000,
+    "height_emu": 6858000,
+    "width_px": 1280,
+    "height_px": 720,
+    "aspect_ratio": "16:9"
+  },
+  "structure": {
+    "shape_count": 9,
+    "text_placeholder_count": 3,
+    "image_count": 0,
+    "table_or_chart_count": 3,
+    "annotation_shape_count": 0
+  },
+  "annotation_shapes": [],
+  "editable_mapping": {
+    "layout": {
+      "name": "Title Only",
+      "placeholders": [
+        {
+          "raw_type": "SLIDE_NUMBER (13)",
+          "idx": 12,
+          "position_in": {
+            "left": 12.344,
+            "top": 7.099,
+            "width": 0.589,
+            "height": 0.303
+          }
+        },
+        {
+          "raw_type": "TITLE (1)",
+          "idx": 0,
+          "position_in": {
+            "left": 0.398,
+            "top": 0.398,
+            "width": 12.533,
+            "height": 0.42
+          }
+        },
+        {
+          "raw_type": "BODY (2)",
+          "idx": 13,
+          "position_in": {
+            "left": 0.398,
+            "top": 0.835,
+            "width": 12.533,
+            "height": 0.245
+          }
+        }
+      ]
+    },
+    "master": {
+      "name": "",
+      "placeholders": [
+        {
+          "raw_type": "TITLE (1)",
+          "idx": 0,
+          "position_in": {
+            "left": 0.398,
+            "top": 0.398,
+            "width": 12.533,
+            "height": 1.033
+          }
+        },
+        {
+          "raw_type": "BODY (2)",
+          "idx": 1,
+          "position_in": {
+            "left": 0.398,
+            "top": 1.592,
+            "width": 12.533,
+            "height": 5.24
+          }
+        },
+        {
+          "raw_type": "SLIDE_NUMBER (13)",
+          "idx": 4,
+          "position_in": {
+            "left": 12.344,
+            "top": 7.099,
+            "width": 0.589,
+            "height": 0.303
+          }
+        }
+      ]
+    }
+  },
+  "shapes": [
+    {
+      "shape_id": 2,
+      "name": "Slide Number Placeholder 1",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 12.344,
+        "top": 7.099,
+        "width": 0.589,
+        "height": 0.303
+      },
+      "placeholder_type": "SLIDE_NUMBER (13)",
+      "placeholder_idx": 12,
+      "text": {
+        "full_text": "37",
+        "runs": [],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 3,
+      "name": "Title 2",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 0.398,
+        "top": 0.398,
+        "width": 12.533,
+        "height": 0.42
+      },
+      "placeholder_type": "TITLE (1)",
+      "placeholder_idx": 0,
+      "text": {
+        "full_text": "FINANCIAL VALUE",
+        "runs": [
+          {
+            "text": "FINANCIAL VALUE",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 4,
+      "name": "Text Placeholder 3",
+      "shape_type": "PLACEHOLDER (14)",
+      "position_in": {
+        "left": 0.398,
+        "top": 0.835,
+        "width": 12.533,
+        "height": 0.245
+      },
+      "placeholder_type": "BODY (2)",
+      "placeholder_idx": 13,
+      "text": {
+        "full_text": "Facility name or location",
+        "runs": [
+          {
+            "text": "Facility name or location",
+            "font": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ],
+        "is_guidance_sticker": false
+      }
+    },
+    {
+      "shape_id": 10,
+      "name": "Chart 9",
+      "shape_type": "CHART (3)",
+      "position_in": {
+        "left": 0.354,
+        "top": 1.236,
+        "width": 3.976,
+        "height": 3.368
+      },
+      "chart": {
+        "chart_type": "COLUMN_CLUSTERED (51)",
+        "categories": [
+          "Q1",
+          "Q2",
+          "Q3",
+          "Q4"
+        ],
+        "series_names": [
+          "2025",
+          "2026"
+        ]
+      }
+    },
+    {
+      "shape_id": 11,
+      "name": "Chart 10",
+      "shape_type": "CHART (3)",
+      "position_in": {
+        "left": 4.53,
+        "top": 1.242,
+        "width": 3.976,
+        "height": 3.368
+      },
+      "chart": {
+        "chart_type": "COLUMN_CLUSTERED (51)",
+        "categories": [
+          "Q1",
+          "Q2",
+          "Q3",
+          "Q4"
+        ],
+        "series_names": [
+          "2025",
+          "2026"
+        ]
+      }
+    },
+    {
+      "shape_id": 12,
+      "name": "Chart 11",
+      "shape_type": "CHART (3)",
+      "position_in": {
+        "left": 8.776,
+        "top": 1.233,
+        "width": 3.976,
+        "height": 3.371
+      },
+      "chart": {
+        "chart_type": "COLUMN_CLUSTERED (51)",
+        "categories": [
+          "Q1",
+          "Q2",
+          "Q3",
+          "Q4"
+        ],
+        "series_names": [
+          "2025",
+          "2026"
+        ]
+      }
+    },
+    {
+      "shape_id": 13,
+      "name": "Group 12",
+      "shape_type": "GROUP (6)",
+      "position_in": {
+        "left": 0.458,
+        "top": 4.542,
+        "width": 3.74,
+        "height": 2.279
+      },
+      "children": [
+        {
+          "shape_id": 14,
+          "name": "Rectangle: Rounded Corners 13",
+          "shape_type": "AUTO_SHAPE (1)",
+          "position_in": {
+            "left": 10.443,
+            "top": 1.528,
+            "width": 2.783,
+            "height": 4.623
+          },
+          "text": {
+            "full_text": "\nWhat changed\nWhy\nMissed KPIs\nRCA\nCAPA\nWhat’s next\n",
+            "runs": [
+              {
+                "text": "What changed",
+                "font": null,
+                "size_pt": 10.0,
+                "bold": null,
+                "italic": null,
+                "color": null
+              },
+              {
+                "text": "Why",
+                "font": null,
+                "size_pt": 10.0,
+                "bold": null,
+                "italic": null,
+                "color": null
+              },
+              {
+                "text": "Missed KPIs",
+                "font": null,
+                "size_pt": 10.0,
+                "bold": null,
+                "italic": null,
+                "color": null
+              },
+              {
+                "text": "RCA",
+                "font": null,
+                "size_pt": 10.0,
+                "bold": null,
+                "italic": null,
+                "color": null
+              },
+              {
+                "text": "CAPA",
+                "font": null,
+                "size_pt": 10.0,
+                "bold": null,
+                "italic": null,
+                "color": null
+              },
+              {
+                "text": "What’s next",
+                "font": null,
+                "size_pt": 10.0,
+                "bold": null,
+                "italic": null,
+                "color": null
+              }
+            ],
+            "is_guidance_sticker": false
+          },
+          "fill_color": null
+        },
+        {
+          "shape_id": 15,
+          "name": "Rectangle: Rounded Corners 14",
+          "shape_type": "AUTO_SHAPE (1)",
+          "position_in": {
+            "left": 10.925,
+            "top": 1.189,
+            "width": 1.811,
+            "height": 0.566
+          },
+          "text": {
+            "full_text": "Q1 INSIGHTS",
+            "runs": [
+              {
+                "text": "Q1 INSIGHTS",
+                "font": "Verdana",
+                "size_pt": 12.0,
+                "bold": true,
+                "italic": false,
+                "color": "FFBE00"
+              }
+            ],
+            "is_guidance_sticker": false
+          },
+          "fill_color": null
+        }
+      ]
+    },
+    {
+      "shape_id": 16,
+      "name": "Group 15",
+      "shape_type": "GROUP (6)",
+      "position_in": {
+        "left": 4.625,
+        "top": 4.542,
+        "width": 3.74,
+        "height": 2.279
+      },
+      "children": [
+        {
+          "shape_id": 17,
+          "name": "Rectangle: Rounded Corners 16",
+          "shape_type": "AUTO_SHAPE (1)",
+          "position_in": {
+            "left": 10.443,
+            "top": 1.528,
+            "width": 2.783,
+            "height": 4.623
+          },
+          "text": {
+            "full_text": "\nWhat changed\nWhy\nMissed KPIs\nRCA\nCAPA\nWhat’s next\n",
+            "runs": [
+              {
+                "text": "What changed",
+                "font": null,
+                "size_pt": 10.0,
+                "bold": null,
+                "italic": null,
+                "color": null
+              },
+              {
+                "text": "Why",
+                "font": null,
+                "size_pt": 10.0,
+                "bold": null,
+                "italic": null,
+                "color": null
+              },
+              {
+                "text": "Missed KPIs",
+                "font": null,
+                "size_pt": 10.0,
+                "bold": null,
+                "italic": null,
+                "color": null
+              },
+              {
+                "text": "RCA",
+                "font": null,
+                "size_pt": 10.0,
+                "bold": null,
+                "italic": null,
+                "color": null
+              },
+              {
+                "text": "CAPA",
+                "font": null,
+                "size_pt": 10.0,
+                "bold": null,
+                "italic": null,
+                "color": null
+              },
+              {
+                "text": "What’s next",
+                "font": null,
+                "size_pt": 10.0,
+                "bold": null,
+                "italic": null,
+                "color": null
+              }
+            ],
+            "is_guidance_sticker": false
+          },
+          "fill_color": null
+        },
+        {
+          "shape_id": 18,
+          "name": "Rectangle: Rounded Corners 17",
+          "shape_type": "AUTO_SHAPE (1)",
+          "position_in": {
+            "left": 10.925,
+            "top": 1.189,
+            "width": 1.811,
+            "height": 0.566
+          },
+          "text": {
+            "full_text": "Q1 INSIGHTS",
+            "runs": [
+              {
+                "text": "Q1 INSIGHTS",
+                "font": "Verdana",
+                "size_pt": 12.0,
+                "bold": true,
+                "italic": false,
+                "color": "FFBE00"
+              }
+            ],
+            "is_guidance_sticker": false
+          },
+          "fill_color": null
+        }
+      ]
+    },
+    {
+      "shape_id": 19,
+      "name": "Group 18",
+      "shape_type": "GROUP (6)",
+      "position_in": {
+        "left": 8.899,
+        "top": 4.542,
+        "width": 3.74,
+        "height": 2.279
+      },
+      "children": [
+        {
+          "shape_id": 20,
+          "name": "Rectangle: Rounded Corners 19",
+          "shape_type": "AUTO_SHAPE (1)",
+          "position_in": {
+            "left": 10.443,
+            "top": 1.528,
+            "width": 2.783,
+            "height": 4.623
+          },
+          "text": {
+            "full_text": "\nWhat changed\nWhy\nMissed KPIs\nRCA\nCAPA\nWhat’s next\n",
+            "runs": [
+              {
+                "text": "What changed",
+                "font": null,
+                "size_pt": 10.0,
+                "bold": null,
+                "italic": null,
+                "color": null
+              },
+              {
+                "text": "Why",
+                "font": null,
+                "size_pt": 10.0,
+                "bold": null,
+                "italic": null,
+                "color": null
+              },
+              {
+                "text": "Missed KPIs",
+                "font": null,
+                "size_pt": 10.0,
+                "bold": null,
+                "italic": null,
+                "color": null
+              },
+              {
+                "text": "RCA",
+                "font": null,
+                "size_pt": 10.0,
+                "bold": null,
+                "italic": null,
+                "color": null
+              },
+              {
+                "text": "CAPA",
+                "font": null,
+                "size_pt": 10.0,
+                "bold": null,
+                "italic": null,
+                "color": null
+              },
+              {
+                "text": "What’s next",
+                "font": null,
+                "size_pt": 10.0,
+                "bold": null,
+                "italic": null,
+                "color": null
+              }
+            ],
+            "is_guidance_sticker": false
+          },
+          "fill_color": null
+        },
+        {
+          "shape_id": 21,
+          "name": "Rectangle: Rounded Corners 20",
+          "shape_type": "AUTO_SHAPE (1)",
+          "position_in": {
+            "left": 10.925,
+            "top": 1.189,
+            "width": 1.811,
+            "height": 0.566
+          },
+          "text": {
+            "full_text": "Q1 INSIGHTS",
+            "runs": [
+              {
+                "text": "Q1 INSIGHTS",
+                "font": "Verdana",
+                "size_pt": 12.0,
+                "bold": true,
+                "italic": false,
+                "color": "FFBE00"
+              }
+            ],
+            "is_guidance_sticker": false
+          },
+          "fill_color": null
+        }
+      ]
+    }
+  ]
+}
