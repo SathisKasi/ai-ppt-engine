@@ -71,18 +71,6 @@ class GroqClient:
                 "or enter it in the sidebar."
             )
 
-        try:
-            from groq import Groq, APIStatusError, RateLimitError, AuthenticationError
-            self._Groq = Groq
-            self._APIStatusError = APIStatusError
-            self._RateLimitError = RateLimitError
-            self._AuthenticationError = AuthenticationError
-            self._client = Groq(api_key=api_key.strip())
-        except ImportError as e:
-            raise GroqClientError(
-                "groq package is not installed. Run: pip install groq"
-            ) from e
-
         self.model = model
         self.temperature = temperature
         self.max_tokens = max_tokens
@@ -106,6 +94,23 @@ class GroqClient:
                     )
             except Exception as e:
                 logger.debug("Could not auto-initialize OpenRouter fallback client: %s", e)
+
+        # When an OpenRouter fallback client is active, disable internal Groq SDK retries (max_retries=0)
+        # so that HTTP 429 rate limits or TPM caps fail immediately and trigger instant failover to OpenRouter
+        # without blocking execution threads for up to 30-60 seconds in backoff sleeps.
+        groq_sdk_retries = 0 if self.openrouter_client else max_retries
+
+        try:
+            from groq import Groq, APIStatusError, RateLimitError, AuthenticationError
+            self._Groq = Groq
+            self._APIStatusError = APIStatusError
+            self._RateLimitError = RateLimitError
+            self._AuthenticationError = AuthenticationError
+            self._client = Groq(api_key=api_key.strip(), max_retries=groq_sdk_retries)
+        except ImportError as e:
+            raise GroqClientError(
+                "groq package is not installed. Run: pip install groq"
+            ) from e
 
     def _is_rate_or_capacity_error(self, exc: Exception) -> tuple[bool, str]:
         """

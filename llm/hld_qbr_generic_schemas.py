@@ -134,6 +134,17 @@ class SlideAssignment(BaseModel):
         # 4. Sanitize chart_categories & chart_series
         raw_series = data.get("chart_series")
         raw_cats = data.get("chart_categories")
+        if isinstance(raw_cats, str) and "," in raw_cats:
+            raw_cats = [c.strip() for c in raw_cats.split(",") if c.strip()]
+        elif isinstance(raw_cats, str) and raw_cats.strip():
+            raw_cats = [raw_cats.strip()]
+        elif isinstance(raw_cats, list):
+            raw_cats = [str(c).strip() for c in raw_cats if c is not None and str(c).strip()]
+        data["chart_categories"] = raw_cats or None
+
+        if isinstance(raw_series, dict):
+            raw_series = [raw_series]
+
         if raw_series and isinstance(raw_series, list):
             # Check if there is at least one series with real numeric content
             has_numeric = False
@@ -147,14 +158,22 @@ class SlideAssignment(BaseModel):
                         elif isinstance(v, str) and re.search(r"\d", v):
                             has_numeric = True
                             break
+                elif hasattr(s, "values"):
+                    vals = getattr(s, "values", [])
+                    if vals:
+                        has_numeric = True
+                        break
                 if has_numeric:
                     break
-            if not has_numeric or not raw_cats:
+            if not has_numeric or not data["chart_categories"]:
                 # LLM output descriptive text or empty chart data -> safely omit chart
                 data["chart_series"] = None
                 data["chart_categories"] = None
+            else:
+                data["chart_series"] = raw_series
         else:
             data["chart_series"] = None
+            data["chart_categories"] = None
 
         return data
 

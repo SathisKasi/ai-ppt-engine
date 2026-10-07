@@ -140,7 +140,7 @@ Rules:
 3. GROUNDED IN TRUTH: Use ONLY the provided assigned content items and attributes. Never invent external facts or metrics.
 4. FULL TABLE & CHART INTEGRATION:
    - For tables, populate EVERY column across all data rows (Metric Name, Operational Detail, Target, Actual, Status). Never leave cells empty ("") or output blank columns.
-   - For charts, generate category labels and numeric series values whenever multi-period or multi-point comparisons exist.
+   - For chart slides ("has_chart": true), extract numerical metrics, percentages, or timeline comparisons from assigned items into "chart_categories" and "chart_series". Never leave charts empty or null on chart layouts.
 """
 
 HLD_QBR_FILL_PROMPT = """\
@@ -155,10 +155,11 @@ Fill each slide using ONLY its assigned content items and attributes:
    - Ensure every card has unique content.
 4. "table_headers" & "table_rows": For table layouts, populate headers matching column_count and provide data rows:
    - Every column must be populated with genuine data (Metric, Description, Target, Actual, Status). NEVER leave cells blank ("").
-5. "chart_categories" & "chart_series": When numeric comparisons exist across periods or categories in the assigned items, set:
-   - "chart_categories": ["Q1", "Q2", "Q3", "Q4"]
-   - "chart_series": [{{"name": "Metric Name", "values": [98.2, 99.1, 99.5, 99.8]}}]
-   - Values must be numbers. If no multi-point numeric series comparisons exist in the content, set both to null.
+5. "chart_categories" & "chart_series":
+   - For slides with "has_chart": true: You MUST extract numerical data points from assigned content items:
+     * "chart_categories": list of strings for category/period labels (e.g. ["Q1", "Q2", "Q3", "Q4"] or ["Jan", "Dec"] or ["North Hub", "South Hub", "East Hub", "West Hub"]).
+     * "chart_series": list of series objects with "name" and "values" containing numbers (e.g. [{"name": "Metric Name", "values": [98.2, 99.1, 99.5, 99.8]}]).
+   - For slides with "has_chart": false: set both to null.
 
 SLIDES TO FILL:
 {slides_json}

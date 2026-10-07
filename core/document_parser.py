@@ -101,8 +101,10 @@ def _parse_docx(file_path: Path) -> str:
 # ---------------------------------------------------------------------------
 
 def _parse_pdf_pymupdf(file_path: Path) -> str:
-    """Extract text from PDF using PyMuPDF (fitz)."""
-    import fitz  # PyMuPDF
+    try:
+        import pymupdf as fitz
+    except ImportError:
+        import fitz  # PyMuPDF fallback
 
     try:
         doc = fitz.open(str(file_path))

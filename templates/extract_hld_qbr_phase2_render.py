@@ -36,8 +36,10 @@ import re
 import sys
 from pathlib import Path
 from typing import Any, Dict
-
-import fitz  # PyMuPDF
+try:
+    import pymupdf as fitz
+except ImportError:
+    import fitz  # PyMuPDF
 import win32com.client
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent

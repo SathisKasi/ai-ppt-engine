@@ -313,6 +313,13 @@ def _build_slide_assignment(pick: Dict[str, Any], filled: Optional[Dict[str, Any
         filled.get("chart_categories"),
         filled.get("chart_series"),
     ])
+    # Defensively normalize chart inputs if LLM returned single dict or comma-separated string
+    if isinstance(filled.get("chart_series"), dict):
+        filled["chart_series"] = [filled["chart_series"]]
+    if isinstance(filled.get("chart_categories"), str):
+        raw_c = filled["chart_categories"]
+        filled["chart_categories"] = [c.strip() for c in raw_c.split(",") if c.strip()] if "," in raw_c else [raw_c.strip()]
+
     if not has_visible_content:
         return None
     if entry.get("has_chart") and not (filled.get("chart_categories") and filled.get("chart_series")):
