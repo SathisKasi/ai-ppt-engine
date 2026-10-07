@@ -110,6 +110,32 @@ docker build -t ai-ppt-engine .
 docker run -d -p 8501:8501 --env-file .env -v ./output:/app/output -v ./logs:/app/logs --name ai-ppt-engine ai-ppt-engine
 ```
 
+### Deploy to Google Cloud Run
+
+The included `cloudbuild.yaml` builds the Docker image, pushes it to Artifact
+Registry, and deploys it to Cloud Run in `europe-west1`. Connect the repository
+to a Cloud Build trigger and grant its build service account permission to push
+to the `cloud-run-source-deploy` Artifact Registry repository and deploy Cloud
+Run services. The trigger deploys the service publicly; change the
+`--allow-unauthenticated` setting in `cloudbuild.yaml` if authentication is
+required.
+
+Configure the LLM provider's credentials on the Cloud Run service (preferably
+through Secret Manager), rather than committing them to this repository or
+adding them to `cloudbuild.yaml`. For example, after creating a Secret Manager
+secret named `groq-api-key`, grant the Cloud Run service identity access to that
+secret and run:
+
+```bash
+gcloud run services update ai-ppt-engine \
+  --region=europe-west1 \
+  --update-secrets=GROQ_API_KEY=groq-api-key:latest
+```
+
+Set `LLM_PROVIDER` and the matching provider credentials for Groq, watsonx, or
+OpenRouter as needed. Cloud Run supplies the container port through `PORT`; the
+Docker image listens on that port.
+
 ---
 
 ## 📖 Usage

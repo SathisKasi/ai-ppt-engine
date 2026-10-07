@@ -1,0 +1,16 @@
+services:
+  ai-ppt-engine:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ai-ppt-engine:latest
+    ports:
+      - "8501:8501"
+    env_file:
+      - .env
+    environment:
+      PORT: "8501"
+    volumes:
+      - ./output:/app/output
+      - ./logs:/app/logs
+    restart: unless-stopped
