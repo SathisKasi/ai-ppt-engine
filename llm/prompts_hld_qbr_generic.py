@@ -158,7 +158,7 @@ Fill each slide using ONLY its assigned content items and attributes:
 5. "chart_categories" & "chart_series":
    - For slides with "has_chart": true: You MUST extract numerical data points from assigned content items:
      * "chart_categories": list of strings for category/period labels (e.g. ["Q1", "Q2", "Q3", "Q4"] or ["Jan", "Dec"] or ["North Hub", "South Hub", "East Hub", "West Hub"]).
-     * "chart_series": list of series objects with "name" and "values" containing numbers (e.g. [{"name": "Metric Name", "values": [98.2, 99.1, 99.5, 99.8]}]).
+     * "chart_series": list of series objects with "name" and "values" containing numbers (e.g. [{{"name": "Metric Name", "values": [98.2, 99.1, 99.5, 99.8]}}]).
    - For slides with "has_chart": false: set both to null.
 
 SLIDES TO FILL:
